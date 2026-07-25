@@ -7392,7 +7392,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <span class="text-4xl text-red-400"><i class="bi bi-info-circle-fill"></i></span>
                             <span class="text-white">当サイトについて</span>
                         </h2>
-                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">制定: 2026/01/02 ・ 改定: 2026/07/25 (第15版) ・ 運営: nden148</p>
+                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">制定: 2026/01/02 ・ 改定: 2026/07/26 (第16版) ・ 運営: nden148</p>
                         <button onclick="downloadAsPDF('about')" id="about-pdf-btn" class="mt-3 text-xs font-bold flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:-translate-y-0.5" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff;">
                             <i class="bi bi-file-earmark-pdf"></i> PDFをダウンロード
                         </button>
@@ -7613,7 +7613,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <div class="p-6 md:p-8 text-sm leading-8 text-gray-700 dark:text-gray-300">
                         <p class="mb-4">
                             1. 本サイトを構成するプログラムコード、デザイン、文章、ロゴ、および「TENMEI Labs」等の独自機能に関する知的財産権は、運営者（nden148）に帰属します。<br>
-                            2. ただし、本サイトの機能を用いて生成された<strong>「おみくじ結果画像」および「デジタル御守画像」</strong>については、ユーザー個人のSNS（X, Instagram, LINE等）での共有を目的とする限りにおいて、ユーザーはこれを自由に利用（複製、公衆送信）することができます。この際、画像に含まれるQRコードやサイトURLを削除しないことを推奨します。
+                            2. ただし、本サイトの機能を用いて生成された<strong>「おみくじ結果画像」および「デジタル御守画像」</strong>については、ユーザー個人のSNS（X, Instagram, LINE等）での共有を目的とする限りにおいて、ユーザーはこれを自由に利用（複製、公衆送信）することができます。この際、画像に含まれる©表記を削除しないことを推奨します。
                         </p>
                     </div>
                 </div>
@@ -8575,7 +8575,7 @@ function escapeHtml(str) {
     tag: "新機能・改善",
     tagColor: "text-indigo-600",
     borderColor: "border-indigo-500",
-    desc: "アカウント登録なしでも、参拝者名を設定するだけで「おみくじの轍」「参拝の記録」「おみくじ発行総数」への反映が使えるようになりました。あわせて、サイトの表示速度改善のため未使用コードの整理・軽量化を実施しています。",
+    desc: "アカウント登録なしでも、参拝者名を設定するだけで「おみくじの轍」「参拝の記録」「おみくじ発行総数」への反映が使えるようになりました。あわせて、サイトの表示速度改善、ログイン要求画面の表示位置統一、おみくじ結果札のQRコード廃止・©表記化、不要になったコードの整理など、多数の改善を実施しました。",
     content: `
         <div class="article-content">
             <p>いつも「運勢・天命乃杜」をご利用いただき、誠にありがとうございます。運営者のnden148です。</p>
@@ -8603,6 +8603,24 @@ function escapeHtml(str) {
                 <li>地図表示ライブラリ（Leaflet）と画像生成ライブラリ（html-to-image）について、実際にその機能を使う画面に到達するまで読み込まないよう、遅延読み込みに対応しました。</li>
                 <li>サイト内の巨大なインラインCSSを点検し、過去の機能撤去・デザイン刷新に伴い使われなくなっていたスタイルルールを75個（約24.7KB分）整理しました。</li>
             </ul>
+
+            <h3>3. ログイン要求画面の表示位置を統一</h3>
+            <p>未ログイン状態で「おみくじの轍」「参拝の記録」「AI夢占い」にアクセスした際に表示されるログイン要求画面について、「参拝の記録」のみ画面内での表示位置が他の2画面とズレていた不具合を修正し、3画面とも同じ位置に統一しました。</p>
+
+            <h3>4. おみくじ結果札のQRコードを廃止</h3>
+            <p>おみくじ結果札の下部に表示していた二次元コード（QR）を廃止し、フッターと同じ©表記を札下部中央に表示する形式に変更しました。これに伴い、「当サイトについて」第4章の該当箇所の記載も実態に合わせて修正しています（第16版）。</p>
+
+            <h3>5. 社務所だより記事(id:83)の記述訂正</h3>
+            <p>先日の記事（Ver. 3.3）に、実態と異なる記述が2件見つかったため訂正しました。「管理者専用の評価履歴閲覧機能」については、公開後の不具合対応の過程で当該画面自体を撤去し、現在はTursoダッシュボードから直接確認する運用に変更しているため、記述を削除しました。また「おみくじの轍のお気に入り」とあった箇所は、正しくは「12星座占いのお気に入り」でしたので訂正しました（更新の軌跡 v33の該当箇所もあわせて訂正しています）。</p>
+
+            <h3>6. 不要になったコードの整理</h3>
+            <p>これまでに撤去した機能（フォロー・ブロック機能、認証バッジ申請・審査機能、旧参拝者台帳など）に関連するコードの残骸を洗い出し、削除しました。</p>
+
+            <h3>7. 各種文書・機能の点検</h3>
+            <p>「天命乃杜の使い方」「当サイトについて」「プライバシーポリシー」の記載内容、およびAI夢占いの注意書きの有無について点検を行いました。いずれも既存の記載・実装で対応済みであることを確認し、追加の修正は行っておりません。</p>
+
+            <h3>8. その他</h3>
+            <p>バックエンドworker（Cloudflare Workers）の名称を、これまでの仮の名称から適切な名称に変更しました。</p>
 
             <h3>今後について</h3>
             <p>おみくじ結果の画像生成に関して、生成に失敗する不具合が報告されておりましたが、あらためて動作確認を行ったところ再現せず、現時点で問題なく生成できることを確認しました。</p>
@@ -20813,6 +20831,42 @@ window.applyTheme = function() {
                     changes: [
                         { type: 'change', text: 'Tailwind CSSのCDN読み込みをビルド済みファイルに置き換え。地図表示・画像生成ライブラリを遅延読み込みに対応。インラインCSSから未使用ルールを75個（約24.7KB分）整理。', sourceIds: [84] }
                     ]
+                },
+                {
+                    icon: 'bi-box-arrow-in-right', title: 'ログイン要求画面の表示位置を統一',
+                    changes: [
+                        { type: 'fix', text: '「参拝の記録」のみ、存在しないCSSクラスを指定していたために絶対配置が効かず、他の2画面（おみくじの轍・AI夢占い）と表示位置がズレていた不具合を修正し、3画面を統一。', sourceIds: [84] }
+                    ]
+                },
+                {
+                    icon: 'bi-qr-code', title: 'おみくじ結果札のQRコードを廃止',
+                    changes: [
+                        { type: 'change', text: '結果札下部の二次元コード（QR）を廃止し、フッターと同じ©表記を中央に表示する形式に変更。「当サイトについて」第4章の記載も実態に合わせて修正（第16版）。', sourceIds: [84] }
+                    ]
+                },
+                {
+                    icon: 'bi-pencil-square', title: '記事(id:83)の記述訂正',
+                    changes: [
+                        { type: 'fix', text: '「管理者専用の評価履歴閲覧機能」の記述を削除（現在はTursoダッシュボードから直接確認する運用のため）。「轍のお気に入り」を「12星座占いのお気に入り」に訂正。v33の該当箇所もあわせて訂正。', sourceIds: [84] }
+                    ]
+                },
+                {
+                    icon: 'bi-trash3', title: '不要になったコードの整理',
+                    changes: [
+                        { type: 'change', text: '過去に撤去した機能（フォロー・ブロック機能、認証バッジ申請・審査機能、旧参拝者台帳など）に関連するコードの残骸を削除。', sourceIds: [84] }
+                    ]
+                },
+                {
+                    icon: 'bi-clipboard-check', title: '各種文書・機能の点検',
+                    changes: [
+                        { type: 'change', text: '「天命乃杜の使い方」「当サイトについて」「プライバシーポリシー」の記載内容、AI夢占いの注意書きの有無を点検。いずれも対応済みであることを確認し、追加修正なし。', sourceIds: [84] }
+                    ]
+                },
+                {
+                    icon: 'bi-hdd-network', title: 'その他',
+                    changes: [
+                        { type: 'change', text: 'バックエンドworker（Cloudflare Workers）の名称を、仮の名称から適切な名称に変更。', sourceIds: [84] }
+                    ]
                 }
             ]
         },
@@ -21737,6 +21791,9 @@ window.applyTheme = function() {
                         <div class="ver-item-tags">
                             <span class="ver-item-tag">未ログイン機能開放</span>
                             <span class="ver-item-tag">表示速度改善</span>
+                            <span class="ver-item-tag">ログイン要求画面統一</span>
+                            <span class="ver-item-tag">QRコード廃止</span>
+                            <span class="ver-item-tag">残骸コード整理</span>
                         </div>
                         <div class="ver-item-more"><i class="bi bi-chevron-right"></i>詳細を見る</div>
                     </div>
