@@ -72,30 +72,75 @@
     }
     </script>
     <!-- ★変更(次の土曜日タスク9): おみくじ結果札のQRコード廃止に伴い、QRCode.jsライブラリの読み込みも撤去 -->
-    
-    <!-- html-to-image（html2canvas代替・SVGベースでborder-radius/QR正常描画） -->
-    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js"></script>
-    
+
+    <!-- ★変更(PageSpeed対応): html-to-image / Leaflet関連は「使う画面を開いた時」だけ動的読み込みする方式に変更。
+         静的な<script>タグはここでは読み込まない（下部の遅延読み込みユーティリティを参照） -->
+
     <!-- フォント -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;800&family=Zen+Old+Mincho:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <!-- Leaflet.js (OpenStreetMap) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-    <!-- Leaflet Gesture Handling (Ctrl+スクロール警告) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css" type="text/css">
-    <script src="https://unpkg.com/leaflet-gesture-handling"></script>
-    <!-- Leaflet Fullscreen (全画面ボタン) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/4.0.0/Control.FullScreen.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/4.0.0/Control.FullScreen.min.js"></script>
-    <!-- Leaflet Locate Control (現在地ボタン) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
     <!-- Cloudflare Turnstile -->
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
+
+    <!-- ==========================================
+         ★変更(PageSpeed対応): 遅延読み込みユーティリティ
+         Leaflet(地図版)・html-to-image(画像保存)は、それぞれの機能が
+         実際に使われた時だけ動的に<script>/<link>を挿入して読み込む。
+         トップページを含む全ページで毎回読み込んでいた無駄を解消。
+         ========================================== -->
+    <script>
+    function tenmeiLoadStyle(href) {
+        return new Promise((resolve, reject) => {
+            if (document.querySelector(`link[href="${href}"]`)) { resolve(); return; }
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            link.onload = () => resolve();
+            link.onerror = () => reject(new Error('CSS読み込み失敗: ' + href));
+            document.head.appendChild(link);
+        });
+    }
+    function tenmeiLoadScript(src, attrs) {
+        return new Promise((resolve, reject) => {
+            if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+            const script = document.createElement('script');
+            script.src = src;
+            if (attrs) Object.keys(attrs).forEach(k => script.setAttribute(k, attrs[k]));
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('スクリプト読み込み失敗: ' + src));
+            document.head.appendChild(script);
+        });
+    }
+
+    // --- Leaflet一式（地図版タブを開いた時だけ） ---
+    let _tenmeiLeafletPromise = null;
+    function ensureLeafletLoaded() {
+        if (_tenmeiLeafletPromise) return _tenmeiLeafletPromise;
+        _tenmeiLeafletPromise = Promise.all([
+            tenmeiLoadStyle('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'),
+            tenmeiLoadStyle('https://unpkg.com/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css'),
+            tenmeiLoadStyle('https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/4.0.0/Control.FullScreen.min.css'),
+            tenmeiLoadStyle('https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css')
+        ]).then(() => tenmeiLoadScript('https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'))
+          .then(() => Promise.all([
+              tenmeiLoadScript('https://unpkg.com/leaflet-gesture-handling'),
+              tenmeiLoadScript('https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/4.0.0/Control.FullScreen.min.js'),
+              tenmeiLoadScript('https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js', { charset: 'utf-8' })
+          ]));
+        return _tenmeiLeafletPromise;
+    }
+
+    // --- html-to-image（画像保存ボタンを押した時だけ） ---
+    let _tenmeiHtmlToImagePromise = null;
+    function ensureHtmlToImageLoaded() {
+        if (_tenmeiHtmlToImagePromise) return _tenmeiHtmlToImagePromise;
+        _tenmeiHtmlToImagePromise = tenmeiLoadScript('https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js');
+        return _tenmeiHtmlToImagePromise;
+    }
+    </script>
     
     <style>
         :root {
@@ -2279,6 +2324,26 @@
 }
 @media (max-width: 640px) {
     #pref-map { height: 380px; }
+}
+/* ★追加(PageSpeed対応): Leaflet遅延読み込み中のローディング表示 */
+.pref-map-loading {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--text-sub, #888);
+    background: var(--card-bg, #f5f5f5);
+    border-radius: 12px;
+}
+.pref-map-loading i {
+    animation: tenmei-spin 1s linear infinite;
+}
+@keyframes tenmei-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 /* Leaflet ポップアップのフォント調整 */
 .pref-popup-inner {
@@ -16079,11 +16144,22 @@ window.switchPrefTab = function(tab) {
         mapContainer.style.display = 'block';
         btnText.classList.remove('active');
         btnMap.classList.add('active');
-        // 表示確定後にLeafletを初期化・リサイズ
-        setTimeout(function() {
-            renderPrefectureMap();
-            if (_prefMap) _prefMap.invalidateSize();
-        }, 50);
+
+        // ★変更(PageSpeed対応): Leafletはこの瞬間まで未読み込みなので、まず動的に読み込む
+        const mapEl = document.getElementById('pref-map');
+        if (mapEl && typeof L === 'undefined') {
+            mapEl.innerHTML = '<div class="pref-map-loading"><i class="bi bi-arrow-repeat" style="font-size:1.5rem;"></i><p>地図を読み込んでいます...</p></div>';
+        }
+        ensureLeafletLoaded().then(function() {
+            // 表示確定後にLeafletを初期化・リサイズ
+            setTimeout(function() {
+                renderPrefectureMap();
+                if (_prefMap) _prefMap.invalidateSize();
+            }, 50);
+        }).catch(function(err) {
+            console.error(err);
+            if (mapEl) mapEl.innerHTML = '<div class="pref-map-loading"><p>地図の読み込みに失敗しました。時間をおいて再度お試しください。</p></div>';
+        });
     }
 };
 
@@ -16433,7 +16509,19 @@ window.renderPrefectureMap = function() {
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="bi bi-hourglass-split"></i> 生成中...';
             btn.disabled = true;
-            
+
+            // ★変更(PageSpeed対応): html-to-imageはこの機能を使う瞬間まで未読み込みなので先に読み込む
+            ensureHtmlToImageLoaded().then(() => {
+                OmamoriSystem._doSaveImage(target, btn, originalText);
+            }).catch(e => {
+                console.error(e);
+                showToast("保存に失敗しました。", "error");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        },
+
+        _doSaveImage: function(target, btn, originalText) {
             // ボックスシャドウを一時除去してキャプチャ
             const origBoxShadow = target.style.boxShadow;
             target.style.setProperty('box-shadow', 'none', 'important');
@@ -18493,6 +18581,17 @@ function resetSearch() {
         function generateResultImage() {
             const status = document.getElementById('gen-img-status');
             status.textContent = "画像を生成中...";
+
+            // ★変更(PageSpeed対応): html-to-imageはこの機能を使う瞬間まで未読み込みなので先に読み込む
+            ensureHtmlToImageLoaded().then(doGenerateResultImage).catch(err => {
+                console.error(err);
+                status.textContent = "画像の生成に失敗しました。";
+                showToast("画像の生成に失敗しました。\nもう一度お試しください。", "error");
+            });
+        }
+
+        function doGenerateResultImage() {
+            const status = document.getElementById('gen-img-status');
 
             const target = document.getElementById('result-card-outer');
             const container = document.getElementById('generated-image-container');
