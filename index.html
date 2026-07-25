@@ -5576,13 +5576,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
             </div>
             
-            <!-- Ver. 3.3 システムフッター -->
+            <!-- Ver. 3.4 システムフッター -->
             <div class="mt-12 mb-4 text-center border-t border-zinc-800 pt-6">
                 <div class="flex flex-col items-center justify-center gap-2 text-xs text-zinc-500 font-mono">
                     <div class="flex items-center gap-2 flex-wrap justify-center">
-                        <span>運勢・天命乃杜 Ver. 3.3</span>
+                        <span>運勢・天命乃杜 Ver. 3.4</span>
                         <span>|</span>
-                        <span>リリース日: 2026/07/19</span>
+                        <span>リリース日: 2026/07/25</span>
                         <span>|</span>
                         <span class="inline-flex items-center gap-1 text-[10px] bg-green-950/50 text-green-400 border border-green-800 px-1.5 py-0.5 rounded font-bold"><i class="bi bi-patch-check-fill"></i>最新版</span>
                     </div>
@@ -8566,6 +8566,52 @@ function escapeHtml(str) {
     
 // ■ 社務所だより（ニュース）データ
     const newsData = [
+
+{
+    id: 84,
+    title: "【新機能・改善】未ログイン参拝者への機能開放と、サイト表示速度の改善について",
+    date: "2026/07/25",
+    time: "22:34",
+    tag: "新機能・改善",
+    tagColor: "text-indigo-600",
+    borderColor: "border-indigo-500",
+    desc: "アカウント登録なしでも、参拝者名を設定するだけで「おみくじの轍」「参拝の記録」「おみくじ発行総数」への反映が使えるようになりました。あわせて、サイトの表示速度改善のため未使用コードの整理・軽量化を実施しています。",
+    content: `
+        <div class="article-content">
+            <p>いつも「運勢・天命乃杜」をご利用いただき、誠にありがとうございます。運営者のnden148です。</p>
+            <p>本日2026年7月25日、天命乃杜をバージョン3.4に更新しました。以下、変更内容をご報告いたします。</p>
+
+            <h3>1. 未ログイン参拝者への機能開放</h3>
+            <p>これまで、未ログインの方はおみくじを引くことはできても、「おみくじの轍」「参拝の記録」への反映、「おみくじ発行総数」カウンターへの反映は、会員登録した方限定の機能でした。</p>
+            <p>今回のアップデートで、未ログインの方も、おみくじを引く前に「参拝者名」を設定するだけで、会員登録なしにこれらの機能をご利用いただけるようになりました。設定した参拝者名は、ホーム画面の表示名や「おみくじの轍」「参拝の記録」、Discordシェア時の表示にも反映されます。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>参拝者名の記録は、お使いの端末のブラウザ内（localStorage）に保存されます。ブラウザの閲覧データを削除された場合、それまでの記録は引き継げなくなりますので、あらかじめご了承ください。</li>
+                <li>参拝者名の設定画面には、結果ページに公開される旨と、本名（フルネーム）の入力はお控えいただく旨の注意書きを追加しました。</li>
+                <li>この方式は、同様の仕組みを採用している「おみくじ堂」を参考にしています。</li>
+            </ul>
+            <p>あわせて、この改修の実装後に発覚した以下2件の不具合を修正しました。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>未ログイン状態でおみくじを引く際、通信がブラウザによってブロックされ、おみくじが正常に引けない場合があった不具合（CORS設定の不備が原因）</li>
+                <li>未ログイン状態でDiscordに結果をシェアすると、設定した参拝者名ではなく常に「参拝者」と表示されてしまっていた不具合</li>
+            </ul>
+            <p>本機能の開放にあわせ、「おみくじの轍」「参拝の記録」「当サイトについて」「プライバシーポリシー」「天命乃杜の使い方」の記載内容も見直しています。</p>
+
+            <h3>2. サイト表示速度の改善</h3>
+            <p>PageSpeed Insightsによる計測結果をもとに、サイトの表示速度改善に取り組みました。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>これまでCDN経由で読み込んでいたTailwind CSSを、ビルド済みの軽量なCSSファイルに置き換えました。</li>
+                <li>地図表示ライブラリ（Leaflet）と画像生成ライブラリ（html-to-image）について、実際にその機能を使う画面に到達するまで読み込まないよう、遅延読み込みに対応しました。</li>
+                <li>サイト内の巨大なインラインCSSを点検し、過去の機能撤去・デザイン刷新に伴い使われなくなっていたスタイルルールを75個（約24.7KB分）整理しました。</li>
+            </ul>
+
+            <h3>今後について</h3>
+            <p>おみくじ結果の画像生成に関して、生成に失敗する不具合が報告されておりましたが、あらためて動作確認を行ったところ再現せず、現時点で問題なく生成できることを確認しました。</p>
+            <p>また、おみくじ結果画面の「利用規約」リンク周りの余白調整、天命の授与所の札の波線二重枠デザインの一部不統一については、検討の結果、今回は見送ることといたしました。</p>
+
+            <p>以上、本日の変更内容のご報告でした。引き続き「運勢・天命乃杜」をよろしくお願いいたします。</p>
+        </div>
+    `
+},
 
 {
     id: 83,
@@ -20750,6 +20796,26 @@ window.applyTheme = function() {
 
         // ===== 更新の軌跡パネル =====
     const verDetailData = {
+        v34: {
+            ver: 'Ver. 3.4',
+            name: '未ログイン参拝者への機能開放とサイト表示速度の改善',
+            date: '2026年7月25日',
+            sections: [
+                {
+                    icon: 'bi-person-check', title: '未ログイン参拝者への機能開放',
+                    changes: [
+                        { type: 'new', text: '未ログインの方も、参拝者名を設定するだけで「おみくじの轍」「参拝の記録」「おみくじ発行総数」への反映が使えるように。参拝者名はlocalStorageに保存。本名の入力を控える旨の注意書きを追加。', sourceIds: [84] },
+                        { type: 'fix', text: '未ログイン状態でCORS設定の不備によりおみくじが正常に引けない場合があった不具合、Discordシェア時に参拝者名が反映されず常に「参拝者」表示になっていた不具合を修正。', sourceIds: [84] }
+                    ]
+                },
+                {
+                    icon: 'bi-speedometer2', title: 'サイト表示速度の改善',
+                    changes: [
+                        { type: 'change', text: 'Tailwind CSSのCDN読み込みをビルド済みファイルに置き換え。地図表示・画像生成ライブラリを遅延読み込みに対応。インラインCSSから未使用ルールを75個（約24.7KB分）整理。', sourceIds: [84] }
+                    ]
+                }
+            ]
+        },
         v33: {
             ver: 'Ver. 3.3',
             name: 'AI要約・AI悩み相談・AI夢占いの追加とおみくじ結果画面デザインの本格刷新',
@@ -21658,12 +21724,30 @@ window.applyTheme = function() {
         <div class="ver-panel-scroll">
             <div class="ver-timeline">
 
-                <!-- Ver 3.3（現在） -->
-                <div class="ver-timeline-item is-current" onclick="openVerDetail('v33')">
+                <!-- Ver 3.4（現在） -->
+                <div class="ver-timeline-item is-current" onclick="openVerDetail('v34')">
+                    <div class="ver-item-card">
+                        <div class="ver-item-top">
+                            <span class="ver-item-ver">Ver. 3.4</span>
+                            <span class="ver-item-badge ver-badge-current"><i class="bi bi-patch-check-fill"></i>最新版</span>
+                        </div>
+                        <div class="ver-item-date">2026年7月25日リリース</div>
+                        <div class="ver-item-name">未ログイン参拝者への機能開放とサイト表示速度の改善</div>
+                        <div class="ver-item-desc">未ログインの方も参拝者名を設定するだけで「おみくじの轍」「参拝の記録」「おみくじ発行総数」への反映が使えるように。あわせてTailwind CSSのビルド済み化、ライブラリの遅延読み込み、未使用CSSの整理によりサイト表示速度を改善。</div>
+                        <div class="ver-item-tags">
+                            <span class="ver-item-tag">未ログイン機能開放</span>
+                            <span class="ver-item-tag">表示速度改善</span>
+                        </div>
+                        <div class="ver-item-more"><i class="bi bi-chevron-right"></i>詳細を見る</div>
+                    </div>
+                </div>
+
+                <!-- Ver 3.3 -->
+                <div class="ver-timeline-item" onclick="openVerDetail('v33')">
                     <div class="ver-item-card">
                         <div class="ver-item-top">
                             <span class="ver-item-ver">Ver. 3.3</span>
-                            <span class="ver-item-badge ver-badge-current"><i class="bi bi-patch-check-fill"></i>最新版</span>
+                            <span class="ver-item-badge ver-badge-stable"><i class="bi bi-patch-check-fill"></i>機能追加</span>
                         </div>
                         <div class="ver-item-date">2026年7月19日リリース</div>
                         <div class="ver-item-name">AI要約・AI悩み相談・AI夢占いの追加とおみくじ結果画面デザインの本格刷新</div>
