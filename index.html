@@ -1015,124 +1015,6 @@
             100% { opacity: 1;   transform: translateY(0); }
         }
 
-        /* --- バージョン表記 (おみくじ堂スタイル) --- */
-        .site-version-badge {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 2px;
-            margin-top: 10px;
-        }
-        .ver-wave {
-            font-size: 0.72rem;
-            color: var(--accent-gold);
-            opacity: 0.55;
-            letter-spacing: 0.05em;
-            line-height: 1.2;
-            display: block;
-        }
-        .ver-text {
-            font-size: 0.72rem;
-            font-family: 'Zen Old Mincho', serif;
-            color: var(--text-sub);
-            letter-spacing: 0.2em;
-            white-space: nowrap;
-            display: block;
-            padding: 1px 0;
-        }
-
-        /* --- バージョン情報カード --- */
-        .bento-version {
-            grid-column: span 12;
-            border-left: 3px solid var(--accent-gold) !important;
-            background: linear-gradient(105deg, rgba(197,160,89,0.07) 0%, transparent 60%) !important;
-        }
-        .dark .bento-version {
-            background: linear-gradient(105deg, rgba(229,192,123,0.09) 0%, transparent 60%) !important;
-        }
-        .ver-card-header {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 10px;
-            font-size: 0.7rem;
-            font-family: 'Zen Old Mincho', serif;
-            color: var(--accent-gold);
-            letter-spacing: 0.15em;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .ver-card-header i {
-            font-size: 0.85rem;
-        }
-        .ver-info-card {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px 28px;
-        }
-        .ver-info-badge {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 2px;
-            font-family: 'Zen Old Mincho', serif;
-        }
-        .ver-info-badge .ver-info-label {
-            color: var(--text-sub);
-            opacity: 0.7;
-            font-size: 0.62rem;
-            letter-spacing: 0.12em;
-        }
-        .ver-info-badge .ver-info-value {
-            color: var(--text-main);
-            font-weight: 700;
-            font-size: 1.05rem;
-            letter-spacing: 0.08em;
-            line-height: 1.2;
-        }
-        .ver-latest-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 14px;
-            border-radius: 999px;
-            font-size: 0.72rem;
-            font-family: 'Zen Old Mincho', serif;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-        }
-        .ver-latest-badge.is-latest {
-            background: rgba(16,185,129,0.15);
-            color: #059669;
-            border: 1.5px solid rgba(16,185,129,0.4);
-            box-shadow: 0 0 8px rgba(16,185,129,0.15);
-        }
-        .dark .ver-latest-badge.is-latest {
-            background: rgba(16,185,129,0.18);
-            color: #34d399;
-            border-color: rgba(16,185,129,0.35);
-            box-shadow: 0 0 10px rgba(16,185,129,0.2);
-        }
-        .ver-latest-badge.not-latest {
-            background: rgba(245,158,11,0.15);
-            color: #d97706;
-            border: 1.5px solid rgba(245,158,11,0.4);
-            box-shadow: 0 0 8px rgba(245,158,11,0.15);
-        }
-        .dark .ver-latest-badge.not-latest {
-            background: rgba(245,158,11,0.18);
-            color: #fbbf24;
-            border-color: rgba(245,158,11,0.35);
-            box-shadow: 0 0 10px rgba(245,158,11,0.2);
-        }
-        .ver-divider {
-            width: 1px;
-            height: 32px;
-            background: var(--accent-gold);
-            opacity: 0.25;
-        }
-
         /* --- おみくじ結果カード (新デザイン修正版) --- */
         #result-capture-container {
             width: 600px;
@@ -3308,22 +3190,6 @@
     color: var(--accent-red);
 }
         
-        .history-overlay {
-            /* 旧方式(廃止予定)：現在は使用箇所なし。互換性のため定義のみ残置 */
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000;
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            text-align: center;
-            border: 1px solid var(--card-border);
-            width: 80%;
-            max-width: 400px;
-        }
-
         /* --- ログイン要求ロック画面 統一版 (天命Labsの.lab-lock-container方式に統一) --- */
         /* 1. 位置合わせ専用コンテナ：親(.view-section等 position:relativeの要素)の
               コンテンツ高さいっぱいに広がり、その中でflexで中央揃えする。
@@ -3402,11 +3268,6 @@
     user-select: none;
     transition: all 0.5s;
 }
-
-        /* 詳細モーダル (削除予定だが互換性のために残す) */
-        #history-detail-modal {
-            display: none; 
-        }
 
         /* 記事詳細 */
         .article-container {
@@ -3596,97 +3457,6 @@
         @media (max-width: 380px) {
             .theme-select-btn span { display: none; }
         }
-
-        /* --- TENMEI Labs: Unified Real Flask --- */
-
-/* 1. タイトル用フラスコ (メイン) */
-.title-flask-anim {
-    width: 160px;
-    height: 160px;
-    margin: 0 auto 10px;
-    /* 綺麗な発光感 */
-    filter: drop-shadow(0 15px 30px rgba(120, 80, 255, 0.3));
-}
-
-/* 2. サイドバー用アイコン (左側) */
-.nav-flask-anim {
-    width: 32px;
-    height: 32px;
-    display: block;
-}
-
-/* フラスコ全体の揺れ (共通) */
-.flask-container {
-    transform-origin: 100px 20px; /* 首元を支点に揺れる */
-    animation: flaskSwing 4s ease-in-out infinite;
-}
-
-/* 中身の液体の慣性 (共通) */
-.liquid-container {
-    transform-origin: 100px 150px;
-    animation: liquidInertia 4s ease-in-out infinite;
-}
-
-/* 波のアニメーション */
-.wave-path {
-    fill: url(#gradUnified); /* 共通の鮮やかなグラデーション */
-    animation: waveMove 2s linear infinite;
-}
-
-/* メイン用: 奥の波 (薄く表示して立体感を出す) */
-.wave-back {
-    opacity: 0.4;
-    animation: waveMove 3s linear infinite reverse;
-}
-
-/* メイン用: 手前の波 (くっきり) */
-.wave-front {
-    opacity: 0.95;
-}
-
-/* ガラスの質感 */
-.glass-stroke {
-    fill: rgba(255, 255, 255, 0.05);
-    stroke: #333;
-    stroke-width: 6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-.dark .glass-stroke { stroke: #e0e0e0; }
-
-/* 泡 */
-.bubble {
-    fill: rgba(255, 255, 255, 0.5);
-    animation: bubbleUp 3s ease-in infinite;
-}
-
-/* --- アニメーション定義 --- */
-
-/* フラスコ本体の揺れ（角度を4deg→10degにアップ） */
-@keyframes flaskSwing {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(10deg); }  /* 右に大きく揺れる */
-    75% { transform: rotate(-10deg); } /* 左に大きく揺れる */
-}
-
-/* 中身の液体の動き（本体と逆方向に大きく傾ける） */
-@keyframes liquidInertia {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-8deg); } /* 本体が右なら、水面は左へ */
-    75% { transform: rotate(8deg); }  /* 本体が左なら、水面は右へ */
-}
-
-@keyframes waveMove {
-    0% { transform: translateX(0) scaleY(1); }
-    50% { transform: translateX(-100px) scaleY(1.05); }
-    100% { transform: translateX(-200px) scaleY(1); }
-}
-
-@keyframes bubbleUp {
-    0% { transform: translateY(0) scale(0.4); opacity: 0; }
-    20% { opacity: 1; }
-    100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
-}
 
         /* --- Bento Grid UI (モダン・グリッドレイアウト) --- */
         .bento-grid {
@@ -4983,112 +4753,6 @@
     .toast-warning .toast-icon-area, .toast-warning .toast-progress { color: #d83b01; } /* Windows Orange */
     .toast-error .toast-icon-area, .toast-error .toast-progress { color: #c50f1f; } /* Windows Red */
 
-        /* --- Roblox風プロフィール (参拝者台帳) --- */
-        .profile-header-bg {
-            height: 180px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
-            border-radius: 16px 16px 0 0;
-            position: relative;
-            margin-bottom: 60px;
-        }
-        .theme-newyear .profile-header-bg {
-            background: linear-gradient(135deg, #b91c1c 0%, #d4af37 100%);
-        }
-        .profile-avatar-container {
-            position: absolute;
-            bottom: -50px;
-            left: 30px;
-            width: 120px;
-            height: 120px;
-            background: var(--card-bg);
-            border-radius: 50%;
-            padding: 6px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .profile-avatar-img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: #555;
-            border: 2px solid var(--card-border);
-        }
-        .profile-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        .profile-stat-box {
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-        }
-        .profile-stat-val { font-size: 1.5rem; font-weight: 900; font-family: monospace; }
-        .profile-stat-label { font-size: 0.8rem; color: var(--text-sub); }
-
-        .badges-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 15px;
-        }
-        .badge-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .badge-item:hover { transform: scale(1.1); }
-        .badge-icon {
-            width: 60px; height: 60px;
-            border-radius: 12px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem;
-            color: #ccc; /* 未獲得色 */
-            margin-bottom: 5px;
-        }
-        .badge-item.unlocked .badge-icon {
-            background: #fffcf2;
-            border-color: #d4af37;
-            color: #d4af37;
-            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
-        }
-        .badge-name { font-size: 0.7rem; font-weight: bold; line-height: 1.2; }
-
-        /* 検索バー */
-        .user-search-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .search-suggestions {
-            position: absolute;
-            top: 100%; left: 0; width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 0 0 8px 8px;
-            z-index: 50;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-        .suggestion-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            display: flex; align-items: center;
-        }
-        .suggestion-item:hover { background-color: rgba(128,128,128,0.1); }
-
         /* 編集モーダル */
         #edit-profile-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -5173,96 +4837,6 @@
         .color-option.selected { border-color: var(--text-main); transform: scale(1.1); }
         
         /* 認証モーダル */
-        #verified-modal-content { font-family: 'Zen Old Mincho', serif; }
-
-        /* 進捗バーのスタイル */
-        .badge-progress-container {
-            width: 100%;
-            height: 6px;
-            background-color: #e5e7eb; /* グレー */
-            border-radius: 3px;
-            margin-top: 6px;
-            overflow: hidden;
-        }
-        .dark .badge-progress-container {
-            background-color: #374151;
-        }
-        .badge-progress-bar {
-            height: 100%;
-            background-color: var(--accent-gold); /* 黄金色 */
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-        .badge-progress-text {
-            font-size: 0.65rem;
-            color: var(--text-sub);
-            margin-top: 2px;
-            text-align: right;
-            font-family: monospace;
-        }
-
-        /* --- スタンプカード (連続参拝ゲーム風UI) --- */
-.stamp-card-container {
-    background-color: #fff;
-    border: 2px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-}
-.dark .stamp-card-container {
-    background-color: #27272a;
-    border-color: #3f3f46;
-}
-.stamp-grid {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    margin-top: 15px;
-}
-.stamp-item {
-    width: 100%;
-    aspect-ratio: 1;
-    border: 2px dashed #d1d5db;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9ca3af;
-    font-size: 0.8rem;
-    position: relative;
-    background: rgba(0,0,0,0.02);
-}
-.dark .stamp-item {
-    border-color: #52525b;
-    color: #71717a;
-}
-.stamp-item.active {
-    border: 2px solid #d4af37;
-    background-color: #fffcf0;
-    color: #d4af37;
-    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
-}
-.dark .stamp-item.active {
-    background-color: #3f2c00;
-}
-.stamp-mark {
-    font-size: 1.5rem;
-    color: #d4af37; /* 黄金 */
-    animation: stampIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-@keyframes stampIn {
-    from { transform: scale(2); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-.stamp-label {
-    position: absolute;
-    bottom: -20px;
-    font-size: 0.65rem;
-    white-space: nowrap;
-    color: var(--text-sub);
-}
 
     /* グラフアニメーション */
 .stat-bar-animate {
@@ -5513,10 +5087,6 @@ body.theme-newyear {
         /* 1. モーダル（ポップアップ）の共通修正 
            縦に長いコンテンツでも画面内に収まり、全体をスクロール可能にする設定 */
         #edit-profile-modal,
-        #follow-list-modal,
-        #verified-modal,
-
-        #history-detail-modal,
         #zodiac-login-modal,
         .lab-modal-overlay {
             /* 固定配置とサイズ確保 */
@@ -5546,10 +5116,6 @@ body.theme-newyear {
 
         /* モーダルが表示される時のスタイル（JSのinline styleを上書きして強制適用） */
         #edit-profile-modal[style*="display: flex"],
-        #follow-list-modal[style*="display: flex"],
-        #verified-modal[style*="display: flex"],
-
-        #history-detail-modal[style*="display: flex"],
         #zodiac-login-modal[style*="display: flex"],
         .lab-modal-overlay.active {
             display: flex !important;
@@ -5557,8 +5123,6 @@ body.theme-newyear {
 
         /* モーダルの中身（白いカード部分） */
         #edit-profile-modal > div,
-        #follow-list-modal > div,
-        #verified-modal > div,
 
         #zodiac-login-modal > div,
         .lab-modal-card {
@@ -10200,16 +9764,6 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </div>
     </div>
 
-    <!-- 詳細モーダル (おみくじの轍用) -->
-    <div id="history-detail-modal" onclick="closeHistoryDetail(event)">
-        <div id="history-detail-content" onclick="event.stopPropagation()">
-            <!-- ここに結果カードを複製表示 -->
-        </div>
-        <button onclick="closeHistoryDetail(null)" class="fixed top-5 right-5 text-white text-4xl hover:text-gray-300 z-[2100]">
-            <i class="bi bi-x-circle"></i>
-        </button>
-    </div>
-
     <!-- プロフィール編集モーダル (修正版) -->
     <div id="edit-profile-modal" onclick="if(event.target === this) this.style.display='none'">
         <div class="bg-white dark:bg-zinc-900 p-6 rounded-xl w-full max-w-md mx-4 shadow-2xl border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
@@ -10237,52 +9791,6 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             <div class="flex justify-end gap-2">
                 <button onclick="document.getElementById('edit-profile-modal').style.display='none'" class="px-4 py-2 rounded border hover:bg-gray-100 dark:hover:bg-zinc-800">キャンセル</button>
                 <button onclick="saveProfileChanges()" class="btn-primary px-4 py-2">保存する</button>
-            </div>
-        </div>
-    </div>
-
-    
-<!-- フォロー/フォロワーリストモーダル -->
-    <div id="follow-list-modal" onclick="if(event.target === this) this.style.display='none'" 
-         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; display: none; align-items: center; justify-content: center;">
-        <div class="themed-card p-6 rounded-xl w-full max-w-md mx-4 shadow-2xl overflow-hidden flex flex-col max-h-[80vh]" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
-                <h3 class="text-xl font-bold" id="follow-list-title">リスト</h3>
-                <button onclick="document.getElementById('follow-list-modal').style.display='none'" class="text-gray-500 hover:text-red-500">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-            </div>
-            
-            <div id="follow-list-content" class="overflow-y-auto flex-1 space-y-2 mb-4">
-                <!-- ここにユーザーリストが入る -->
-            </div>
-
-            <!-- ページネーション -->
-            <div id="follow-list-pagination" class="pt-2 border-t border-gray-200 dark:border-gray-700"></div>
-        </div>
-    </div>
-
-    <!-- 認証済みユーザー詳細モーダル -->
-    <div id="verified-modal" onclick="if(event.target === this) this.style.display='none'" 
-         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 4000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-        
-        <div class="bg-white dark:bg-zinc-900 p-8 rounded-2xl w-full max-w-sm mx-4 shadow-2xl border-2 border-gray-100 dark:border-gray-700 text-center relative" onclick="event.stopPropagation()">
-            
-            <button onclick="document.getElementById('verified-modal').style.display='none'" class="absolute top-4 right-4 text-gray-400 hover:text-red-500">
-                <i class="bi bi-x-lg"></i>
-            </button>
-
-            <!-- アイコン表示エリア -->
-            <div id="verified-icon-area" class="text-6xl mb-4"></div>
-            
-            <h3 class="text-2xl font-black mb-2" id="verified-title"></h3>
-            
-            <div class="w-full h-px bg-gray-200 dark:bg-gray-700 my-4"></div>
-            
-            <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300 font-medium" id="verified-desc"></p>
-            
-            <div class="mt-6">
-                <span class="text-xs text-gray-400">運勢・天命乃杜 運営事務局</span>
             </div>
         </div>
     </div>
@@ -18188,11 +17696,6 @@ async function fetchHistoryStats() {
             "担任の先生","保健室の先生","MBTIが同じ人","同性の後輩","異性の友達","友達の友達","有名人と同じ名前の人"
         ];
 
-        function getRandomUnique(list, count) {
-            const shuffled = [...list].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, count);
-        }
-
         // --- 【追加】連打制限用の変数定義 ---
     let lastDrawTimestamp = 0;
     const DRAW_COOLDOWN_MS = 0; // 制限時間：0秒（ここはお好みで調整してください）
@@ -18830,15 +18333,6 @@ function resetSearch() {
     document.getElementById('search-date-end').value = '';
     loadHistory(1);
 }
-
-        // モーダル機能は使わなくなったので削除または無効化
-        function openHistoryDetail(index) {
-            // 廃止: 直接遷移するため
-        }
-        function closeHistoryDetail(e) {
-            if(e && e.target.id !== 'history-detail-modal' && e.target.tagName !== 'BUTTON') return;
-            document.getElementById('history-detail-modal').style.display = 'none';
-        }
 
         // --- シェア用画像生成 (崩れ防止・完全修正版) ---
         function generateResultImage() {
@@ -20941,15 +20435,6 @@ function renderServerPagination(currentPage, totalItems, perPage) {
     paginationEl.innerHTML = createPaginationHTML('history', currentPage, totalPages, 'loadHistory({P})');
 }
 
-// ページ切り替えハンドラ
-function changeHistoryPage(newPage) {
-    historyPageState.page = newPage;
-    renderHistoryWithPagination();
-    // リストの一番上へスクロール
-    const listTop = document.getElementById('history-container');
-    if(listTop) listTop.scrollIntoView({ behavior: 'smooth' });
-}
-
         // --- 新規追加: 目次生成とPDFダウンロード機能 ---
 
     // 1. 目次生成関数
@@ -21429,32 +20914,6 @@ async function renderSettingsDashboard() {
     `;
 }
 
-    // ユーザープロフィールの読み込み
-    async function loadUserProfile(username) {
-        showLoading(true);
-        try {
-            // 自分のデータかどうか判定
-            const isMe = currentState.user && currentState.user.username === username;
-            
-            // APIからデータ取得
-            const res = await fetch(`${API_BASE}/api/user/profile?username=${encodeURIComponent(username)}`);
-            
-            if (res.ok) {
-                const data = await res.json();
-                data.isMe = isMe; // 自分かどうかのフラグを付与
-                renderProfilePage(data);
-                showView('profile'); // プロフィールビューを表示（HTML側に id="view-profile" が必要）
-            } else {
-                showToast("ユーザー情報の取得に失敗しました", "error");
-            }
-        } catch (e) {
-            console.error(e);
-            showToast("通信エラーが発生しました", "error");
-        } finally {
-            showLoading(false);
-        }
-    }
-
     // プロフィール画面の描画
     function renderProfilePage(data) {
         const container = document.querySelector('#view-profile');
@@ -21463,27 +20922,7 @@ async function renderSettingsDashboard() {
         // ビューの中身を一度クリアして再構築
         container.innerHTML = '';
 
-        // 1. 実績バッジのHTML生成
-        let badgesHtml = '';
-        if (data.badges && data.badges.length > 0) {
-            badgesHtml = data.badges.map(b => {
-                // 未獲得はグレーアウト
-                const opacity = b.unlocked ? 'opacity-100' : 'opacity-40 grayscale';
-                const bgClass = b.unlocked ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200' : 'bg-gray-100 dark:bg-zinc-800 border-gray-200';
-                
-                return `
-                    <div class="flex items-center gap-3 p-3 rounded-lg border ${bgClass} ${opacity}">
-                        <div class="text-2xl text-yellow-600"><i class="bi ${b.icon}"></i></div>
-                        <div>
-                            <div class="text-xs font-bold">${b.name}</div>
-                            <div class="text-[10px] text-gray-500">${b.description}</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // 2. 日付フォーマット
+        // 1. 日付フォーマット
         let joined = "----/--/--";
         if (data.joinDate) {
             const d = new Date(data.joinDate);
@@ -21492,7 +20931,7 @@ async function renderSettingsDashboard() {
             }
         }
 
-        // 3. アクションボタン（自分なら編集・ログアウト）
+        // 2. アクションボタン（自分なら編集・ログアウト）
         let actionBtnHtml = '';
         if (data.isMe) {
             actionBtnHtml = `
@@ -21508,14 +20947,14 @@ async function renderSettingsDashboard() {
             `;
         }
 
-        // 4. アイコンの色設定
+        // 3. アイコンの色設定
         const iconColorMap = {
             'gray': '#6b7280', 'red': '#ef4444', 'blue': '#3b82f6', 'green': '#10b981', 
             'yellow': '#eab308', 'purple': '#a855f7', 'pink': '#ec4899', 'black': '#1f2937'
         };
         const iconColor = iconColorMap[data.color] || '#6b7280';
 
-        // 5. HTML組み立て
+        // 4. HTML組み立て
         const html = `
             <div class="max-w-2xl mx-auto bg-white dark:bg-zinc-900 rounded-xl shadow overflow-hidden relative mt-10">
                 <!-- ヘッダー背景 -->
@@ -21565,23 +21004,11 @@ async function renderSettingsDashboard() {
                             <div class="text-xs text-gray-500">参拝日数</div>
                         </div>
                     </div>
-
-                    <!-- 実績バッジ一覧 -->
-                    <h3 class="font-bold text-lg mb-4 border-l-4 border-yellow-500 pl-3">功徳の証</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        ${badgesHtml}
-                    </div>
-                    ${badgesHtml === '' ? '<p class="text-gray-400 text-sm">まだ実績はありません</p>' : ''}
                 </div>
             </div>
         `;
 
         container.innerHTML = html;
-
-        // 自分の実績情報を保存（実績一覧モーダル用）
-        if (data.isMe && data.badges) {
-            window.myBadges = data.badges.filter(b => b.unlocked).map(b => b.id);
-        }
     }
 
     
@@ -21607,148 +21034,6 @@ async function renderSettingsDashboard() {
         if(modal) modal.style.display = 'flex';
     }
 
-        // --- メニュー表示 ---
-        function toggleProfileMenu() {
-            const menu = document.getElementById('profile-menu-dropdown');
-            if(menu) menu.classList.toggle('active');
-            // 他をクリックしたら閉じるイベントを追加
-            document.addEventListener('click', function closeMenu(e) {
-                if (!e.target.closest('.profile-menu-container')) {
-                    if(menu) menu.classList.remove('active');
-                    document.removeEventListener('click', closeMenu);
-                }
-            });
-        }
-
-
-
-       // --- フォロー機能 (エラー詳細表示版) ---
-        async function toggleFollow(username, action) {
-            if(!currentState.user) return showView('auth');
-            
-            showLoading(true);
-            
-            try {
-                const res = await authFetch(`${API_BASE}/api/user/follow`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        targetUsername: username, 
-                        action: action 
-                    })
-                });
-                
-                // レスポンスがJSONかどうか確認
-                const contentType = res.headers.get("content-type");
-                if (contentType && contentType.includes("application/json")) {
-                    const data = await res.json();
-                    if(res.ok) {
-                        const msg = action === 'follow' ? 'フォローしました' : 'フォローを解除しました';
-                        showToast(msg, 'success');
-                        await loadUserProfile(username);
-                    } else {
-                        alert(data.error || "操作に失敗しました");
-                    }
-                } else {
-                    // JSONじゃないエラー（Workerがクラッシュした場合など）
-                    const text = await res.text();
-                    console.error("Server Error:", text);
-                    alert("サーバーエラーが発生しました。\n(詳細はコンソールを確認してください)");
-                }
-            } catch(e) { 
-                console.error(e);
-                alert("通信エラーが発生しました: " + e.message); 
-            } finally { 
-                showLoading(false); 
-            }
-        }
-        
-        // --- 「参拝者台帳」ボタンの挙動 ---
-        function openWorshipperBook() {
-            showView('profile-public');
-            
-            if (currentState.user) {
-                // ログイン中：自分のプロフィールを表示
-                loadUserProfile(currentState.user.username);
-            } else {
-                // 未ログイン：空の検索を実行して「最近のユーザー」を表示させる
-                // さらに、まだ誰も選択していない状態の画面を表示
-                const container = document.getElementById('public-profile-content');
-                container.innerHTML = `
-                    <div class="flex flex-col items-center justify-center h-[500px] text-gray-500">
-                        <i class="bi bi-people-fill text-6xl mb-4 text-gray-300"></i>
-                        <p class="text-lg font-bold">参拝者台帳</p>
-                        <p class="text-sm mt-2">上の検索バーからユーザーを探すか、<br>表示される候補から選択してください。</p>
-                    </div>
-                `;
-                handleUserSearch(''); // おすすめユーザーを検索候補に出す
-                document.querySelector('.user-search-container input').focus();
-            }
-        }
-        
-        // リストの状態管理
-        let followListState = { type: 'followers', username: '', page: 1 };
-
-        // リスト読み込み
-        async function loadFollowList(type, username, page = 1) {
-            followListState = { type, username, page };
-            const modal = document.getElementById('follow-list-modal');
-            const titleEl = document.getElementById('follow-list-title');
-            const contentEl = document.getElementById('follow-list-content');
-            const pagingEl = document.getElementById('follow-list-pagination');
-            
-            modal.style.display = 'flex';
-            titleEl.textContent = type === 'followers' ? 'フォロワー' : 'フォロー中';
-            contentEl.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-red-500" role="status"></div> 読み込み中...</div>';
-            pagingEl.innerHTML = '';
-
-            try {
-                const res = await fetch(`${API_BASE}/api/user/follow_list?username=${encodeURIComponent(username)}&type=${type}&page=${page}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    renderFollowListContent(data);
-                } else {
-                    contentEl.innerHTML = '<p class="text-center text-gray-500">読み込みに失敗しました</p>';
-                }
-            } catch (e) {
-                console.error(e);
-                contentEl.innerHTML = '<p class="text-center text-gray-500">通信エラー</p>';
-            }
-        }
-
-        // リスト描画
-        function renderFollowListContent(data) {
-            const contentEl = document.getElementById('follow-list-content');
-            const pagingEl = document.getElementById('follow-list-pagination');
-
-            if (data.users.length === 0) {
-                contentEl.innerHTML = '<p class="text-center text-gray-500 py-4">ユーザーがいません</p>';
-                return;
-            }
-
-            contentEl.innerHTML = data.users.map(u => `
-                <div class="follow-user-item" onclick="loadUserProfile('${u.username}'); document.getElementById('follow-list-modal').style.display='none';">
-                    <div class="flex items-center">
-                        <i class="bi bi-person-circle text-2xl mr-3 text-gray-400"></i>
-                        <span class="font-bold text-lg">${escapeHtml(u.username)}</span>
-                    </div>
-                    <i class="bi bi-chevron-right text-gray-400"></i>
-                </div>
-            `).join('');
-            
-            // ページネーション（共通のモダンUI・シンプル版を使用）
-            if (data.total > data.perPage) {
-                const totalPages = Math.ceil(data.total / data.perPage);
-                pagingEl.innerHTML = createSimplePaginationHTML(data.page, totalPages, 'changeFollowListPage({P})');
-            } else {
-                pagingEl.innerHTML = '';
-            }
-        }
-
-        // リストのページ切り替え
-        function changeFollowListPage(newPage) {
-            loadFollowList(followListState.type, followListState.username, newPage);
-        }
 // アイコン・色データ
         // ▼▼▼ 修正: 運営者用アイコンや、その他使いやすそうなアイコンを追加して開放します ▼▼▼
         const profileIcons = [
@@ -21762,20 +21047,6 @@ async function renderSettingsDashboard() {
         const profileColors = ['gray', 'red', 'blue', 'green', 'yellow', 'purple', 'pink', 'black'];
          let selectedIcon = 'bi-person';
         let selectedColor = 'gray';
-
-        // 編集モーダルを開く
-        function openEditProfileModal(bio, title, icon, color) {
-            document.getElementById('edit-bio').value = bio === "自己紹介はまだありません。" ? "" : bio;
-            document.getElementById('edit-title').value = title;
-            
-            selectedIcon = icon || 'bi-person';
-            selectedColor = color || 'gray';
-            
-            renderIconSelector();
-            renderColorSelector();
-            
-            document.getElementById('edit-profile-modal').style.display = 'flex';
-        }
 
         function renderIconSelector() {
             const container = document.getElementById('icon-selector');
@@ -21827,126 +21098,6 @@ async function renderSettingsDashboard() {
             } catch(e) { console.error(e); }
             finally { showLoading(false); }
         }
-
-        async function toggleBlock(username, action) {
-            if(!confirm(`${username} を${action === 'block' ? 'ブロック' : 'ブロック解除'}しますか？`)) return;
-            
-            showLoading(true);
-            try {
-                const res = await authFetch(`${API_BASE}/api/user/block`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ targetUsername: username, action: action })
-                });
-                if(res.ok) {
-                    showToast(action === 'block' ? 'ブロックしました' : 'ブロックを解除しました', 'success');
-                    loadUserProfile(username);
-                } else {
-                    alert("操作に失敗しました");
-                }
-            } catch(e) { console.error(e); }
-            finally { showLoading(false); }
-        }
-
-        // 認証詳細モーダル（Meta風 + 申請機能付き + 高画質黄金バッジ）
-        function openVerifiedModal(type, username) {
-            const modal = document.getElementById('verified-modal');
-            const iconArea = document.getElementById('verified-icon-area');
-            const titleEl = document.getElementById('verified-title');
-            const descEl = document.getElementById('verified-desc');
-            const safeName = escapeHtml(username);
-            
-            // 自分かどうかチェック
-            const isMe = currentState.user && currentState.user.username === username;
-
-            if (type === 'gold') {
-                // --- 黄金認証（高画質SVG） ---
-                // アイコンエリアに巨大なSVGを表示
-                iconArea.innerHTML = getGoldBadgeIcon("w-20 h-20"); // 80px四方の高解像度
-                
-                titleEl.textContent = "黄金認証済みユーザー";
-                titleEl.className = "text-xl font-black mb-4 text-gray-900 dark:text-white";
-                descEl.innerHTML = `
-                    <div class="text-left text-sm leading-relaxed">
-                        <strong class="block text-base mb-2 text-gray-800 dark:text-gray-200">${safeName}さんは黄金認証済みです</strong>
-                        この黄金のバッジは、運勢・天命乃杜の運営者、またはシステムの開発・管理に深く携わる特別なアカウントであることを証明します。
-                        <br><br>
-                        <span class="text-xs text-gray-500">※金属光沢を持つこのバッジは、最高位の権限者のみに表示されます。</span>
-                    </div>
-                `;
-        
-            } else if (type === 'blue') {
-                // ブルー（公式）
-                iconArea.innerHTML = '<i class="bi bi-patch-check-fill text-blue-500"></i>';
-                titleEl.textContent = "認証済みユーザー";
-                titleEl.className = "text-xl font-black mb-4 text-gray-900 dark:text-white";
-                descEl.innerHTML = `
-                    <div class="text-left text-sm leading-relaxed">
-                        <strong class="block text-base mb-2 text-gray-800 dark:text-gray-200">${safeName}さんは天命認証済みです</strong>
-                        認証バッジを持つアカウントは認証済みであり、天命乃杜への特別貢献者、または著名な人物や公認アカウントである場合があります。
-                    </div>
-                `;
-            } else {
-                // バッジなし（自分が見た時だけ申請ボタンを出す）
-                if (isMe) {
-                } else {
-                    return; // 未認証は何も出さない
-                }
-            }
-            
-            modal.style.display = 'flex';
-        }
-
-        // --- 実績一覧表示機能 ---
-        async function showAllBadgesModal() {
-            const modal = document.getElementById('all-badges-modal');
-            const listEl = document.getElementById('all-badges-list');
-            
-            modal.style.display = 'flex';
-            listEl.innerHTML = '<div class="col-span-full text-center py-8"><div class="spinner-border text-yellow-500" role="status"></div> 読み込み中...</div>';
-
-            try {
-                // マスターデータを取得
-                const res = await fetch(`${API_BASE}/api/badges`);
-                if(res.ok) {
-                    const data = await res.json();
-                    const allBadges = data.badges;
-                    
-                    // 自分の持っているバッジID（renderProfilePageで保存したもの、なければ空）
-                    const myOwnedIds = window.myBadges || [];
-
-                    let html = '';
-                    allBadges.forEach(b => {
-                        const isUnlocked = myOwnedIds.includes(b.id);
-                        // 未獲得ならグレーアウト
-                        const opacity = isUnlocked ? 'opacity-100' : 'opacity-50 grayscale';
-                        const statusIcon = isUnlocked ? '<i class="bi bi-check-circle-fill text-green-500"></i>' : '<i class="bi bi-lock-fill text-gray-400"></i>';
-                        const bgClass = isUnlocked ? 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200' : 'bg-gray-100 dark:bg-zinc-800 border-gray-300';
-                        
-                        html += `
-                            <div class="flex items-center gap-4 p-4 rounded-lg border ${bgClass} ${opacity} transition hover:opacity-100">
-                                <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full bg-white dark:bg-black text-2xl text-yellow-600 shadow-sm">
-                                    <i class="bi ${b.icon}"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex justify-between items-start">
-                                        <h4 class="font-bold text-sm">${b.name}</h4>
-                                        ${statusIcon}
-                                    </div>
-                                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">${b.description}</p>
-                                    <p class="text-[10px] text-gray-400 mt-1 font-mono">条件: ${b.condition_type} >= ${b.condition_value}</p>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    listEl.innerHTML = html;
-                }
-            } catch(e) {
-                console.error(e);
-                listEl.innerHTML = '<p class="text-center text-red-500">読み込みに失敗しました</p>';
-            }
-        }
-
 
         // --- アカウント情報更新 (updateAccountSettings) ---
     async function updateAccountSettings() {
@@ -22179,24 +21330,6 @@ async function loadMyStats() {
     } catch (e) { console.error(e); }
 }
 
-// ヘルパー：グリッド線と数値ラベルの生成 (目安線と値)
-function renderGridLines(container, maxValue) {
-    container.innerHTML = '';
-    const steps = [0, 0.25, 0.5, 0.75, 1];
-    
-    steps.forEach(p => {
-        // 整数に丸めて表示
-        const val = Math.floor(maxValue * p);
-        const left = p * 100;
-        
-        container.innerHTML += `
-            <div class="grid-line-item" style="left: ${left}%">
-                <div class="grid-label-text">${val.toLocaleString()}</div>
-            </div>
-        `;
-    });
-}
-
 // ヘルパー：2本のバーを上下に並べて生成する (独立表示)
 function createDualBarRow(label, myVal, avgVal, maxVal, colorClass) {
     const myWidth = (myVal / maxVal) * 100;
@@ -22240,42 +21373,6 @@ function createDualBarRow(label, myVal, avgVal, maxVal, colorClass) {
     `;
 }
 
-// ヘルパー：モダンなバー行のHTML生成
-function createModernBarRow(label, myVal, avgVal, maxVal) {
-    // 幅(%)計算
-    const myWidth = (myVal / maxVal) * 100;
-    const avgWidth = (avgVal / maxVal) * 100;
-
-    // 重なり順の制御ロジック
-    // 値が「小さい」方を手前(z-index: 2)に、「大きい」方を奥(z-index: 1)にする
-    // これにより、大きいバーが小さいバーを隠してしまうのを防ぐ
-    let myZ = 1, avgZ = 1;
-    if (myVal < avgVal) {
-        myZ = 2; // 自分が小さい -> 手前
-        avgZ = 1; // 平均が大きい -> 奥
-    } else {
-        myZ = 1; // 自分が大きい -> 奥
-        avgZ = 2; // 平均が小さい -> 手前
-    }
-
-    return `
-        <div class="stats-row-modern">
-            <div class="stats-label-modern">${label}</div>
-            <div class="stats-bar-area-modern">
-                <!-- 平均バー (Gray) -->
-                <div class="stats-bar-base bar-avg" 
-                     style="width: 0%; z-index: ${avgZ};" 
-                     data-width="${avgWidth}%"></div>
-                
-                <!-- 自分バー (Red) -->
-                <div class="stats-bar-base bar-user" 
-                     style="width: 0%; z-index: ${myZ};" 
-                     data-width="${myWidth}%"></div>
-            </div>
-        </div>
-    `;
-}
-
 // 数字カウントアップ演出ヘルパー
 function animateValue(obj, start, end, duration) {
     let startTimestamp = null;
@@ -22291,56 +21388,6 @@ function animateValue(obj, start, end, duration) {
         }
     };
     window.requestAnimationFrame(step);
-}
-
-// グラフの1行（2本バー）を作成するヘルパー
-function createGraphRow(label, myVal, avgVal, maxVal) {
-    const row = document.createElement('div');
-    row.className = "flex items-center gap-2 w-full";
-    const bars = [
-        { val: avgVal, color: 'bg-gray-200 dark:bg-zinc-700' },
-        { val: myVal, color: 'bg-red-600' }
-    ];
-    bars.sort((a, b) => a.val - b.val); // 多い方を下にする
-
-    row.innerHTML = `
-        <div class="w-16 text-[10px] font-bold text-gray-500 flex-shrink-0">${label}</div>
-        <div class="flex-1 space-y-1">
-            ${bars.map(b => `
-                <div class="w-full h-1.5 bg-transparent relative">
-                    <div class="h-full rounded-full bar-animate-fast ${b.color}" 
-                         style="width: 0%" data-target-width="${(b.val / maxVal * 100)}%"></div>
-                </div>
-            `).join('')}
-        </div>
-        <div class="w-20 text-right text-[9px] font-mono text-gray-400 flex-shrink-0">
-            ${myVal} <span class="opacity-30">/ ${avgVal.toFixed(1)}</span>
-        </div>
-    `;
-    return row;
-}
-
-// 単体グラフ（総参拝数用）の描画
-function renderSingleGraph(containerId, gridId, label, myVal, avgVal) {
-    const container = document.getElementById(containerId);
-    const grid = document.getElementById(gridId);
-    const maxVal = Math.max(myVal, avgVal, 1);
-    container.innerHTML = '';
-    grid.innerHTML = '';
-    renderGridLines(grid, maxVal);
-    container.appendChild(createGraphRow(label, myVal, avgVal, maxVal));
-}
-
-// 目盛り線の描画
-function renderGridLines(container, maxVal) {
-    [0, 0.25, 0.5, 0.75, 1].forEach(p => {
-        const val = Math.floor(maxVal * p);
-        const left = p * 100;
-        container.innerHTML += `
-            <div class="grid-line" style="left: ${left}%"></div>
-            <div class="grid-label" style="left: ${left}%">${val.toLocaleString()}</div>
-        `;
-    });
 }
 
         // ==========================================
