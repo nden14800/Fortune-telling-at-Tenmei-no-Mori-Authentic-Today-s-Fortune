@@ -51,8 +51,6 @@
 
     <!-- ▲▲▲ 変更・追加箇所ここまで ▲▲▲ -->
     
-    <!-- Tailwind CSS（ビルド済み・本番用軽量CSS。CDN版のTailwindは廃止） -->
-    <link rel="stylesheet" href="output.css">
     <script>
     const DISCORD_INVITE_URL = "https://discord.gg/Ys6hpbNdcV";
 
@@ -6079,6 +6077,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     </style>
 
 
+    <!-- Tailwind CSS（ビルド済み・本番用軽量CSS。CDN版のTailwindは廃止）
+         ▼ headの一番最後に配置：CDN版Tailwindは実行時にstyleタグをheadの末尾に追記していたため、
+           カスタムCSS（.stats-card-interactiveなど）と同じ詳細度のクラスが衝突した場合は
+           常にTailwindのユーティリティクラスが「後勝ち」で優先されていた。
+           それをファイル冒頭でlink読み込みに変えたことで優先順位が逆転し、
+           ライトモードでも一部カードが黒背景のまま固定される不具合が発生していたため、元の順序に復元。 -->
+    <link rel="stylesheet" href="output.css">
 </head>
 <body>
 
