@@ -51,9 +51,8 @@
 
     <!-- ▲▲▲ 変更・追加箇所ここまで ▲▲▲ -->
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind Config -->
+    <!-- Tailwind CSS（ビルド済み・本番用軽量CSS。CDN版のTailwindは廃止） -->
+    <link rel="stylesheet" href="output.css">
     <script>
     const DISCORD_INVITE_URL = "https://discord.gg/Ys6hpbNdcV";
 
@@ -73,9 +72,6 @@
             document.body.classList.toggle('sidebar-collapsed');
         }
     }
-      tailwind.config = {
-        darkMode: 'class',
-      }
     </script>
     <!-- ★変更(次の土曜日タスク9): おみくじ結果札のQRコード廃止に伴い、QRCode.jsライブラリの読み込みも撤去 -->
     
@@ -83,6 +79,8 @@
     <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js"></script>
     
     <!-- フォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;800&family=Zen+Old+Mincho:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
