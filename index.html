@@ -19238,7 +19238,7 @@ ${getShareUrl()}`;
                 const payload = {
                     type:     res.type     || '不明',
                     poem:     res.poem     || '',
-                    username: (currentState.user && currentState.user.username) ? currentState.user.username : '参拝者',
+                    username: (currentState.user && currentState.user.username) ? currentState.user.username : (getGuestName() || '参拝者'),
                     item:     (res.lucky && res.lucky.item)  ? res.lucky.item  : '',
                     color:    (res.lucky && res.lucky.color) ? res.lucky.color : '',
                 };
