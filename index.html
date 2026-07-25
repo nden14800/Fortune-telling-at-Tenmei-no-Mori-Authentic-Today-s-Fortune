@@ -7989,10 +7989,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             </div>
             <h3 class="text-xl font-black mb-2" style="font-family:'Zen Old Mincho',serif;">記録は閉じられています</h3>
             <p class="text-sm mb-6 leading-relaxed" style="color:var(--text-sub);">
-                自分だけの参拝記録を残し、<br>運勢の傾向を分析するにはログインが必要です。
+                自分だけの参拝記録を残し、<br>運勢の傾向を分析するには参拝者名の設定（またはログイン）が必要です。
             </p>
-            <button onclick="showView('auth')" class="btn-primary shadow-lg">
-                <i class="bi bi-person-plus-fill"></i> 記録を始める
+            <button onclick="openGuestNameModal(() => { showView('stats'); loadMyStats(); })" class="btn-primary shadow-lg mb-3">
+                <i class="bi bi-person-badge"></i> 参拝者名を設定する
+            </button>
+            <button onclick="showView('auth')" class="w-full text-center text-xs py-1" style="color: var(--text-sub);">
+                会員登録・ログインする場合はこちら
             </button>
         </div>
     </div>
@@ -8154,7 +8157,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 <div id="form-register-fields" class="hidden space-y-4">
                     <div>
                         <label class="profile-input-label">参拝者名 (ユーザー名)</label>
-                        <input type="text" id="reg-username" class="profile-input-field" placeholder="天命 太郎" autocomplete="nickname">
+                        <input type="text" id="reg-username" class="profile-input-field" placeholder="はるかぜ" autocomplete="nickname">
+                        <p class="text-xs mt-1.5 leading-relaxed" style="color: var(--text-sub);">
+                            <i class="bi bi-exclamation-circle mr-1"></i>結果ページや轍で公開されるので、本名（フルネーム）は入力しないでください。
+                        </p>
                     </div>
                     <div>
                         <label class="profile-input-label">メールアドレス</label>
@@ -8402,13 +8408,15 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             <div class="lab-icon-box icon-bg-gray mx-auto mb-6" style="width:64px;height:64px;">
                 <i class="bi bi-lock-fill"></i>
             </div>
-            <h3 class="text-xl font-black mb-2" style="font-family:'Zen Old Mincho',serif;">轍を見るには会員証が必要です</h3>
+            <h3 class="text-xl font-black mb-2" style="font-family:'Zen Old Mincho',serif;">轍を見るには参拝者名が必要です</h3>
             <p class="text-sm mb-6 leading-relaxed" style="color:var(--text-sub);">
-                ログインすると、あなた自身の過去の運勢と、<br>他の参拝者の記録を閲覧・検索することができます。
+                参拝者名を設定（またはログイン）すると、<br>あなた自身の過去の運勢と、他の参拝者の記録を閲覧・検索することができます。
             </p>
-            <button onclick="showView('auth')" class="btn-primary shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/></svg>
-                ログイン / 登録
+            <button onclick="openGuestNameModal(() => { showView('history'); loadHistory(); })" class="btn-primary shadow-lg mb-3">
+                <i class="bi bi-person-badge"></i> 参拝者名を設定する
+            </button>
+            <button onclick="showView('auth')" class="w-full text-center text-xs py-1" style="color: var(--text-sub);">
+                会員登録・ログインする場合はこちら
             </button>
         </div>
     </div>
@@ -8717,8 +8725,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </h3>
                     </div>
                     <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <p>ログインすると、これまでに引いたおみくじの回数や運勢の分布、大吉を引いた回数などの個人統計をグラフで確認できます。</p>
-                        <p>参拝の記録は参拝証（会員登録）をお持ちの方のみ閲覧できる機能です。未登録の場合は本項下部の「08. 参拝証の発行」をご覧ください。</p>
+                        <p>おみくじを引く前に設定した参拝者名（ログイン中は会員名）で、これまでに引いたおみくじの回数や運勢の分布、大吉を引いた回数などの個人統計をグラフで確認できます。</p>
+                        <p>会員登録（参拝証の発行）は必須ではありませんが、未ログインの記録はお使いの端末のlocalStorageのみに保存されるため、端末やブラウザを変えたり、データを消去したりすると記録にアクセスできなくなります。長く記録を残したい場合は「08. 参拝証の発行」から会員登録をおすすめします。</p>
                     </div>
                 </div>
 
@@ -8731,8 +8739,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </h3>
                     </div>
                     <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <p>ログインすると、これまでに引いたおみくじの履歴を一覧で振り返ることができます。条件を絞り込んでの検索や、全体の傾向の確認も可能です。</p>
-                        <p>こちらも参拝証をお持ちの方限定の機能です。</p>
+                        <p>参拝者名を設定する（またはログインする）と、これまでに引いたおみくじの履歴を一覧で振り返ることができます。条件を絞り込んでの検索や、全体の傾向の確認も可能です。</p>
+                        <p>ここには他の参拝者の履歴も表示されます。参拝者名は結果ページや轍で公開されるため、本名（フルネーム）の入力はお控えください。</p>
                     </div>
                 </div>
 
@@ -8774,7 +8782,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </h3>
                     </div>
                     <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <p>おみくじや占いは登録なしでもお楽しみいただけますが、参拝証を発行（会員登録）すると、参拝の記録・おみくじの轍・お気に入り登録・AI夢占い・TENMEI LABSといった追加機能が使えるようになります。</p>
+                        <p>おみくじや占いは登録なしでもお楽しみいただけます。参拝の記録・おみくじの轍は、おみくじを引く前に参拝者名を設定するだけで未ログインでもご利用いただけますが、記録はお使いの端末のみに保存されます。参拝証を発行（会員登録）すると、記録がクラウドに保存され端末を変えても引き継げるようになるほか、お気に入り登録・AI夢占い・TENMEI LABSといった追加機能も使えるようになります。</p>
                         <p>メールアドレスとパスワードを入力し、メールに届く認証コードを入力するだけで発行できます。2回目以降のログインでは、メール内のボタンをワンクリックするだけで完了する方式も選べます（認証コードを直接入力する方式ももちろん利用できます）。Googleアカウントでのログインにも対応しています。</p>
                     </div>
                 </div>
@@ -9406,7 +9414,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <p class="mb-4">当サイトは、本サービスの提供にあたり、以下の情報を適法かつ公正な手段により収集します。</p>
                             <div class="bg-gray-50 dark:bg-zinc-800/50 p-4 rounded-lg mb-4">
                                 <strong class="block mb-2 text-gray-800 dark:text-gray-200">1. ユーザー登録時に提供いただく情報</strong>
-                                本サービスの会員機能（「おみくじの轍」の保存、「TENMEI Labs」の利用等）を利用するために、ユーザー登録を行っていただく際、以下の情報の提供をお願いしております。
+                                本サービスの会員機能（クラウドへの記録保存、「TENMEI Labs」の利用等）を利用するために、ユーザー登録を行っていただく際、以下の情報の提供をお願いしております。なお、「おみくじの轍」や「参拝の記録」自体は、後述の参拝者名（端末のローカルストレージに保存）を設定するだけでも、ユーザー登録なしにご利用いただけます。
                                 <ul class="list-disc pl-5 mt-2 text-gray-600 dark:text-gray-400">
                                     <li>メールアドレス（本人確認および認証コード送信のため必須）</li>
                                     <li>ユーザー名（サービス内での表示用ニックネーム）</li>
@@ -9573,7 +9581,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             </h4>
                             <p class="mb-4">
                                 1. 当サイトでは、ユーザーの利便性向上、ログイン状態の保持、および利用状況の分析のために、クッキー（Cookie）またはブラウザのローカルストレージ（LocalStorage）機能を使用しています。これにより、ユーザーのブラウザ内に設定情報（ダークモード設定、お気に入り星座等）やセッション情報を一時的に保存します。<br>
-                                2. ユーザーは、ブラウザの設定を変更することにより、Cookie等の受け入れを拒否することができます。ただし、その場合、ログイン機能や履歴保存機能など、本サービスの一部機能が正常に動作しなくなる可能性がありますので、あらかじめご了承ください。
+                                2. 未ログインで「参拝の記録」「おみくじの轍」をご利用いただく場合、設定していただいた参拝者名と、それに紐づく識別用ID（ゲストID）、およびおみくじの記録は、当サイトのサーバーではなくお使いの端末のローカルストレージにのみ保存されます。ブラウザの閲覧データを消去した場合や、別の端末・ブラウザからアクセスした場合、それまでの記録には二度とアクセスできなくなりますので、あらかじめご了承ください。長期的に記録を残したい場合は、参拝証の発行（会員登録）をおすすめします。<br>
+                                3. ユーザーは、ブラウザの設定を変更することにより、Cookie等の受け入れを拒否することができます。ただし、その場合、ログイン機能や履歴保存機能など、本サービスの一部機能が正常に動作しなくなる可能性がありますので、あらかじめご了承ください。
                             </p>
                         </div>
 
@@ -9763,6 +9772,44 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             </div>
         </div>
     </div>
+
+    <!-- 未ログイン参拝者：参拝者名の設定モーダル -->
+    <div id="guest-name-modal"
+         class="fixed top-0 left-0 w-full h-full bg-black/70 z-[3000] hidden items-center justify-center backdrop-blur-sm"
+         style="padding:16px;box-sizing:border-box;">
+        <div class="p-8 rounded-2xl shadow-2xl max-w-sm w-full relative border" style="background: var(--card-bg); border-color: var(--card-border);">
+            <button onclick="closeGuestNameModal()"
+                    class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full transition"
+                    style="color: var(--text-sub);">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <div class="text-center mb-5">
+                <div class="mx-auto mb-3 flex items-center justify-center rounded-full" style="width:56px;height:56px;background:rgba(197,160,89,0.15);color:var(--accent-gold);font-size:1.6rem;">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <h3 class="text-lg font-black mb-1" style="font-family:'Zen Old Mincho',serif;">参拝者名の設定</h3>
+                <p class="text-sm" style="color:var(--text-sub);">おみくじを引く前に、杜に記す名前をお決めください。</p>
+            </div>
+
+            <input id="guest-name-input" type="text" maxlength="20" placeholder="例：はるかぜ"
+                   class="w-full px-4 py-3 rounded-xl mb-3 text-sm"
+                   style="background: var(--input-bg, var(--bg-color)); border: 1px solid var(--card-border); color: var(--text-main);">
+            <p id="guest-name-error" class="text-xs mb-2 hidden" style="color:#dc2626;">参拝者名を入力してください。</p>
+
+            <div class="text-xs leading-relaxed mb-5 p-3 rounded-lg" style="background: rgba(197,160,89,0.08); color: var(--text-sub);">
+                <p class="mb-1"><i class="bi bi-exclamation-circle mr-1"></i>結果ページや轍で公開されるので、本名（フルネーム）は入力しないでください。</p>
+                <p><i class="bi bi-hdd mr-1"></i>この名前はお使いの端末（localStorage）に保存されます。データを消去・変更すると、これまでの記録には二度とアクセスできなくなりますのでご注意ください。</p>
+            </div>
+
+            <button onclick="submitGuestName()" class="btn-primary w-full justify-center py-3 mb-3">
+                この名前で参拝する
+            </button>
+            <button onclick="closeGuestNameModal(); showView('auth');" class="w-full text-center text-xs py-2" style="color: var(--text-sub);">
+                会員登録・ログインする場合はこちら
+            </button>
+        </div>
+    </div>
+
 
     <!-- プロフィール編集モーダル (修正版) -->
     <div id="edit-profile-modal" onclick="if(event.target === this) this.style.display='none'">
@@ -16414,6 +16461,102 @@ window.renderPrefectureMap = function() {
 
         
 // --- 認証付きFetchラッパー (Cookie & Header 両対応) ---
+// ==========================================================
+// 未ログイン参拝者（ゲスト）の識別
+// ──────────────────────────────────────────────
+// 参拝者名を設定した時点でUUIDを発行しlocalStorageに保存する。
+// これ以降のAPIリクエストはX-Guest-Idヘッダーで送信され、サーバー側は
+// このIDのみを本人確認の根拠とする（＝IDを知らない第三者は他人の記録を見られない）。
+// localStorageのデータが消えると同じゲストとしては二度とアクセスできない（再発行扱い）。
+// ==========================================================
+const GUEST_ID_KEY = 'tenmei_guest_id';
+const GUEST_NAME_KEY = 'tenmei_guest_name';
+
+function getGuestId() {
+    try { return localStorage.getItem(GUEST_ID_KEY); } catch(e) { return null; }
+}
+
+function getGuestName() {
+    try { return localStorage.getItem(GUEST_NAME_KEY); } catch(e) { return null; }
+}
+
+function setGuestName(name) {
+    const trimmed = (name || '').trim().slice(0, 20);
+    if (!trimmed) return false;
+    try {
+        if (!getGuestId()) {
+            localStorage.setItem(GUEST_ID_KEY, (crypto.randomUUID ? crypto.randomUUID() : 'g-' + Date.now() + '-' + Math.random().toString(36).slice(2)));
+        }
+        localStorage.setItem(GUEST_NAME_KEY, trimmed);
+    } catch(e) { return false; }
+    return true;
+}
+
+// ログイン済み、または参拝者名を設定済みのゲストなら true
+function hasVisitorIdentity() {
+    return !!(currentState.user || (getGuestId() && getGuestName()));
+}
+
+// 参拝の記録（stats）の解錠判定：会員はサーバー検証済みLabAuth、
+// 未ログインは参拝者名設定済みのゲストIDのみを根拠とする（Labs機能とは別基準）
+function isStatsUnlocked() {
+    return LabAuth.isVerified() || !!(getGuestId() && getGuestName());
+}
+
+// 現在の表示名（ログイン中はユーザー名、未ログインは設定済みゲスト名、未設定は「ゲスト」）
+function getVisitorDisplayName() {
+    if (currentState.user) return currentState.user.username || "参拝者";
+    return getGuestName() || "ゲスト";
+}
+
+// 参拝者名モーダル：確定後に実行するコールバックを保持しておく
+let _guestNameModalCallback = null;
+
+function openGuestNameModal(onConfirm) {
+    _guestNameModalCallback = (typeof onConfirm === 'function') ? onConfirm : null;
+    const modal = document.getElementById('guest-name-modal');
+    const input = document.getElementById('guest-name-input');
+    const err = document.getElementById('guest-name-error');
+    if (input) input.value = getGuestName() || '';
+    if (err) err.classList.add('hidden');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+    if (input) setTimeout(() => input.focus(), 50);
+}
+
+function closeGuestNameModal() {
+    const modal = document.getElementById('guest-name-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+    _guestNameModalCallback = null;
+}
+
+function submitGuestName() {
+    const input = document.getElementById('guest-name-input');
+    const err = document.getElementById('guest-name-error');
+    const name = input ? input.value.trim() : '';
+
+    if (!name) {
+        if (err) err.classList.remove('hidden');
+        return;
+    }
+
+    const ok = setGuestName(name);
+    if (!ok) {
+        showToast('参拝者名の保存に失敗しました。時間を置いて再度お試しください。', 'error');
+        return;
+    }
+
+    const cb = _guestNameModalCallback;
+    closeGuestNameModal();
+    updateAuthUI(); // ホーム画面の名前表示などを更新
+    if (cb) cb();
+}
+
 async function authFetch(url, options = {}) {
     // デフォルトヘッダー設定
     if (!options.headers) options.headers = {};
@@ -16422,6 +16565,10 @@ async function authFetch(url, options = {}) {
     const token = localStorage.getItem('auth_token');
     if (token) {
         options.headers['Authorization'] = `Bearer ${token}`;
+    } else {
+        // 未ログイン時：ゲストIDがあればヘッダーで送信（本人の記録の識別にのみ使用）
+        const gid = getGuestId();
+        if (gid) options.headers['X-Guest-Id'] = gid;
     }
 
     // Cookie送信用設定
@@ -17428,6 +17575,10 @@ async function fetchHistoryStats() {
         
         // --- おみくじロジック (画像風・敷き詰めレイアウト版) ---
         function startOmikuji() {
+            if (!hasVisitorIdentity()) {
+                openGuestNameModal(() => startOmikuji());
+                return;
+            }
             try {
                 if (localStorage.getItem('tenmei_mindset_skip') === '1') {
                     showView('draw');
@@ -17750,7 +17901,7 @@ async function showResultDetail(isNewDraw, dataOverride = null) {
         const base = omikujiResults[Math.floor(Math.random() * omikujiResults.length)];
         randNum = Math.floor(Math.random() * 100) + 1;
         timestamp = Date.now();
-        username = currentState.user ? (currentState.user.username || "参拝者") : "ゲスト";
+        username = getVisitorDisplayName();
 
         // 詳細・ラッキー項目の生成
         const detailIndex = 5 - base.rank;
@@ -17783,8 +17934,8 @@ async function showResultDetail(isNewDraw, dataOverride = null) {
             issue_number: currentState.liveCount // 仮
         };
 
-        // 2. サーバー通信（ログイン時のみ）
-        if(currentState.user) {
+        // 2. サーバー通信（ログイン中、または参拝者名設定済みのゲストのみ）
+        if(currentState.user || getGuestId()) {
             try {
                 const res = await authFetch(`${API_BASE}/api/draw`, {
                     method: 'POST',
@@ -17794,7 +17945,8 @@ async function showResultDetail(isNewDraw, dataOverride = null) {
                         poem: resultData.poem,
                         detail: detailsList,
                         lucky: luckyItems,
-                        unlucky: unluckyItems
+                        unlucky: unluckyItems,
+                        username: getVisitorDisplayName() // ゲストの場合のみサーバー側で使用
                     })
                 });
                 
@@ -18141,8 +18293,8 @@ async function loadHistory(page = 1) {
     const globalCountEl = document.getElementById('global-history-count');
     const searchResultCount = document.getElementById('search-result-count');
 
-    // 未ログイン時の処理
-    if(!currentState.user) {
+    // 未ログイン時の処理（参拝者名設定済みのゲストは解錠）
+    if(!hasVisitorIdentity()) {
         if(container) container.classList.add('history-blurred');
         if(overlay) overlay.classList.remove('hidden');
         if(viewMode) viewMode.textContent = "";
@@ -19479,15 +19631,17 @@ async function logout() {
             }
         } else {
             // 未ログイン
+            const guestName = getGuestName();
             if (navBtn) {
-                // ★修正: こちらも同様に <div class="nav-icon-box"> で囲む
-                navBtn.innerHTML = `<div class="nav-icon-box"><i class="bi bi-person-circle"></i></div><span class="nav-text">ログイン/登録</span>`;
+                navBtn.innerHTML = guestName
+                    ? `<div class="nav-icon-box"><i class="bi bi-person-circle"></i></div><span class="nav-text">${escapeHtml(guestName)}さん（ゲスト）</span>`
+                    : `<div class="nav-icon-box"><i class="bi bi-person-circle"></i></div><span class="nav-text">ログイン/登録</span>`;
             }
             if (badge) {
                 badge.textContent = "端末に保存中";
             }
             if (welcomeName) {
-                welcomeName.textContent = "ゲスト";
+                welcomeName.textContent = guestName || "ゲスト";
             }
         }
     }
@@ -20612,9 +20766,9 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         if(viewId === 'stats') {
             const lock = document.getElementById('stats-lock');
             const wrapper = document.getElementById('stats-content-wrapper');
-            // ★セキュリティ修正：currentState.userはコンソールから直接書き換え可能なため、
-            // 判定にはサーバー検証済みのLabAuth.isVerified()のみを使う
-            if(!LabAuth.isVerified()) {
+            // 会員はLabAuth.isVerified()（サーバー検証済み）、未ログインは
+            // 参拝者名設定済みのゲストIDを根拠に解錠する
+            if(!isStatsUnlocked()) {
                 if(lock) lock.classList.remove('hidden');
                 if(wrapper) {
                     wrapper.classList.add('lab-blurred');
@@ -21218,10 +21372,13 @@ fetchTodayAnniv();
 
 // 統計描画（修正版：独立グラフ・指定デザイン・指定文章）
 async function loadMyStats() {
-    if (!currentState.user) return;
+    if (!hasVisitorIdentity()) return;
 
     try {
-        const res = await authFetch(`${API_BASE}/api/user/profile?username=${encodeURIComponent(currentState.user.username)}`, {
+        const endpoint = currentState.user
+            ? `${API_BASE}/api/user/profile?username=${encodeURIComponent(currentState.user.username)}`
+            : `${API_BASE}/api/guest/profile`;
+        const res = await authFetch(endpoint, {
             method: 'GET'
         });
         
@@ -22909,9 +23066,10 @@ window.applyTheme = function() {
         // ==========================================
         function setupStrictLoginBlocks() {
             const checkAndBlock = (e, viewName) => {
-                // ★セキュリティ修正：currentState.userはコンソールから直接書き換え可能なため、
-                // 判定にはサーバー検証済みのLabAuth.isVerified()のみを使う
-                if (!LabAuth.isVerified()) {
+                // 会員はLabAuth.isVerified()（サーバー検証済み）、statsに限り
+                // 参拝者名設定済みのゲストIDでも解錠済みとみなす
+                const unlocked = (viewName === 'stats') ? isStatsUnlocked() : LabAuth.isVerified();
+                if (!unlocked) {
                     // ★相手のあらゆる操作（クリック、入力、選択、フォーカス）を完全に殺す
                     e.preventDefault();
                     e.stopPropagation(); 
@@ -22975,10 +23133,13 @@ window.applyTheme = function() {
             const statsWrapper = document.getElementById('stats-content-wrapper');
 
             const reassertLock = () => {
-                // サーバー検証済みでなければ、何があろうと常にロック状態へ戻す
+                // Labsはサーバー検証済みでなければ、何があろうと常にロック状態へ戻す
                 if (!LabAuth.isVerified()) {
                     if (lock && lock.classList.contains('hidden')) lock.classList.remove('hidden');
                     if (wrapper && !wrapper.classList.contains('lab-blurred')) wrapper.classList.add('lab-blurred');
+                }
+                // 参拝の記録は、会員検証 または 参拝者名設定済みゲストIDのどちらでも解錠を維持
+                if (!isStatsUnlocked()) {
                     if (statsLock && statsLock.classList.contains('hidden')) statsLock.classList.remove('hidden');
                     if (statsWrapper && !statsWrapper.classList.contains('lab-blurred')) statsWrapper.classList.add('lab-blurred');
                 }
