@@ -14477,7 +14477,7 @@ window.renderFullColumnView = function() {
             // 日本語の平均黙読速度(約400〜600文字/分)の中間値、500文字/分を基準に算出
             const rpTmp = document.createElement('div');
             rpTmp.innerHTML = item.content || '';
-            const rpCharCount = (rpTmp.textContent || '').replace(/\s+/g, '').length;
+            const rpCharCount = countArticleCharacters(item.content);
             // 画像の閲覧時間を加味（Mediumの読了時間アルゴリズムに準拠：
             // 1枚目12秒、以降1秒ずつ減算、最小3秒/枚）
             const rpImgCount = rpTmp.querySelectorAll('img').length;
@@ -17546,6 +17546,15 @@ ${getShareUrl()}`;
             return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
         }
 
+        // 記事の「文字数」の正式なカウント方法（記事本文冒頭の文字数表示と、
+        // AI要約のインフォメーション欄の「元の文字数」で必ず同じ値になるよう、
+        // この関数に一本化する。空白文字は全て除去し、記事全文（切り詰めなし）を対象とする。
+        function countArticleCharacters(html) {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html || '';
+            return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, '').length;
+        }
+
         async function requestArticleSummary(type, id) {
             const item = type === 'news' ? newsData.find(d => d.id === id) : columnData.find(d => d.id === id);
             if (!item) return;
@@ -17576,7 +17585,12 @@ ${getShareUrl()}`;
 
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 45000);
+            // AIへ渡す本文はトークン数の都合上6000文字で切り詰めるが、
+            // これは要約対象テキストの都合であり、記事の「元の文字数」表示とは別物。
+            // 「元の文字数」は記事冒頭の文字数表示と必ず一致させるため、
+            // 切り詰め前の記事全文から countArticleCharacters() で算出する。
             const articleText = stripHtmlToText(item.content).slice(0, 6000);
+            const fullCharCount = countArticleCharacters(item.content);
 
             try {
                 const res = await authFetch(`${API_BASE}/api/summarize`, {
@@ -17586,7 +17600,8 @@ ${getShareUrl()}`;
                         articleType: type,
                         articleId: item.id,
                         articleText: articleText,
-                        articleTitle: item.title
+                        articleTitle: item.title,
+                        originalCharCount: fullCharCount
                     }),
                     signal: controller.signal
                 });
@@ -17598,7 +17613,7 @@ ${getShareUrl()}`;
                     clearTimeout(timeoutId);
                     const data = await res.json();
                     if (!res.ok) throw new Error(data.error || '要約に失敗しました');
-                    renderSummaryResult(type, item.id, data, articleText.length);
+                    renderSummaryResult(type, item.id, data, fullCharCount);
                     return;
                 }
 
@@ -17645,10 +17660,10 @@ ${getShareUrl()}`;
                 clearTimeout(timeoutId);
 
                 if (finalData) {
-                    renderSummaryResult(type, item.id, finalData, articleText.length);
+                    renderSummaryResult(type, item.id, finalData, fullCharCount);
                 } else if (accumulated) {
                     // doneイベントを取りこぼした場合のフォールバック表示
-                    renderSummaryResult(type, item.id, { summary_text: accumulated }, articleText.length);
+                    renderSummaryResult(type, item.id, { summary_text: accumulated }, fullCharCount);
                 } else {
                     throw new Error('要約に失敗しました');
                 }
