@@ -7045,6 +7045,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             <div id="dream-history-list" class="space-y-3">
                 <!-- JSでここにアイテムが挿入されます -->
             </div>
+            <div id="dream-history-pagination" class="flex justify-center items-center gap-4 mt-6"></div>
         </div>
     </div>
 
@@ -17789,10 +17790,13 @@ ${getShareUrl()}`;
             }
         }
 
-        async function loadDreamHistory() {
+        let dreamHistoryPageState = { page: 1, perPage: 30, totalItems: 0 };
+
+        async function loadDreamHistory(page = 1) {
             const container = document.getElementById('dream-container');
             const overlay = document.getElementById('dream-login-overlay');
             const list = document.getElementById('dream-history-list');
+            const pagination = document.getElementById('dream-history-pagination');
 
             if (!currentState.user) {
                 if (container) container.classList.add('history-blurred');
@@ -17804,15 +17808,22 @@ ${getShareUrl()}`;
             if (!list) return;
 
             list.innerHTML = '<div class="text-center py-6"><div class="spinner-border text-red-500" role="status"></div></div>';
+            if (pagination) pagination.innerHTML = '';
 
             try {
-                const res = await authFetch(`${API_BASE}/api/dream-history`);
+                const params = new URLSearchParams({ page: page });
+                const res = await authFetch(`${API_BASE}/api/dream-history?${params.toString()}`);
                 if (!res.ok) throw new Error('取得失敗');
                 const data = await res.json();
                 const items = data.history || [];
 
+                dreamHistoryPageState.page = data.page || page;
+                dreamHistoryPageState.totalItems = data.totalItems || 0;
+                dreamHistoryPageState.perPage = data.perPage || 30;
+
                 if (items.length === 0) {
                     list.innerHTML = '<p class="text-sm text-center py-4" style="color: var(--text-sub);">まだ夢の記録がありません。</p>';
+                    if (pagination) pagination.innerHTML = '';
                     return;
                 }
 
@@ -17823,9 +17834,15 @@ ${getShareUrl()}`;
                         <p class="text-sm pl-4" style="color: var(--accent-gold);"><i class="bi bi-magic"></i> ${escapeHtml(item.interpretation || '')}</p>
                     </div>
                 `).join('');
+
+                if (pagination) {
+                    const totalPages = Math.ceil(dreamHistoryPageState.totalItems / dreamHistoryPageState.perPage) || 1;
+                    pagination.innerHTML = createPaginationHTML('dream-history', dreamHistoryPageState.page, totalPages, 'loadDreamHistory({P})');
+                }
             } catch (e) {
                 console.error(e);
                 list.innerHTML = '<p class="text-sm text-center py-4" style="color: var(--text-sub);">読み込みに失敗しました。</p>';
+                if (pagination) pagination.innerHTML = '';
             }
         }
 
