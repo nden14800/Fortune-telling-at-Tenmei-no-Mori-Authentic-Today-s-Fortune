@@ -17948,11 +17948,12 @@ ${getShareUrl()}`;
 
             try {
                 const payload = {
-                    type:     res.type     || '不明',
-                    poem:     res.poem     || '',
-                    username: res.username || '参拝者',
-                    item:     (res.lucky && res.lucky.item)  ? res.lucky.item  : '',
-                    color:    (res.lucky && res.lucky.color) ? res.lucky.color : '',
+                    type:      res.type     || '不明',
+                    poem:      res.poem     || '',
+                    username:  res.username || '参拝者',
+                    item:      (res.lucky && res.lucky.item)  ? res.lucky.item  : '',
+                    color:     (res.lucky && res.lucky.color) ? res.lucky.color : '',
+                    timestamp: res.timestamp || Date.now(),
                 };
 
                 const response = await fetch(`https://tenmei-discord-bot.nden14800.workers.dev/api/share-omikuji`, {
