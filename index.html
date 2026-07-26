@@ -4518,6 +4518,101 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         text-transform: uppercase;
         margin-bottom: 0.5rem;
     }
+
+    /* ==========================================
+       記事 読書進捗バー・バッジ (社務所だより／神籤草子 共通)
+       ========================================== */
+    #reading-progress-bar {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 3px;
+        z-index: 9999;
+        background: rgba(0,0,0,0.06);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+    }
+    .dark #reading-progress-bar { background: rgba(255,255,255,0.08); }
+    #reading-progress-bar.active { opacity: 1; }
+    #reading-progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent-gold), var(--accent-red));
+        box-shadow: 0 0 6px rgba(197,160,89,0.55);
+        transition: width 0.12s linear;
+    }
+    #reading-progress-fill.is-complete {
+        animation: reading-progress-complete-pulse 1.1s ease;
+    }
+    @keyframes reading-progress-complete-pulse {
+        0%   { box-shadow: 0 0 6px rgba(197,160,89,0.55); }
+        45%  { box-shadow: 0 0 20px 4px rgba(197,160,89,0.9), 0 0 32px 8px rgba(185,28,28,0.45); }
+        100% { box-shadow: 0 0 6px rgba(197,160,89,0.55); }
+    }
+
+    #reading-progress-badge {
+        position: fixed;
+        top: 12px; right: 16px;
+        z-index: 9998;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        font-size: 11px;
+        font-weight: 800;
+        color: #57534e;
+        letter-spacing: 0.03em;
+        opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
+        transition: opacity 0.35s ease, transform 0.35s ease, color 0.3s ease;
+    }
+    .dark #reading-progress-badge {
+        background: rgba(24,24,27,0.85);
+        border-color: rgba(255,255,255,0.08);
+        color: #d4d4d8;
+    }
+    #reading-progress-badge.active { opacity: 1; transform: translateY(0); }
+    #reading-progress-badge.is-complete { color: var(--accent-gold); }
+    #reading-progress-badge .rp-sep { opacity: 0.4; }
+    #reading-progress-badge .rp-check {
+        display: none;
+        color: var(--accent-gold);
+    }
+    #reading-progress-badge.is-complete .rp-check { display: inline; }
+
+    @media (max-width: 640px) {
+        #reading-progress-badge {
+            top: auto;
+            bottom: 90px;
+            right: 12px;
+            font-size: 10px;
+            padding: 5px 11px;
+        }
+    }
+
+    /* 記事本文冒頭のメタ情報（文字数・読了目安） */
+    .article-meta-readinfo {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 0.75rem;
+        padding: 4px 14px;
+        border-radius: 999px;
+        background: rgba(0,0,0,0.04);
+        font-size: 11px;
+        font-weight: 700;
+        color: #78716c;
+    }
+    .dark .article-meta-readinfo { background: rgba(255,255,255,0.06); color: #a1a1aa; }
+    .article-meta-readinfo .rp-sep { opacity: 0.4; }
     </style>
 
 
@@ -4533,6 +4628,15 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
     <!-- ▼▼▼ 修正: クラス "sidebar-collapsed" を追加 ▼▼▼ -->
     <body class="sidebar-collapsed">
+
+    <!-- 記事 読書進捗バー・バッジ (社務所だより／神籤草子 共通) -->
+    <div id="reading-progress-bar"><div id="reading-progress-fill"></div></div>
+    <div id="reading-progress-badge">
+        <i class="bi bi-check-circle-fill rp-check"></i>
+        <span id="reading-progress-percent">0%</span>
+        <span class="rp-sep">・</span>
+        <span id="reading-progress-time">残り約0分</span>
+    </div>
 
     <!-- 幽玄の霧コンテナ (高密度版) -->
     <div id="mist-container">
@@ -14369,6 +14473,13 @@ window.renderFullColumnView = function() {
                 tagHtml = `<span class="${style.tagBg} ${style.tagText} px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-black/5">${item.category}</span>`;
             }
 
+            // --- 文字数・読了目安の算出 (読書進捗機能用) ---
+            // 日本語の平均黙読速度(約400〜600文字/分)の中間値、500文字/分を基準に算出
+            const rpTmp = document.createElement('div');
+            rpTmp.innerHTML = item.content || '';
+            const rpCharCount = (rpTmp.textContent || '').replace(/\s+/g, '').length;
+            const rpReadMinutes = Math.max(1, Math.ceil(rpCharCount / 500));
+
             // HTML生成
             container.innerHTML = `
                 <!-- 記事ヘッダー (動的スタイル適用) -->
@@ -14391,6 +14502,15 @@ window.renderFullColumnView = function() {
                         <h2 class="text-2xl md:text-3xl font-black leading-relaxed tracking-tight text-gray-900 dark:text-white drop-shadow-sm" style="font-family: 'Zen Old Mincho', serif;">
                             ${item.title}
                         </h2>
+
+                        <!-- 文字数・読了目安 -->
+                        <div class="article-meta-readinfo">
+                            <i class="bi bi-file-earmark-text"></i>
+                            <span>${rpCharCount.toLocaleString()}文字</span>
+                            <span class="rp-sep">・</span>
+                            <i class="bi bi-clock-history"></i>
+                            <span>読了目安 約${rpReadMinutes}分</span>
+                        </div>
                     </div>
                 </div>
 
@@ -14425,6 +14545,7 @@ window.renderFullColumnView = function() {
             
             showView('article-detail');
             window.scrollTo(0, 0);
+            startReadingProgress(rpReadMinutes);
         }
     };
 
@@ -15955,6 +16076,11 @@ function showLoading(show) {
 }
 
         function showView(viewId) {
+            // 記事詳細画面以外に遷移する場合は読書進捗トラッキングを停止
+            if (viewId !== 'article-detail') {
+                stopReadingProgress();
+            }
+
             // Lab機能へのアクセス制限処理
             if(viewId === 'lab') {
                 const lock = document.getElementById('lab-lock');
@@ -16011,6 +16137,92 @@ function showLoading(show) {
         }
         function articleBack() {
             showView('home'); 
+        }
+
+        // ==========================================
+        //  記事 読書進捗トラッキング (社務所だより／神籤草子 共通)
+        // ==========================================
+        const readingProgressState = {
+            contentEl: null,
+            totalMinutes: 1,
+            ticking: false,
+            reachedComplete: false
+        };
+
+        function startReadingProgress(totalMinutes) {
+            stopReadingProgress(); // 念のため既存のリスナーを解除してから開始
+
+            const el = document.querySelector('#article-detail-content .article-content');
+            if (!el) return;
+
+            readingProgressState.contentEl = el;
+            readingProgressState.totalMinutes = totalMinutes || 1;
+            readingProgressState.reachedComplete = false;
+
+            const bar = document.getElementById('reading-progress-bar');
+            const badge = document.getElementById('reading-progress-badge');
+            if (bar) bar.classList.add('active');
+            if (badge) badge.classList.add('active');
+
+            window.addEventListener('scroll', onReadingProgressScroll, { passive: true });
+            updateReadingProgress(); // 初期表示
+        }
+
+        function stopReadingProgress() {
+            window.removeEventListener('scroll', onReadingProgressScroll);
+            readingProgressState.contentEl = null;
+            readingProgressState.ticking = false;
+
+            const bar = document.getElementById('reading-progress-bar');
+            const badge = document.getElementById('reading-progress-badge');
+            const fill = document.getElementById('reading-progress-fill');
+            if (bar) bar.classList.remove('active');
+            if (badge) { badge.classList.remove('active'); badge.classList.remove('is-complete'); }
+            if (fill) { fill.style.width = '0%'; fill.classList.remove('is-complete'); }
+        }
+
+        function onReadingProgressScroll() {
+            if (readingProgressState.ticking) return;
+            readingProgressState.ticking = true;
+            window.requestAnimationFrame(() => {
+                updateReadingProgress();
+                readingProgressState.ticking = false;
+            });
+        }
+
+        function updateReadingProgress() {
+            const el = readingProgressState.contentEl;
+            if (!el) return;
+
+            const rect = el.getBoundingClientRect();
+            const viewportH = window.innerHeight;
+            const elBottomAbs = rect.top + window.scrollY + el.offsetHeight;
+            // 記事本文の末尾がビューポート下端に到達した時点で100%になるよう算出
+            const totalScrollable = Math.max(1, elBottomAbs - viewportH);
+            let percent = (window.scrollY / totalScrollable) * 100;
+            percent = Math.max(0, Math.min(100, percent));
+
+            const fill = document.getElementById('reading-progress-fill');
+            const badge = document.getElementById('reading-progress-badge');
+            const percentEl = document.getElementById('reading-progress-percent');
+            const timeEl = document.getElementById('reading-progress-time');
+            if (!fill || !percentEl || !timeEl) return;
+
+            fill.style.width = percent + '%';
+            percentEl.textContent = Math.round(percent) + '%';
+
+            const remainingMinutes = Math.max(0, Math.ceil(readingProgressState.totalMinutes * (1 - percent / 100)));
+            timeEl.textContent = percent >= 99.5 ? '読了しました' : `残り約${Math.max(1, remainingMinutes)}分`;
+
+            if (percent >= 99.5 && !readingProgressState.reachedComplete) {
+                readingProgressState.reachedComplete = true;
+                fill.classList.add('is-complete');
+                if (badge) badge.classList.add('is-complete');
+                fill.addEventListener('animationend', () => fill.classList.remove('is-complete'), { once: true });
+            } else if (percent < 99.5 && readingProgressState.reachedComplete) {
+                readingProgressState.reachedComplete = false;
+                if (badge) badge.classList.remove('is-complete');
+            }
         }
 
         // --- ホームアニメーション (ランダム性・多様性強化版) ---
