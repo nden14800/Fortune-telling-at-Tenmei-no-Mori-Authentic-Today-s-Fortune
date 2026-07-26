@@ -17708,6 +17708,22 @@ ${getShareUrl()}`;
             if (info) info.classList.toggle('hidden');
         }
 
+        async function sendSummaryVote(type, id, vote, detailText) {
+            try {
+                const res = await authFetch(`${API_BASE}/api/summary-feedback`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ articleType: type, articleId: id, vote: vote, detailText: detailText || null })
+                });
+                if (!res.ok) throw new Error('送信に失敗しました');
+                return true;
+            } catch (e) {
+                console.error(e);
+                if (typeof window.showToast === 'function') window.showToast('送信に失敗しました。しばらくしてからお試しください。', 'error');
+                return false;
+            }
+        }
+
         function handleSummaryVote(type, id, vote, btnEl) {
             const card = btnEl.closest('#summary-result-card');
             const detailArea = card ? card.querySelector('.summary-vote-detail') : null;
@@ -17715,6 +17731,11 @@ ${getShareUrl()}`;
 
             card.querySelectorAll('.summary-vote-btn').forEach(b => b.classList.remove('bg-red-600', 'text-white', 'border-red-600'));
             btnEl.classList.add('bg-red-600', 'text-white', 'border-red-600');
+
+            // ボタンを押した時点でコメントなしの評価として即座に送信する
+            sendSummaryVote(type, id, vote, null).then(ok => {
+                if (ok && typeof window.showToast === 'function') window.showToast('評価を送信しました。', 'success');
+            });
 
             const label = vote === 'like' ? '気に入った点はどこですか？（省略可）' : 'ご不満な点はどこですか？（省略可）';
 
@@ -17745,18 +17766,11 @@ ${getShareUrl()}`;
             const detailText = (textarea && textarea.value ? textarea.value : '').trim();
             const detailArea = btnEl.closest('.summary-vote-detail');
 
-            try {
-                const res = await authFetch(`${API_BASE}/api/summary-feedback`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ articleType: type, articleId: id, vote: vote, detailText: detailText || null })
-                });
-                if (!res.ok) throw new Error('送信に失敗しました');
+            // ボタン押下時に既に評価は送信済みのため、ここではコメント込みで上書き更新する
+            const ok = await sendSummaryVote(type, id, vote, detailText || null);
+            if (ok) {
                 if (typeof window.showToast === 'function') window.showToast('フィードバックありがとうございました。', 'success');
                 if (detailArea) detailArea.innerHTML = `<p class="text-xs text-gray-400">フィードバックを送信しました。ありがとうございます。</p>`;
-            } catch (e) {
-                console.error(e);
-                if (typeof window.showToast === 'function') window.showToast('送信に失敗しました。しばらくしてからお試しください。', 'error');
             }
         }
 
