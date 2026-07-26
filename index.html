@@ -672,6 +672,7 @@
             box-shadow: inset 0 0 0 3px #fffef9, inset 0 0 0 3.5px rgba(185,28,28,0.6), 1px 1px 3px rgba(0,0,0,0.15);
             opacity: 0;
             animation: paperFly 5s infinite linear;
+            will-change: transform, opacity;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -15686,7 +15687,20 @@ window.onload = async function() {
     updateAuthUI();
     loadLabSettings(); // ここで applyTheme が呼ばれます
 
-    await checkSession();
+    // ★パフォーマンス改善: 以前はここで checkSession() の完了を待ってから
+    //   下の startLiveCounter / fetchHistoryStats / loadFavorites / renderHomeLists を
+    //   順番に実行していたため、ホーム画面が表示できるようになるまでに
+    //   APIラウンドトリップが直列に積み重なっていた。
+    //   これらは checkSession の結果に依存しないため、並行して先に走らせる。
+    const sessionPromise = checkSession();
+
+    startLiveCounter();
+    fetchHistoryStats();
+    setInterval(fetchHistoryStats, 60000);
+    loadFavorites();
+    renderHomeLists();
+
+    await sessionPromise;
 
     // ▼▼▼ checkSession完了後にトースト表示 ▼▼▼
     if (googleLogin === 'success') {
@@ -15727,20 +15741,18 @@ window.onload = async function() {
     }
     // ▲▲▲ マジックリンク コールバック処理ここまで ▲▲▲
 
-    startLiveCounter();
-    fetchHistoryStats();
-    setInterval(fetchHistoryStats, 60000); 
-    loadFavorites();
-
     const url = new URL(window.location);
     if (url.searchParams.has('d')) {
         url.searchParams.delete('d');
         window.history.replaceState({}, '', url);
     }
 
-    renderHomeLists();      
-    renderFullNewsView();   
-    renderFullColumnView();
+    // ★パフォーマンス改善: 「社務所だより」(84件)・「神籤草子」(59件)の
+    //   全件HTML生成(renderFullNewsView / renderFullColumnView)は、
+    //   ユーザーがそのタブを開いてもいないのに毎回のホーム画面表示時に
+    //   実行されていた。実際にそのビューを開いた時だけ showView() 内で
+    //   遅延実行するように変更（検索・ページ送り時は既存のhandleSearch/
+    //   changePageから呼ばれるのでそのまま機能する）。
     
     // ▼▼▼ ここに追加：防壁の起動 ▼▼▼
     setupStrictLoginBlocks();
@@ -16381,6 +16393,14 @@ function showLoading(show) {
             if(viewId === 'history') {
                 loadHistory();
             }
+            // ★パフォーマンス改善: 社務所だより／神籤草子は、実際にタブを開いた
+            //   このタイミングで初めて全件レンダリングする（onloadでの先読みを撤去）
+            if(viewId === 'news') {
+                renderFullNewsView();
+            }
+            if(viewId === 'column') {
+                renderFullColumnView();
+            }
             // ▼ ここが重要：都道府県ランキングの呼び出し
             if(viewId === 'prefecture') {
                 renderPrefectureRanking();
@@ -16491,7 +16511,9 @@ function showLoading(show) {
         function initHomeAnimation() {
             const container = document.getElementById('home-anim-container');
             container.innerHTML = ''; 
-            const paperCount = 70; // 枚数
+            // ★パフォーマンス改善: 70枚は常時アニメーションするDOM要素として重いため40枚に削減
+            //   （見た目の密度はdelay/durationのランダム化でほぼ変わらない）
+            const paperCount = 40; // 枚数
             
             // 縁起の良い二字熟語リスト（大幅増量）
             const texts = [
