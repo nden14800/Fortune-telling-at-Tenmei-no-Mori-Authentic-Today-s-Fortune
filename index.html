@@ -19817,7 +19817,7 @@ async function renderSettingsDashboard() {
                     
                     <div class="profile-input-group">
                         <label class="profile-input-label">新しいパスワード</label>
-                        <input type="password" id="setting-new-password" class="profile-input-field" placeholder="変更する場合のみ入力" autocomplete="new-password" oninput="toggleCurrentPasswordField()">
+                        <input type="password" id="setting-new-password" class="profile-input-field" placeholder="8文字以上（変更する場合のみ入力）" autocomplete="new-password" oninput="toggleCurrentPasswordField()">
                     </div>
 
                     <div class="profile-input-group" id="setting-current-password-group" style="display:none;">
@@ -20116,6 +20116,13 @@ async function renderSettingsDashboard() {
         // 【Fix①】パスワードを変更する場合は、現在のパスワードの入力を必須にする
         if (newPassword && !currentPassword) {
             return showToast("パスワードを変更するには、現在のパスワードを入力してください", "warning");
+        }
+
+        // 新規登録と同じ基準（8文字以上）をここでもチェックする。
+        // これまでこの欄には長さチェックが一切無く、「67」のような極端に
+        // 短いパスワードでも変更できてしまっていたため。
+        if (newPassword && newPassword.length < 8) {
+            return showToast("新しいパスワードは8文字以上で入力してください", "warning");
         }
 
         // (例) updateAccountSettings 内の confirm 置き換え
