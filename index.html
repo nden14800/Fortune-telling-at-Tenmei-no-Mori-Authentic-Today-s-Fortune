@@ -19817,7 +19817,12 @@ async function renderSettingsDashboard() {
                     
                     <div class="profile-input-group">
                         <label class="profile-input-label">新しいパスワード</label>
-                        <input type="password" id="setting-new-password" class="profile-input-field" placeholder="変更する場合のみ入力">
+                        <input type="password" id="setting-new-password" class="profile-input-field" placeholder="変更する場合のみ入力" autocomplete="new-password" oninput="toggleCurrentPasswordField()">
+                    </div>
+
+                    <div class="profile-input-group" id="setting-current-password-group" style="display:none;">
+                        <label class="profile-input-label">現在のパスワード <span class="text-xs text-gray-400">（パスワード変更時のみ必須）</span></label>
+                        <input type="password" id="setting-current-password" class="profile-input-field" placeholder="確認のため現在のパスワードを入力" autocomplete="current-password">
                     </div>
                 </div>
 
@@ -20090,14 +20095,27 @@ async function renderSettingsDashboard() {
             finally { showLoading(false); }
         }
 
+        // 【Fix①】新しいパスワード欄に入力があった時だけ「現在のパスワード」欄を表示する
+        function toggleCurrentPasswordField() {
+            const hasNewPassword = document.getElementById('setting-new-password').value.trim().length > 0;
+            const group = document.getElementById('setting-current-password-group');
+            if (group) group.style.display = hasNewPassword ? '' : 'none';
+        }
+
         // --- アカウント情報更新 (updateAccountSettings) ---
     async function updateAccountSettings() {
         const newUsername = document.getElementById('setting-new-username').value.trim();
         const newPassword = document.getElementById('setting-new-password').value.trim();
+        const currentPassword = document.getElementById('setting-current-password').value;
 
         // ▼ alert置き換え
         if (!newUsername && !newPassword) {
             return showToast("変更する項目を入力してください", "warning");
+        }
+
+        // 【Fix①】パスワードを変更する場合は、現在のパスワードの入力を必須にする
+        if (newPassword && !currentPassword) {
+            return showToast("パスワードを変更するには、現在のパスワードを入力してください", "warning");
         }
 
         // (例) updateAccountSettings 内の confirm 置き換え
@@ -20115,7 +20133,8 @@ async function renderSettingsDashboard() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     newUsername: newUsername || undefined,
-                    newPassword: newPassword || undefined 
+                    newPassword: newPassword || undefined,
+                    currentPassword: newPassword ? currentPassword : undefined
                 })
             });
 
@@ -20130,13 +20149,20 @@ async function renderSettingsDashboard() {
                     }
                     document.getElementById('setting-new-username').value = '';
                     document.getElementById('setting-new-password').value = '';
+                    document.getElementById('setting-current-password').value = '';
+                    toggleCurrentPasswordField();
                 } else {
                     // ▼ alert置き換え
                     showToast("更新失敗: " + (data.message || data.error), "error");
                 }
             } else {
-                // ▼ alert置き換え
-                showToast("通信エラーが発生しました", "error");
+                // 【Fix①④⑤】400/401/409などのエラーもメッセージを表示する
+                let errMsg = "通信エラーが発生しました";
+                try {
+                    const errData = await res.json();
+                    errMsg = errData.message || errData.error || errMsg;
+                } catch(_) {}
+                showToast(errMsg, "error");
             }
         } catch (e) {
             console.error(e);
