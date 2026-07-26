@@ -14478,7 +14478,14 @@ window.renderFullColumnView = function() {
             const rpTmp = document.createElement('div');
             rpTmp.innerHTML = item.content || '';
             const rpCharCount = (rpTmp.textContent || '').replace(/\s+/g, '').length;
-            const rpReadMinutes = Math.max(1, Math.ceil(rpCharCount / 500));
+            // 画像の閲覧時間を加味（Mediumの読了時間アルゴリズムに準拠：
+            // 1枚目12秒、以降1秒ずつ減算、最小3秒/枚）
+            const rpImgCount = rpTmp.querySelectorAll('img').length;
+            let rpImgSeconds = 0;
+            for (let i = 0; i < rpImgCount; i++) {
+                rpImgSeconds += Math.max(3, 12 - i);
+            }
+            const rpReadMinutes = Math.max(1, Math.ceil((rpCharCount / 500 * 60 + rpImgSeconds) / 60));
 
             // HTML生成
             container.innerHTML = `
@@ -16076,11 +16083,6 @@ function showLoading(show) {
 }
 
         function showView(viewId) {
-            // 記事詳細画面以外に遷移する場合は読書進捗トラッキングを停止
-            if (viewId !== 'article-detail') {
-                stopReadingProgress();
-            }
-
             // Lab機能へのアクセス制限処理
             if(viewId === 'lab') {
                 const lock = document.getElementById('lab-lock');
@@ -16194,12 +16196,13 @@ function showLoading(show) {
             const el = readingProgressState.contentEl;
             if (!el) return;
 
+            // rect.top: 記事本文の上端 〜 ビューポート上端 の距離（スクロールで負の値になる）
+            // rect.height: 記事本文自体の高さ
+            // 「本文の下端がビューポート下端に到達した時点」で必ず100%になり、
+            // 記事全体が最初から画面に収まる短い記事でも正しく100%と判定される
             const rect = el.getBoundingClientRect();
             const viewportH = window.innerHeight;
-            const elBottomAbs = rect.top + window.scrollY + el.offsetHeight;
-            // 記事本文の末尾がビューポート下端に到達した時点で100%になるよう算出
-            const totalScrollable = Math.max(1, elBottomAbs - viewportH);
-            let percent = (window.scrollY / totalScrollable) * 100;
+            let percent = ((viewportH - rect.top) / rect.height) * 100;
             percent = Math.max(0, Math.min(100, percent));
 
             const fill = document.getElementById('reading-progress-fill');
@@ -19462,6 +19465,11 @@ function renderServerPagination(currentPage, totalItems, perPage) {
 
     // 画面切り替え関数 (修正版: ボタンIDのマッピングを追加)
     window.showView = function(viewId) {
+        // 記事詳細画面以外に遷移する場合は読書進捗トラッキングを停止
+        if (viewId !== 'article-detail') {
+            stopReadingProgress();
+        }
+
         // 1. サイドバーのアクティブ状態を更新
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
         
