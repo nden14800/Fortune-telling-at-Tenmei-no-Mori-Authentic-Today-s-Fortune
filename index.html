@@ -15392,13 +15392,27 @@ window.onload = async function() {
     const magicLogin = _initParams.get('magic_login');
     const magicReason = _initParams.get('reason');
     try {
-        if (googleLogin === 'success') {
-            const _t = _initParams.get('token');
-            if (_t) localStorage.setItem('auth_token', _t);
-        }
-        if (magicLogin === 'success') {
-            const _t = _initParams.get('token');
-            if (_t) localStorage.setItem('auth_token', _t);
+        // 【セキュリティ修正】これまでは google_login=success / magic_login=success の
+        // URLに「本物の、長期間有効なセッショントークン」がそのまま載っていた
+        // （ブラウザ履歴・アクセスログ等に残ってしまう）。
+        // 今後はURLには2分だけ有効な暗号化コード（code）だけを載せ、
+        // /api/auth/exchange に一度だけPOSTして初めて本物のトークンを受け取る。
+        if ((googleLogin === 'success' || magicLogin === 'success')) {
+            const _code = _initParams.get('code');
+            if (_code) {
+                try {
+                    const exRes = await fetch(`${API_BASE}/api/auth/exchange`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ code: _code })
+                    });
+                    const exData = await exRes.json();
+                    if (exRes.ok && exData.token) {
+                        localStorage.setItem('auth_token', exData.token);
+                    }
+                } catch (e) { console.warn('Auth exchange error:', e); }
+            }
         }
         if (googleLogin || googleConnect || googleError || magicLogin) {
             window.history.replaceState({}, '', window.location.pathname);
