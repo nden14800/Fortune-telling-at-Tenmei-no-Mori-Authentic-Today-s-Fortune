@@ -6753,13 +6753,25 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             </tr>
                             <tr>
                                 <td style="text-align: left;">おみくじの轍（参拝履歴の保存・検索）</td>
-                                <td><i class="bi bi-dash-circle" style="color:#999;"></i></td>
-                                <td class="highlight"><i class="bi bi-check-circle-fill" style="color:#16a34a;"></i></td>
+                                <td>
+                                    <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
+                                    <div class="text-[10px] mt-0.5" style="color:var(--text-sub);">端末のみ保存<br>（参拝者名の設定が必要）</div>
+                                </td>
+                                <td class="highlight">
+                                    <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
+                                    <div class="text-[10px] mt-0.5" style="color:var(--text-sub);">クラウド保存<br>（端末を変えても引継ぎ可）</div>
+                                </td>
                             </tr>
                             <tr>
                                 <td style="text-align: left;">参拝の記録（個人統計・運勢グラフ）</td>
-                                <td><i class="bi bi-dash-circle" style="color:#999;"></i></td>
-                                <td class="highlight"><i class="bi bi-check-circle-fill" style="color:#16a34a;"></i></td>
+                                <td>
+                                    <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
+                                    <div class="text-[10px] mt-0.5" style="color:var(--text-sub);">端末のみ保存<br>（参拝者名の設定が必要）</div>
+                                </td>
+                                <td class="highlight">
+                                    <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
+                                    <div class="text-[10px] mt-0.5" style="color:var(--text-sub);">クラウド保存<br>（端末を変えても引継ぎ可）</div>
+                                </td>
                             </tr>
                             <tr>
                                 <td style="text-align: left;">お気に入り登録（5件まで）</td>
@@ -19862,6 +19874,10 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         // 各ビューごとの初期化
         if(viewId === 'draw') resetOmikujiPool();
         if(viewId === 'history') loadHistory();
+        // ★修正: 社務所だより／神籤草子は、タブを開いたこのタイミングで
+        //   全件レンダリングする必要がある（検索入力時にしか描画されない不具合の修正）
+        if(viewId === 'news') renderFullNewsView();
+        if(viewId === 'column') renderFullColumnView();
         if(viewId === 'prefecture') renderPrefectureRanking();
         if(viewId === 'dream') loadDreamHistory();
         if(viewId === 'about' || viewId === 'privacy' || viewId === 'howto') initTOC(viewId);
