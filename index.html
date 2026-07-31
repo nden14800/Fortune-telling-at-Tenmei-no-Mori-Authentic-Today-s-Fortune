@@ -4729,6 +4729,85 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         }
     }
 
+    /* ==========================================
+       上へ戻るボタン（全画面共通）
+       ========================================== */
+    #back-to-top-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 46px;
+        height: 46px;
+        border: none;
+        border-radius: 50%;
+        background: var(--accent-red);
+        color: #fff;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        cursor: pointer;
+        z-index: 9997;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px) scale(0.9);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    }
+    #back-to-top-btn.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+    #back-to-top-btn:hover {
+        filter: brightness(1.1);
+        transform: translateY(-2px) scale(1.05);
+    }
+
+    /* ==========================================
+       記事本文の目次（社務所だより・神籤草子 共通）
+       ========================================== */
+    .article-toc {
+        margin: 0 0 1.75em;
+        padding: 1.1em 1.4em;
+        background: rgba(185, 28, 28, 0.04);
+        border: 1px solid rgba(185, 28, 28, 0.12);
+        border-radius: 14px;
+        font-family: 'Noto Sans JP', sans-serif;
+    }
+    .dark .article-toc {
+        background: rgba(239, 68, 68, 0.06);
+        border-color: rgba(239, 68, 68, 0.18);
+    }
+    .article-toc-title {
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+        color: var(--accent-red);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 0.6em;
+    }
+    .article-toc-title i { font-size: 0.95rem; }
+    .article-toc-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+        font-size: 0.88rem;
+        line-height: 1.9;
+    }
+    .article-toc-list a {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px dashed transparent;
+        transition: border-color 0.2s, color 0.2s;
+    }
+    .article-toc-list a:hover {
+        color: var(--accent-red);
+        border-color: var(--accent-red);
+    }
+
     /* 記事本文冒頭のメタ情報（文字数・読了目安） */
     .article-meta-readinfo {
         display: inline-flex;
@@ -4925,6 +5004,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 </nav>
 
     <!-- メインエリア -->
+    <button id="back-to-top-btn" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="ページの上部へ戻る">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
     <main id="main-content">
         
         <!-- ビュー: ホーム (Bento Grid UI Ver. 3.0) -->
@@ -14844,6 +14927,7 @@ window.renderFullColumnView = function() {
             showView('article-detail');
             window.scrollTo(0, 0);
             startReadingProgress(rpReadMinutes);
+            buildArticleTOC();
         }
     };
 
@@ -23298,6 +23382,61 @@ try {
             Object.freeze(LabAuth);
         }
     } catch (e) {}
+})();
+</script>
+
+<script>
+// ==========================================================
+// 目次（社務所だより・神籤草子）＋ 上へ戻るボタン（全画面共通）
+// ==========================================================
+(function() {
+try {
+
+    // ---------- ① 記事本文の目次を自動生成 ----------
+    // .article-content 内のh3見出しを拾って目次を作る。見出しが1個以下の
+    // 記事は目次を出さない（openArticleから記事表示のたびに呼ばれる）。
+    window.buildArticleTOC = function() {
+        try {
+            var contentEl = document.querySelector('#article-detail-content .article-content');
+            if (!contentEl) return;
+
+            var old = contentEl.querySelector('.article-toc');
+            if (old) old.parentNode.removeChild(old);
+
+            var headings = contentEl.querySelectorAll('h3');
+            if (headings.length < 2) return;
+
+            var items = '';
+            headings.forEach(function(h, idx) {
+                var id = 'toc-h-' + idx;
+                h.id = id;
+                items += '<li><a href="#' + id + '" onclick="event.preventDefault(); var t=document.getElementById(\'' + id + '\'); if(t) t.scrollIntoView({behavior:\'smooth\', block:\'start\'});">' + h.textContent + '</a></li>';
+            });
+
+            var toc = document.createElement('nav');
+            toc.className = 'article-toc';
+            toc.innerHTML = '<div class="article-toc-title"><i class="bi bi-list-ul"></i>目次</div><ol class="article-toc-list">' + items + '</ol>';
+            contentEl.insertBefore(toc, contentEl.firstChild);
+        } catch (e) {}
+    };
+
+    // ---------- ② 上へ戻るボタンの表示制御 ----------
+    try {
+        var backToTopBtn = document.getElementById('back-to-top-btn');
+        if (backToTopBtn) {
+            var btnTicking = false;
+            window.addEventListener('scroll', function() {
+                if (btnTicking) return;
+                btnTicking = true;
+                requestAnimationFrame(function() {
+                    backToTopBtn.classList.toggle('visible', window.scrollY > 400);
+                    btnTicking = false;
+                });
+            }, { passive: true });
+        }
+    } catch (e) {}
+
+} catch (eOuter) {}
 })();
 </script>
 
