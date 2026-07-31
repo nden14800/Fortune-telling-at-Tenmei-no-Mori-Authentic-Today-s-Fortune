@@ -79,7 +79,7 @@
     <!-- フォント -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;800&family=Zen+Old+Mincho:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;800&family=Zen+Old+Mincho:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <!-- Cloudflare Turnstile -->
@@ -161,6 +161,11 @@
             --omi-paper: #fffcf2; 
             --sidebar-width: 80px;
             --sidebar-width-expanded: 240px;
+            /* --- 読書設定（フカヨミ由来の設定を移植） --- */
+            --article-font-size: 1rem;
+            --article-line-height: 1.9;
+            --article-font-family: 'Shippori Mincho', serif;
+            --article-max-width: 720px;
         }
 
         /* --- ダークモード変数定義 (システム検知) --- */
@@ -545,12 +550,18 @@
         margin: 8px 4px 4px !important; overflow: visible !important;
     }body.sidebar-button-mode.sidebar-pinned #sidebar .nav-toggle-end-icon { opacity: 1 !important; }body.sidebar-button-mode.sidebar-pinned #sidebar .nav-toggle-label { opacity: 1 !important; }body.sidebar-button-mode.sidebar-pinned #sidebar .nav-toggle-btn { opacity: 1 !important; }/* sidebar-button-mode pinned: toggle icons 廃止 */
 
-    /* メインコンテンツ位置 */
+    /* メインコンテンツ位置
+       ※ フッターが画面の一番下まで届かない不具合対策として、
+         flexカラム化 + 各ビューにflex-growを与える「sticky footer」構成にした。
+         あわせて、フッター直後に常に生じていた余白(padding-bottom:100px)を廃止
+         （フカヨミのようにフッター自身の内側paddingだけで十分なため）。 */
     #main-content {
         margin-left: 96px;
         width: calc(100% - 96px);
         padding: 20px;
-        padding-bottom: 100px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
         transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -1167,7 +1178,7 @@
             letter-spacing: 0.08em;
             opacity: 0.75;
         }.rank-1 { background: linear-gradient(135deg, #FFD700, #FDB931); border: 2px solid #fff; }.rank-2 { background: linear-gradient(135deg, #E0E0E0, #BDBDBD); }.rank-3 { background: linear-gradient(135deg, #CD7F32, #A0522D); }.rank-other { background-color: var(--card-border); color: var(--text-sub); font-size: 1.2rem; width: 50px; height: 50px; }.cal-date { font-size: 0.7rem; font-weight: bold; color: var(--text-sub); }.cal-mark { font-size: 0.7rem; margin-top: 2px; line-height: 1; }.legend-item { display: flex; align-items: center; gap: 2px; }/* ビュー制御 */
-        .view-section { display: none; opacity: 0; transition: opacity 0.5s; }.view-section.active { display: block; opacity: 1; }/* おみくじの轍 ぼかし制御 */
+        .view-section { display: none; opacity: 0; transition: opacity 0.5s; }.view-section.active { display: block; opacity: 1; flex: 1 0 auto; }/* おみくじの轍 ぼかし制御 */
         .history-blurred {
             position: relative;
             filter: blur(8px);
@@ -2521,6 +2532,14 @@
     pointer-events: none;
     user-select: none;
     transition: all 0.5s;
+}.article-content {
+    font-size: var(--article-font-size);
+    line-height: var(--article-line-height);
+    font-family: var(--article-font-family);
+    max-width: var(--article-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    transition: font-size 0.2s ease, line-height 0.2s ease, max-width 0.2s ease;
 }.article-content h3 { font-size: 1.4rem; font-weight: bold; margin: 30px 0 15px; border-left: 4px solid var(--accent-red); padding-left: 10px; }.article-content p { margin-bottom: 20px; }/* --- TENMEI Labs モダンUI用スタイル (Google Labs風) --- */
         
         /* カード全体の設定 */
@@ -2993,11 +3012,14 @@
             color: var(--accent-red);
         }.comparison-table tr:nth-child(even) {
             background-color: rgba(128,128,128,0.02);
-        }/* Labs: 言霊の増幅 (文字サイズ拡大) */
-        html.lab-big-text {
-            font-size: 120%; /* 基準サイズを20%アップ (rem単位の全ての文字が大きくなります) */
-        }/* 固定ピクセル指定(text-[10px]等)も無理やり大きくする補正 */
-        html.lab-big-text .text-\[10px\] { font-size: 12px !important; }/* --- カード展開アニメーション (Google Labs風) --- */
+        }/* アニメーションを減らす（アクセシビリティ・正式機能） */
+        html.reduce-motion, html.reduce-motion * {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+            scroll-behavior: auto !important;
+        }
+        html.reduce-motion #mist-container { display: none !important; }/* --- カード展開アニメーション (Google Labs風) --- */
 
 /* モーダルオーバーレイ */
 .lab-modal-overlay {
@@ -3662,9 +3684,6 @@
     opacity: var(--lab-mist-opacity, 0.6); 
     /* アニメーション速度も変数化 */
     animation-duration: var(--lab-mist-speed, 30s) !important;
-}/* 言霊の増幅: サイズ変数を適用 */
-html.lab-big-text {
-    font-size: var(--lab-font-scale, 120%);
 }/* 迎春モード: パターン濃度 */
 body.theme-newyear {
     /* 背景画像の不透明度操作は難しいので、擬似要素などで対応するか、
@@ -4766,47 +4785,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
     /* ==========================================
        記事本文の目次（社務所だより・神籤草子 共通）
+       ※ 使い方・当サイトについて・プライバシーポリシーの目次と
+         見た目を統一するため、独自スタイルは廃止しUtilityクラスで組む
+         （buildArticleTOC関数側を参照）
        ========================================== */
-    .article-toc {
-        margin: 0 0 1.75em;
-        padding: 1.1em 1.4em;
-        background: rgba(185, 28, 28, 0.04);
-        border: 1px solid rgba(185, 28, 28, 0.12);
-        border-radius: 14px;
-        font-family: 'Noto Sans JP', sans-serif;
-    }
-    .dark .article-toc {
-        background: rgba(239, 68, 68, 0.06);
-        border-color: rgba(239, 68, 68, 0.18);
-    }
-    .article-toc-title {
-        font-weight: 700;
-        font-size: 0.85rem;
-        letter-spacing: 0.05em;
-        color: var(--accent-red);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-bottom: 0.6em;
-    }
-    .article-toc-title i { font-size: 0.95rem; }
-    .article-toc-list {
-        list-style: none;
-        padding-left: 0;
-        margin: 0;
-        font-size: 0.88rem;
-        line-height: 1.9;
-    }
-    .article-toc-list a {
-        color: inherit;
-        text-decoration: none;
-        border-bottom: 1px dashed transparent;
-        transition: border-color 0.2s, color 0.2s;
-    }
-    .article-toc-list a:hover {
-        color: var(--accent-red);
-        border-color: var(--accent-red);
-    }
 
     /* 記事本文冒頭のメタ情報（文字数・読了目安） */
     .article-meta-readinfo {
@@ -6307,24 +6289,6 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 <div id="lab-content-wrapper">
                     <div id="lab-container" class="lab-grid-container">
 
-                        <!-- 1. 言霊の増幅 (Beta) -->
-                        <div class="lab-glass-card" onclick="TenmeiLab.openModal('bigtext')">
-                            <div class="lab-card-header">
-                                <div class="lab-icon-box icon-bg-green"><i class="bi bi-type-h1"></i></div>
-                                <div class="lab-switch-wrapper" onclick="event.stopPropagation()">
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" onchange="TenmeiLab.toggleBigText(this)" id="switch-bigtext">
-                                        <span class="slider"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="lab-card-body">
-                                <h3>言霊の増幅 <span class="lab-badge badge-beta">Beta</span></h3>
-                                <p class="lab-card-desc">文字サイズを大きくし、神託の言葉をより力強く読みやすく表示します。</p>
-                            </div>
-                            <div class="lab-card-footer">詳細設定 <i class="bi bi-chevron-right"></i></div>
-                        </div>
-
                         <!-- 2. 幽玄の霧 (Exp) -->
                         <div class="lab-glass-card" onclick="TenmeiLab.openModal('mist')">
                             <div class="lab-card-header">
@@ -7671,6 +7635,78 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     </div>
                 </div>
 
+                <!-- 10.5 読書設定 (フカヨミより移植・ログイン不要) -->
+                <div class="bento-card p-0 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
+                        <h3 class="text-xl font-black flex items-center gap-3">
+                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm"><i class="bi bi-body-text"></i></span>
+                            読書設定
+                        </h3>
+                    </div>
+                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        <p>社務所だより・神籤草子などの記事本文の見え方を、お好みにあわせて調整できます。参拝証をお持ちでない方も、ここから調整いただけます。</p>
+                    </div>
+                    <div class="p-6 md:p-8 space-y-4 border-t border-gray-100 dark:border-zinc-800">
+                        <div>
+                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                文字サイズ
+                                <span class="block text-[10px] text-gray-400 font-normal">記事本文の文字の大きさ</span>
+                            </div>
+                            <div class="theme-select-group opt-select-group" data-setting="fontSize" data-value="md">
+                                <button type="button" class="theme-select-btn" data-value="sm" onclick="AppConfig.toggle('fontSize','sm')"><span>小</span></button>
+                                <button type="button" class="theme-select-btn" data-value="md" onclick="AppConfig.toggle('fontSize','md')"><span>標準</span></button>
+                                <button type="button" class="theme-select-btn" data-value="lg" onclick="AppConfig.toggle('fontSize','lg')"><span>大</span></button>
+                                <button type="button" class="theme-select-btn" data-value="xl" onclick="AppConfig.toggle('fontSize','xl')"><span>特大</span></button>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
+                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                行間
+                                <span class="block text-[10px] text-gray-400 font-normal">行と行の間隔</span>
+                            </div>
+                            <div class="theme-select-group opt-select-group" data-setting="lineHeight" data-value="normal">
+                                <button type="button" class="theme-select-btn" data-value="normal" onclick="AppConfig.toggle('lineHeight','normal')"><span>標準</span></button>
+                                <button type="button" class="theme-select-btn" data-value="relaxed" onclick="AppConfig.toggle('lineHeight','relaxed')"><span>ゆったり</span></button>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
+                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                本文の書体
+                                <span class="block text-[10px] text-gray-400 font-normal">明朝体は雰囲気重視、ゴシック体は視認性重視です</span>
+                            </div>
+                            <div class="theme-select-group opt-select-group" data-setting="bodyFont" data-value="serif">
+                                <button type="button" class="theme-select-btn" data-value="serif" onclick="AppConfig.toggle('bodyFont','serif')"><span>明朝体</span></button>
+                                <button type="button" class="theme-select-btn" data-value="sans" onclick="AppConfig.toggle('bodyFont','sans')"><span>ゴシック体</span></button>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
+                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                本文の幅
+                                <span class="block text-[10px] text-gray-400 font-normal">1行あたりの文字量</span>
+                            </div>
+                            <div class="theme-select-group opt-select-group" data-setting="contentWidth" data-value="standard">
+                                <button type="button" class="theme-select-btn" data-value="standard" onclick="AppConfig.toggle('contentWidth','standard')"><span>標準</span></button>
+                                <button type="button" class="theme-select-btn" data-value="wide" onclick="AppConfig.toggle('contentWidth','wide')"><span>広め</span></button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-zinc-700">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center text-teal-600">
+                                    <i class="bi bi-universal-access"></i>
+                                </div>
+                                <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
+                                    アニメーションを減らす
+                                    <span class="block text-[10px] text-gray-400 font-normal">演出や画面遷移のアニメーションを抑えます</span>
+                                </div>
+                            </div>
+                            <label class="toggle-switch scale-90">
+                                <input type="checkbox" id="howto-reduce-motion-toggle" onchange="AppConfig.toggle('reduceMotion', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 11 AI夢占い -->
                 <div class="bento-card p-0 overflow-hidden">
                     <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
@@ -8449,7 +8485,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 }
             }
         </style>
-        <footer id="site-footer" style="width:100%;margin-top:80px;background:var(--footer-bg);overflow:hidden;">
+        <footer id="site-footer" style="width:100%;margin-top:80px;background:var(--footer-bg);overflow:hidden;flex-shrink:0;">
 
             <!-- 上部グラデーションライン（境界線を兼ねる。ボーダーとの二重線を避けるためこの1本のみ） -->
             <div style="height:2px;background:linear-gradient(90deg,transparent,var(--accent-red) 30%,#c8a000 50%,var(--accent-red) 70%,transparent);opacity:0.8;"></div>
@@ -8529,8 +8565,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 </div>
             </div>
 
-            <!-- ボトムバー -->
-            <div style="border-top:1px solid var(--card-border);padding:14px 32px;display:flex;align-items:center;justify-content:center;">
+            <!-- ボトムバー（上部のグラデーションラインのみで区切りとしており、ここに罫線は追加しない） -->
+            <div style="padding:14px 32px;display:flex;align-items:center;justify-content:center;">
                 <span style="font-size:0.72rem;color:var(--text-sub);letter-spacing:0.08em;">© 2026 天命乃杜 / nden148</span>
             </div>
         </footer>
@@ -16042,20 +16078,7 @@ async function checkSession() {
 const TenmeiLab = {
     details: {
         // --- 以下の機能はまだ実験的あるいは高負荷なためLabsに残します ---
-        bigtext: {
-            title: "言霊（ことだま）の増幅",
-            icon: '<i class="bi bi-type-h1 text-green-600"></i>',
-            desc: "文字サイズを大きくし、視認性を高めます。",
-            reason: "画面幅によってはレイアウト崩れや文字のはみ出しが発生します。",
-            bgClass: "bg-green-100",
-            configs: [
-                { id: 'active', type: 'switch', label: '機能を有効にする', sub: '文字サイズ拡大を適用' },
-                { 
-                    id: 'scale', type: 'range', label: '拡大率', sub: '基準サイズに対する倍率',
-                    min: 110, max: 150, step: 5, unit: '%', default: 120, cssVar: '--lab-font-scale'
-                }
-            ]
-        },
+        // ※「言霊の増幅」は正式機能「文字サイズ」（環境設定内・読書設定）へ昇格したため、ここから削除しました
         mist: {
             title: "幽玄（ゆうげん）の霧",
             icon: '<i class="bi bi-cloud-haze2-fill text-gray-600"></i>',
@@ -16143,7 +16166,6 @@ const TenmeiLab = {
         if(mainSwitch) mainSwitch.checked = isActive;
 
         // Labsに残った機能のトグル処理
-        if(key === 'bigtext') this.toggleBigText({checked: isActive});
         if(key === 'mist') this.toggleMist({checked: isActive});
         if(key === 'gold') this.toggleGold({checked: isActive});
         if(key === 'newyear') this.toggleNewyear({checked: isActive});
@@ -16177,13 +16199,6 @@ const TenmeiLab = {
     // ▲▲▲ 追加ここまで ▲▲▲
 
     // Labs機能用トグルロジック（各機能の先頭でチェック関数を呼ぶように修正）
-    toggleBigText: (el) => {
-        if (!TenmeiLab.checkLoginAndBlock(el)) return;
-        if(el.checked) document.documentElement.classList.add('lab-big-text');
-        else document.documentElement.classList.remove('lab-big-text');
-        saveLabSettings();
-    },
-    
     toggleMist: (el) => {
         if (!TenmeiLab.checkLoginAndBlock(el)) return;
         const container = document.getElementById('mist-container');
@@ -16311,141 +16326,9 @@ const TenmeiLab = {
 // 初期化実行 (window.onload内で呼ぶため)
 TenmeiLab.init();
 
-        // --- 追加: テーマ適用ロジック（OS設定とLab設定の統合） ---
-        function applyTheme() {
-            let userSettings = null;
-            if (currentState.user) {
-                try {
-                    userSettings = JSON.parse(localStorage.getItem(`lab_settings_${currentState.user.email}`));
-                } catch(e) {}
-            }
+        // ※旧テーマ適用・Labs設定保存/読込ロジック（switch-dark, switch-bigtext 等の廃止済みDOM参照を含む死んだコード）を削除。
+        // 現在は AppConfig / applyThemeByConfig / saveLabSettings / loadLabSettings（後方で再定義）に統合済み。
 
-            // 「宵闇の刻」がONかどうか
-            const forceDark = userSettings ? userSettings.dark : false;
-            
-            // OSがダークモードかどうか
-            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            // スイッチON または (スイッチOFFかつOSがダーク) の場合に dark クラスを付与
-            if (forceDark || systemDark) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-
-            // スイッチの見た目同期（ログイン時のみ）
-            const switchDark = document.getElementById('switch-dark');
-            if(switchDark && userSettings) {
-                switchDark.checked = forceDark;
-            }
-        }
-
-        // ==========================================
-    //  TENMEI Labs 設定同期ロジック (サーバー連携版)
-    // ==========================================
-
-    // 1. 設定を保存する関数 (クラウド+ローカル)
-    async function saveLabSettings() {
-        const settings = {
-            newyear: document.getElementById('switch-newyear').checked,
-            speed: document.getElementById('switch-speed').checked,
-            dark: document.getElementById('switch-dark').checked,
-            bigtext: document.getElementById('switch-bigtext').checked,
-            mist: document.getElementById('switch-mist').checked,
-            gold: document.getElementById('switch-gold').checked
-        };
-
-        if (currentState.user) {
-            // ログイン中：サーバー(KV)と同期
-            localStorage.setItem(`lab_settings_${currentState.user.email}`, JSON.stringify(settings));
-            
-            try {
-                // ★修正: authFetchに変更
-                const res = await authFetch(`${API_BASE}/api/user/settings`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        settings: settings
-                    })
-                });
-                if(!res.ok) throw new Error("Sync Failed");
-                console.log("Labs設定をクラウドに保存しました");
-            } catch (e) {
-                console.error("Labs設定のクラウド同期に失敗しました", e);
-            }
-        } else {
-            // 未ログイン：ゲスト用としてローカルのみ保存
-            localStorage.setItem('lab_settings_guest', JSON.stringify(settings));
-        }
-    }
-
-// 2. 設定を読み込み、UIに反映させる関数
-    async function loadLabSettings() {
-        let settings = null;
-
-        if (currentState.user) {
-            // ログイン中：サーバーから最新設定を取得
-            try {
-                // ★修正: authFetchに変更
-                const res = await authFetch(`${API_BASE}/api/user/settings`, {
-                    method: 'GET'
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    settings = data.settings;
-                    if(settings) localStorage.setItem(`lab_settings_${currentState.user.email}`, JSON.stringify(settings));
-                }
-            } catch (e) {
-                console.error("サーバーからの設定取得に失敗しました。ローカルデータを使用します。", e);
-                const local = localStorage.getItem(`lab_settings_${currentState.user.email}`);
-                if(local) settings = JSON.parse(local);
-            }
-        } else {
-            // 未ログイン：ローカルから取得
-            const local = localStorage.getItem('lab_settings_guest');
-            if(local) settings = JSON.parse(local);
-        }
-
-        // --- UI（スイッチ）とクラスの反映 ---
-        if (settings) {
-            const swNewYear = document.getElementById('switch-newyear');
-            if(swNewYear) swNewYear.checked = !!settings.newyear;
-            if(settings.newyear) document.body.classList.add('theme-newyear');
-            else document.body.classList.remove('theme-newyear');
-
-            const swSpeed = document.getElementById('switch-speed');
-            if(swSpeed) swSpeed.checked = !!settings.speed;
-            window.labSpeedMode = !!settings.speed;
-
-            const swBigText = document.getElementById('switch-bigtext');
-            if(swBigText) swBigText.checked = !!settings.bigtext;
-            if(settings.bigtext) document.documentElement.classList.add('lab-big-text');
-            else document.documentElement.classList.remove('lab-big-text');
-
-            const swMist = document.getElementById('switch-mist');
-            const mistContainer = document.getElementById('mist-container');
-            if(swMist) swMist.checked = !!settings.mist;
-            if(settings.mist && mistContainer) mistContainer.classList.add('active');
-            else if(mistContainer) mistContainer.classList.remove('active');
-
-            const swGold = document.getElementById('switch-gold');
-            if(swGold) swGold.checked = !!settings.gold;
-            if(settings.gold) document.body.classList.add('theme-gold');
-            else document.body.classList.remove('theme-gold');
-
-            const swDark = document.getElementById('switch-dark');
-            if(swDark) swDark.checked = !!settings.dark;
-        } else {
-            document.body.classList.remove('theme-newyear', 'theme-gold');
-            document.documentElement.classList.remove('lab-big-text');
-            const mistContainer = document.getElementById('mist-container');
-            if(mistContainer) mistContainer.classList.remove('active');
-            window.labSpeedMode = false;
-        }
-
-        applyTheme();
-    }
-        
         // ==========================================
         //  クイズ機能用ロジック (3問対応版)
         // ==========================================
@@ -20108,13 +19991,19 @@ function renderServerPagination(currentPage, totalItems, perPage) {
             const howtoSidebarToggle = document.getElementById('howto-sidebarbtn-toggle');
             if(howtoSidebarToggle) howtoSidebarToggle.checked = !!currentSettings.sidebarButton;
 
-            const howtoThemeGroup = target ? target.querySelector('.theme-select-group') : null;
+            const howtoThemeGroup = target ? target.querySelector('.theme-select-group[data-value]:not(.opt-select-group)') : null;
             if(howtoThemeGroup) {
                 howtoThemeGroup.dataset.value = currentSettings.theme;
                 howtoThemeGroup.querySelectorAll('.theme-select-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.theme === currentSettings.theme);
                 });
             }
+
+            const howtoReduceMotionToggle = document.getElementById('howto-reduce-motion-toggle');
+            if(howtoReduceMotionToggle) howtoReduceMotionToggle.checked = !!currentSettings.reduceMotion;
+
+            // 読書設定（文字サイズ・行間・書体・幅）は共通関数で一括同期
+            applyReadingSettings(currentSettings);
         }
         if(viewId === 'omamori' && typeof OmamoriSystem !== 'undefined') OmamoriSystem.reset(true);
 
@@ -20314,6 +20203,73 @@ async function renderSettingsDashboard() {
                         </div>
                         <label class="toggle-switch scale-90">
                             <input type="checkbox" ${settings.tabTitle !== false ? 'checked' : ''} onchange="AppConfig.toggle('tabTitle', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2.5 読書設定 (フカヨミより移植) -->
+            <div class="stats-card-interactive profile-card-status p-6 rounded-2xl bg-white dark:bg-zinc-900 border-l-4 border-l-emerald-500">
+                <div class="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
+                    <i class="bi bi-body-text text-xl"></i>
+                    <h4 class="font-bold text-sm">読書設定</h4>
+                </div>
+                <div class="space-y-4 w-full">
+                    <div>
+                        <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            文字サイズ
+                            <span class="block text-[10px] text-gray-400 font-normal">記事本文の文字の大きさ</span>
+                        </div>
+                        <div class="theme-select-group opt-select-group" data-setting="fontSize" data-value="${settings.fontSize || 'md'}">
+                            <button type="button" class="theme-select-btn ${(settings.fontSize||'md')==='sm'?'active':''}" data-value="sm" onclick="AppConfig.toggle('fontSize','sm')"><span>小</span></button>
+                            <button type="button" class="theme-select-btn ${(settings.fontSize||'md')==='md'?'active':''}" data-value="md" onclick="AppConfig.toggle('fontSize','md')"><span>標準</span></button>
+                            <button type="button" class="theme-select-btn ${(settings.fontSize||'md')==='lg'?'active':''}" data-value="lg" onclick="AppConfig.toggle('fontSize','lg')"><span>大</span></button>
+                            <button type="button" class="theme-select-btn ${(settings.fontSize||'md')==='xl'?'active':''}" data-value="xl" onclick="AppConfig.toggle('fontSize','xl')"><span>特大</span></button>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
+                        <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            行間
+                            <span class="block text-[10px] text-gray-400 font-normal">行と行の間隔</span>
+                        </div>
+                        <div class="theme-select-group opt-select-group" data-setting="lineHeight" data-value="${settings.lineHeight || 'normal'}">
+                            <button type="button" class="theme-select-btn ${(settings.lineHeight||'normal')==='normal'?'active':''}" data-value="normal" onclick="AppConfig.toggle('lineHeight','normal')"><span>標準</span></button>
+                            <button type="button" class="theme-select-btn ${(settings.lineHeight||'normal')==='relaxed'?'active':''}" data-value="relaxed" onclick="AppConfig.toggle('lineHeight','relaxed')"><span>ゆったり</span></button>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
+                        <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            本文の書体
+                            <span class="block text-[10px] text-gray-400 font-normal">明朝体は雰囲気重視、ゴシック体は視認性重視です</span>
+                        </div>
+                        <div class="theme-select-group opt-select-group" data-setting="bodyFont" data-value="${settings.bodyFont || 'serif'}">
+                            <button type="button" class="theme-select-btn ${(settings.bodyFont||'serif')==='serif'?'active':''}" data-value="serif" onclick="AppConfig.toggle('bodyFont','serif')"><span>明朝体</span></button>
+                            <button type="button" class="theme-select-btn ${(settings.bodyFont||'serif')==='sans'?'active':''}" data-value="sans" onclick="AppConfig.toggle('bodyFont','sans')"><span>ゴシック体</span></button>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
+                        <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            本文の幅
+                            <span class="block text-[10px] text-gray-400 font-normal">1行あたりの文字量</span>
+                        </div>
+                        <div class="theme-select-group opt-select-group" data-setting="contentWidth" data-value="${settings.contentWidth || 'standard'}">
+                            <button type="button" class="theme-select-btn ${(settings.contentWidth||'standard')==='standard'?'active':''}" data-value="standard" onclick="AppConfig.toggle('contentWidth','standard')"><span>標準</span></button>
+                            <button type="button" class="theme-select-btn ${(settings.contentWidth||'standard')==='wide'?'active':''}" data-value="wide" onclick="AppConfig.toggle('contentWidth','wide')"><span>広め</span></button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-zinc-700">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center text-teal-600">
+                                <i class="bi bi-universal-access"></i>
+                            </div>
+                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
+                                アニメーションを減らす
+                                <span class="block text-[10px] text-gray-400 font-normal">演出や画面遷移のアニメーションを抑えます</span>
+                            </div>
+                        </div>
+                        <label class="toggle-switch scale-90">
+                            <input type="checkbox" ${settings.reduceMotion ? 'checked' : ''} onchange="AppConfig.toggle('reduceMotion', this.checked)">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -21349,6 +21305,51 @@ const LiveChart = {
     }
 };
 
+        // --- 読書設定の適用（フカヨミの設定を移植・正式機能） ---
+        // settings には全体設定 or 変更されたキーのみを含む部分オブジェクトのどちらも渡せる
+        function applyReadingSettings(settings) {
+            const root = document.documentElement;
+
+            if (settings.fontSize !== undefined) {
+                const sizeMap = { sm: '0.9rem', md: '1rem', lg: '1.15rem', xl: '1.3rem' };
+                root.style.setProperty('--article-font-size', sizeMap[settings.fontSize] || sizeMap.md);
+                document.querySelectorAll('.opt-select-group[data-setting="fontSize"]').forEach(group => {
+                    group.dataset.value = settings.fontSize;
+                    group.querySelectorAll('.theme-select-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === settings.fontSize));
+                });
+            }
+            if (settings.lineHeight !== undefined) {
+                const lineMap = { normal: '1.9', relaxed: '2.3' };
+                root.style.setProperty('--article-line-height', lineMap[settings.lineHeight] || lineMap.normal);
+                document.querySelectorAll('.opt-select-group[data-setting="lineHeight"]').forEach(group => {
+                    group.dataset.value = settings.lineHeight;
+                    group.querySelectorAll('.theme-select-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === settings.lineHeight));
+                });
+            }
+            if (settings.bodyFont !== undefined) {
+                const fontMap = { serif: "'Shippori Mincho', serif", sans: "'Zen Kaku Gothic New', sans-serif" };
+                root.style.setProperty('--article-font-family', fontMap[settings.bodyFont] || fontMap.serif);
+                document.querySelectorAll('.opt-select-group[data-setting="bodyFont"]').forEach(group => {
+                    group.dataset.value = settings.bodyFont;
+                    group.querySelectorAll('.theme-select-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === settings.bodyFont));
+                });
+            }
+            if (settings.contentWidth !== undefined) {
+                const widthMap = { standard: '720px', wide: '100%' };
+                root.style.setProperty('--article-max-width', widthMap[settings.contentWidth] || widthMap.standard);
+                document.querySelectorAll('.opt-select-group[data-setting="contentWidth"]').forEach(group => {
+                    group.dataset.value = settings.contentWidth;
+                    group.querySelectorAll('.theme-select-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === settings.contentWidth));
+                });
+            }
+            if (settings.reduceMotion !== undefined) {
+                root.classList.toggle('reduce-motion', !!settings.reduceMotion);
+                document.querySelectorAll('input[onchange*="AppConfig.toggle(\'reduceMotion\'"]').forEach(el => {
+                    el.checked = !!settings.reduceMotion;
+                });
+            }
+        }
+
         // --- アプリ全体の設定管理 (Labs機能含む) ---
 const AppConfig = {
     // デフォルト設定
@@ -21357,8 +21358,13 @@ const AppConfig = {
         speed: false,   // 神速の祈り
         sidebarButton: false, // サイドバーボタン切替モード
         tabTitle: true, // タブを離れた時のタイトル演出（隠しコマンド）
+        // 読書設定（フカヨミ由来）
+        fontSize: 'md',       // sm / md / lg / xl
+        lineHeight: 'normal', // normal / relaxed
+        bodyFont: 'serif',    // serif / sans
+        contentWidth: 'standard', // standard / wide
+        reduceMotion: false,  // アニメーションを減らす
         // Labs機能
-        bigtext: false,
         mist: false,
         gold: false,
         newyear: false // 迎春・雅モード
@@ -21427,6 +21433,20 @@ const AppConfig = {
             document.querySelectorAll('input[onchange*="AppConfig.toggle(\'tabTitle\'"]').forEach(el => {
                 el.checked = isActive;
             });
+        } else if(['fontSize','lineHeight','bodyFont','contentWidth'].includes(key)) {
+            // 読書設定（セグメントコントロール）：即時にCSSへ反映し、複数箇所にある同じ設定グループを同期
+            applyReadingSettings({ [key]: isActive });
+            document.querySelectorAll(`.opt-select-group[data-setting="${key}"]`).forEach(group => {
+                group.dataset.value = isActive;
+                group.querySelectorAll('.theme-select-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.value === isActive);
+                });
+            });
+        } else if(key === 'reduceMotion') {
+            applyReadingSettings({ reduceMotion: isActive });
+            document.querySelectorAll('input[onchange*="AppConfig.toggle(\'reduceMotion\'"]').forEach(el => {
+                el.checked = isActive;
+            });
         }
 
         // 保存処理
@@ -21462,11 +21482,16 @@ async function saveLabSettings() {
     const swTabTitle = document.querySelector('input[onchange*="AppConfig.toggle(\'tabTitle\'"]');
     if(swTabTitle) settings.tabTitle = swTabTitle.checked;
 
+    // 読書設定（セグメントコントロール）：DOMに存在すればその値で上書き
+    ['fontSize','lineHeight','bodyFont','contentWidth'].forEach(key => {
+        const group = document.querySelector(`.opt-select-group[data-setting="${key}"]`);
+        if(group) settings[key] = group.dataset.value;
+    });
+    const swReduceMotion = document.querySelector('input[onchange*="AppConfig.toggle(\'reduceMotion\'"]');
+    if(swReduceMotion) settings.reduceMotion = swReduceMotion.checked;
+
     // Labs機能のスイッチがあれば上書き (Labsモーダルを開いている場合)
     // Labs機能：スイッチがあればその値、なければbody/htmlのクラス状態を正とする
-    const swBigText = document.getElementById('switch-bigtext');
-    settings.bigtext = swBigText ? swBigText.checked : document.documentElement.classList.contains('lab-big-text');
-
     const swMist = document.getElementById('switch-mist');
     const mistSaveContainer = document.getElementById('mist-container');
     settings.mist = swMist ? swMist.checked : (mistSaveContainer ? mistSaveContainer.classList.contains('active') : false);
@@ -21533,12 +21558,10 @@ async function loadLabSettings() {
     if(settings.sidebarButton) document.body.classList.add('sidebar-button-mode');
     else document.body.classList.remove('sidebar-button-mode');
 
-    // 4. Labs機能群
-    if(settings.bigtext) document.documentElement.classList.add('lab-big-text');
-    else document.documentElement.classList.remove('lab-big-text');
-    const swBigText2 = document.getElementById('switch-bigtext');
-    if(swBigText2) swBigText2.checked = !!settings.bigtext;
+    // 4. 読書設定・アニメーションを減らす（正式機能）
+    applyReadingSettings(settings);
 
+    // 5. Labs機能群
     const mistContainer = document.getElementById('mist-container');
     if(mistContainer) {
         if(settings.mist) mistContainer.classList.add('active');
@@ -23572,12 +23595,17 @@ try {
     // ---------- ① 記事本文の目次を自動生成 ----------
     // .article-content 内のh3見出しを拾って目次を作る。見出しが1個以下の
     // 記事は目次を出さない（openArticleから記事表示のたびに呼ばれる）。
+    // 使い方（howto-toc-container）・当サイトについて（about-toc-container）・
+    // プライバシーポリシー（privacy-toc-container）の目次と同一の見た目
+    // （白/グレーのbento風カード＋グリッドレイアウト）になるよう統一する。
+    // 以前は独自の赤系ノートカード風スタイル（.article-toc）だったため、
+    // 目次のある他画面とUIが異なっていた。
     window.buildArticleTOC = function() {
         try {
             var contentEl = document.querySelector('#article-detail-content .article-content');
             if (!contentEl) return;
 
-            var old = contentEl.querySelector('.article-toc');
+            var old = contentEl.querySelector('.article-toc-unified');
             if (old) old.parentNode.removeChild(old);
 
             var headings = contentEl.querySelectorAll('h3');
@@ -23587,12 +23615,16 @@ try {
             headings.forEach(function(h, idx) {
                 var id = 'toc-h-' + idx;
                 h.id = id;
-                items += '<li><a href="#' + id + '" onclick="event.preventDefault(); var t=document.getElementById(\'' + id + '\'); if(t) t.scrollIntoView({behavior:\'smooth\', block:\'start\'});">' + h.textContent + '</a></li>';
+                items += '<li class="font-bold"><a href="#' + id + '" class="hover:text-red-500 hover:underline flex items-start transition" onclick="event.preventDefault(); var t=document.getElementById(\'' + id + '\'); if(t) t.scrollIntoView({behavior:\'smooth\', block:\'start\'});"><i class="bi bi-caret-right-fill mt-1 mr-1 flex-shrink-0"></i><span>' + h.textContent + '</span></a></li>';
             });
 
             var toc = document.createElement('nav');
-            toc.className = 'article-toc';
-            toc.innerHTML = '<div class="article-toc-title"><i class="bi bi-list-ul"></i>目次</div><ol class="article-toc-list">' + items + '</ol>';
+            toc.className = 'article-toc-unified mb-6';
+            toc.innerHTML =
+                '<div class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur p-6 rounded-2xl border border-gray-200 dark:border-gray-700">' +
+                    '<h3 class="font-bold text-sm text-gray-500 mb-3 uppercase tracking-wider"><i class="bi bi-list-ul mr-2"></i>目次</h3>' +
+                    '<ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm font-medium">' + items + '</ul>' +
+                '</div>';
             contentEl.insertBefore(toc, contentEl.firstChild);
         } catch (e) {}
     };
