@@ -1179,7 +1179,7 @@
             letter-spacing: 0.08em;
             opacity: 0.75;
         }.rank-1 { background: linear-gradient(135deg, #FFD700, #FDB931); border: 2px solid #fff; }.rank-2 { background: linear-gradient(135deg, #E0E0E0, #BDBDBD); }.rank-3 { background: linear-gradient(135deg, #CD7F32, #A0522D); }.rank-other { background-color: var(--card-border); color: var(--text-sub); font-size: 1.2rem; width: 50px; height: 50px; }.cal-date { font-size: 0.7rem; font-weight: bold; color: var(--text-sub); }.cal-mark { font-size: 0.7rem; margin-top: 2px; line-height: 1; }.legend-item { display: flex; align-items: center; gap: 2px; }/* ビュー制御 */
-        .view-section { display: none; opacity: 0; transition: opacity 0.5s; }.view-section.active { display: block; opacity: 1; flex: 1 0 auto; }
+        .view-section { display: none; opacity: 0; transition: opacity 0.5s; }.view-section.active { display: block; opacity: 1; flex: 1 0 auto; width: 100%; }
         /* 画面遷移時、退場する側のセクションをフェードアウト完了まで通常のレイアウト計算
            (#main-contentのflex高さ)から即座に切り離すためのクラス。
            これが無いと、新しい画面が表示されてから最大500ms、旧画面と新画面が同時に
@@ -1575,11 +1575,12 @@
 .dark .col-bg-indigo { background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%); color: #a5b4fc; }.dark .col-bg-blue { background: linear-gradient(135deg, #172554 0%, #1e3a8a 100%); color: #93c5fd; }.dark .col-bg-gray { background: linear-gradient(135deg, #374151 0%, #111827 100%); color: #d1d5db; }.dark .col-bg-green { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); color: #86efac; }.dark .col-bg-purple { background: linear-gradient(135deg, #581c87 0%, #3b0764 100%); color: #d8b4fe; }.dark .col-bg-orange { background: linear-gradient(135deg, #7c2d12 0%, #431407 100%); color: #fdba74; }.dark .col-bg-pink { background: linear-gradient(135deg, #831843 0%, #500724 100%); color: #f9a8d4; }.dark .col-bg-yellow { background: linear-gradient(135deg, #713f12 0%, #451a03 100%); color: #fde047; }.dark .col-bg-red { background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%); color: #fca5a5; }/* 背表紙ラインの色調整 */
 .column-card.c-indigo::after { background-color: #4338ca; }.column-card.c-blue::after { background-color: #1e40af; }.column-card.c-gray::after { background-color: #4b5563; }.column-card.c-green::after { background-color: #15803d; }.column-card.c-purple::after { background-color: #7e22ce; }.column-card.c-orange::after { background-color: #c2410c; }.column-card.c-pink::after { background-color: #be185d; }.column-card.c-yellow::after { background-color: #b45309; }.column-card.c-red::after { background-color: #b91c1c; }/* ダークモード時のライン */
 .dark .column-card::after { opacity: 1; }.omamori-grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 16px;
     margin-bottom: 40px;
 }.wish-card {
+    flex: 1 1 170px;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-left: 4px solid transparent;
@@ -2386,13 +2387,14 @@
 
 /* 1. ラボ用グリッド */
 .lab-grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     position: relative;
     z-index: 10;
 }/* 2. ガラスカード (カプセル) */
 .lab-glass-card {
+    flex: 1 1 320px;
     background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -3827,9 +3829,13 @@ body.theme-newyear {
         }
 
         /* 3. グリッドレイアウトのスマホ最適化（1列強制） */
-        @media (max-width: 640px) {.lab-grid-container, .news-grid-container, .column-grid-container, .omamori-grid-container {
+        @media (max-width: 640px) {.news-grid-container, .column-grid-container {
                 grid-template-columns: 1fr !important; /* スマホは1列 */
                 gap: 15px !important;
+            }.lab-grid-container, .omamori-grid-container {
+                gap: 15px !important;
+            }.lab-glass-card, .wish-card {
+                flex-basis: 100% !important; /* スマホは1列 */
             }/* 12星座の入力フォームも縦並びに */
             .zodiac-input-grid {
                 grid-template-columns: 1fr !important;
