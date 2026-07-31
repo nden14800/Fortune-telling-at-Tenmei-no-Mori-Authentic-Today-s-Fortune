@@ -14623,6 +14623,10 @@ window.renderFullColumnView = function() {
 
         if (!item) return;
 
+        // ★修正: 記事詳細画面でサイドバーのアクティブ表示を正しい方（社務所だより／神籤草子）に
+        //   出し分けるため、いま開いている記事の種別を記録しておく
+        window._currentArticleDetailType = type;
+
         // 戻るボタンの制御
         const backBtn = document.querySelector('#view-article-detail button');
         if (backBtn) {
@@ -19835,8 +19839,12 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         } else {
             // 詳細画面など、サイドバーに直接ボタンがない場合の親アクティブ化処理
             if (viewId === 'article-detail') {
-                const newsBtn = document.getElementById('nav-news');
-                if(newsBtn) newsBtn.classList.add('active');
+                // ★修正: 常に「社務所だより」を光らせていたため、神籤草子の記事を
+                //   開いたときもサイドバー表示が「社務所だより」のままになっていた。
+                //   openArticle()で記録した記事種別を見て、正しい方をアクティブにする。
+                const parentBtnId = window._currentArticleDetailType === 'column' ? 'nav-column' : 'nav-news';
+                const parentBtn = document.getElementById(parentBtnId);
+                if(parentBtn) parentBtn.classList.add('active');
             }
         }
 
