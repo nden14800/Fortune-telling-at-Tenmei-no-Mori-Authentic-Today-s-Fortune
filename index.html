@@ -7728,6 +7728,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     </div>
                 </div>
 
+                <!-- 10.6 全ての設定を初期値に戻す -->
+                <div class="text-center">
+                    <button type="button" onclick="resetAllSettings()" class="text-xs text-gray-400 hover:text-red-500 hover:underline transition">
+                        <i class="bi bi-arrow-counterclockwise mr-1"></i>環境設定・読書設定・TENMEI Labs機能を全て初期値に戻す
+                    </button>
+                </div>
+
                 <!-- 11 AI夢占い -->
                 <div class="bento-card p-0 overflow-hidden">
                     <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
@@ -20350,6 +20357,13 @@ async function renderSettingsDashboard() {
                 </div>
             </div>
 
+            <!-- 2.6 全ての設定を初期値に戻す -->
+            <div class="text-center">
+                <button type="button" onclick="resetAllSettings()" class="text-xs text-gray-400 hover:text-red-500 hover:underline transition">
+                    <i class="bi bi-arrow-counterclockwise mr-1"></i>環境設定・読書設定・TENMEI Labs機能を全て初期値に戻す
+                </button>
+            </div>
+
             <!-- 4. Google連携 -->
             ${authMethod !== 'google' ? `
             <div class="stats-card-interactive profile-card-secondary p-6 rounded-2xl bg-white dark:bg-zinc-900 border-l-4 ${authMethod === 'both' ? 'border-l-green-500' : 'border-l-gray-300 dark:border-l-zinc-600'}">
@@ -21390,6 +21404,62 @@ const LiveChart = {
                 document.querySelectorAll('input[onchange*="AppConfig.toggle(\'reduceMotion\'"]').forEach(el => {
                     el.checked = !!settings.reduceMotion;
                 });
+            }
+        }
+
+        // --- すべての設定を初期値に戻す ---
+        // 環境設定（テーマ・神速の祈り・サイドバーの挙動・タブタイトル演出）、
+        // 読書設定（文字サイズ・行間・書体・幅・アニメーションを減らす）、
+        // TENMEI Labs機能（幽玄の霧・黄金の神域・迎春雅モード）を含む、
+        // 保存されている設定を全てデフォルト値に戻す
+        function resetAllSettings() {
+            var d = AppConfig.defaults;
+
+            // 1. 表示テーマ（system/light/dark）
+            AppConfig.toggle('theme', d.theme);
+
+            // 2. 神速の祈り
+            AppConfig.toggle('speed', d.speed);
+
+            // 3. サイドバーの挙動
+            AppConfig.toggle('sidebarButton', d.sidebarButton);
+
+            // 4. タブを離れた時のタイトル演出
+            AppConfig.toggle('tabTitle', d.tabTitle);
+
+            // 5. 読書設定（文字サイズ・行間・書体・幅・アニメーションを減らす）
+            applyReadingSettings({
+                fontSize: d.fontSize,
+                lineHeight: d.lineHeight,
+                bodyFont: d.bodyFont,
+                contentWidth: d.contentWidth,
+                reduceMotion: d.reduceMotion
+            });
+
+            // 6. TENMEI Labs機能（幽玄の霧・黄金の神域・迎春雅モード）
+            var mistContainer = document.getElementById('mist-container');
+            if (mistContainer) mistContainer.classList.remove('active');
+            var swMist = document.getElementById('switch-mist');
+            if (swMist) swMist.checked = false;
+
+            document.body.classList.remove('theme-gold');
+            var swGold = document.getElementById('switch-gold');
+            if (swGold) swGold.checked = false;
+
+            document.body.classList.remove('theme-newyear');
+            var swNewYear = document.getElementById('switch-newyear');
+            if (swNewYear) swNewYear.checked = false;
+
+            if (typeof TenmeiLab !== 'undefined' && TenmeiLab.applyAllCSS) {
+                try { TenmeiLab.applyAllCSS(); } catch (e) {}
+            }
+
+            // 最終的な状態をまとめて保存
+            saveLabSettings();
+
+            // 完了通知
+            if (typeof showToast === 'function') {
+                showToast('設定を初期値に戻しました', 'success');
             }
         }
 
@@ -23651,21 +23721,32 @@ try {
             var old = contentEl.querySelector('.article-toc-unified');
             if (old) old.parentNode.removeChild(old);
 
-            var headings = contentEl.querySelectorAll('h3');
+            // h3・h4の両方を拾い、当サイトについて等（initTOC）と同じ入れ子構造にする
+            var headings = contentEl.querySelectorAll('h3, h4');
             if (headings.length < 2) return;
 
             var items = '';
             headings.forEach(function(h, idx) {
                 var id = 'toc-h-' + idx;
                 h.id = id;
-                items += '<li class="font-bold"><a href="#' + id + '" class="hover:text-red-500 hover:underline flex items-start transition" onclick="event.preventDefault(); var t=document.getElementById(\'' + id + '\'); if(t) t.scrollIntoView({behavior:\'smooth\', block:\'start\'});"><i class="bi bi-caret-right-fill mt-1 mr-1 flex-shrink-0"></i><span>' + h.textContent + '</span></a></li>';
+                var isH3 = h.tagName.toLowerCase() === 'h3';
+                var indent = isH3 ? '' : 'ml-4';
+                var icon = isH3 ? 'bi-caret-right-fill' : 'bi-dot';
+                var fontSize = isH3 ? 'font-bold' : 'text-xs text-gray-600 dark:text-gray-400';
+                items += '<li class="' + indent + ' ' + fontSize + '"><a href="#' + id + '" class="hover:text-red-500 hover:underline flex items-start transition" onclick="event.preventDefault(); var t=document.getElementById(\'' + id + '\'); if(t) t.scrollIntoView({behavior:\'smooth\', block:\'start\'});"><i class="bi ' + icon + ' mt-1 mr-1 flex-shrink-0"></i><span>' + h.textContent + '</span></a></li>';
             });
 
             var toc = document.createElement('nav');
+            // article-toc-unified-title: 見出しを敢えてh3にしない（.article-content h3 { border-left:赤; font-size:1.4rem; ... }
+            // というグローバルルールを誤って拾い、目次見出しだけ赤ボーダー付きの大きな文字になってしまっていたため、pタグに変更）
+            // article-toc-unified: 読書設定の本文幅（--article-max-width）による制約を受けず、当サイトについて等と
+            // 同じくカード幅いっぱいに表示されるよう、インラインでwidth:100%; max-width:none;を明示指定
             toc.className = 'article-toc-unified mb-6';
+            toc.style.width = '100%';
+            toc.style.maxWidth = 'none';
             toc.innerHTML =
                 '<div class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur p-6 rounded-2xl border border-gray-200 dark:border-gray-700">' +
-                    '<h3 class="font-bold text-sm text-gray-500 mb-3 uppercase tracking-wider"><i class="bi bi-list-ul mr-2"></i>目次</h3>' +
+                    '<p class="font-bold text-sm text-gray-500 mb-3 uppercase tracking-wider"><i class="bi bi-list-ul mr-2"></i>目次</p>' +
                     '<ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm font-medium">' + items + '</ul>' +
                 '</div>';
             contentEl.insertBefore(toc, contentEl.firstChild);
