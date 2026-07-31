@@ -562,6 +562,7 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        position: relative; /* view-leaving中のセクションをposition:absoluteで正しい位置に重ねるための基準 */
         transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -1178,7 +1179,14 @@
             letter-spacing: 0.08em;
             opacity: 0.75;
         }.rank-1 { background: linear-gradient(135deg, #FFD700, #FDB931); border: 2px solid #fff; }.rank-2 { background: linear-gradient(135deg, #E0E0E0, #BDBDBD); }.rank-3 { background: linear-gradient(135deg, #CD7F32, #A0522D); }.rank-other { background-color: var(--card-border); color: var(--text-sub); font-size: 1.2rem; width: 50px; height: 50px; }.cal-date { font-size: 0.7rem; font-weight: bold; color: var(--text-sub); }.cal-mark { font-size: 0.7rem; margin-top: 2px; line-height: 1; }.legend-item { display: flex; align-items: center; gap: 2px; }/* ビュー制御 */
-        .view-section { display: none; opacity: 0; transition: opacity 0.5s; }.view-section.active { display: block; opacity: 1; flex: 1 0 auto; }/* おみくじの轍 ぼかし制御 */
+        .view-section { display: none; opacity: 0; transition: opacity 0.5s; }.view-section.active { display: block; opacity: 1; flex: 1 0 auto; }
+        /* 画面遷移時、退場する側のセクションをフェードアウト完了まで通常のレイアウト計算
+           (#main-contentのflex高さ)から即座に切り離すためのクラス。
+           これが無いと、新しい画面が表示されてから最大500ms、旧画面と新画面が同時に
+           flexの子要素として縦に並んでしまい、その間ページ高さが一瞬膨らみ、
+           500ms後に縮む際のスクロールアンカリングでコンテンツが画面中央寄りに
+           ズレて見える不具合の原因になっていた。 */
+        .view-section.view-leaving { display: block; opacity: 0; position: absolute; inset: 0; pointer-events: none; }/* おみくじの轍 ぼかし制御 */
         .history-blurred {
             position: relative;
             filter: blur(8px);
@@ -16485,15 +16493,26 @@ function showLoading(show) {
             }
 
             // 画面の切り替え（フェードアニメーション）
-            document.querySelectorAll('.view-section').forEach(el => {
+            // ※以前は.activeを外すだけで、消える側のセクションが最大500ms通常の
+            //   flexレイアウトに残ったままになり、新しいセクションと高さを二重に
+            //   取り合ってページが一瞬伸びてから縮む→その際のスクロールアンカリングで
+            //   コンテンツが画面中央寄りにズレて見える不具合があった。
+            //   退場するセクションのみ即座に.view-leaving(position:absolute)を付与し、
+            //   通常のレイアウト計算から切り離してからフェードアウトさせる。
+            document.querySelectorAll('.view-section.active').forEach(el => {
                 el.classList.remove('active');
+                el.classList.add('view-leaving');
                 setTimeout(() => {
-                    if(!el.classList.contains('active')) el.style.display = 'none';
+                    if(!el.classList.contains('active')) {
+                        el.classList.remove('view-leaving');
+                        el.style.display = 'none';
+                    }
                 }, 500);
             });
             
             const target = document.getElementById(`view-${viewId}`);
             if (target) {
+                target.classList.remove('view-leaving');
                 target.style.display = 'block';
                 void target.offsetWidth; 
                 target.classList.add('active');
@@ -19961,15 +19980,26 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         }
 
         // 3. 画面の切り替え
-        document.querySelectorAll('.view-section').forEach(el => {
+        // ※以前は.activeを外すだけで、消える側のセクションが最大500ms通常の
+        //   flexレイアウトに残ったままになり、新しいセクションと高さを二重に
+        //   取り合ってページが一瞬伸びてから縮む→その際のスクロールアンカリングで
+        //   コンテンツが画面中央寄りにズレて見える不具合があった。
+        //   退場するセクションのみ即座に.view-leaving(position:absolute)を付与し、
+        //   通常のレイアウト計算から切り離してからフェードアウトさせる。
+        document.querySelectorAll('.view-section.active').forEach(el => {
             el.classList.remove('active');
+            el.classList.add('view-leaving');
             setTimeout(() => {
-                if(!el.classList.contains('active')) el.style.display = 'none';
+                if(!el.classList.contains('active')) {
+                    el.classList.remove('view-leaving');
+                    el.style.display = 'none';
+                }
             }, 500);
         });
         
         const target = document.getElementById(`view-${viewId}`);
         if (target) {
+            target.classList.remove('view-leaving');
             target.style.display = 'block';
             void target.offsetWidth; // リフロー
             target.classList.add('active');
