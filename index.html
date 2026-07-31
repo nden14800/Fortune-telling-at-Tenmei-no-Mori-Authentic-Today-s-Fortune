@@ -17539,13 +17539,13 @@ function renderHistoryList(historyData) {
         
 // 検索ボタン
 function filterHistory() {
-    if (!currentState.user) return showToast("会員限定機能です", "warning"); // ←追加
+    if (!hasVisitorIdentity()) return showToast("会員限定機能です", "warning");
     loadHistory(1);
 }
 
 // リセットボタン
 function resetSearch() {
-    if (!currentState.user) return showToast("会員限定機能です", "warning"); // ←追加
+    if (!hasVisitorIdentity()) return showToast("会員限定機能です", "warning");
     document.getElementById('search-type').value = 'all'
     document.getElementById('search-keyword').value = '';
     document.getElementById('search-date-start').value = '';
