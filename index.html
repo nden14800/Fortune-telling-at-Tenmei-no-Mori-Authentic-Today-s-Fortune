@@ -5894,13 +5894,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
             </div>
             
-            <!-- Ver. 3.4 システムフッター -->
+            <!-- Ver. 3.5 システムフッター -->
             <div class="mt-12 mb-4 text-center border-t border-zinc-800 pt-6">
                 <div class="flex flex-col items-center justify-center gap-2 text-xs text-zinc-500 font-mono">
                     <div class="flex items-center gap-2 flex-wrap justify-center">
-                        <span>運勢・天命乃杜 Ver. 3.4</span>
+                        <span>運勢・天命乃杜 Ver. 3.5</span>
                         <span>|</span>
-                        <span>リリース日: 2026/07/25</span>
+                        <span>リリース日: 2026/07/31</span>
                         <span>|</span>
                         <span class="inline-flex items-center gap-1 text-[10px] bg-green-950/50 text-green-400 border border-green-800 px-1.5 py-0.5 rounded font-bold"><i class="bi bi-patch-check-fill"></i>最新版</span>
                     </div>
@@ -9040,6 +9040,81 @@ function escapeHtml(str) {
     
 // ■ 社務所だより（ニュース）データ
     const newsData = [
+
+{
+    id: 85,
+    title: "【セキュリティ強化・UI刷新】脆弱性の総点検と、サイト各所の使い勝手向上について",
+    date: "2026/07/31",
+    time: "12:19",
+    tag: "新機能・改善",
+    tagColor: "text-indigo-600",
+    borderColor: "border-indigo-500",
+    desc: "サイト全体のセキュリティ監査を実施し、発見した脆弱性7件を全て修正しました。あわせて、ログイン方式の安全性強化、ホーム画面の表示速度改善、通知・入力欄デザインの刷新、社務所だより・神籤草子への目次と「上へ戻る」ボタンの新設など、多数の改善を行いました。",
+    content: `
+        <div class="article-content">
+            <p>いつも「運勢・天命乃杜」をご利用いただき、誠にありがとうございます。運営者のnden148です。</p>
+            <p>本日2026年7月31日、天命乃杜をバージョン3.5に更新しました。以下、変更内容をご報告いたします。</p>
+
+            <h3>1. セキュリティ総点検</h3>
+            <p>サイト全体のセキュリティ監査を行い、以下7件の脆弱性を発見し、全て修正しました。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>パスワード変更時、現在のパスワードの確認が一部の経路で漏れていた不具合</li>
+                <li>AI要約機能のAPIにレート制限が設定されていなかった不具合</li>
+                <li>一部のAPIでOriginヘッダーの検証が行われていなかった不具合</li>
+                <li>ユーザー名のバリデーションが不十分だった不具合</li>
+                <li>Googleアカウント連携時、内部的なstate値が露出しうる状態だった不具合</li>
+                <li>検索APIにレート制限が設定されていなかった不具合</li>
+                <li>パスワードの強度チェックがブラウザ側のみで、サーバー側では行われていなかった不具合（あわせてサーバー側にも強度チェックを追加しました）</li>
+            </ul>
+
+            <h3>2. ログイン方式の安全性強化</h3>
+            <p>マジックリンクログイン・Googleアカウントログインについて、これまでセッショントークンをそのままやり取りしていた方式から、暗号化された使い捨ての引換コードを介する方式に変更しました。</p>
+
+            <h3>3. ホーム画面の表示速度を改善</h3>
+            <p>ホーム画面の動作が重く感じられる問題について原因を調査し、以下3点を修正しました。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>まだ表示していない画面まで先読みでレンダリングしていた処理を撤去</li>
+                <li>セッション確認処理が直列で待機していた部分を並行化</li>
+                <li>ホーム画面上部で舞う札の枚数を70枚から40枚に削減</li>
+            </ul>
+
+            <h3>4. 通知・確認画面のデザインを刷新</h3>
+            <p>トースト通知（画面右上などに出る短い通知）と確認モーダル（はい／いいえを選ぶ画面）のデザインを全面的に見直しました。</p>
+
+            <h3>5. 入力欄デザインの統一</h3>
+            <p>サイト内の各種入力欄（AI悩み相談・AI夢占いの入力欄、プロフィール編集、参拝者名の設定など）で、余白・角丸・フォーカス時の演出がバラバラだった状態を統一しました。TENMEI Labsや神籤草子クイズなど、あえて専用の配色にしている箇所は色をそのまま維持し、フォーカス時に反応する演出だけを揃えています。</p>
+
+            <h3>6. 社務所だより・神籤草子に目次と「上へ戻る」ボタンを新設</h3>
+            <p>見出しが複数ある記事を開くと、本文冒頭に目次が自動表示され、クリックで該当箇所へスムーズスクロールするようになりました。また、少しスクロールすると画面右下に表示される「上へ戻る」ボタンを全画面共通で新設しました。</p>
+
+            <h3>7. おみくじの轍まわりの不具合修正</h3>
+            <ul class="list-disc ml-5 mb-4">
+                <li>参拝者名の設定のみで利用している未ログインの方が「条件を絞り込む」「リセット」を押すと「会員限定機能です」と表示され、実際には使えるはずの機能が使えなかった不具合を修正</li>
+                <li>おみくじの結果をDiscordへシェアした際、未ログインの参拝者名が正しく表示されず「ゲスト」になってしまっていた不具合を修正</li>
+            </ul>
+
+            <h3>8. 記事一覧・記事詳細まわりの不具合修正</h3>
+            <ul class="list-disc ml-5 mb-4">
+                <li>社務所だより・神籤草子で、一度検索をしないと記事一覧が表示されない不具合を修正</li>
+                <li>神籤草子の記事詳細を開くと、サイドバーの表示が「社務所だより」のままになってしまう不具合を修正</li>
+                <li>記事本文の文字数と、AI要約に表示される「元の文字数」の数値が食い違っていた不具合を修正</li>
+            </ul>
+
+            <h3>9. その他の修正</h3>
+            <ul class="list-disc ml-5 mb-4">
+                <li>過去の結果をシェアした際、footerに表示される時刻が「シェアした今の時刻」になってしまっていた不具合を修正</li>
+                <li>AI夢占いの「過去の夢の記録」にページネーションを新規実装</li>
+                <li>プライバシーポリシー第5条に記載していたjsDelivrのリンクが無効になっていたため修正し、第17版に改訂</li>
+                <li>参拝証発行画面の会員機能比較表で、未ログイン欄の記載が実態と矛盾していた点を修正</li>
+                <li>最強運勢ランキング・全国の土地の運気の画面に、AI・独自アルゴリズムに基づく娯楽コンテンツである旨の注意書きを追加</li>
+            </ul>
+
+            <h3>今後について</h3>
+            <p>Invite Trackerの導入、サイト全体のUI一括モダン化（一部）については、検討の結果、今回は見送ることといたしました。</p>
+            <p>今回の更新をもって、これまでいただいていた数多くの改善要望への対応が、ひとつの区切りを迎えました。引き続き、より良い「運勢・天命乃杜」を目指して開発を続けてまいります。今後とも「運勢・天命乃杜」をよろしくお願いいたします。</p>
+        </div>
+    `
+},
 
 {
     id: 84,
@@ -21509,6 +21584,67 @@ window.applyTheme = function() {
 
         // ===== 更新の軌跡パネル =====
     const verDetailData = {
+        v35: {
+            ver: 'Ver. 3.5',
+            name: 'セキュリティ強化とUI刷新、各種不具合修正',
+            date: '2026年7月31日',
+            sections: [
+                {
+                    icon: 'bi-shield-check', title: 'セキュリティ総点検',
+                    changes: [
+                        { type: 'fix', text: 'サイト全体のセキュリティ監査を実施し、脆弱性7件（パスワード変更時の確認漏れ、AI要約API・検索APIのレート制限漏れ、Originヘッダー検証漏れ、ユーザー名バリデーション不足、Google連携のstate値露出、パスワード強度チェックのサーバー側未実装）を発見し全て修正。', sourceIds: [85] }
+                    ]
+                },
+                {
+                    icon: 'bi-key', title: 'ログイン方式の安全性強化',
+                    changes: [
+                        { type: 'change', text: 'マジックリンク・Googleログインのセッショントークンを、暗号化された使い捨ての引換コード方式に変更。', sourceIds: [85] }
+                    ]
+                },
+                {
+                    icon: 'bi-speedometer2', title: 'ホーム画面の表示速度を改善',
+                    changes: [
+                        { type: 'fix', text: '未表示ビューの先読みレンダリング撤去、セッション確認処理の並行化、舞う札を70枚→40枚に削減し、ホーム画面が重い問題を解消。', sourceIds: [85] }
+                    ]
+                },
+                {
+                    icon: 'bi-bell', title: '通知・確認画面のデザインを刷新',
+                    changes: [
+                        { type: 'change', text: 'トースト通知・確認モーダルのデザインを全面刷新。', sourceIds: [85] }
+                    ]
+                },
+                {
+                    icon: 'bi-input-cursor-text', title: '入力欄デザインの統一',
+                    changes: [
+                        { type: 'change', text: 'AI悩み相談・AI夢占い・プロフィール編集・参拝者名設定などの入力欄の余白・角丸・フォーカス演出を統一。TENMEI Labs・神籤草子クイズの専用配色は維持。', sourceIds: [85] }
+                    ]
+                },
+                {
+                    icon: 'bi-list-ul', title: '目次と「上へ戻る」ボタンを新設',
+                    changes: [
+                        { type: 'new', text: '社務所だより・神籤草子の記事詳細に目次を自動生成する機能と、全画面共通の「上へ戻る」ボタンを新設。', sourceIds: [85] }
+                    ]
+                },
+                {
+                    icon: 'bi-bug', title: 'おみくじの轍まわりの不具合修正',
+                    changes: [
+                        { type: 'fix', text: '参拝者名設定のみの未ログイン利用者が「絞り込む」「リセット」を押すと会員限定表示になってしまう不具合、Discordシェア時に参拝者名が反映されない不具合を修正。', sourceIds: [85] }
+                    ]
+                },
+                {
+                    icon: 'bi-file-earmark-text', title: '記事一覧・記事詳細まわりの不具合修正',
+                    changes: [
+                        { type: 'fix', text: '検索しないと記事一覧が表示されない不具合、神籤草子の記事詳細でサイドバー表示が「社務所だより」のままになる不具合、記事文字数とAI要約の「元の文字数」の食い違いを修正。', sourceIds: [85] }
+                    ]
+                },
+                {
+                    icon: 'bi-three-dots', title: 'その他の修正',
+                    changes: [
+                        { type: 'fix', text: '過去結果シェア時のfooter時刻表示バグを修正。AI夢占いの過去記録にページネーションを新規実装。プライバシーポリシー第5条のjsDelivrリンク切れを修正し第17版に改訂。参拝証発行の会員機能比較表の未ログイン欄の記載を修正。最強運勢ランキング・全国の土地の運気にAI/独自アルゴリズムに基づく娯楽コンテンツである旨の注意書きを追加。', sourceIds: [85] }
+                    ]
+                }
+            ]
+        },
         v34: {
             ver: 'Ver. 3.4',
             name: '未ログイン参拝者への機能開放とサイト表示速度の改善',
@@ -22473,12 +22609,33 @@ window.applyTheme = function() {
         <div class="ver-panel-scroll">
             <div class="ver-timeline">
 
-                <!-- Ver 3.4（現在） -->
-                <div class="ver-timeline-item is-current" onclick="openVerDetail('v34')">
+                <!-- Ver 3.5（現在） -->
+                <div class="ver-timeline-item is-current" onclick="openVerDetail('v35')">
+                    <div class="ver-item-card">
+                        <div class="ver-item-top">
+                            <span class="ver-item-ver">Ver. 3.5</span>
+                            <span class="ver-item-badge ver-badge-current"><i class="bi bi-patch-check-fill"></i>最新版</span>
+                        </div>
+                        <div class="ver-item-date">2026年7月31日リリース</div>
+                        <div class="ver-item-name">セキュリティ強化とUI刷新、各種不具合修正</div>
+                        <div class="ver-item-desc">サイト全体のセキュリティ監査を実施し脆弱性7件を修正。ログイン方式の安全性強化、ホーム画面の表示速度改善、通知・入力欄デザインの刷新、社務所だより・神籤草子への目次と「上へ戻る」ボタンの新設など多数の改善を実施。</div>
+                        <div class="ver-item-tags">
+                            <span class="ver-item-tag">セキュリティ強化</span>
+                            <span class="ver-item-tag">表示速度改善</span>
+                            <span class="ver-item-tag">通知・入力欄刷新</span>
+                            <span class="ver-item-tag">目次・上へ戻るボタン</span>
+                            <span class="ver-item-tag">不具合修正</span>
+                        </div>
+                        <div class="ver-item-more"><i class="bi bi-chevron-right"></i>詳細を見る</div>
+                    </div>
+                </div>
+
+                <!-- Ver 3.4 -->
+                <div class="ver-timeline-item" onclick="openVerDetail('v34')">
                     <div class="ver-item-card">
                         <div class="ver-item-top">
                             <span class="ver-item-ver">Ver. 3.4</span>
-                            <span class="ver-item-badge ver-badge-current"><i class="bi bi-patch-check-fill"></i>最新版</span>
+                            <span class="ver-item-badge ver-badge-stable"><i class="bi bi-patch-check-fill"></i>機能追加</span>
                         </div>
                         <div class="ver-item-date">2026年7月25日リリース</div>
                         <div class="ver-item-name">未ログイン参拝者への機能開放とサイト表示速度の改善</div>
