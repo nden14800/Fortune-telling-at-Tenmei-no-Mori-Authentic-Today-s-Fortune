@@ -2157,7 +2157,14 @@
 }/* 4. デンジャーゾーン (右下) */
 .profile-card-danger {
     grid-column: span 12;
-}/* 入力欄のモダン化 */
+}
+/* 読書設定カードのアクセント色（output.cssの再ビルドを待たずに確実に反映させるための独自定義） */
+.rs-accent-emerald { border-left-color: #10b981 !important; }
+.rs-accent-emerald-text { color: #059669; }
+.dark .rs-accent-emerald-text { color: #34d399; }
+.rs-accent-teal-icon { background-color: #ccfbf1; color: #0d9488; }
+.dark .rs-accent-teal-icon { background-color: rgba(20,184,166,0.15); color: #2dd4bf; }
+/* 入力欄のモダン化 */
 .profile-input-group {
     margin-bottom: 16px;
 }.profile-input-label {
@@ -7691,7 +7698,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
                         <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-zinc-700">
                             <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center text-teal-600">
+                                <div class="w-8 h-8 rounded-full rs-accent-teal-icon flex items-center justify-center">
                                     <i class="bi bi-universal-access"></i>
                                 </div>
                                 <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
@@ -20209,9 +20216,40 @@ async function renderSettingsDashboard() {
                 </div>
             </div>
 
+            <!-- 3. 登録情報変更 (右) -->
+            <div class="stats-card-interactive profile-card-edit p-6 rounded-2xl bg-white dark:bg-zinc-900">
+                <div class="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-gray-700 pb-3">
+                    <i class="bi bi-pencil-square text-blue-500"></i>
+                    <h4 class="font-bold text-lg">登録情報の変更</h4>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="profile-input-group">
+                        <label class="profile-input-label">新しいユーザー名</label>
+                        <input type="text" id="setting-new-username" class="profile-input-field" placeholder="${safeName}">
+                    </div>
+                    
+                    <div class="profile-input-group">
+                        <label class="profile-input-label">新しいパスワード</label>
+                        <input type="password" id="setting-new-password" class="profile-input-field" placeholder="8文字以上（変更する場合のみ入力）" autocomplete="new-password" oninput="toggleCurrentPasswordField()">
+                    </div>
+
+                    <div class="profile-input-group" id="setting-current-password-group" style="display:none;">
+                        <label class="profile-input-label">現在のパスワード <span class="text-xs text-gray-400">（パスワード変更時のみ必須）</span></label>
+                        <input type="password" id="setting-current-password" class="profile-input-field" placeholder="確認のため現在のパスワードを入力" autocomplete="current-password">
+                    </div>
+                </div>
+
+                <div class="mt-4 text-right">
+                    <button onclick="updateAccountSettings()" class="btn-primary py-2 px-6 shadow-md text-sm">
+                        <i class="bi bi-save"></i> 変更を保存
+                    </button>
+                </div>
+            </div>
+
             <!-- 2.5 読書設定 (フカヨミより移植) -->
-            <div class="stats-card-interactive profile-card-status p-6 rounded-2xl bg-white dark:bg-zinc-900 border-l-4 border-l-emerald-500">
-                <div class="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
+            <div class="stats-card-interactive profile-card-secondary p-6 rounded-2xl bg-white dark:bg-zinc-900 border-l-4 rs-accent-emerald">
+                <div class="flex items-center gap-2 mb-4 rs-accent-emerald-text">
                     <i class="bi bi-body-text text-xl"></i>
                     <h4 class="font-bold text-sm">読書設定</h4>
                 </div>
@@ -20260,7 +20298,7 @@ async function renderSettingsDashboard() {
                     </div>
                     <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-zinc-700">
                         <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center text-teal-600">
+                            <div class="w-8 h-8 rounded-full rs-accent-teal-icon flex items-center justify-center">
                                 <i class="bi bi-universal-access"></i>
                             </div>
                             <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
@@ -20273,37 +20311,6 @@ async function renderSettingsDashboard() {
                             <span class="slider"></span>
                         </label>
                     </div>
-                </div>
-            </div>
-
-            <!-- 3. 登録情報変更 (右) -->
-            <div class="stats-card-interactive profile-card-edit p-6 rounded-2xl bg-white dark:bg-zinc-900">
-                <div class="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-gray-700 pb-3">
-                    <i class="bi bi-pencil-square text-blue-500"></i>
-                    <h4 class="font-bold text-lg">登録情報の変更</h4>
-                </div>
-                
-                <div class="space-y-4">
-                    <div class="profile-input-group">
-                        <label class="profile-input-label">新しいユーザー名</label>
-                        <input type="text" id="setting-new-username" class="profile-input-field" placeholder="${safeName}">
-                    </div>
-                    
-                    <div class="profile-input-group">
-                        <label class="profile-input-label">新しいパスワード</label>
-                        <input type="password" id="setting-new-password" class="profile-input-field" placeholder="8文字以上（変更する場合のみ入力）" autocomplete="new-password" oninput="toggleCurrentPasswordField()">
-                    </div>
-
-                    <div class="profile-input-group" id="setting-current-password-group" style="display:none;">
-                        <label class="profile-input-label">現在のパスワード <span class="text-xs text-gray-400">（パスワード変更時のみ必須）</span></label>
-                        <input type="password" id="setting-current-password" class="profile-input-field" placeholder="確認のため現在のパスワードを入力" autocomplete="current-password">
-                    </div>
-                </div>
-
-                <div class="mt-4 text-right">
-                    <button onclick="updateAccountSettings()" class="btn-primary py-2 px-6 shadow-md text-sm">
-                        <i class="bi bi-save"></i> 変更を保存
-                    </button>
                 </div>
             </div>
 
