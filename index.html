@@ -164,7 +164,7 @@
             /* --- 読書設定（フカヨミ由来の設定を移植） --- */
             --article-font-size: 1rem;
             --article-line-height: 1.9;
-            --article-font-family: 'Shippori Mincho', serif;
+            --article-font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
             --article-max-width: 720px;
         }
 
@@ -2552,13 +2552,33 @@
 }.article-content {
     font-size: var(--article-font-size);
     line-height: var(--article-line-height);
-    font-family: var(--article-font-family);
+    font-family: var(--article-font-family) !important;
     max-width: var(--article-max-width);
     margin-left: auto;
     margin-right: auto;
     transition: font-size 0.2s ease, line-height 0.2s ease, max-width 0.2s ease, opacity 0.18s ease;
     opacity: 0;
-}.article-content.article-content--ready {
+}
+/* ★修正: output.css の .prose (Tailwind Typography) 側で p / h1-h6 等の子要素に
+   個別に font-family が指定されていると、output.cssの読み込みが後になる関係で
+   詳細度が同じでも .prose 側が勝ってしまい、環境設定のフォントが本文に反映され
+   ない場合があった。code/pre や bootstrap-icons(<i class="bi ...">) は対象外にして、
+   本文のテキスト要素にだけ確実に環境設定のフォントを適用する。 */
+.article-content p,
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content li,
+.article-content td,
+.article-content th,
+.article-content blockquote,
+.article-content a,
+.article-content strong,
+.article-content em {
+    font-family: var(--article-font-family) !important;
+}
+.article-content.article-content--ready {
     opacity: 1;
 }.article-content h3 { font-size: 1.4rem; font-weight: bold; margin: 30px 0 15px; border-left: 4px solid var(--accent-red); padding-left: 10px; }.article-content p { margin-bottom: 20px; }/* --- TENMEI Labs モダンUI用スタイル (Google Labs風) --- */
         
@@ -15090,9 +15110,13 @@ window.renderFullColumnView = function() {
             //   表示直後にフォールバックフォント→Webフォントへ切り替わって見える
             //   「読み込み後にフォントが変わる」現象を防止する
             (function revealArticleContentWhenFontsReady() {
-                const articleEl = container.querySelector('.article-content');
-                if (!articleEl) return;
-                const reveal = () => articleEl.classList.add('article-content--ready');
+                // ★修正: 記事データ(item.content)側にもともと <div class="article-content"> が
+                //   入れ子で含まれているため、querySelectorで最初の1個(テンプレート側の外側)だけに
+                //   --readyを付けると、本文本体が入っている内側のdivがopacity:0のまま
+                //   表示されなくなるバグがあった。該当する全要素にreadyを付与するよう修正。
+                const articleEls = container.querySelectorAll('.article-content');
+                if (!articleEls.length) return;
+                const reveal = () => articleEls.forEach(el => el.classList.add('article-content--ready'));
                 if (document.fonts && document.fonts.ready) {
                     // フォント確定を待つが、万一遅延・失敗しても最大600msで表示する
                     Promise.race([
@@ -21405,7 +21429,7 @@ const LiveChart = {
                 });
             }
             if (settings.bodyFont !== undefined) {
-                const fontMap = { serif: "'Shippori Mincho', serif", sans: "'Zen Kaku Gothic New', sans-serif" };
+                const fontMap = { serif: "'Zen Old Mincho', 'Shippori Mincho', serif", sans: "'Zen Kaku Gothic New', sans-serif" };
                 root.style.setProperty('--article-font-family', fontMap[settings.bodyFont] || fontMap.serif);
                 document.querySelectorAll('.opt-select-group[data-setting="bodyFont"]').forEach(group => {
                     group.dataset.value = settings.bodyFont;
