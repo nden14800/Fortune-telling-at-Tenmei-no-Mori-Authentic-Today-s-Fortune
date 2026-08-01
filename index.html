@@ -16116,6 +16116,7 @@ async function checkSession() {
                 updateAuthUI();
                 loadLabSettings();
                 loadMyStats(); // ★追加: ログイン確認直後に統計を読み込む
+                loadFavorites(); // ★追加: サーバーでログイン確認できた時点でお気に入りを再読み込み（Google/マジックリンクログイン時に必要）
                 console.log("Session restored");
                 LabAuth.refresh(); // Lab解錠判定もサーバー基準で同時に確定させる
             } else {
