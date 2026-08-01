@@ -18996,7 +18996,10 @@ async function logout() {
                 if(badge) badge.textContent = "";
             }
             
-            renderFavorites();
+            // ★修正: renderFavorites()だけだとランキングカード側の★表示が
+            // 空のfavoriteListで描画されたまま更新されなかったため、
+            // renderRanking()に変更（内部でrenderFavorites()も呼ばれる）
+            renderRanking();
         }
 
         // 12星座ロジック
