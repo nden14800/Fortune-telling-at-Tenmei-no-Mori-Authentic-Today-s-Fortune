@@ -2556,7 +2556,10 @@
     max-width: var(--article-max-width);
     margin-left: auto;
     margin-right: auto;
-    transition: font-size 0.2s ease, line-height 0.2s ease, max-width 0.2s ease;
+    transition: font-size 0.2s ease, line-height 0.2s ease, max-width 0.2s ease, opacity 0.18s ease;
+    opacity: 0;
+}.article-content.article-content--ready {
+    opacity: 1;
 }.article-content h3 { font-size: 1.4rem; font-weight: bold; margin: 30px 0 15px; border-left: 4px solid var(--accent-red); padding-left: 10px; }.article-content p { margin-bottom: 20px; }/* --- TENMEI Labs モダンUI用スタイル (Google Labs風) --- */
         
         /* カード全体の設定 */
@@ -15083,6 +15086,24 @@ window.renderFullColumnView = function() {
                 </div>
             `;
             
+            // ★修正: 記事本文はフォント読み込み確定後にフェードイン表示することで、
+            //   表示直後にフォールバックフォント→Webフォントへ切り替わって見える
+            //   「読み込み後にフォントが変わる」現象を防止する
+            (function revealArticleContentWhenFontsReady() {
+                const articleEl = container.querySelector('.article-content');
+                if (!articleEl) return;
+                const reveal = () => articleEl.classList.add('article-content--ready');
+                if (document.fonts && document.fonts.ready) {
+                    // フォント確定を待つが、万一遅延・失敗しても最大600msで表示する
+                    Promise.race([
+                        document.fonts.ready,
+                        new Promise(resolve => setTimeout(resolve, 600))
+                    ]).then(reveal);
+                } else {
+                    reveal();
+                }
+            })();
+
             showView('article-detail');
             window.scrollTo(0, 0);
             startReadingProgress(rpReadMinutes);
