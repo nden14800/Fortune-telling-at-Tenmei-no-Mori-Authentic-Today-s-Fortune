@@ -19601,6 +19601,9 @@ async function logout() {
         }
 
         const index = favoriteList.findIndex(f => f.sign === signId && f.blood === bloodType);
+
+        // ★修正: 保存に失敗した場合に元へ戻せるよう、変更前の状態を保持しておく
+        const prevFavoriteList = favoriteList.slice();
         
         if (index === -1) {
             if (favoriteList.length >= 5) {
@@ -19616,15 +19619,29 @@ async function logout() {
         renderRanking();
         
         try {
-            await authFetch(`${API_BASE}/api/favorites`, {
+            const res = await authFetch(`${API_BASE}/api/favorites`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ favorites: favoriteList })
             });
+
+            // ★修正: fetch()はHTTPステータスが401/500等でも例外を投げないため、
+            // res.okを明示的に確認しないと保存失敗に気づけず、
+            // 失敗時でも「保存完了」と表示され続けてしまっていた
+            if (!res.ok) {
+                throw new Error(`favorites save failed: ${res.status}`);
+            }
+
             const badge = document.getElementById('fav-status-badge');
             if(badge) badge.textContent = "保存完了";
         } catch(e) {
             console.error("Favorite save failed", e);
+
+            // ★修正: 保存に失敗した場合は画面上の変更をロールバックし、
+            // ユーザーに失敗が分かるようトースト表示する
+            favoriteList = prevFavoriteList;
+            renderRanking();
+            showToast("お気に入りの保存に失敗しました。もう一度お試しください", "warning");
         }
     }
 
@@ -19787,29 +19804,10 @@ function createCardHTML(data) {
     `;
 }
 
-    // ランキング描画ロジックの修正 (4位以下を表示させる)
-    function renderRanking() {
-        const listContainer = document.getElementById('ranking-list');
-        const fullListContainer = document.getElementById('full-ranking-list');
-        
-        if (!listContainer || !fullListContainer) return;
-        
-        listContainer.innerHTML = ''; 
-        fullListContainer.innerHTML = '';
-        
-        dailyRanking.forEach((data, index) => {
-            const html = createCardHTML(data);
-            if (index < 3) {
-                // 1~3位はメインリストへ
-                listContainer.insertAdjacentHTML('beforeend', html);
-            } else {
-                // 4位以下は隠しリストへ
-                fullListContainer.insertAdjacentHTML('beforeend', html);
-            }
-        });
-        
-        renderFavorites();
-    }
+    // ランキング描画ロジック (4位以下を表示させる)
+    // ※以前は同名の renderRanking() がこの下にもう一つ定義されており、
+    //   後者の定義に上書きされて完全なデッドコードになっていたため削除。
+    //   実処理は下の renderFavorites() の直後にある renderRanking() を参照。
 
     // --- 12星座用ログインモーダルを閉じる関数（完全修正版） ---
 function closeZodiacModal(e) {
