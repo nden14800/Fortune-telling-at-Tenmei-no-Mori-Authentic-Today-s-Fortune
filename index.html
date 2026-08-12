@@ -3181,6 +3181,10 @@
             border-color: #d4af37 !important;
         }
 
+        /* おみくじ結果PDFの印刷専用要素：通常画面では表示しない */
+        #result-display-area > .result-pdf-print-meta { display: none !important; }
+        .action-card-btn small { margin-top: 2px; font-size: 0.68rem; font-weight: 500; line-height: 1.35; opacity: 0.82; }
+
         /* --- PDF・印刷用スタイル（サイトの見た目を保持した高品質出力） --- */
         @media print {
             @page {
@@ -3387,6 +3391,54 @@
             tr {
                 break-inside: avoid;
                 page-break-inside: avoid;
+            }
+
+            /* おみくじ結果PDF：画面の札をA4縦の記念記録として一枚に整える */
+            #view-result.printing {
+                width: 174mm !important;
+                max-width: 174mm !important;
+                margin: 0 auto !important;
+                padding: 8mm 0 10mm !important;
+                text-align: center !important;
+            }
+            #view-result.printing #result-display-area {
+                padding: 0 !important;
+            }
+            #view-result.printing #result-display-area > div:first-child {
+                padding: 0 !important;
+            }
+            #view-result.printing #result-capture-container {
+                width: 158mm !important;
+                max-width: 158mm !important;
+                margin: 0 auto !important;
+            }
+            #view-result.printing .result-card-outer {
+                width: 158mm !important;
+                min-height: 238mm !important;
+                padding: 12mm 10mm !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+            #view-result.printing .result-pdf-print-meta {
+                display: flex !important;
+                width: 158mm !important;
+                margin: 0 auto 4mm !important;
+                padding-bottom: 3mm !important;
+                border-bottom: 1px solid #b88a32 !important;
+                color: #5c3317 !important;
+                font-family: 'Zen Old Mincho', serif !important;
+                font-size: 8.5pt !important;
+                font-weight: 700 !important;
+                letter-spacing: 0.08em !important;
+                justify-content: space-between !important;
+                text-align: left !important;
+            }
+            #view-result.printing .result-screen-only,
+            #view-result.printing #result-ai-consult,
+            #view-result.printing .result-actions-container,
+            #view-result.printing #gen-img-status,
+            #view-result.printing #generated-image-container {
+                display: none !important;
             }
         }/* --- 御守授与所スタイル (New!8: 本格意匠版) --- */
         /* 実物の御守の意匠要素（錦の生地・金襴の縁取り・叶結びの紐・房）を踏まえて再構成 */
@@ -4991,8 +5043,327 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
            それをファイル冒頭でlink読み込みに変えたことで優先順位が逆転し、
            ライトモードでも一部カードが黒背景のまま固定される不具合が発生していたため、元の順序に復元。 -->
     <link rel="stylesheet" href="output.css">
-</head>
-<body>
+        <style id="omikuji-result-pdf-print-style">
+            /* おみくじ結果PDFだけに適用する最終印刷規則。
+               画面用の!important指定より高い親状態を用いて、紙面へアプリUIが混入しないようにする。 */
+            @media print {
+                @page { size: A4 portrait; margin: 0; }
+
+                html body.omikuji-result-printing #sidebar,
+                html body.omikuji-result-printing #site-footer,
+                html body.omikuji-result-printing #ver-history-overlay,
+                html body.omikuji-result-printing #ver-history-panel,
+                html body.omikuji-result-printing #tutorial-overlay,
+                html body.omikuji-result-printing #secret-overlay,
+                html body.omikuji-result-printing #countdown-overlay,
+                html body.omikuji-result-printing #guest-name-modal,
+                html body.omikuji-result-printing #edit-profile-modal,
+                html body.omikuji-result-printing #zodiac-login-modal,
+                html body.omikuji-result-printing #lab-modal,
+                html body.omikuji-result-printing #history-login-overlay,
+                html body.omikuji-result-printing #dream-login-overlay,
+                html body.omikuji-result-printing #mist-container,
+                html body.omikuji-result-printing #loading-overlay {
+                    display: none !important;
+                }
+
+                html body.omikuji-result-printing,
+                html body.omikuji-result-printing #main-content {
+                    display: block !important;
+                    width: 100% !important;
+                    min-width: 0 !important;
+                    min-height: 0 !important;
+                    height: auto !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    overflow: visible !important;
+                    position: static !important;
+                    transform: none !important;
+                    background: #f8f7f4 !important;
+                }
+
+                html body.omikuji-result-printing .view-section {
+                    display: none !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing {
+                    display: block !important;
+                    box-sizing: border-box !important;
+                    width: 174mm !important;
+                    max-width: 174mm !important;
+                    min-height: 0 !important;
+                    margin: 0 auto !important;
+                    padding: 8mm 0 10mm !important;
+                    opacity: 1 !important;
+                    overflow: visible !important;
+                    position: static !important;
+                    text-align: center !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing #result-display-area {
+                    padding: 0 !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing #result-display-area > .result-pdf-print-meta {
+                    display: flex !important;
+                    width: 158mm !important;
+                    margin: 0 auto 4mm !important;
+                    padding-bottom: 3mm !important;
+                    border-bottom: 1px solid #b88a32 !important;
+                    color: #5c3317 !important;
+                    font-family: 'Zen Old Mincho', serif !important;
+                    font-size: 8.5pt !important;
+                    font-weight: 700 !important;
+                    letter-spacing: 0.08em !important;
+                    justify-content: space-between !important;
+                    text-align: left !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing #result-capture-container {
+                    width: 158mm !important;
+                    max-width: 158mm !important;
+                    margin: 0 auto !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing #result-display-area > div:not(.result-pdf-print-meta) {
+                    width: 100% !important;
+                    padding: 0 !important;
+                    overflow: visible !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing #result-capture-container {
+                    break-before: auto !important;
+                    page-break-before: auto !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-card-outer {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    width: 158mm !important;
+                    height: 246mm !important;
+                    min-height: 0 !important;
+                    padding: 7mm 8mm !important;
+                    --omikuji-accent: #5c3317 !important;
+                    color: #5c3317 !important;
+                    box-sizing: border-box !important;
+                    border: 0.35mm solid var(--omikuji-accent) !important;
+                    overflow: hidden !important;
+                    break-inside: avoid !important;
+                    page-break-inside: avoid !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-stamp-header {
+                    display: flex !important;
+                    flex-direction: row-reverse !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    gap: 3mm !important;
+                    width: 100% !important;
+                    max-width: 84mm !important;
+                    padding: 4.5mm 4mm !important;
+                    margin-bottom: 3mm !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-stamp-brand {
+                    display: block !important;
+                    width: 1.25em !important;
+                    white-space: normal !important;
+                    word-break: break-all !important;
+                    writing-mode: horizontal-tb !important;
+                    text-orientation: mixed !important;
+                    font-size: 1.15rem !important;
+                    line-height: 1.25 !important;
+                    text-align: center !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-stamp-mark {
+                    width: 8mm !important;
+                    height: 8mm !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-issue-num {
+                    margin-bottom: 4mm !important;
+                    font-size: 0.7rem !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-main-message-area {
+                    display: flex !important;
+                    flex-direction: row-reverse !important;
+                    align-items: flex-start !important;
+                    justify-content: center !important;
+                    width: 100% !important;
+                    height: 68mm !important;
+                    min-height: 68mm !important;
+                    max-height: 68mm !important;
+                    margin-bottom: 5mm !important;
+                    padding: 0 2mm !important;
+                    gap: 5mm !important;
+                    overflow: hidden !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-message-flow-block {
+                    writing-mode: vertical-rl !important;
+                    text-orientation: mixed !important;
+                    height: 68mm !important;
+                    min-height: 0 !important;
+                    max-height: 68mm !important;
+                    font-size: 0.88rem !important;
+                    line-height: 1.8 !important;
+                    letter-spacing: 0.12em !important;
+                    text-align: start !important;
+                    text-align-last: start !important;
+                    overflow: hidden !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-poem-part {
+                    font-size: 0.68em !important;
+                    letter-spacing: 0.22em !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-desc-part {
+                    font-size: 1.02em !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-rank-row {
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    width: 100% !important;
+                    margin-bottom: 4mm !important;
+                    padding-top: 4mm !important;
+                    gap: 4mm !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-rank-label {
+                    font-size: 0.95rem !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-kanji-main {
+                    font-size: 1.3rem !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-rank-mountain {
+                    display: block !important;
+                    width: 7mm !important;
+                    min-width: 7mm !important;
+                    max-width: 7mm !important;
+                    height: 7mm !important;
+                    min-height: 7mm !important;
+                    max-height: 7mm !important;
+                    flex: 0 0 7mm !important;
+                    aspect-ratio: 1 / 1 !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-details-grid {
+                    display: flex !important;
+                    flex-direction: row-reverse !important;
+                    align-items: flex-start !important;
+                    justify-content: center !important;
+                    width: 100% !important;
+                    min-height: 29mm !important;
+                    max-height: 29mm !important;
+                    margin-bottom: 5mm !important;
+                    padding: 4mm 0 !important;
+                    gap: 4mm !important;
+                    overflow: hidden !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .detail-column {
+                    writing-mode: vertical-rl !important;
+                    text-orientation: mixed !important;
+                    height: 21mm !important;
+                    min-height: 0 !important;
+                    max-height: 21mm !important;
+                    font-size: 0.73rem !important;
+                    line-height: 1.3 !important;
+                    overflow: hidden !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .detail-item-label {
+                    margin-bottom: 3mm !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .lucky-area {
+                    display: grid !important;
+                    grid-template-columns: 1fr !important;
+                    width: 100% !important;
+                    gap: 0 !important;
+                    margin-bottom: 0 !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .omikuji-lucky-inner {
+                    display: flex !important;
+                    flex-direction: row-reverse !important;
+                    justify-content: space-evenly !important;
+                    align-items: flex-start !important;
+                    min-height: 47mm !important;
+                    max-height: 47mm !important;
+                    padding: 0 3mm !important;
+                    overflow: hidden !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .omikuji-lucky-col {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    flex: 1 !important;
+                    min-width: 0 !important;
+                    gap: 3mm !important;
+                    padding: 0 2mm !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .omikuji-lucky-label {
+                    writing-mode: vertical-rl !important;
+                    text-orientation: mixed !important;
+                    font-size: 0.6rem !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .omikuji-lucky-val {
+                    writing-mode: vertical-rl !important;
+                    text-orientation: mixed !important;
+                    font-size: 0.72rem !important;
+                    line-height: 1.45 !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .omikuji-color-swatch {
+                    width: 4mm !important;
+                    height: 7mm !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-footer-info {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    width: 100% !important;
+                    border-top: 0.25mm solid currentColor !important;
+                    padding-top: 2.5mm !important;
+                    gap: 1.5mm !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-user-name {
+                    font-size: 0.92rem !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-date {
+                    font-size: 0.72rem !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-copyright {
+                    font-size: 0.6rem !important;
+                    line-height: 1.2 !important;
+                }
+
+                html body.omikuji-result-printing #view-result.printing .result-screen-only,
+                html body.omikuji-result-printing #view-result.printing #result-ai-consult,
+                html body.omikuji-result-printing #view-result.printing .result-actions-container,
+                html body.omikuji-result-printing #view-result.printing #gen-img-status,
+                html body.omikuji-result-printing #view-result.printing #generated-image-container {
+                    display: none !important;
+                }
+            }
+        </style>
+    </head>
 
     <!-- ▼▼▼ 修正: クラス "sidebar-collapsed" を追加 ▼▼▼ -->
     <body class="sidebar-collapsed">
@@ -6177,6 +6548,12 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         <section id="view-result" class="view-section text-center">
             <div id="result-display-area" class="py-10">
                 
+                <!-- 印刷時のみ表示する結果記録の見出し。通常画面ではCSSで非表示。 -->
+                <div id="result-pdf-print-meta" class="result-pdf-print-meta">
+                    <span>天命乃杜　おみくじ結果記録</span>
+                    <span id="result-pdf-issued-at"></span>
+                </div>
+
                 <!-- 画像化対象エリア (修正版: 画面幅に合わせて自動縮小) -->
                 <div class="w-full flex justify-center px-2 md:px-0">
                     <div id="result-capture-container" class="w-full max-w-[600px] mx-auto transition-transform">
@@ -6190,7 +6567,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 <div id="generated-image-container" class="hidden w-full max-w-[600px] mx-auto mt-2 px-2 md:px-0"></div>
 
                 <!-- 注釈 (修正版: 自然なテキスト配置) -->
-                <div class="mt-6 mb-8 text-center px-4">
+                <div class="result-screen-only mt-6 mb-8 text-center px-4">
                     <p class="text-xs text-gray-500 dark:text-gray-400 leading-loose inline-block text-center">
                         結果は必ずしもその通りになるとは限りません。<br class="hidden sm:inline">
                         詳細は
@@ -6203,7 +6580,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 </div>
 
                 <!-- AI悩み相談（緊急追加!21） -->
-                <div class="bento-card max-w-[600px] mx-auto mt-2 mb-8 text-left" style="padding:1.5rem;">
+                <div id="result-ai-consult" class="bento-card max-w-[600px] mx-auto mt-2 mb-8 text-left" style="padding:1.5rem;">
                     <h3 class="font-black text-base mb-3 flex items-center gap-2" style="font-family:'Zen Old Mincho',serif;">
                         <i class="bi bi-chat-heart-fill" style="color:var(--accent-gold);"></i>
                         気になることを相談する
@@ -6234,6 +6611,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         <button onclick="generateResultImage()" class="action-card-btn action-primary grid-span-full" style="min-height: 80px; font-size: 1.1rem;">
                             <i class="bi bi-download" style="font-size: 2rem;"></i>
                             <span>画像を保存する</span>
+                        </button>
+
+                        <!-- PDF保存：印刷・手元保管向け。SNS向けの画像保存とは用途を分ける -->
+                        <button onclick="downloadResultAsPDF()" class="action-card-btn grid-span-full" aria-describedby="result-pdf-help">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            <span>PDFとして保存</span>
+                            <small id="result-pdf-help">印刷画面で「PDFに保存」を選択</small>
                         </button>
 
                         <!-- ホームへ -->
@@ -20213,24 +20597,72 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         });
     }
 
-    function downloadAsPDF(viewId) {
-        const section = document.getElementById(`view-${viewId}`);
-        if(!section) return;
-
+        function printSectionAsPDF(section, restorePrintStyling = () => {}, printBodyClass = '') {
+        if (!section) return;
         section.classList.add('printing');
-        const restoreHeroPrintStyling = applyPDFHeroPrintStyling(section);
-
+        if (printBodyClass) document.body.classList.add(printBodyClass);
         const cleanup = () => {
-            restoreHeroPrintStyling();
+            restorePrintStyling();
+            if (printBodyClass) document.body.classList.remove(printBodyClass);
             section.classList.remove('printing');
             window.removeEventListener('afterprint', cleanup);
         };
         window.addEventListener('afterprint', cleanup);
-
         // 一部ブラウザ（Safari等）でafterprintが発火しない場合の保険
         setTimeout(cleanup, 5000);
+        // 印刷スタイルをレイアウトへ反映してから、ブラウザ標準の印刷画面を開く
+        requestAnimationFrame(() => {
+            void section.offsetHeight;
+            window.print();
+        });
+    }
 
-        window.print();
+    function downloadAsPDF(viewId) {
+        const section = document.getElementById(`view-${viewId}`);
+        if (!section) return;
+        printSectionAsPDF(section, applyPDFHeroPrintStyling(section));
+    }
+
+    function downloadResultAsPDF() {
+        const section = document.getElementById('view-result');
+        const result = currentState.lastResult;
+        const issuedAt = document.getElementById('result-pdf-issued-at');
+        if (!section || !result) {
+            showToast('おみくじ結果が見つかりません。もう一度おみくじを引いてからお試しください。', 'warning', 'PDFとして保存');
+            return;
+        }
+
+        const sizeSnapshots = Array.from(
+            section.querySelectorAll('.result-message-flow-block, .detail-column'),
+            (element) => ({
+                element,
+                height: element.style.getPropertyValue('height'),
+                heightPriority: element.style.getPropertyPriority('height'),
+                maxHeight: element.style.getPropertyValue('max-height'),
+                maxHeightPriority: element.style.getPropertyPriority('max-height')
+            })
+        );
+        const restoreResultCardSizing = () => sizeSnapshots.forEach((snapshot) => {
+            const { element, height, heightPriority, maxHeight, maxHeightPriority } = snapshot;
+            if (height) element.style.setProperty('height', height, heightPriority);
+            else element.style.removeProperty('height');
+            if (maxHeight) element.style.setProperty('max-height', maxHeight, maxHeightPriority);
+            else element.style.removeProperty('max-height');
+        });
+
+        sizeSnapshots.forEach(({ element }) => {
+            element.style.removeProperty('height');
+            element.style.removeProperty('max-height');
+        });
+
+        let timestamp = Number(result.timestamp);
+        if (!Number.isFinite(timestamp) || timestamp <= 0) timestamp = Date.now();
+        const date = new Date(timestamp);
+        const formattedDate = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+        issuedAt.textContent = `参拝日：${formattedDate}`;
+
+        showToast('印刷画面を開きます。保存先で「PDFに保存」を選択してください。', 'info', 'おみくじ結果PDF');
+        printSectionAsPDF(section, restoreResultCardSizing, 'omikuji-result-printing');
     }
 
 
