@@ -6052,13 +6052,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
             </div>
             
-            <!-- Ver. 3.5 システムフッター -->
+            <!-- Ver. 3.6 システムフッター -->
             <div class="mt-12 mb-4 text-center border-t border-zinc-800 pt-6">
                 <div class="flex flex-col items-center justify-center gap-2 text-xs text-zinc-500 font-mono">
                     <div class="flex items-center gap-2 flex-wrap justify-center">
-                        <span>運勢・天命乃杜 Ver. 3.5</span>
+                        <span>運勢・天命乃杜 Ver. 3.6</span>
                         <span>|</span>
-                        <span>リリース日: 2026/07/31</span>
+                        <span>リリース日: 2026/08/12</span>
                         <span>|</span>
                         <span class="inline-flex items-center gap-1 text-[10px] bg-green-950/50 text-green-400 border border-green-800 px-1.5 py-0.5 rounded font-bold"><i class="bi bi-patch-check-fill"></i>最新版</span>
                     </div>
@@ -9261,6 +9261,67 @@ function escapeHtml(str) {
     
 // ■ 社務所だより（ニュース）データ
     const newsData = [
+
+{
+    id: 86,
+    title: "【機能改善・PDF出力改善】読みやすさ・表示の安定性向上と、文書出力の見直しについて",
+    date: "2026/08/12",
+    time: "11:46",
+    tag: "新機能・改善",
+    tagColor: "text-indigo-600",
+    borderColor: "border-indigo-500",
+    desc: "社務所だより・神籤草子の記事目次と読書設定を見直し、画面幅・フッター・最強運勢ランキングのお気に入り表示を改善しました。あわせて、当サイトについて・プライバシーポリシーのPDFダウンロードを、iOSを含む各端末で読みやすく安定した出力になるよう全面的に調整しています。",
+    content: `
+        <div class="article-content">
+            <p>いつも「運勢・天命乃杜」をご利用いただき、誠にありがとうございます。運営者のnden148です。</p>
+            <p>本日2026年8月12日、前回のお知らせ以降に進めていた、記事の読みやすさ・各画面の表示安定性・最強運勢ランキングのお気に入り機能・PDFダウンロードの改善が一通り完了しました。以下、変更内容をご報告いたします。</p>
+
+            <h3>1. 記事詳細の目次と読書設定を改善</h3>
+            <p>社務所だより・神籤草子の記事詳細に表示される目次について、「当サイトについて」「プライバシーポリシー」などで使われている目次と、見た目・階層表現の両面を統一しました。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>記事本文の大見出し・小見出しを目次へ正しく反映し、小見出しはインデントと控えめな表示で階層が分かるようにしました。</li>
+                <li>記事本文の表示幅を変更する読書設定を利用している場合でも、目次はカード幅を活かして見やすく表示されるようにしました。</li>
+                <li>目次見出しに記事本文用の装飾が混ざる不具合を解消し、他の文書ページと同じ落ち着いた見た目に揃えました。</li>
+            </ul>
+            <p>あわせて、環境設定に「読書設定」を追加しました。文字サイズ、行間、本文の書体、本文の幅、アニメーションを減らす設定を、ログイン中はアカウント設定から、未ログインの方は「使い方」ページから変更できます。以前TENMEI Labsにあった「言霊の増幅」は、この正式な文字サイズ設定へ役割を統合しています。</p>
+            <p>さらに、表示テーマ・読書設定・TENMEI Labs機能をまとめて既定の状態へ戻せる「設定を初期値に戻す」操作を追加しました。実行後は完了通知が表示されるため、設定が反映されたことを確認できます。</p>
+
+            <h3>2. 画面の幅・カード配置・フッター表示を安定化</h3>
+            <p>一部の画面で、内容量によって表示幅が必要以上に狭くなり、中央へ寄って見える不具合を修正しました。参拝の記録、おみくじの轍、アカウント設定、AI夢占いなどを含め、各画面が内容量に左右されず同じ基準の幅で表示されるようになっています。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>TENMEI Labsとデジタル御守授与所では、最後の行にカードが1枚だけ残った際の不自然な余白を解消しました。</li>
+                <li>画面切り替え時に、前の画面と次の画面が一時的に重なって表示位置が揺れる不具合を修正しました。</li>
+                <li>フッターの余分な区切り線を整理し、内容の少ない画面でもフッターが画面下端へ自然に配置されるよう改善しました。</li>
+                <li>アカウント設定内の「設定を初期値に戻す」操作が狭い列へ入り、文字が不自然に折り返される不具合を修正しました。</li>
+            </ul>
+
+            <h3>3. 最強運勢ランキングのお気に入り機能を改善</h3>
+            <p>12星座占いの最強運勢ランキングで、お気に入り登録した項目の星印が、ページを再読み込みすると反映されていないように見える不具合を修正しました。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>お気に入り情報を読み込んだ後、ランキングカード本体とお気に入り一覧の両方へ正しく表示を反映するようにしました。</li>
+                <li>保存に失敗した場合は、画面上の状態を元に戻して通知するようにし、保存できていない状態が成功したように見えることを防ぎました。</li>
+                <li>Googleアカウントログイン・マジックリンクログインでも、ログイン状態の確認後にお気に入りが確実に復元されるようにしました。</li>
+            </ul>
+
+            <h3>4. PDFダウンロードの出力品質を改善</h3>
+            <p>「当サイトについて」と「プライバシーポリシー」のPDFダウンロードについて、画面上の表示を単に印刷するだけではなく、文書として読みやすく安定した出力になるよう見直しました。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>チュートリアル、モーダル、フッターなど、本文以外の画面要素がPDFへ混在する問題を解消しました。</li>
+                <li>余白、表、見出し、改ページを印刷向けに調整し、不自然な空白や読みにくい分断を抑えました。</li>
+                <li>iOSを含むWebKit系の環境で、複数のグラデーションが背景の継ぎ目として出る問題を避けるため、PDF時だけ安定した背景描画を使うようにしました。</li>
+                <li>PDF上でも天命乃杜らしい墨・紅・金のHero表現を保ちつつ、見出し・改定日・補助ラベルが十分なコントラストで読めるよう調整しました。</li>
+            </ul>
+            <p>通常のサイト画面のデザインは変更せず、PDFとして保存する場合だけ出力に適した調整が働く構成です。</p>
+
+            <h3>5. 神籤草子記事の記述を確認・調整</h3>
+            <p>七十二候「土潤溽暑」に関する神籤草子の記事について、時期の記述をあらためて確認し、末候「大雨時行」へ移る日付の表現を実際の暦に合わせて調整しました。記事全体の内容も見直し、該当箇所以外に変更はありません。</p>
+
+            <h3>今後について</h3>
+            <p>今回の更新をもって、前回のお知らせ以降に進めていた読みやすさ・表示の安定性・文書出力に関する改善は、一つの区切りを迎えました。今後も、日々の参拝に安心してお使いいただける「運勢・天命乃杜」を目指して、必要な見直しと改善を続けてまいります。</p>
+            <p>以上、今回の変更内容のご報告でした。引き続き「運勢・天命乃杜」をよろしくお願いいたします。</p>
+        </div>
+    `
+},
 
 {
     id: 85,
@@ -21949,6 +22010,43 @@ window.applyTheme = function() {
 
         // ===== 更新の軌跡パネル =====
     const verDetailData = {
+        v36: {
+            ver: 'Ver. 3.6',
+            name: '読みやすさ・表示安定性・PDF出力の改善',
+            date: '2026年8月12日',
+            sections: [
+                {
+                    icon: 'bi-journal-text', title: '記事詳細と読書設定を改善',
+                    changes: [
+                        { type: 'change', text: '社務所だより・神籤草子の記事目次を他の文書ページと統一し、h3/h4の階層表示、読書設定の本文幅から独立した目次表示に対応。文字サイズ・行間・書体・本文幅・アニメーション低減を設定できる読書設定と、全設定を既定値へ戻す操作を追加。Labsの「言霊の増幅」は文字サイズ設定へ統合。', sourceIds: [86] }
+                    ]
+                },
+                {
+                    icon: 'bi-layout-text-window-reverse', title: '画面表示・フッターの安定化',
+                    changes: [
+                        { type: 'fix', text: '内容量によって画面幅が狭く見える不具合、画面切替時の表示位置の揺れ、TENMEI Labs・御守授与所の最後の行に生じる余白、フッターの区切り線と下端配置、設定リセット操作の折り返しを修正。', sourceIds: [86] }
+                    ]
+                },
+                {
+                    icon: 'bi-star', title: '最強運勢ランキングのお気に入りを改善',
+                    changes: [
+                        { type: 'fix', text: 'リロード後にランキングカードの星印が反映されない不具合、保存失敗時に成功表示となる不具合、Google・マジックリンクログイン後にお気に入りが復元されない不具合を修正。', sourceIds: [86] }
+                    ]
+                },
+                {
+                    icon: 'bi-file-earmark-pdf', title: 'PDFダウンロードの出力品質を改善',
+                    changes: [
+                        { type: 'fix', text: '当サイトについて・プライバシーポリシーのPDFで、共通UIの混在、余白・表・改ページの乱れ、iOS/WebKitでの背景継ぎ目、Hero文字のコントラストを修正。通常画面の意匠を保ちながら、安定した文書出力へ改善。', sourceIds: [86] }
+                    ]
+                },
+                {
+                    icon: 'bi-calendar3', title: '神籤草子記事の記述を調整',
+                    changes: [
+                        { type: 'fix', text: '七十二候「土潤溽暑」に関する記事の「大雨時行」へ移る日付表現を実際の暦に合わせて修正。', sourceIds: [86] }
+                    ]
+                }
+            ]
+        },
         v35: {
             ver: 'Ver. 3.5',
             name: 'セキュリティ強化とUI刷新、各種不具合修正',
@@ -22974,12 +23072,33 @@ window.applyTheme = function() {
         <div class="ver-panel-scroll">
             <div class="ver-timeline">
 
-                <!-- Ver 3.5（現在） -->
-                <div class="ver-timeline-item is-current" onclick="openVerDetail('v35')">
+                <!-- Ver 3.6（現在） -->
+                <div class="ver-timeline-item is-current" onclick="openVerDetail('v36')">
+                    <div class="ver-item-card">
+                        <div class="ver-item-top">
+                            <span class="ver-item-ver">Ver. 3.6</span>
+                            <span class="ver-item-badge ver-badge-current"><i class="bi bi-patch-check-fill"></i>最新版</span>
+                        </div>
+                        <div class="ver-item-date">2026年8月12日リリース</div>
+                        <div class="ver-item-name">読みやすさ・表示安定性・PDF出力の改善</div>
+                        <div class="ver-item-desc">記事詳細の目次と読書設定、画面幅・カード配置・フッター、最強運勢ランキングのお気に入り、PDFダウンロードを見直し、日々の利用と文書出力の安定性を高めました。</div>
+                        <div class="ver-item-tags">
+                            <span class="ver-item-tag">読書設定</span>
+                            <span class="ver-item-tag">表示安定化</span>
+                            <span class="ver-item-tag">お気に入り改善</span>
+                            <span class="ver-item-tag">PDF出力改善</span>
+                            <span class="ver-item-tag">不具合修正</span>
+                        </div>
+                        <div class="ver-item-more"><i class="bi bi-chevron-right"></i>詳細を見る</div>
+                    </div>
+                </div>
+
+                <!-- Ver 3.5 -->
+                <div class="ver-timeline-item" onclick="openVerDetail('v35')">
                     <div class="ver-item-card">
                         <div class="ver-item-top">
                             <span class="ver-item-ver">Ver. 3.5</span>
-                            <span class="ver-item-badge ver-badge-current"><i class="bi bi-patch-check-fill"></i>最新版</span>
+                            <span class="ver-item-badge ver-badge-stable"><i class="bi bi-patch-check-fill"></i>機能改善</span>
                         </div>
                         <div class="ver-item-date">2026年7月31日リリース</div>
                         <div class="ver-item-name">セキュリティ強化とUI刷新、各種不具合修正</div>
