@@ -3181,79 +3181,130 @@
             border-color: #d4af37 !important;
         }
 
-        /* --- PDF・印刷用スタイル (ベクター出力・表見切れ防止) --- */
-        @media print {@page {
+        /* --- PDF・印刷用スタイル（対象文書限定・重なり／分断防止） --- */
+        @media print {
+            @page {
                 size: A4;
-                margin: 20mm;
-            }body {
+                /* 余白を0にしてブラウザー既定の日時・URLヘッダー／フッターを出さない */
+                margin: 0;
+            }
+
+            html, body {
                 background: #fff !important;
                 color: #000 !important;
                 display: block !important;
+                width: auto !important;
                 height: auto !important;
+                min-height: 0 !important;
                 overflow: visible !important;
-            }/* 不要な要素を消す */
-            #sidebar, #mist-container, #loading-overlay, .nav-btn, .btn-primary, .btn-outline, #about-toc-container, #privacy-toc-container, #result-capture-container, button {
+            }
+
+            /* アプリ共通UI・オーバーレイは文書に含めない */
+            #sidebar, #mist-container, #loading-overlay, #site-footer,
+            #ver-history-overlay, #ver-history-panel, #tutorial-overlay, #secret-overlay,
+            #countdown-overlay, #guest-name-modal, #edit-profile-modal,
+            #zodiac-login-modal, #lab-modal, #history-login-overlay, #dream-login-overlay,
+            .nav-btn, .btn-primary, .btn-outline,
+            #about-toc-container, #privacy-toc-container, #result-capture-container,
+            #about-pdf-btn + p, #privacy-pdf-btn + p,
+            button {
                 display: none !important;
-            }/* メインコンテンツの調整 */
+            }
+
+            /* 画面用Flexレイアウトを解除し、印刷対象の文書だけを通常フローで配置する */
             #main-content {
                 margin: 0 !important;
                 padding: 0 !important;
-                width: 100% !important;
-            }.view-section {
-                display: none !important; /* 一旦全部消す */
-            }/* 印刷対象のセクションだけ表示 */
+                display: block !important;
+                width: auto !important;
+                min-height: 0 !important;
+                position: static !important;
+            }
+            .view-section {
+                display: none !important;
+            }
             .view-section.printing {
                 display: block !important;
+                box-sizing: border-box !important;
                 opacity: 1 !important;
-            }/* カードの枠などを消して文書らしくする */
+                width: 100% !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 16mm 14mm 18mm !important;
+                position: static !important;
+            }
+            #about-content-area, #privacy-content-area {
+                width: 100% !important;
+                max-width: none !important;
+            }
+
+            /* 画面のカード意匠を文書用に正規化し、章・段落の分断を抑制する */
             .bento-card {
                 border: none !important;
                 box-shadow: none !important;
                 padding: 0 !important;
-                margin-bottom: 1.5em !important;
+                margin: 0 0 1.25em !important;
                 background: transparent !important;
                 color: #000 !important;
-            }/* 表の見切れ防止・最適化 */
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            h2, h3, h4, h5 {
+                break-after: avoid;
+                page-break-after: avoid;
+                color: #000 !important;
+                border-bottom: 1px solid #000 !important;
+            }
+            p, li, tr, img, svg, canvas {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            /* 横スクロール用の画面スタイルを解除し、表を印刷可能な幅に収める */
             .overflow-x-auto {
                 overflow: visible !important;
                 display: block !important;
                 width: 100% !important;
-            }table, .comparison-table {
+            }
+            table, .comparison-table {
                 width: 100% !important;
-                min-width: 0 !important; /* 横幅強制解除 */
-                table-layout: fixed !important; /* 列幅を均等または指定通りに */
+                min-width: 0 !important;
+                table-layout: fixed !important;
                 border-collapse: collapse !important;
-                font-size: 8pt !important; /* 表の文字を少し小さくして収める */
-                page-break-inside: auto;
-            }tr { 
-                page-break-inside: avoid; 
-                page-break-after: auto; 
-            }th, td {
-                border: 1px solid #000 !important; /* 枠線を黒く鮮明に */
+                font-size: 8.5pt !important;
+            }
+            thead { display: table-header-group; }
+            tfoot { display: table-footer-group; }
+            tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            th, td {
+                border: 1px solid #000 !important;
                 padding: 4px !important;
                 color: #000 !important;
-                word-wrap: break-word !important; /* 長い文字を折り返す */
-                white-space: normal !important; /* 改行を許可 */
-            }/* 背景色があるセル */
+                overflow-wrap: anywhere !important;
+                word-wrap: break-word !important;
+                white-space: normal !important;
+            }
+
+            /* 印刷時も必要な最小限の背景色だけを維持する */
             .bg-gray-200, .bg-gray-50, .bg-red-100 {
-                background-color: #f0f0f0 !important; /* 薄いグレーに統一 */
-                -webkit-print-color-adjust: exact; /* 背景色を強制印刷 */
+                background-color: #f0f0f0 !important;
+                -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-            }/* リンクのURL表示を消す */
-            a[href]:after {
-                content: none !important;
-            }/* テキスト調整 */
-            h2, h3, h4 {
-                page-break-after: avoid;
+            }
+            a[href]:after { content: none !important; }
+            p, li { color: #000 !important; }
+            .text-white, .text-zinc-300, .text-zinc-400, .text-zinc-500,
+            .text-gray-300, .text-gray-400, .text-gray-500, .text-gray-700,
+            .text-red-400, [style*="var(--accent-gold)"] {
                 color: #000 !important;
-                border-bottom: 1px solid #000 !important;
-            }p, li {
-                color: #000 !important;
-            }/* Tailwindの文字色クラス（見出し内のspan等）を強制的に黒に統一 */
-            .text-white, .text-zinc-300, .text-zinc-400, .text-zinc-500, .text-gray-300, .text-gray-400, .text-gray-500, .text-gray-700, .text-red-400, [style*="var(--accent-gold)"] {
-                color: #000 !important;
-            }/* ヘッダーカードの装飾円・アイコンバッジは印刷時不要 */
-            .about-hero-card .absolute, .privacy-hero-card .absolute, .about-hero-card .rounded-2xl, .privacy-hero-card .rounded-2xl {
+            }
+
+            /* ヘッダーカードの装飾だけを省き、文書の表題・改定情報は残す */
+            .about-hero-card .absolute, .privacy-hero-card .absolute,
+            .about-hero-card .rounded-2xl, .privacy-hero-card .rounded-2xl {
                 display: none !important;
             }
         }/* --- 御守授与所スタイル (New!8: 本格意匠版) --- */
