@@ -3229,11 +3229,71 @@
                 display: block !important;
                 box-sizing: border-box !important;
                 opacity: 1 !important;
-                width: 100% !important;
-                max-width: none !important;
-                margin: 0 !important;
-                padding: 12mm !important;
+                /* 印刷ではサイドバー起点の画面幅を捨て、紙面中央の1カラムに固定する */
+                width: 174mm !important;
+                max-width: 174mm !important;
+                margin: 0 auto !important;
+                padding: 8mm 0 12mm !important;
                 position: static !important;
+            }
+
+            /* ページ全体の格子背景を控えめな紙面に替え、本文カードへ視線を集める */
+            html, body {
+                min-width: 0 !important;
+                background: #f8f7f4 !important;
+            }
+            #main-content {
+                min-width: 0 !important;
+                transform: none !important;
+                left: auto !important;
+                right: auto !important;
+            }
+
+            /* サイトの見た目は残し、PDFでだけ「外側の余白」と「内側の余白」を段階化する */
+            .about-hero-card, .privacy-hero-card {
+                margin-bottom: 5mm !important;
+                padding: 9mm 10mm !important;
+            }
+            .about-hero-card .relative.z-10, .privacy-hero-card .relative.z-10 {
+                gap: 4mm !important;
+            }
+            .about-hero-card h2, .privacy-hero-card h2 {
+                margin-bottom: 2.5mm !important;
+            }
+            #about-toc-container, #privacy-toc-container {
+                margin-bottom: 5mm !important;
+            }
+            #about-toc-container > div, #privacy-toc-container > div {
+                padding: 5mm 6mm !important;
+            }
+            #about-toc-container ul, #privacy-toc-container ul {
+                row-gap: 1.5mm !important;
+                column-gap: 6mm !important;
+            }
+            #about-content-area, #privacy-content-area {
+                gap: 0 !important;
+            }
+            #about-content-area > * + *, #privacy-content-area > * + * {
+                margin-top: 5mm !important;
+            }
+            #about-content-area > .bento-card:first-child {
+                padding: 5.5mm 7mm !important;
+            }
+            #about-content-area > .bento-card:first-child .bi-quote {
+                margin-bottom: 1mm !important;
+            }
+            #about-content-area > .bento-card:not(:first-child) > div:first-child,
+            #privacy-content-area > .bento-card > div:first-child {
+                padding: 4.5mm 6mm !important;
+            }
+            #about-content-area > .bento-card:not(:first-child) > div:nth-child(2),
+            #privacy-content-area > .bento-card > div:nth-child(2) {
+                padding: 5.5mm 6mm !important;
+            }
+            #privacy-content-area .bento-card .bento-card {
+                margin-top: 4mm !important;
+                margin-bottom: 4mm !important;
+                padding: 4mm 5mm !important;
             }
 
             /* カード・見出し・表の視覚的一体性を保ち、途中で切れる見苦しさだけを抑える */
