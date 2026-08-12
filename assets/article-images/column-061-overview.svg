@@ -1,62 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
-  <title id="title">【作法】お盆に神社へお参りしてもいい？——先祖を想う夏、神道の答えの要点図解</title>
-  <desc id="desc">神籤草子の記事「【作法】お盆に神社へお参りしてもいい？——先祖を想う夏、神道の答え」の内容を読むための要点を、分類と三つの観点で示す独自図解。</desc>
-  <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fffdf7"/>
-      <stop offset="1" stop-color="#f5eddf"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#5c3c1d" flood-opacity="0.13"/>
-    </filter>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&amp;family=Zen+Old+Mincho:wght@700&amp;display=swap');
-    </style>
-  </defs>
-  <rect width="1200" height="720" fill="url(#paper)"/>
-  <rect x="40" y="40" width="1120" height="640" rx="28" fill="#fffdfa" stroke="#cdb58a" stroke-width="3"/>
-  <path d="M72 118H1128" stroke="#8b5948" stroke-width="2" opacity="0.42"/>
-  <g transform="translate(112 82)">
-    <rect width="174" height="46" rx="23" fill="#f5e8e1" stroke="#8b5948" stroke-width="2"/>
-    <text x="87" y="30" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="19" font-weight="700" fill="#5b3528">作法</text>
-  </g>
-  <text x="1088" y="111" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#756454">TENMEI MORI · KAMIKUJI SOSHI</text>
-  <g transform="translate(600 150)">
-    <path d="M-32 4L0-28L32 4L0 36Z" fill="#8b5948" opacity="0.85"/>
-    <circle cx="0" cy="4" r="8" fill="#fffaf0"/>
-  </g>
-  <text x="600" y="185" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="39" font-weight="700" fill="#30251d">お盆に神社へお参りしてもいい？——先祖を想う夏、神</text>
-      <text x="600" y="241" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="39" font-weight="700" fill="#30251d">道の答え</text>
-  <text x="600" y="305" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" fill="#746454">この記事を読むための三つの観点</text>
-  <path d="M270 325H930" stroke="#d7c7aa" stroke-width="2"/>
-  
-      <g transform="translate(112 380)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#8b5948"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">01</text>
-        <text x="82" y="42" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="24" font-weight="700" fill="#30251d">お盆は、仏教だけの行事ではない</text>
-        
-        <path d="M895 35h112" stroke="#8b5948" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#8b5948" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 472)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#8b5948"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">02</text>
-        <text x="82" y="42" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="24" font-weight="700" fill="#30251d">神道にもある、先祖をおまつりする心</text>
-        
-        <path d="M895 35h112" stroke="#8b5948" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#8b5948" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 564)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#8b5948"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">03</text>
-        <text x="82" y="42" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="24" font-weight="700" fill="#30251d">お盆の神社参拝で気をつけたいこと</text>
-        
-        <path d="M895 35h112" stroke="#8b5948" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#8b5948" opacity="0.8"/>
-      </g>
-  <text x="600" y="642" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="17" fill="#705f4d">本文とあわせて、背景・作法・季節のつながりをゆっくり確かめましょう。</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title-61 desc-61">
+<title id="title-61">【作法】お盆に神社へお参りしてもいい？——先祖を想う夏、神道の答えの図解</title>
+<desc id="desc-61">先祖を想う夏の参拝。迎える、祈る、静かに訪れるを視覚的に示す独自図解。</desc>
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Zen+Old+Mincho:wght@600;700&amp;display=swap');</style><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#356355" flood-opacity="0.16"/></filter></defs>
+<rect width="1200" height="720" fill="#fbf8ed"/>
+<path d="M0 562C240 500 335 634 550 570S910 472 1200 548V720H0Z" fill="#d9eee4"/><path d="M220 155L220 475" stroke="#356355" stroke-width="5"  stroke-linecap="round" fill="none"/><path d="M980 155L980 475" stroke="#356355" stroke-width="5"  stroke-linecap="round" fill="none"/><g fill="#d48b32" stroke="#356355" stroke-width="4"><path d="M165 250h110l-16 42h-78Z"/><rect x="178" y="292" width="84" height="122" rx="12"/><path d="M925 250h110l-16 42h-78Z"/><rect x="938" y="292" width="84" height="122" rx="12"/></g><text x="220" y="360" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="42" font-weight="700" fill="#fff">迎</text><text x="980" y="360" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="42" font-weight="700" fill="#fff">祈</text><path d="M350 480C470 340 730 340 850 480" stroke="#356355" stroke-width="5" fill="none" stroke-dasharray="9 13"/><circle cx="600" cy="350" r="68" fill="#d48b32" opacity="1"/><text x="600" y="364" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="25" font-weight="700" fill="#fff">先祖</text><text x="600" y="540" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="34" font-weight="700" fill="#356355">先祖を想う夏の参拝</text><text x="600" y="650" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="31" font-weight="700" fill="#356355">お盆に神社へお参りしてもいい？——先</text><text x="600" y="694" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="31" font-weight="700" fill="#356355">祖を想う夏、神道の答え</text>
+<g transform="translate(72 76)"><rect width="169" height="46" rx="23" fill="#fffdf8" stroke="#356355" stroke-width="2"/><circle cx="23" cy="23" r="7" fill="#356355"/><text x="42" y="30" text-anchor="start" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#356355">お盆と神道</text></g>
+<text x="1128" y="664" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#356355" opacity="0.65">TENMEI MORI · KAMIKUJI SOSHI</text>
 </svg>

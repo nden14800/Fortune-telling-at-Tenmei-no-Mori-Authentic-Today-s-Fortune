@@ -1,61 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
-  <title id="title">【クイズ】神話と歴史で紐解く！三種の神器と伊勢神宮の要点図解</title>
-  <desc id="desc">神籤草子の記事「【クイズ】神話と歴史で紐解く！三種の神器と伊勢神宮」の内容を読むための要点を、分類と三つの観点で示す独自図解。</desc>
-  <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fffdf7"/>
-      <stop offset="1" stop-color="#f5eddf"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#5c3c1d" flood-opacity="0.13"/>
-    </filter>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&amp;family=Zen+Old+Mincho:wght@700&amp;display=swap');
-    </style>
-  </defs>
-  <rect width="1200" height="720" fill="url(#paper)"/>
-  <rect x="40" y="40" width="1120" height="640" rx="28" fill="#fffdfa" stroke="#cdb58a" stroke-width="3"/>
-  <path d="M72 118H1128" stroke="#355f79" stroke-width="2" opacity="0.42"/>
-  <g transform="translate(112 82)">
-    <rect width="174" height="46" rx="23" fill="#e8f1f3" stroke="#355f79" stroke-width="2"/>
-    <text x="87" y="30" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="19" font-weight="700" fill="#193c52">クイズ</text>
-  </g>
-  <text x="1088" y="111" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#756454">TENMEI MORI · KAMIKUJI SOSHI</text>
-  <g transform="translate(600 150)">
-    <path d="M-32 4L0-28L32 4L0 36Z" fill="#355f79" opacity="0.85"/>
-    <circle cx="0" cy="4" r="8" fill="#fffaf0"/>
-  </g>
-  <text x="600" y="185" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="44" font-weight="700" fill="#30251d">神話と歴史で紐解く！三種の神器と伊勢神宮</text>
-  <text x="600" y="270" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" fill="#746454">この記事を読むための三つの観点</text>
-  <path d="M270 290H930" stroke="#d7c7aa" stroke-width="2"/>
-  
-      <g transform="translate(112 380)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#355f79"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">01</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q1. 天皇家に伝わる「三種の神器」。そ</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">のうち「草薙剣（くさなぎのつるぎ）」をご</text>
-        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 472)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#355f79"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">02</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q2. 伊勢神宮で社殿を新しく建て替え、</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">神様に移っていただく最大のお祭り「式年遷</text>
-        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 564)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#355f79"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">03</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q3. 夏越の祓（なごしのはらえ）などで</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">設置される大きな草の輪「茅の輪（ちのわ）</text>
-        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
-      </g>
-  <text x="600" y="642" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="17" fill="#705f4d">本文とあわせて、背景・作法・季節のつながりをゆっくり確かめましょう。</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title-23 desc-23">
+<title id="title-23">【クイズ】神話と歴史で紐解く！三種の神器と伊勢神宮の図解</title>
+<desc id="desc-23">剣・鏡・玉をたどる。剣、鏡、玉を視覚的に示す独自図解。</desc>
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Zen+Old+Mincho:wght@600;700&amp;display=swap');</style><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#775319" flood-opacity="0.16"/></filter></defs>
+<rect width="1200" height="720" fill="#fffaf0"/>
+<path d="M600 125L835 525H365Z" fill="#fffdf8" stroke="#775319" stroke-width="6"/><circle cx="600" cy="220" r="65" fill="#a13831" opacity="1"/><text x="600" y="233" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="32" font-weight="700" fill="#fff">鏡</text><circle cx="480" cy="460" r="65" fill="#a13831" opacity="1"/><text x="480" y="473" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="32" font-weight="700" fill="#fff">剣</text><circle cx="720" cy="460" r="65" fill="#a13831" opacity="1"/><text x="720" y="473" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="32" font-weight="700" fill="#fff">玉</text><text x="600" y="650" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="30" font-weight="700" fill="#775319">剣・鏡・玉をたどる</text>
+<g transform="translate(72 76)"><rect width="169" height="46" rx="23" fill="#fffdf8" stroke="#775319" stroke-width="2"/><circle cx="23" cy="23" r="7" fill="#775319"/><text x="42" y="30" text-anchor="start" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#775319">三種の神器</text></g>
+<text x="1128" y="664" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#775319" opacity="0.65">TENMEI MORI · KAMIKUJI SOSHI</text>
 </svg>

@@ -1,61 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
-  <title id="title">【干支・暦】明日は夏至——「太陽の頂点」と神社の知られざる関係の要点図解</title>
-  <desc id="desc">神籤草子の記事「【干支・暦】明日は夏至——「太陽の頂点」と神社の知られざる関係」の内容を読むための要点を、分類と三つの観点で示す独自図解。</desc>
-  <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fffdf7"/>
-      <stop offset="1" stop-color="#f5eddf"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#5c3c1d" flood-opacity="0.13"/>
-    </filter>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&amp;family=Zen+Old+Mincho:wght@700&amp;display=swap');
-    </style>
-  </defs>
-  <rect width="1200" height="720" fill="url(#paper)"/>
-  <rect x="40" y="40" width="1120" height="640" rx="28" fill="#fffdfa" stroke="#cdb58a" stroke-width="3"/>
-  <path d="M72 118H1128" stroke="#7a7c37" stroke-width="2" opacity="0.42"/>
-  <g transform="translate(112 82)">
-    <rect width="174" height="46" rx="23" fill="#f0f1dd" stroke="#7a7c37" stroke-width="2"/>
-    <text x="87" y="30" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="19" font-weight="700" fill="#4d5424">干支・暦</text>
-  </g>
-  <text x="1088" y="111" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#756454">TENMEI MORI · KAMIKUJI SOSHI</text>
-  <g transform="translate(600 150)">
-    <path d="M-32 4L0-28L32 4L0 36Z" fill="#7a7c37" opacity="0.85"/>
-    <circle cx="0" cy="4" r="8" fill="#fffaf0"/>
-  </g>
-  <text x="600" y="185" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="44" font-weight="700" fill="#30251d">明日は夏至——「太陽の頂点」と神社の知られざる関係</text>
-  <text x="600" y="270" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" fill="#746454">この記事を読むための三つの観点</text>
-  <path d="M270 290H930" stroke="#d7c7aa" stroke-width="2"/>
-  
-      <g transform="translate(112 380)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#7a7c37"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">01</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">夏至とは何か——二十四節気の「太陽の頂点</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">」</text>
-        <path d="M895 35h112" stroke="#7a7c37" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#7a7c37" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 472)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#7a7c37"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">02</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">夏至の朝日が殿内に差し込む神社——吉備津</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">彦神社</text>
-        <path d="M895 35h112" stroke="#7a7c37" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#7a7c37" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 564)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#7a7c37"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">03</text>
-        <text x="82" y="42" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="24" font-weight="700" fill="#30251d">夫婦岩と夏至の朝日——二見興玉神社</text>
-        
-        <path d="M895 35h112" stroke="#7a7c37" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#7a7c37" opacity="0.8"/>
-      </g>
-  <text x="600" y="642" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="17" fill="#705f4d">本文とあわせて、背景・作法・季節のつながりをゆっくり確かめましょう。</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title-55 desc-55">
+<title id="title-55">【干支・暦】明日は夏至——「太陽の頂点」と神社の知られざる関係の図解</title>
+<desc id="desc-55">太陽の頂点を結ぶ神社の線。朝日、神域、アマテラスを視覚的に示す独自図解。</desc>
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Zen+Old+Mincho:wght@600;700&amp;display=swap');</style><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#775319" flood-opacity="0.16"/></filter></defs>
+<rect width="1200" height="720" fill="#fffaf0"/>
+<circle cx="600" cy="250" r="93" fill="#a13831"/><path d="M720 250L775 250" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M710.8655439013544 295.9220118838108L761.6789181894752 316.96960066389073" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M684.8528137423857 334.8528137423857L723.7436867076458 373.7436867076458" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M645.9220118838108 360.8655439013544L666.9696006638907 411.6789181894752" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M600 370L600 425" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M554.0779881161892 360.8655439013544L533.0303993361093 411.6789181894752" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M515.1471862576143 334.8528137423857L476.2563132923542 373.7436867076458" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M489.1344560986456 295.9220118838108L438.3210818105248 316.96960066389073" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M480 250.00000000000003L425 250.00000000000003" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M489.13445609864556 204.07798811618923L438.3210818105248 183.03039933610933" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M515.1471862576143 165.1471862576143L476.25631329235415 126.25631329235419" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M554.0779881161892 139.13445609864561L533.0303993361092 88.32108181052487" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M600 130L600 75" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M645.9220118838108 139.13445609864561L666.9696006638908 88.32108181052484" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M684.8528137423857 165.1471862576143L723.7436867076458 126.25631329235415" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M710.8655439013544 204.07798811618915L761.6789181894751 183.03039933610918" stroke="#a13831" stroke-width="6"  stroke-linecap="round" fill="none"/><path d="M230 520H970M330 520v-90h540v90M420 430l35-62h290l35 62" stroke="#775319" stroke-width="8" fill="none"/><path d="M600 342V427" stroke="#a13831" stroke-width="5" stroke-dasharray="10 10"/><text x="600" y="615" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="32" font-weight="700" fill="#775319">太陽の頂点を結ぶ神社の線</text>
+<g transform="translate(72 76)"><rect width="150" height="46" rx="23" fill="#fffdf8" stroke="#775319" stroke-width="2"/><circle cx="23" cy="23" r="7" fill="#775319"/><text x="42" y="30" text-anchor="start" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#775319">夏至</text></g>
+<text x="1128" y="664" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#775319" opacity="0.65">TENMEI MORI · KAMIKUJI SOSHI</text>
 </svg>

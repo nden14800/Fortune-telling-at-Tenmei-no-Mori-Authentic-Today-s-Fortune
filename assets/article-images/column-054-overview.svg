@@ -1,62 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
-  <title id="title">【豆知識】神社の「狛犬」、向かって右が口を開けている——阿吽の秘密と、実は「獅子と狛犬の異種コンビ」だった話の要点図解</title>
-  <desc id="desc">神籤草子の記事「【豆知識】神社の「狛犬」、向かって右が口を開けている——阿吽の秘密と、実は「獅子と狛犬の異種コンビ」だった話」の内容を読むための要点を、分類と三つの観点で示す独自図解。</desc>
-  <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fffdf7"/>
-      <stop offset="1" stop-color="#f5eddf"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#5c3c1d" flood-opacity="0.13"/>
-    </filter>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&amp;family=Zen+Old+Mincho:wght@700&amp;display=swap');
-    </style>
-  </defs>
-  <rect width="1200" height="720" fill="url(#paper)"/>
-  <rect x="40" y="40" width="1120" height="640" rx="28" fill="#fffdfa" stroke="#cdb58a" stroke-width="3"/>
-  <path d="M72 118H1128" stroke="#815e37" stroke-width="2" opacity="0.42"/>
-  <g transform="translate(112 82)">
-    <rect width="174" height="46" rx="23" fill="#f5eddf" stroke="#815e37" stroke-width="2"/>
-    <text x="87" y="30" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="19" font-weight="700" fill="#50381e">豆知識</text>
-  </g>
-  <text x="1088" y="111" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#756454">TENMEI MORI · KAMIKUJI SOSHI</text>
-  <g transform="translate(600 150)">
-    <path d="M-32 4L0-28L32 4L0 36Z" fill="#815e37" opacity="0.85"/>
-    <circle cx="0" cy="4" r="8" fill="#fffaf0"/>
-  </g>
-  <text x="600" y="185" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="39" font-weight="700" fill="#30251d">神社の「狛犬」、向かって右が口を開けている——阿吽</text>
-      <text x="600" y="241" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="39" font-weight="700" fill="#30251d">の秘密と、実は「獅子と狛犬の異種コンビ」だった話</text>
-  <text x="600" y="305" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" fill="#746454">この記事を読むための三つの観点</text>
-  <path d="M270 325H930" stroke="#d7c7aa" stroke-width="2"/>
-  
-      <g transform="translate(112 380)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#815e37"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">01</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">向かって右が「獅子」、左が「狛犬」——異</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">種コンビの正体</text>
-        <path d="M895 35h112" stroke="#815e37" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#815e37" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 472)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#815e37"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">02</text>
-        <text x="82" y="42" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="24" font-weight="700" fill="#30251d">「阿吽（あうん）」とは何か</text>
-        
-        <path d="M895 35h112" stroke="#815e37" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#815e37" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 564)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#815e37"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">03</text>
-        <text x="82" y="42" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="24" font-weight="700" fill="#30251d">なぜ神社の入り口を守っているのか</text>
-        
-        <path d="M895 35h112" stroke="#815e37" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#815e37" opacity="0.8"/>
-      </g>
-  <text x="600" y="642" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="17" fill="#705f4d">本文とあわせて、背景・作法・季節のつながりをゆっくり確かめましょう。</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title-54 desc-54">
+<title id="title-54">【豆知識】神社の「狛犬」、向かって右が口を開けている——阿吽の秘密と、実は「獅子と狛犬の異種コンビ」だった話の図解</title>
+<desc id="desc-54">異なる二体で、入口を守る。阿、吽、獅子と狛犬を視覚的に示す独自図解。</desc>
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Zen+Old+Mincho:wght@600;700&amp;display=swap');</style><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#8d3028" flood-opacity="0.16"/></filter></defs>
+<rect width="1200" height="720" fill="#fff9ef"/>
+<path d="M230 520C235 290 340 145 490 220C545 248 528 390 490 510Z" fill="#fae2d7" stroke="#8d3028" stroke-width="6"/><path d="M970 520C965 290 860 145 710 220C655 248 672 390 710 510Z" fill="#fffdf8" stroke="#8d3028" stroke-width="6"/><circle cx="395" cy="340" r="24" fill="#5b3922"/><circle cx="805" cy="340" r="24" fill="#5b3922"/><path d="M355 415q40 42 80 0M765 415q40-42 80 0" stroke="#8d3028" stroke-width="9" fill="none" stroke-linecap="round"/><text x="395" y="565" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="39" font-weight="700" fill="#8d3028">阿</text><text x="805" y="565" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="39" font-weight="700" fill="#8d3028">吽</text><text x="600" y="640" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="31" font-weight="700" fill="#8d3028">異なる二体で、入口を守る</text>
+<g transform="translate(72 76)"><rect width="169" height="46" rx="23" fill="#fffdf8" stroke="#8d3028" stroke-width="2"/><circle cx="23" cy="23" r="7" fill="#8d3028"/><text x="42" y="30" text-anchor="start" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#8d3028">阿吽の狛犬</text></g>
+<text x="1128" y="664" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#8d3028" opacity="0.65">TENMEI MORI · KAMIKUJI SOSHI</text>
 </svg>

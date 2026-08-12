@@ -1,61 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
-  <title id="title">【特別クイズ】神社検定・超難問10番勝負（5択・改）の要点図解</title>
-  <desc id="desc">神籤草子の記事「【特別クイズ】神社検定・超難問10番勝負（5択・改）」の内容を読むための要点を、分類と三つの観点で示す独自図解。</desc>
-  <defs>
-    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fffdf7"/>
-      <stop offset="1" stop-color="#f5eddf"/>
-    </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#5c3c1d" flood-opacity="0.13"/>
-    </filter>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&amp;family=Zen+Old+Mincho:wght@700&amp;display=swap');
-    </style>
-  </defs>
-  <rect width="1200" height="720" fill="url(#paper)"/>
-  <rect x="40" y="40" width="1120" height="640" rx="28" fill="#fffdfa" stroke="#cdb58a" stroke-width="3"/>
-  <path d="M72 118H1128" stroke="#355f79" stroke-width="2" opacity="0.42"/>
-  <g transform="translate(112 82)">
-    <rect width="174" height="46" rx="23" fill="#e8f1f3" stroke="#355f79" stroke-width="2"/>
-    <text x="87" y="30" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="19" font-weight="700" fill="#193c52">特別クイズ</text>
-  </g>
-  <text x="1088" y="111" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#756454">TENMEI MORI · KAMIKUJI SOSHI</text>
-  <g transform="translate(600 150)">
-    <path d="M-32 4L0-28L32 4L0 36Z" fill="#355f79" opacity="0.85"/>
-    <circle cx="0" cy="4" r="8" fill="#fffaf0"/>
-  </g>
-  <text x="600" y="185" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="44" font-weight="700" fill="#30251d">神社検定・超難問10番勝負（5択・改）</text>
-  <text x="600" y="270" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" fill="#746454">この記事を読むための三つの観点</text>
-  <path d="M270 290H930" stroke="#d7c7aa" stroke-width="2"/>
-  
-      <g transform="translate(112 380)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#355f79"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">01</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q1. 日本で最も多い神社の系列（御祭神</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">）はどれ？（約3万社あると言われています</text>
-        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 472)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#355f79"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">02</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q2. 20年に一度、社殿を造り替える「</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">式年遷宮」。伊勢神宮で第1回が行われたの</text>
-        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
-      </g>
-      <g transform="translate(112 564)">
-        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
-        <circle cx="40" cy="35" r="21" fill="#355f79"/>
-        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">03</text>
-        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q3. 次のうち、実在しない神社の「社号</text>
-        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">（格）」はどれ？</text>
-        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
-      </g>
-  <text x="600" y="642" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="17" fill="#705f4d">本文とあわせて、背景・作法・季節のつながりをゆっくり確かめましょう。</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title-27 desc-27">
+<title id="title-27">【特別クイズ】神社検定・超難問10番勝負（5択・改）の図解</title>
+<desc id="desc-27">十の問いで、神社の奥へ。神話、建築、作法を視覚的に示す独自図解。</desc>
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Zen+Old+Mincho:wght@600;700&amp;display=swap');</style><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#25324b" flood-opacity="0.16"/></filter></defs>
+<rect width="1200" height="720" fill="#f8f5ec"/>
+<circle cx="600" cy="340" r="220" fill="#fffdf8" stroke="#25324b" stroke-width="5"/><path d="M600 340L600 130" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="600" y="177" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">01</text><path d="M600 340L723.4349029814193 170.10643118126103" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="699.9234928897205" y="209.46711095625892" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">02</text><path d="M600 340L799.7218684219822 275.10643118126103" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="761.6796077701761" y="294.4671109562589" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">03</text><path d="M600 340L799.7218684219822 404.89356881873897" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="761.6796077701761" y="399.5328890437411" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">04</text><path d="M600 340L723.4349029814193 509.89356881873897" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="699.9234928897205" y="484.5328890437411" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">05</text><path d="M600 340L600 550" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="600" y="517" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">06</text><path d="M600 340L476.5650970185807 509.89356881873897" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="500.0765071102796" y="484.5328890437411" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">07</text><path d="M600 340L400.2781315780178 404.89356881873897" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="438.32039222982394" y="399.5328890437411" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">08</text><path d="M600 340L400.27813157801774 275.1064311812611" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="438.3203922298239" y="294.467110956259" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">09</text><path d="M600 340L476.5650970185806 170.10643118126106" stroke="#c6553d" stroke-width="4"  stroke-linecap="round" fill="none"/><text x="500.0765071102795" y="209.46711095625895" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="18" font-weight="700" fill="#25324b">10</text><circle cx="600" cy="340" r="72" fill="#c6553d"/><text x="600" y="350" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="36" font-weight="700" fill="#fff">問</text><text x="600" y="650" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="30" font-weight="700" fill="#25324b">十の問いで、神社の奥へ</text>
+<g transform="translate(72 76)"><rect width="244" height="46" rx="23" fill="#fffdf8" stroke="#25324b" stroke-width="2"/><circle cx="23" cy="23" r="7" fill="#25324b"/><text x="42" y="30" text-anchor="start" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#25324b">超難問10番勝負</text></g>
+<text x="1128" y="664" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#25324b" opacity="0.65">TENMEI MORI · KAMIKUJI SOSHI</text>
 </svg>
