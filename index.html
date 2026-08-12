@@ -3181,51 +3181,50 @@
             border-color: #d4af37 !important;
         }
 
-        /* --- PDF・印刷用スタイル（画面UIではなく文書として組版する専用レイアウト） --- */
+        /* --- PDF・印刷用スタイル（サイトの見た目を保持した高品質出力） --- */
         @media print {
             @page {
                 size: A4;
-                /* 余白は本文側で確保し、ブラウザー既定の日時・URL表示を抑止する */
+                /* ページ内側の余白は本文側で確保し、ブラウザー既定のURL・日時を出さない */
                 margin: 0;
             }
 
+            /* フォント・色・グラデーション・影・角丸など、画面上の意匠をそのまま再現する */
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
             html, body {
-                background: #fff !important;
-                color: #1f1a17 !important;
                 display: block !important;
                 width: auto !important;
                 height: auto !important;
                 min-height: 0 !important;
                 overflow: visible !important;
-                font-family: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif !important;
-                font-size: 10.5pt !important;
-                line-height: 1.95 !important;
-                letter-spacing: 0.035em !important;
-                text-rendering: optimizeLegibility;
             }
 
-            /* アプリ共通UI・画面遷移用要素・操作説明は文書に含めない */
+            /* 印刷対象外のアプリUIだけを除外する。本文のカード・フォント・装飾は変更しない */
             #sidebar, #mist-container, #loading-overlay, #site-footer,
             #ver-history-overlay, #ver-history-panel, #tutorial-overlay, #secret-overlay,
             #countdown-overlay, #guest-name-modal, #edit-profile-modal,
             #zodiac-login-modal, #lab-modal, #history-login-overlay, #dream-login-overlay,
             .nav-btn, .btn-primary, .btn-outline,
-            #about-toc-container, #privacy-toc-container, #result-capture-container,
-            #about-pdf-btn + p, #privacy-pdf-btn + p,
-            button {
+            #about-pdf-btn, #privacy-pdf-btn,
+            #about-pdf-btn + p, #privacy-pdf-btn + p {
                 display: none !important;
             }
 
-            /* 画面のFlexコンテナを解除し、固定ページ上の単一文書として流し込む */
+            /* サイドバー前提の画面幅だけをA4内に収める。本文の見た目・フォント指定は上書きしない */
             #main-content {
                 margin: 0 !important;
                 padding: 0 !important;
                 display: block !important;
-                width: auto !important;
+                width: 100% !important;
                 min-height: 0 !important;
                 position: static !important;
             }
-            .view-section { display: none !important; }
+            .view-section {
+                display: none !important;
+            }
             .view-section.printing {
                 display: block !important;
                 box-sizing: border-box !important;
@@ -3233,212 +3232,38 @@
                 width: 100% !important;
                 max-width: none !important;
                 margin: 0 !important;
-                padding: 18mm 18mm 20mm !important;
+                padding: 12mm !important;
                 position: static !important;
             }
-            #about-content-area, #privacy-content-area {
-                width: 100% !important;
-                max-width: none !important;
-            }
 
-            /* 画面用Heroカードを、表題・改定情報を持つ静かな文書ヘッダーへ変換する */
-            .about-hero-card, .privacy-hero-card {
-                display: block !important;
-                margin: 0 0 11mm !important;
-                padding: 0 0 6mm !important;
-                border: 0 !important;
-                border-bottom: 1.2pt solid #29201c !important;
-                border-radius: 0 !important;
-                background: transparent !important;
-                box-shadow: none !important;
-                color: #1f1a17 !important;
+            /* カード・見出し・表の視覚的一体性を保ち、途中で切れる見苦しさだけを抑える */
+            .about-hero-card,
+            .privacy-hero-card,
+            #about-toc-container > div,
+            #privacy-toc-container > div {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            h2, h3, h4, h5 {
                 break-after: avoid;
                 page-break-after: avoid;
             }
-            .about-hero-card .relative, .privacy-hero-card .relative,
-            .about-hero-card .flex-1, .privacy-hero-card .flex-1 {
-                display: block !important;
-                position: static !important;
-            }
-            .about-hero-card .absolute, .privacy-hero-card .absolute,
-            .about-hero-card .flex-shrink-0, .privacy-hero-card .flex-shrink-0,
-            .about-hero-card h2 > span:first-child, .privacy-hero-card h2 > span:first-child {
-                display: none !important;
-            }
-            .about-hero-card .flex-1 > p:first-child, .privacy-hero-card .flex-1 > p:first-child {
-                margin: 0 0 2.5mm !important;
-                color: #826c4f !important;
-                font-family: Arial, sans-serif !important;
-                font-size: 7.5pt !important;
-                font-weight: 700 !important;
-                line-height: 1.2 !important;
-                letter-spacing: 0.18em !important;
-            }
-            .about-hero-card h2, .privacy-hero-card h2 {
-                display: block !important;
-                margin: 0 0 3mm !important;
-                padding: 0 !important;
-                border: 0 !important;
-                color: #1f1a17 !important;
-                font-family: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif !important;
-                font-size: 25pt !important;
-                font-weight: 700 !important;
-                line-height: 1.32 !important;
-                letter-spacing: 0.08em !important;
-            }
-            .about-hero-card h2 > span, .privacy-hero-card h2 > span {
-                color: inherit !important;
-            }
-            .about-hero-card h2 + p, .privacy-hero-card h2 + p {
-                margin: 0 !important;
-                color: #655a52 !important;
-                font-size: 8.5pt !important;
-                line-height: 1.7 !important;
-                letter-spacing: 0.04em !important;
-            }
-
-            /* カード・装飾線・影を除き、本文を章と節の連続した文章として整える */
-            #about-content-area .bento-card, #privacy-content-area .bento-card {
-                display: block !important;
-                margin: 0 0 9mm !important;
-                padding: 0 !important;
-                border: 0 !important;
-                border-left: 0 !important;
-                border-radius: 0 !important;
-                background: transparent !important;
-                box-shadow: none !important;
-                color: #1f1a17 !important;
-                break-inside: auto;
-                page-break-inside: auto;
-            }
-            #about-content-area .bento-card > div:first-child,
-            #privacy-content-area .bento-card > div:first-child {
-                margin: 0 0 4mm !important;
-                padding: 0 0 3mm !important;
-                border: 0 !important;
-                border-bottom: 0.6pt solid #a89b8b !important;
-                border-radius: 0 !important;
-                background: transparent !important;
-            }
-            #about-content-area h3, #privacy-content-area h3 {
-                margin: 0 !important;
-                padding: 0 !important;
-                border: 0 !important;
-                color: #33261f !important;
-                font-family: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif !important;
-                font-size: 15.5pt !important;
-                font-weight: 700 !important;
-                line-height: 1.55 !important;
-                letter-spacing: 0.05em !important;
-                break-after: avoid;
-                page-break-after: avoid;
-            }
-            #about-content-area h3 span, #privacy-content-area h3 span {
-                display: inline !important;
-                min-width: 0 !important;
-                height: auto !important;
-                margin-right: 0.8em !important;
-                padding: 0 !important;
-                border-radius: 0 !important;
-                background: transparent !important;
-                color: #8d2f27 !important;
-                font-family: Arial, sans-serif !important;
-                font-size: 8.5pt !important;
-                font-weight: 700 !important;
-                vertical-align: 0.15em !important;
-            }
-            #about-content-area h4, #privacy-content-area h4 {
-                margin: 7mm 0 3mm !important;
-                padding: 0 0 1.5mm !important;
-                border: 0 !important;
-                border-bottom: 0.4pt solid #c7bfb5 !important;
-                color: #3e3028 !important;
-                font-family: 'Zen Old Mincho', 'Hiragino Mincho ProN', serif !important;
-                font-size: 11.5pt !important;
-                font-weight: 700 !important;
-                line-height: 1.6 !important;
-                break-after: avoid;
-                page-break-after: avoid;
-            }
-            #about-content-area h5, #privacy-content-area h5 {
-                margin: 5mm 0 2mm !important;
-                color: #3e3028 !important;
-                font-size: 10.5pt !important;
-                break-after: avoid;
-                page-break-after: avoid;
-            }
-            #about-content-area p, #privacy-content-area p,
-            #about-content-area li, #privacy-content-area li {
-                color: #29211d !important;
-                font-size: 10.5pt !important;
-                line-height: 1.95 !important;
-                text-align: justify;
-                text-justify: inter-ideograph;
+            p, li {
                 orphans: 3;
                 widows: 3;
             }
-            #about-content-area p, #privacy-content-area p {
-                margin: 0 0 4mm !important;
-            }
-            #about-content-area ul, #privacy-content-area ul,
-            #about-content-area ol, #privacy-content-area ol {
-                margin: 0 0 4mm 1.4em !important;
-                padding: 0 !important;
-            }
-            #about-content-area li, #privacy-content-area li {
-                margin: 0 0 1.5mm !important;
-            }
-
-            /* 表は画面用カードから文書用の罫線表へ切り替え、ページ内で読み切れる形にする */
             .overflow-x-auto {
                 overflow: visible !important;
-                display: block !important;
-                width: 100% !important;
             }
-            #about-content-area table, #privacy-content-area table,
-            #about-content-area .comparison-table, #privacy-content-area .comparison-table {
+            table, .comparison-table {
                 width: 100% !important;
                 min-width: 0 !important;
-                margin: 4mm 0 6mm !important;
-                table-layout: fixed !important;
-                border-collapse: collapse !important;
-                background: transparent !important;
-                font-size: 9pt !important;
-                line-height: 1.65 !important;
             }
             thead { display: table-header-group; }
             tfoot { display: table-footer-group; }
             tr {
                 break-inside: avoid;
                 page-break-inside: avoid;
-            }
-            th, td {
-                padding: 2.5mm 2mm !important;
-                border: 0 !important;
-                border-bottom: 0.35pt solid #d1c8bd !important;
-                background: transparent !important;
-                color: #29211d !important;
-                overflow-wrap: anywhere !important;
-                word-wrap: break-word !important;
-                white-space: normal !important;
-                vertical-align: top !important;
-            }
-            th {
-                border-top: 0.7pt solid #8d8175 !important;
-                color: #3e3028 !important;
-                font-weight: 700 !important;
-            }
-
-            /* 画面配色とホバー表現を出力から外し、黒文字中心の紙面へ統一する */
-            .bg-gray-200, .bg-gray-50, .bg-red-100,
-            [class*="bg-zinc"], [class*="bg-white/"] {
-                background: transparent !important;
-            }
-            a[href]:after { content: none !important; }
-            .text-white, .text-zinc-300, .text-zinc-400, .text-zinc-500,
-            .text-gray-300, .text-gray-400, .text-gray-500, .text-gray-700,
-            .text-red-400, [style*="var(--accent-gold)"] {
-                color: inherit !important;
             }
         }/* --- 御守授与所スタイル (New!8: 本格意匠版) --- */
         /* 実物の御守の意匠要素（錦の生地・金襴の縁取り・叶結びの紐・房）を踏まえて再構成 */
