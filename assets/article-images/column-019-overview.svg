@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">【検定・中級】知っていると自慢できる？神社の名称クイズの要点図解</title>
+  <desc id="desc">神籤草子の記事「【検定・中級】知っていると自慢できる？神社の名称クイズ」の内容を読むための要点を、分類と三つの観点で示す独自図解。</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffdf7"/>
+      <stop offset="1" stop-color="#f5eddf"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#5c3c1d" flood-opacity="0.13"/>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&amp;family=Zen+Old+Mincho:wght@700&amp;display=swap');
+    </style>
+  </defs>
+  <rect width="1200" height="720" fill="url(#paper)"/>
+  <rect x="40" y="40" width="1120" height="640" rx="28" fill="#fffdfa" stroke="#cdb58a" stroke-width="3"/>
+  <path d="M72 118H1128" stroke="#355f79" stroke-width="2" opacity="0.42"/>
+  <g transform="translate(112 82)">
+    <rect width="174" height="46" rx="23" fill="#e8f1f3" stroke="#355f79" stroke-width="2"/>
+    <text x="87" y="30" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="19" font-weight="700" fill="#193c52">クイズ</text>
+  </g>
+  <text x="1088" y="111" text-anchor="end" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="16" letter-spacing="2" fill="#756454">TENMEI MORI · KAMIKUJI SOSHI</text>
+  <g transform="translate(600 150)">
+    <path d="M-32 4L0-28L32 4L0 36Z" fill="#355f79" opacity="0.85"/>
+    <circle cx="0" cy="4" r="8" fill="#fffaf0"/>
+  </g>
+  <text x="600" y="185" text-anchor="middle" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="44" font-weight="700" fill="#30251d">知っていると自慢できる？神社の名称クイズ</text>
+  <text x="600" y="270" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" fill="#746454">この記事を読むための三つの観点</text>
+  <path d="M270 290H930" stroke="#d7c7aa" stroke-width="2"/>
+  
+      <g transform="translate(112 380)">
+        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
+        <circle cx="40" cy="35" r="21" fill="#355f79"/>
+        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">01</text>
+        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q1. 注連縄（しめなわ）や玉串に付いて</text>
+        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">いる、稲妻のような形をした「白い紙」の名</text>
+        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
+      </g>
+      <g transform="translate(112 472)">
+        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
+        <circle cx="40" cy="35" r="21" fill="#355f79"/>
+        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">02</text>
+        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q2. 拝殿で鈴（本坪鈴）を鳴らすために</text>
+        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">垂れ下がっている、あの太い「紐（ひも）」</text>
+        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
+      </g>
+      <g transform="translate(112 564)">
+        <rect x="0" y="0" width="976" height="70" rx="16" fill="#fffdfa" stroke="#d8c7a7" stroke-width="2"/>
+        <circle cx="40" cy="35" r="21" fill="#355f79"/>
+        <text x="40" y="42" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="18" font-weight="700" fill="#fff">03</text>
+        <text x="82" y="30" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="21" font-weight="700" fill="#30251d">Q3. 神社の屋根の上に並んでいる、丸太</text>
+        <text x="82" y="54" font-family="'Zen Old Mincho','Shippori Mincho','Noto Serif CJK JP',serif" font-size="19" font-weight="700" fill="#30251d">のような部材の名前は？（ある魚に似ている</text>
+        <path d="M895 35h112" stroke="#355f79" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+        <circle cx="1030" cy="35" r="5" fill="#355f79" opacity="0.8"/>
+      </g>
+  <text x="600" y="642" text-anchor="middle" font-family="'Zen Kaku Gothic New','Noto Sans CJK JP',sans-serif" font-size="17" fill="#705f4d">本文とあわせて、背景・作法・季節のつながりをゆっくり確かめましょう。</text>
+</svg>
