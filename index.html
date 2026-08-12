@@ -3253,6 +3253,11 @@
             .about-hero-card, .privacy-hero-card {
                 margin-bottom: 5mm !important;
                 padding: 9mm 10mm !important;
+                /* 印刷時は多層CSSグラデーションを一枚の不透明画像にし、iOS/WebKitの合成継ぎ目を回避する */
+                background: #fffdfb url('/assets/pdf-hero-background.png') center center / 100% 100% no-repeat !important;
+            }
+            .about-hero-card > .absolute, .privacy-hero-card > .absolute {
+                display: none !important;
             }
             .about-hero-card .relative.z-10, .privacy-hero-card .relative.z-10 {
                 gap: 4mm !important;
