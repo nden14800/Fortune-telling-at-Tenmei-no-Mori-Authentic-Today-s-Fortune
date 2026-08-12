@@ -3250,11 +3250,69 @@
             }
 
             /* サイトの見た目は残し、PDFでだけ「外側の余白」と「内側の余白」を段階化する */
-            .about-hero-card, .privacy-hero-card {
+            /* Heroはサイトの墨・紅・金の世界観を残しつつ、一枚の安定画像で描画する */
+            .about-hero-card, .privacy-hero-card,
+            html:not(.dark) .about-hero-card, html:not(.dark) .privacy-hero-card {
                 margin-bottom: 5mm !important;
                 padding: 9mm 10mm !important;
-                /* 印刷時は多層CSSグラデーションを一枚の不透明画像にし、iOS/WebKitの合成継ぎ目を回避する */
-                background: #fffdfb url('/assets/pdf-hero-background.png') center center / 100% 100% no-repeat !important;
+                background: #160e10 !important;
+                border-color: #c4a25f !important;
+                box-shadow: none !important;
+                color: #fffaf4 !important;
+            }
+            /* ライトテーマでの画面用文字色上書きを、濃色PDF Heroに合わせて戻す */
+            .about-hero-card h2, .privacy-hero-card h2,
+            .about-hero-card h2 .text-white, .privacy-hero-card h2 .text-white,
+            html:not(.dark) .about-hero-card .text-white,
+            html:not(.dark) .privacy-hero-card .text-white {
+                color: #fffaf4 !important;
+            }
+            .about-hero-card p.text-zinc-300, .privacy-hero-card p.text-zinc-300,
+            html:not(.dark) .about-hero-card p.text-zinc-300,
+            html:not(.dark) .privacy-hero-card p.text-zinc-300 {
+                color: #eadfda !important;
+            }
+            .about-hero-card p.text-zinc-400, .privacy-hero-card p.text-zinc-400,
+            .about-hero-card .text-zinc-500, .privacy-hero-card .text-zinc-500,
+            html:not(.dark) .about-hero-card p.text-zinc-400,
+            html:not(.dark) .privacy-hero-card p.text-zinc-400,
+            html:not(.dark) .about-hero-card .text-zinc-500,
+            html:not(.dark) .privacy-hero-card .text-zinc-500 {
+                color: #d6c5bf !important;
+            }
+            .about-hero-card .text-red-400, .privacy-hero-card .text-red-400 {
+                color: #ff9a91 !important;
+            }
+            /* 後続するライトテーマ規則より優先して、PDF Heroの文字コントラストを固定する */
+            #view-about.printing .about-hero-card h2,
+            #view-privacy.printing .privacy-hero-card h2,
+            #view-about.printing .about-hero-card h2 .text-white,
+            #view-privacy.printing .privacy-hero-card h2 .text-white {
+                color: #fffaf4 !important;
+            }
+            #view-about.printing .about-hero-card h2 .text-red-400,
+            #view-privacy.printing .privacy-hero-card h2 .text-red-400 {
+                color: #ff9a91 !important;
+            }
+            #view-about.printing .about-hero-card p.text-zinc-300,
+            #view-privacy.printing .privacy-hero-card p.text-zinc-300 {
+                color: #eadfda !important;
+            }
+            #view-about.printing .about-hero-card p.text-zinc-400,
+            #view-privacy.printing .privacy-hero-card p.text-zinc-400,
+            #view-about.printing .about-hero-card .text-zinc-500,
+            #view-privacy.printing .privacy-hero-card .text-zinc-500 {
+                color: #d6c5bf !important;
+            }
+            /* CSS背景画像ではなく実体画像として印刷し、背景グラフィック無効時にも確実に出力する */
+            .pdf-hero-background {
+                display: block !important;
+                position: absolute !important;
+                inset: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                z-index: 0 !important;
             }
             .about-hero-card > .absolute, .privacy-hero-card > .absolute {
                 display: none !important;
@@ -7877,6 +7935,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             
             <!-- ヘッダーカード -->
             <div class="bento-card about-hero-card mb-6 relative overflow-hidden bg-gradient-to-br from-red-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
+                <img class="pdf-hero-background" src="/assets/pdf-hero-background-v2.png" alt="" aria-hidden="true" style="display: none;">
                 <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #ef4444 0%, transparent 70%);"></div>
                 <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #d4af37 0%, transparent 70%);"></div>
                 <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -8291,6 +8350,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             
             <!-- ヘッダーカード -->
             <div class="bento-card privacy-hero-card mb-6 relative overflow-hidden bg-gradient-to-br from-red-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
+                <img class="pdf-hero-background" src="/assets/pdf-hero-background-v2.png" alt="" aria-hidden="true" style="display: none;">
                 <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #ef4444 0%, transparent 70%);"></div>
                 <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #d4af37 0%, transparent 70%);"></div>
                 <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -20037,13 +20097,41 @@ function renderServerPagination(currentPage, totalItems, perPage) {
     // ブラウザ標準のwindow.print()（「PDFとして保存」）はブラウザ自身のレンダリングエンジンで
     // 出力するため、日本語フォント・CSS・レイアウトが確実に反映され、追加ライブラリも不要。
     // 既存の @media print 用CSS（.view-section.printing のみ表示）をそのまま活用する。
+    function applyPDFHeroPrintStyling(section) {
+        // 一部のiOS/WebKit環境では後続のライトテーマ規則が印刷用色指定を上書きするため、
+        // PDF生成中だけインラインのimportant指定でHero文字のコントラストを保証する。
+        const palette = [
+            ['.about-hero-card h2, .privacy-hero-card h2, .about-hero-card h2 .text-white, .privacy-hero-card h2 .text-white', '#fffaf4'],
+            ['.about-hero-card p.text-zinc-300, .privacy-hero-card p.text-zinc-300', '#eadfda'],
+            ['.about-hero-card p.text-zinc-400, .privacy-hero-card p.text-zinc-400, .about-hero-card .text-zinc-500, .privacy-hero-card .text-zinc-500', '#d6c5bf'],
+            ['.about-hero-card h2 .text-red-400, .privacy-hero-card h2 .text-red-400', '#ff9a91']
+        ];
+        const snapshots = [];
+        palette.forEach(([selector, color]) => {
+            section.querySelectorAll(selector).forEach((element) => {
+                snapshots.push({
+                    element,
+                    value: element.style.getPropertyValue('color'),
+                    priority: element.style.getPropertyPriority('color')
+                });
+                element.style.setProperty('color', color, 'important');
+            });
+        });
+        return () => snapshots.forEach(({ element, value, priority }) => {
+            if (value) element.style.setProperty('color', value, priority);
+            else element.style.removeProperty('color');
+        });
+    }
+
     function downloadAsPDF(viewId) {
         const section = document.getElementById(`view-${viewId}`);
         if(!section) return;
 
         section.classList.add('printing');
+        const restoreHeroPrintStyling = applyPDFHeroPrintStyling(section);
 
         const cleanup = () => {
+            restoreHeroPrintStyling();
             section.classList.remove('printing');
             window.removeEventListener('afterprint', cleanup);
         };
