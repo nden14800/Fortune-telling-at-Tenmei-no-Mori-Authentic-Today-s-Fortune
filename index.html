@@ -2580,7 +2580,81 @@
 }
 .article-content.article-content--ready {
     opacity: 1;
-}.article-content h3 { font-size: 1.4rem; font-weight: bold; margin: 30px 0 15px; border-left: 4px solid var(--accent-red); padding-left: 10px; }.article-content p { margin-bottom: 20px; }/* --- TENMEI Labs モダンUI用スタイル (Google Labs風) --- */
+}.article-content h3 { font-size: 1.4rem; font-weight: bold; margin: 30px 0 15px; border-left: 4px solid var(--accent-red); padding-left: 10px; }.article-content p { margin-bottom: 20px; }
+
+/* 神籤草子の図解・画面資料：本文幅で読みやすく、出典を明確に表示する */
+.article-content .article-visual {
+    margin: 1.75rem auto 2.15rem;
+    max-width: min(100%, 760px);
+    overflow: hidden;
+    border: 1px solid rgba(143, 91, 41, 0.25);
+    border-radius: 16px;
+    background: #faf8f2;
+    box-shadow: 0 10px 24px rgba(73, 46, 22, 0.10);
+}
+.article-content .article-visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: 0;
+    background: #fff;
+}
+.article-content .article-visual--rank {
+    max-width: min(100%, 720px);
+    border-color: rgba(167, 125, 34, 0.42);
+    background: #f6f0e2;
+}
+.article-content .article-visual--screen {
+    background: #fff;
+}
+.article-content .article-visual figcaption {
+    padding: 0.8rem 1rem 0.9rem;
+    color: #685949;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    text-align: left;
+    background: rgba(250, 248, 242, 0.96);
+    border-top: 1px solid rgba(143, 91, 41, 0.16);
+}
+.article-content .article-visual figcaption strong {
+    color: #56351f;
+}
+.article-content .article-visual figcaption a {
+    color: var(--accent-red);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    word-break: break-all;
+}
+.dark .article-content .article-visual {
+    border-color: rgba(214, 175, 112, 0.32);
+    background: #25211d;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.20);
+}
+.dark .article-content .article-visual--screen,
+.dark .article-content .article-visual img {
+    background: #fff;
+}
+.dark .article-content .article-visual figcaption {
+    color: #d9cfc2;
+    background: #25211d;
+    border-top-color: rgba(214, 175, 112, 0.24);
+}
+.dark .article-content .article-visual figcaption strong {
+    color: #f1dfb3;
+}
+@media (max-width: 640px) {
+    .article-content .article-visual {
+        margin: 1.4rem auto 1.8rem;
+        border-radius: 12px;
+    }
+    .article-content .article-visual figcaption {
+        padding: 0.7rem 0.78rem 0.8rem;
+        font-size: 0.72rem;
+    }
+}
+/* --- TENMEI Labs モダンUI用スタイル (Google Labs風) --- */
         
         /* カード全体の設定 */
         #view-lab {
@@ -13087,22 +13161,42 @@ function escapeHtml(str) {
                     <p>選定の基準は「無料で気軽に引ける」「デザインや演出に個性がある」「結果の読み応えがある」の3点です。</p>
 
                     <h3>① 愛宕神社おみくじ</h3>
+                    <figure class="article-visual article-visual--screen">
+                        <img src="/assets/article-images/atago-jinja-omikuji-start.webp" alt="愛宕神社おみくじの公開開始画面。中央に「おみくじ」と「おみくじを引く」ボタンがある。" loading="lazy">
+                        <figcaption><strong>掲載画像：愛宕神社おみくじの公開開始画面</strong>（2026年8月12日閲覧）／出典：<a href="https://www.atago-jinja.com/lot/" target="_blank" rel="noopener noreferrer">愛宕神社おみくじ 公式サイト</a></figcaption>
+                    </figure>
                     <p>「おみくじ」と検索すると必ず上位に現れる、ウェブおみくじ界のど定番です。デザインは非常にシンプルですが、結果に書かれている内容は本物の紙おみくじと遜色ない情報量で、じっくり読み込む価値があります。結果は全7種類。SNSで話題になるたびに多くの人が訪れる、信頼と実績のサイトです。</p>
                     <p>→ <a href="https://www.atago-jinja.com/lot/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-red);">https://www.atago-jinja.com/lot/</a></p>
 
                     <h3>② おみくじ堂</h3>
+                    <figure class="article-visual article-visual--screen">
+                        <img src="/assets/article-images/omikuji-do-start.webp" alt="おみくじ堂の公開開始画面。おみくじ札の扇形演出と「おみくじをひく」ボタンがある。" loading="lazy">
+                        <figcaption><strong>掲載画像：おみくじ堂の公開開始画面</strong>（2026年8月12日閲覧）／出典：<a href="https://www.omikuji-do.com/" target="_blank" rel="noopener noreferrer">おみくじ堂 公式サイト</a></figcaption>
+                    </figure>
                     <p>当サイト「天命乃杜」が開発にあたって大いに参考にさせていただいた、ウェブおみくじの先駆けとも言えるサイトです。「大吉」から「大凶」まで12種類の細かな吉凶分類、引くときの演出、SNSシェア機能など、機能面の充実度は随一です。おみくじに関するコラム記事も豊富で、おみくじ好きなら一度は訪れるべき場所です。</p>
                     <p>→ <a href="https://www.omikuji-do.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-red);">https://www.omikuji-do.com/</a></p>
 
                     <h3>③ omikuji.online</h3>
+                    <figure class="article-visual article-visual--screen">
+                        <img src="/assets/article-images/omikuji-online-start.webp" alt="omikuji.onlineの公開開始画面。淡い背景に鳥居の意匠が表示されている。" loading="lazy">
+                        <figcaption><strong>掲載画像：omikuji.onlineの公開開始画面</strong>（2026年8月12日閲覧）／出典：<a href="https://omikuji.online/" target="_blank" rel="noopener noreferrer">omikuji.online 公式サイト</a></figcaption>
+                    </figure>
                     <p>登録不要・完全無料で引けるシンプルなウェブおみくじです。特徴的なのは「心を清める」「姿勢を正す」「願いを込める」という、本物の参拝に近い手順を踏んでから結果が表示される点。気軽に引けるサービスが多いなか、この「心構えを整える」という体験は独特の雰囲気があります。</p>
                     <p>→ <a href="https://omikuji.online/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-red);">https://omikuji.online/</a></p>
 
                     <h3>④ プリズムジャパンおみくじ（KINTO）</h3>
+                    <figure class="article-visual article-visual--screen">
+                        <img src="/assets/article-images/prism-japan-omikuji-start.webp" alt="プリズムジャパンおみくじの公開開始画面。赤い背景におみくじ箱と「おみくじをひく」ボタンがある。" loading="lazy">
+                        <figcaption><strong>掲載画像：プリズムジャパンおみくじの公開開始画面</strong>（2026年8月12日閲覧）／出典：<a href="https://ppap.kinto-jp.com/omikuji" target="_blank" rel="noopener noreferrer">プリズムジャパンおみくじ 公式サイト</a></figcaption>
+                    </figure>
                     <p>毎日1回無料で引ける、日替わりのウェブおみくじです。総合運だけでなく恋愛・家族・金運・健康など8つの分野への一言アドバイスが届く点が充実しています。さらに「その日におすすめの神社」まで案内してくれるという、他のサービスにはないユニークな機能が特徴的です。毎朝の習慣として取り入れやすいサービスです。</p>
                     <p>→ <a href="https://ppap.kinto-jp.com/omikuji" target="_blank" rel="noopener noreferrer" style="color: var(--accent-red);">https://ppap.kinto-jp.com/omikuji</a></p>
 
                     <h3>⑤ まっ茶んみくじ</h3>
+                    <figure class="article-visual article-visual--screen">
+                        <img src="/assets/article-images/macchan-mikuji-start.webp" alt="まっ茶んみくじの公開開始画面。茶の意匠と神社の前で祈る人物のイラスト、「さあ、始めましょう」のボタンがある。" loading="lazy">
+                        <figcaption><strong>掲載画像：まっ茶んみくじの公開開始画面</strong>（2026年8月12日閲覧）／出典：<a href="https://www.omikuji-matchan.com/" target="_blank" rel="noopener noreferrer">まっ茶んみくじ 公式サイト</a></figcaption>
+                    </figure>
                     <p>「お茶でおみくじを引く」という、ここにしかない発想のユニーク系サービスです。血液型・干支・星座を選んだうえで、最後にお好みのお茶を選ぶと運勢が決まるという仕組み。1日1回限定で、運勢は8段階。占いというよりも、ちょっとしたゲームとして楽しめます。「今日のお茶は何にしよう」という気分で気軽に試してみてください。</p>
                     <p>→ <a href="https://www.omikuji-matchan.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-red);">https://www.omikuji-matchan.com/</a></p>
 
@@ -15127,7 +15221,7 @@ function escapeHtml(str) {
             category: "雑学",
             icon: "bi-list-ol",
             colorClass: "green",
-            content: `<div class="article-content"><p>初詣や神社参拝の際に引く「おみくじ」。結果に一喜一憂するのも楽しみの一つですが、その「順位」について正しく理解している人は意外と少ないかもしれません。実は神社やお寺によって解釈が異なる場合があるのですが、一般的に広く知られている順位と、当サイト「運勢・天命乃杜」で採用している伝統的な12段階の順位について詳しく解説します。</p><h3>一般的な7段階の順位</h3><p>多くの神社で採用されている最もポピュラーな順位は以下の通りです。<br><b>大吉 ＞ 吉 ＞ 中吉 ＞ 小吉 ＞ 末吉 ＞ 凶 ＞ 大凶</b><br>あるいは、「吉」の位置が変わり、<b>大吉 ＞ 中吉 ＞ 小吉 ＞ 吉 ＞ 末吉 ＞ 凶 ＞ 大凶</b> とする場合もあります。「吉」は「大吉」に次ぐ良い運勢とする説と、「小吉」と「末吉」の間の中庸な運勢とする説があるのです。</p><h3>当サイトの12段階詳細順位</h3><p>当サイトでは、より細かく運勢を占うため、古来からの伝統に基づいた以下の12段階を採用しています。</p><ol class="list-decimal list-inside space-y-2 ml-4 mb-6 font-bold"><li>大吉 (だいきち)：最高の運気。感謝を忘れずに。</li><li>中吉 (ちゅうきち)：大吉に次ぐ良運。</li><li>小吉 (しょうきち)：ささやかな幸せが続く。</li><li>吉 (きち)：安定した運気。</li><li>半吉 (はんきち)：吉と凶の中間。</li><li>末吉 (すえきち)：末広がりの未来がある。</li><li>末小吉 (すえしょうきち)：今は耐える時だが希望はある。</li><li>凶 (きょう)：運気が停滞気味。慎重に。</li><li>小凶 (しょうきょう)：小さなトラブルに注意。</li><li>半凶 (はんきょう)：半分は凶だが半分は吉に転じる可能性。</li><li>末凶 (すえきょう)：終わりの凶、つまり次は吉へ向かう。</li><li>大凶 (だいきょう)：最も警戒すべき運気。しかしこれ以上落ちない。</li></ol><p>しかし、最も重要なのは順位そのものではありません。おみくじの本質は、そこに書かれている「神様からの和歌や助言」にあります。大吉であっても戒めの言葉があれば気を引き締め、大凶であっても励ましの言葉があれば希望を持つことが大切です。結果に一喜一憂せず、日々の行動指針として活用してください。</p></div>`
+            content: `<div class="article-content"><p>初詣や神社参拝の際に引く「おみくじ」。結果に一喜一憂するのも楽しみの一つですが、その「順位」について正しく理解している人は意外と少ないかもしれません。実は神社やお寺によって解釈が異なる場合があるのですが、一般的に広く知られている順位と、当サイト「運勢・天命乃杜」で採用している伝統的な12段階の順位について詳しく解説します。</p><figure class="article-visual article-visual--rank"><img src="/assets/article-images/omikuji-rank-order-12.svg" alt="天命乃杜で採用する12段階の吉凶順。大吉、中吉、小吉、吉、半吉、末吉、末小吉、凶、小凶、半凶、末凶、大凶の順に並び、寺社ごとに扱いが異なることを注記した図解。" loading="lazy"><figcaption><strong>天命乃杜で採用する12段階の吉凶の目安</strong>。上ほど吉・下ほど慎む目安として示していますが、順位や名称は神社・お寺によって異なります。</figcaption></figure><h3>一般的な7段階の順位</h3><p>多くの神社で採用されている最もポピュラーな順位は以下の通りです。<br><b>大吉 ＞ 吉 ＞ 中吉 ＞ 小吉 ＞ 末吉 ＞ 凶 ＞ 大凶</b><br>あるいは、「吉」の位置が変わり、<b>大吉 ＞ 中吉 ＞ 小吉 ＞ 吉 ＞ 末吉 ＞ 凶 ＞ 大凶</b> とする場合もあります。「吉」は「大吉」に次ぐ良い運勢とする説と、「小吉」と「末吉」の間の中庸な運勢とする説があるのです。</p><h3>当サイトの12段階詳細順位</h3><p>当サイトでは、より細かく運勢を占うため、古来からの伝統に基づいた以下の12段階を採用しています。</p><ol class="list-decimal list-inside space-y-2 ml-4 mb-6 font-bold"><li>大吉 (だいきち)：最高の運気。感謝を忘れずに。</li><li>中吉 (ちゅうきち)：大吉に次ぐ良運。</li><li>小吉 (しょうきち)：ささやかな幸せが続く。</li><li>吉 (きち)：安定した運気。</li><li>半吉 (はんきち)：吉と凶の中間。</li><li>末吉 (すえきち)：末広がりの未来がある。</li><li>末小吉 (すえしょうきち)：今は耐える時だが希望はある。</li><li>凶 (きょう)：運気が停滞気味。慎重に。</li><li>小凶 (しょうきょう)：小さなトラブルに注意。</li><li>半凶 (はんきょう)：半分は凶だが半分は吉に転じる可能性。</li><li>末凶 (すえきょう)：終わりの凶、つまり次は吉へ向かう。</li><li>大凶 (だいきょう)：最も警戒すべき運気。しかしこれ以上落ちない。</li></ol><p>しかし、最も重要なのは順位そのものではありません。おみくじの本質は、そこに書かれている「神様からの和歌や助言」にあります。大吉であっても戒めの言葉があれば気を引き締め、大凶であっても励ましの言葉があれば希望を持つことが大切です。結果に一喜一憂せず、日々の行動指針として活用してください。</p></div>`
         },
         {
             id: 2,

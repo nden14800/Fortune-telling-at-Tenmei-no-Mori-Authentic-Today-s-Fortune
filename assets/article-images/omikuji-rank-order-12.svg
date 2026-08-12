@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1320" viewBox="0 0 1200 1320" role="img" aria-labelledby="title desc">
+  <title id="title">天命乃杜のおみくじ：12段階の吉凶の目安</title>
+  <desc id="desc">大吉から大凶まで、天命乃杜で採用する12段階の順番を上から順に示した図。神社やお寺によって順番や扱いが異なる旨も注記している。</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffdf7"/>
+      <stop offset="1" stop-color="#f5efe1"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d9b65d"/>
+      <stop offset="0.5" stop-color="#a77d22"/>
+      <stop offset="1" stop-color="#dfc878"/>
+    </linearGradient>
+    <pattern id="asanoha" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+      <path d="M14 0 28 7v14l-14 7L0 21V7Z M14 7v14 M7 10.5l14 7 M21 10.5l-14 7" fill="none" stroke="#b58b37" stroke-width="0.8" opacity="0.25"/>
+    </pattern>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#4d3218" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&amp;family=Zen+Old+Mincho:wght@700&amp;display=swap');
+      .title { font-family: 'Zen Old Mincho', 'Noto Serif JP', 'Noto Sans CJK JP', serif; fill: #3b2817; font-weight: 700; }
+      .sans { font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', 'Noto Sans CJK JP', sans-serif; fill: #493a2c; }
+      .rank { font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', 'Noto Sans CJK JP', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.08em; }
+      .fortune { font-family: 'Zen Old Mincho', 'Noto Serif JP', 'Noto Sans CJK JP', serif; font-weight: 700; font-size: 33px; }
+      .reading { font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', 'Noto Sans CJK JP', sans-serif; font-size: 16px; letter-spacing: 0.12em; }
+      .state { font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', 'Noto Sans CJK JP', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.06em; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="1320" fill="#f4efe3"/>
+  <rect x="32" y="32" width="1136" height="1256" rx="12" fill="url(#paper)" stroke="url(#gold)" stroke-width="3"/>
+  <rect x="51" y="51" width="1098" height="1218" rx="5" fill="none" stroke="#cdb274" stroke-width="1.5"/>
+  <rect x="52" y="52" width="1096" height="174" rx="5" fill="url(#asanoha)"/>
+
+  <g transform="translate(600 78)">
+    <path d="M-24 0h48M0-24v48M-17-17 17 17M17-17-17 17" stroke="#b4862b" stroke-width="2" opacity="0.75"/>
+    <circle r="8" fill="#b4862b"/>
+  </g>
+  <text x="600" y="134" text-anchor="middle" class="title" font-size="44" letter-spacing="0.12em">おみくじの順番</text>
+  <text x="600" y="177" text-anchor="middle" class="sans" font-size="20" letter-spacing="0.10em">天命乃杜で採用する　12段階の吉凶の目安</text>
+
+  <g transform="translate(98 267)">
+    <rect width="120" height="848" rx="60" fill="#f0e8d6" stroke="#d6bb76" stroke-width="1.5"/>
+    <path d="M60 74V776" stroke="#b98e35" stroke-width="3" stroke-dasharray="4 7"/>
+    <path d="M60 36 42 74h36Z" fill="#a67a25"/>
+    <path d="M60 812 42 774h36Z" fill="#9c4834"/>
+    <text x="60" y="113" text-anchor="middle" class="title" font-size="22">より吉</text>
+    <text x="60" y="739" text-anchor="middle" class="title" font-size="22">慎む</text>
+  </g>
+
+  <g>
+    <g transform="translate(255 267)">
+      <rect width="842" height="64" rx="8" fill="#edf5e8" stroke="#67976b" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#447d52"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">01</text>
+      <text x="146" y="41" class="fortune" fill="#2f5a3b">大吉</text>
+      <text x="253" y="38" class="reading">だいきち</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#447d52"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">最高の運気</text>
+    </g>
+    <g transform="translate(255 337)">
+      <rect width="842" height="64" rx="8" fill="#f1f5e8" stroke="#849a5a" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#6f8e47"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">02</text>
+      <text x="146" y="41" class="fortune" fill="#516c32">中吉</text>
+      <text x="253" y="38" class="reading">ちゅうきち</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#6f8e47"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">良い流れ</text>
+    </g>
+    <g transform="translate(255 407)">
+      <rect width="842" height="64" rx="8" fill="#f9f5e4" stroke="#aa9c54" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#a28d3c"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">03</text>
+      <text x="146" y="41" class="fortune" fill="#806c24">小吉</text>
+      <text x="253" y="38" class="reading">しょうきち</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#a28d3c"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">小さな幸せ</text>
+    </g>
+    <g transform="translate(255 477)">
+      <rect width="842" height="64" rx="8" fill="#fbf4e9" stroke="#b79050" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#ad7b38"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">04</text>
+      <text x="146" y="41" class="fortune" fill="#8f5d24">吉</text>
+      <text x="253" y="38" class="reading">きち</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#ad7b38"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">安定の運気</text>
+    </g>
+    <g transform="translate(255 547)">
+      <rect width="842" height="64" rx="8" fill="#fcf1e8" stroke="#c68e50" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#b87336"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">05</text>
+      <text x="146" y="41" class="fortune" fill="#985123">半吉</text>
+      <text x="253" y="38" class="reading">はんきち</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#b87336"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">中ほどの兆し</text>
+    </g>
+    <g transform="translate(255 617)">
+      <rect width="842" height="64" rx="8" fill="#fcf0eb" stroke="#c78359" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#b85f3f"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">06</text>
+      <text x="146" y="41" class="fortune" fill="#97412e">末吉</text>
+      <text x="253" y="38" class="reading">すえきち</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#b85f3f"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">先にひらく</text>
+    </g>
+    <g transform="translate(255 687)">
+      <rect width="842" height="64" rx="8" fill="#fcefea" stroke="#c57659" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#b54f3c"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">07</text>
+      <text x="146" y="41" class="fortune" fill="#923a2d">末小吉</text>
+      <text x="278" y="38" class="reading">すえしょうきち</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#b54f3c"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">希望を育てる</text>
+    </g>
+    <g transform="translate(255 757)">
+      <rect width="842" height="64" rx="8" fill="#f9e9e7" stroke="#bf6860" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#ad4541"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">08</text>
+      <text x="146" y="41" class="fortune" fill="#88322f">凶</text>
+      <text x="253" y="38" class="reading">きょう</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#ad4541"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">慎重に整える</text>
+    </g>
+    <g transform="translate(255 827)">
+      <rect width="842" height="64" rx="8" fill="#f7e6e4" stroke="#b75b5c" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#a63d3d"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">09</text>
+      <text x="146" y="41" class="fortune" fill="#823033">小凶</text>
+      <text x="278" y="38" class="reading">しょうきょう</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#a63d3d"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">小さな注意</text>
+    </g>
+    <g transform="translate(255 897)">
+      <rect width="842" height="64" rx="8" fill="#f5e3e3" stroke="#ad5258" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#9a363c"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">10</text>
+      <text x="146" y="41" class="fortune" fill="#782b33">半凶</text>
+      <text x="278" y="38" class="reading">はんきょう</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#9a363c"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">転じる余地</text>
+    </g>
+    <g transform="translate(255 967)">
+      <rect width="842" height="64" rx="8" fill="#f2e0e2" stroke="#9f4c59" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#8c303b"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">11</text>
+      <text x="146" y="41" class="fortune" fill="#6e2530">末凶</text>
+      <text x="278" y="38" class="reading">すえきょう</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#8c303b"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">次へ備える</text>
+    </g>
+    <g transform="translate(255 1037)">
+      <rect width="842" height="64" rx="8" fill="#f0dfe2" stroke="#8a4352" stroke-width="2"/>
+      <rect width="100" height="64" rx="8" fill="#74293a"/>
+      <text x="50" y="40" text-anchor="middle" fill="#fffdf7" class="rank">12</text>
+      <text x="146" y="41" class="fortune" fill="#5d2031">大凶</text>
+      <text x="278" y="38" class="reading">だいきょう</text>
+      <rect x="698" y="17" width="112" height="30" rx="15" fill="#74293a"/>
+      <text x="754" y="38" text-anchor="middle" fill="#fffdf7" class="state">言葉を受け取る</text>
+    </g>
+  </g>
+
+  <g transform="translate(98 1163)">
+    <rect width="1004" height="67" rx="8" fill="#f1eadb" stroke="#cbb47b" stroke-width="1.5"/>
+    <circle cx="36" cy="33.5" r="14" fill="#a77727"/>
+    <text x="36" y="39" text-anchor="middle" fill="#fffdf7" font-family="serif" font-size="21" font-weight="700">注</text>
+    <text x="66" y="29" class="sans" font-size="17" font-weight="700">順位・名称・扱いは、神社やお寺によって異なることがあります。</text>
+    <text x="66" y="51" class="sans" font-size="15">吉凶だけで決めず、おみくじに書かれた和歌や助言を、今の自分への言葉として読みましょう。</text>
+  </g>
+  <text x="600" y="1260" text-anchor="middle" class="sans" font-size="14" letter-spacing="0.08em">TENMEI MORI  |  OMIKUJI RANKING GUIDE</text>
+</svg>
