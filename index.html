@@ -18179,7 +18179,7 @@ async function showResultDetail(isNewDraw, dataOverride = null) {
                     const col = document.createElement('div');
                     col.className = 'detail-column';
                     col.style.height = 'auto'; // まず自然な高さで測るため制限を外す
-                    col.innerHTML = `<span class="detail-item-label accent-text">${d.title}</span> <span class="detail-item-content accent-text">${d.content}</span>`;
+                    col.innerHTML = `<span class="detail-item-label accent-text">${escapeHtml(d.title)}</span> <span class="detail-item-content accent-text">${escapeHtml(d.content)}</span>`;
                     detailGrid.appendChild(col);
                     detailCols.push(col);
                 });
@@ -18452,12 +18452,13 @@ function renderHistoryList(historyData) {
         }
 
         // バッジのスタイル決定（運勢によって色を変える）
+        const result = String(item.result || '');
         let badgeClass = "res-kyo"; // デフォルト（凶系）
-        if (item.result === "大吉") {
+        if (result === "大吉") {
             badgeClass = "res-daikichi"; // 大吉用（金）
-        } else if (item.result.includes("吉")) {
+        } else if (result.includes("吉")) {
             badgeClass = "res-kichi"; // 吉系（赤）
-        } else if (item.result === "大凶") {
+        } else if (result === "大凶") {
             badgeClass = "res-daikyo"; // 大凶用（黒）
         }
 
@@ -18466,13 +18467,12 @@ function renderHistoryList(historyData) {
 
         // HTML生成 (タイムライン構造)
         // .timeline-item が全体の枠、.timeline-dot が左の点、.history-card が中身
-        // クリックで詳細モーダルを表示するイベントを設定
-        // JSON.stringify(item) でデータを埋め込み、シングルクォートのエスケープ処理も行う
+        // 詳細モーダルは、HTML属性へデータを連結せず後段のイベントリスナーで開く。
         const html = `
             <div class="timeline-item ${isMe ? 'is-me' : ''}" style="animation-delay: ${delay}s">
                 <div class="timeline-dot"></div>
                 
-                <div class="history-card ${isMe ? 'is-me' : ''}" onclick='showResultDetail(false, ${JSON.stringify(item).replace(/'/g, "&apos;")})'>
+                <div class="history-card ${isMe ? 'is-me' : ''}">
                     <!-- 左側: 日付とユーザー情報 -->
                     <div>
                         <div class="flex items-center gap-2 mb-1">
@@ -18490,7 +18490,7 @@ function renderHistoryList(historyData) {
                     <!-- 右側: 結果バッジと発行番号 -->
                     <div class="flex flex-col items-end">
                         <div class="result-badge ${badgeClass}">
-                            ${item.result}
+                            ${escapeHtml(result)}
                         </div>
                         <div class="text-[10px] text-gray-400 mt-1">
                             No.${Number(item.issue_number || 0).toLocaleString()}
@@ -18500,8 +18500,13 @@ function renderHistoryList(historyData) {
             </div>
         `;
         
-        // リストに追加
+        // リストに追加。サーバー応答のオブジェクトはインラインイベント属性へ文字列化せず、
+        // 閉包で保持したままイベントリスナーから渡す。
         list.insertAdjacentHTML('beforeend', html);
+        const historyCard = list.lastElementChild?.querySelector('.history-card');
+        if (historyCard) {
+            historyCard.addEventListener('click', () => showResultDetail(false, item));
+        }
     });
 }
 
@@ -19145,7 +19150,7 @@ ${getShareUrl()}`;
 
             // Xの投稿画面を開く
             const intent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(fullText)}`;
-            window.open(intent, '_blank');
+            window.open(intent, '_blank', 'noopener,noreferrer');
         }
 
         async function shareToFB() {
@@ -19167,7 +19172,7 @@ ${getShareUrl()}`;
 
             const url = getShareUrl();
             const intent = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-            window.open(intent, '_blank');
+            window.open(intent, '_blank', 'noopener,noreferrer');
         }
         
         async function shareToLine() {
@@ -19188,7 +19193,7 @@ ${getShareUrl()}`;
             }
 
             const intent = `https://social-plugins.line.me/lineit/share?text=${encodeURIComponent(fullText)}`;
-            window.open(intent, '_blank');
+            window.open(intent, '_blank', 'noopener,noreferrer');
         }
 
         async function shareToThreads() {
@@ -19210,7 +19215,7 @@ ${getShareUrl()}`;
 
             // Threadsの投稿画面を開く (threads.net/intent/post?text=...)
             const intent = `https://www.threads.net/intent/post?text=${encodeURIComponent(fullText)}`;
-            window.open(intent, '_blank');
+            window.open(intent, '_blank', 'noopener,noreferrer');
         }
 
         // --- Discord参拝記録チャンネルへシェア（Worker経由） ---
