@@ -33,6 +33,13 @@ expect(!/\$\{d\.title\}|\$\{d\.content\}/.test(resultRenderer), '詳細項目が
 expect(/\$\{escapeHtml\(d\.title\)\}/.test(resultRenderer), '詳細項目のタイトルにescapeHtml()が適用されていません。');
 expect(/\$\{escapeHtml\(d\.content\)\}/.test(resultRenderer), '詳細項目の内容にescapeHtml()が適用されていません。');
 
+const googleConnect = between(index, 'async function connectGoogleAccount() {', '// Googleアカウント連携解除');
+expect(googleConnect.length > 0, 'connectGoogleAccount() を検出できません。');
+expect(!/mode=connect&token/.test(googleConnect), 'Google連携URLにauth_tokenを含めています。');
+expect(/authFetch\(`\$\{API_BASE\}\/api\/auth\/google\/connect\/start`, \{\s*method: 'POST'\s*\}\)/.test(googleConnect), 'Google連携を認証済みPOSTで開始していません。');
+expect(/redirectUrl\.origin !== 'https:\/\/accounts\.google\.com'/.test(googleConnect), 'Google認可URLのオリジンを検証していません。');
+expect(/redirectUrl\.pathname !== '\/o\/oauth2\/v2\/auth'/.test(googleConnect), 'Google認可URLのパスを検証していません。');
+
 const unsafeShareOpenCount = (index.match(/window\.open\(intent, '_blank'\);/g) || []).length;
 const safeShareOpenCount = (index.match(/window\.open\(intent, '_blank', 'noopener,noreferrer'\);/g) || []).length;
 expect(unsafeShareOpenCount === 0, 'SNS共有のwindow.open()にnoopener,noreferrerがありません。');

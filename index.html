@@ -19400,13 +19400,37 @@ function startGoogleLogin() {
 }
 
 // Googleアカウント連携（コネクト）
-function connectGoogleAccount() {
+async function connectGoogleAccount() {
     const token = localStorage.getItem('auth_token');
     if (!token) {
         showToast('ログインが必要です', 'error');
         return;
     }
-    window.location.href = `${API_BASE}/api/auth/google/redirect?mode=connect&token=${encodeURIComponent(token)}`;
+
+    try {
+        showLoading(true);
+        // 認証トークンはauthFetchのAuthorizationヘッダーでWorkersへ送る。
+        // URLには短命かつ一回限りのstateだけを含むGoogle認可URLしか載せない。
+        const response = await authFetch(`${API_BASE}/api/auth/google/connect/start`, {
+            method: 'POST'
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || typeof data.redirectUrl !== 'string') {
+            throw new Error(data.error || 'connect_start_failed');
+        }
+
+        // Workersが発行したGoogle公式の認可エンドポイント以外には遷移しない。
+        const redirectUrl = new URL(data.redirectUrl);
+        if (redirectUrl.origin !== 'https://accounts.google.com' || redirectUrl.pathname !== '/o/oauth2/v2/auth') {
+            throw new Error('invalid_connect_redirect');
+        }
+
+        window.location.assign(redirectUrl.toString());
+    } catch (error) {
+        console.error('Google connect start error:', error);
+        showToast('Googleアカウント連携を開始できませんでした。時間を置いてもう一度お試しください。', 'error');
+        showLoading(false);
+    }
 }
 
 // Googleアカウント連携解除
