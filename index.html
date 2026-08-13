@@ -1484,7 +1484,61 @@
     overflow: hidden;
     position: relative;
     z-index: 1;
-}/* 4. アイコン定義クラス */
+}
+.article-list-readinfo {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.22rem;
+    color: var(--text-sub);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+.article-list-readinfo span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.24rem;
+    white-space: nowrap;
+}
+.article-list-readinfo i {
+    color: var(--accent-gold);
+    font-size: 0.74rem;
+}
+.article-list-readinfo .article-list-readinfo-separator {
+    opacity: 0.45;
+    padding: 0 0.06rem;
+}
+.news-list-readinfo {
+    margin-top: 0.9rem;
+    padding-top: 0.72rem;
+    border-top: 1px dashed var(--card-border);
+    position: relative;
+    z-index: 1;
+}
+.column-reading-footer {
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px dashed var(--card-border);
+}
+.column-list-readinfo {
+    justify-content: flex-start;
+}
+.column-reading-footer .column-date {
+    margin-top: 0.48rem;
+    padding-top: 0;
+    border-top: 0;
+}
+@media (max-width: 420px) {
+    .article-list-readinfo {
+        font-size: 0.68rem;
+    }
+    .article-list-readinfo i {
+        font-size: 0.7rem;
+    }
+}
+/* 4. アイコン定義クラス */
 .icon-news-alert::before { content: '\F332'; }/* exclamation-triangle */
 .icon-news-info::before { content: '\F431'; }/* info-circle */
 .icon-news-update::before { content: '\F128'; }/* arrow-repeat */
@@ -15390,6 +15444,25 @@ let historyPageState = {
     }
 
     // ==========================================
+    //  記事本文メタ情報（文字数・読了目安）
+    // ==========================================
+    // 記事詳細と一覧で同じ値を表示するため、本文文字数と画像閲覧時間をここで一元的に算出する。
+    function getArticleReadingMeta(html) {
+        const temporary = document.createElement('div');
+        temporary.innerHTML = html || '';
+
+        const charCount = countArticleCharacters(html);
+        const imageCount = temporary.querySelectorAll('img').length;
+        let imageSeconds = 0;
+        for (let index = 0; index < imageCount; index += 1) {
+            imageSeconds += Math.max(3, 12 - index);
+        }
+
+        const readMinutes = Math.max(1, Math.ceil((charCount / 500 * 60 + imageSeconds) / 60));
+        return { charCount, readMinutes };
+    }
+
+    // ==========================================
     //  描画ロジック (一覧・ホーム・詳細)
     // ==========================================
 
@@ -15399,29 +15472,41 @@ let historyPageState = {
         // 社務所だより（最新4件）
         const newsListEl = document.getElementById('home-news-list');
         if (newsListEl) {
-            newsListEl.innerHTML = newsData.slice(0, 5).map(item => `
-                <li class="flex justify-between items-center cursor-pointer hover:bg-zinc-900 py-2 px-1 transition group" onclick="openArticle('news', ${item.id})">
-                    <div class="flex items-center min-w-0 mr-2">
-                        <span class="flex-shrink-0 bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] mr-2 ${item.tagColor || 'text-zinc-300'} font-bold border border-zinc-700">${item.tag}</span>
-                        <span class="truncate group-hover:text-[var(--accent-gold)] transition-colors text-sm font-medium">${item.title}</span>
-                    </div>
-                    <span class="text-[10px] text-zinc-500 flex-shrink-0 font-mono">${item.date}</span>
-                </li>
-            `).join('');
+            newsListEl.innerHTML = newsData.slice(0, 5).map(item => {
+                const readingMeta = getArticleReadingMeta(item.content);
+                return `
+                    <li class="flex justify-between items-center cursor-pointer hover:bg-zinc-900 py-2 px-1 transition group" onclick="openArticle('news', ${item.id})">
+                        <div class="flex items-center min-w-0 mr-2">
+                            <span class="flex-shrink-0 bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] mr-2 ${item.tagColor || 'text-zinc-300'} font-bold border border-zinc-700">${item.tag}</span>
+                            <span class="truncate group-hover:text-[var(--accent-gold)] transition-colors text-sm font-medium">${item.title}</span>
+                        </div>
+                        <div class="text-right flex-shrink-0 leading-tight">
+                            <span class="block text-[10px] text-zinc-500 font-mono">${item.date}</span>
+                            <span class="block text-[9px] text-zinc-500 mt-0.5">${readingMeta.charCount.toLocaleString()}字・約${readingMeta.readMinutes}分</span>
+                        </div>
+                    </li>
+                `;
+            }).join('');
         }
 
         // 神籤草子（最新5件）
         const columnListEl = document.getElementById('home-column-list');
         if (columnListEl) {
-            columnListEl.innerHTML = columnData.slice(0, 5).map(item => `
-                <li class="flex justify-between items-center cursor-pointer hover:bg-zinc-900 py-2 px-1 transition group" onclick="openArticle('column', ${item.id})">
-                    <div class="flex items-center min-w-0 mr-2">
-                        <span class="flex-shrink-0 bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] mr-2 text-zinc-300 font-bold border border-zinc-700">${item.category}</span>
-                        <span class="truncate group-hover:text-[var(--accent-gold)] transition-colors text-sm font-medium">${item.title}</span>
-                    </div>
-                    <span class="text-[10px] text-zinc-500 flex-shrink-0 font-mono">${item.date}</span>
-                </li>
-            `).join('');
+            columnListEl.innerHTML = columnData.slice(0, 5).map(item => {
+                const readingMeta = getArticleReadingMeta(item.content);
+                return `
+                    <li class="flex justify-between items-center cursor-pointer hover:bg-zinc-900 py-2 px-1 transition group" onclick="openArticle('column', ${item.id})">
+                        <div class="flex items-center min-w-0 mr-2">
+                            <span class="flex-shrink-0 bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] mr-2 text-zinc-300 font-bold border border-zinc-700">${item.category}</span>
+                            <span class="truncate group-hover:text-[var(--accent-gold)] transition-colors text-sm font-medium">${item.title}</span>
+                        </div>
+                        <div class="text-right flex-shrink-0 leading-tight">
+                            <span class="block text-[10px] text-zinc-500 font-mono">${item.date}</span>
+                            <span class="block text-[9px] text-zinc-500 mt-0.5">${readingMeta.charCount.toLocaleString()}字・約${readingMeta.readMinutes}分</span>
+                        </div>
+                    </li>
+                `;
+            }).join('');
         }
     };
 
@@ -15529,6 +15614,8 @@ let historyPageState = {
                 iconName = "bi-fonts";
             }
 
+            const readingMeta = getArticleReadingMeta(item.content);
+
             return `
                 <article class="news-card" onclick="openArticle('news', ${item.id})">
                     <!-- ▼▼▼ 修正: ここに背景アイコンをHTMLタグで配置 ▼▼▼ -->
@@ -15544,6 +15631,11 @@ let historyPageState = {
                     <div>
                         <h3 class="news-title">${item.title}</h3>
                         <p class="news-desc">${item.desc || '詳細をご覧ください。'}</p>
+                        <div class="article-list-readinfo news-list-readinfo" aria-label="本文${readingMeta.charCount.toLocaleString()}文字、読了目安約${readingMeta.readMinutes}分">
+                            <span><i class="bi bi-file-earmark-text" aria-hidden="true"></i> ${readingMeta.charCount.toLocaleString()}文字</span>
+                            <span class="article-list-readinfo-separator" aria-hidden="true">・</span>
+                            <span><i class="bi bi-clock-history" aria-hidden="true"></i> 読了目安 約${readingMeta.readMinutes}分</span>
+                        </div>
                     </div>
                 </article>
             `;
@@ -15583,6 +15675,7 @@ window.renderFullColumnView = function() {
         const colorKey = item.colorClass || 'indigo';
         const bgClass = `col-bg-${colorKey}`;
         const lineClass = `c-${colorKey}`;
+        const readingMeta = getArticleReadingMeta(item.content);
 
         return `
             <article class="column-card ${lineClass}" onclick="openArticle('column', ${item.id})">
@@ -15597,8 +15690,13 @@ window.renderFullColumnView = function() {
                         <span>${item.category}</span>
                     </div>
                     <h3 class="column-title">${item.title}</h3>
-                    <div class="column-date">
-                        ${item.date}
+                    <div class="column-reading-footer">
+                        <div class="article-list-readinfo column-list-readinfo" aria-label="本文${readingMeta.charCount.toLocaleString()}文字、読了目安約${readingMeta.readMinutes}分">
+                            <span><i class="bi bi-file-earmark-text" aria-hidden="true"></i> ${readingMeta.charCount.toLocaleString()}文字</span>
+                            <span class="article-list-readinfo-separator" aria-hidden="true">・</span>
+                            <span><i class="bi bi-clock-history" aria-hidden="true"></i> 読了目安 約${readingMeta.readMinutes}分</span>
+                        </div>
+                        <div class="column-date">${item.date}</div>
                     </div>
                 </div>
             </article>
@@ -15731,19 +15829,8 @@ window.renderFullColumnView = function() {
                 tagHtml = `<span class="${style.tagBg} ${style.tagText} px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-black/5">${item.category}</span>`;
             }
 
-            // --- 文字数・読了目安の算出 (読書進捗機能用) ---
-            // 日本語の平均黙読速度(約400〜600文字/分)の中間値、500文字/分を基準に算出
-            const rpTmp = document.createElement('div');
-            rpTmp.innerHTML = item.content || '';
-            const rpCharCount = countArticleCharacters(item.content);
-            // 画像の閲覧時間を加味（Mediumの読了時間アルゴリズムに準拠：
-            // 1枚目12秒、以降1秒ずつ減算、最小3秒/枚）
-            const rpImgCount = rpTmp.querySelectorAll('img').length;
-            let rpImgSeconds = 0;
-            for (let i = 0; i < rpImgCount; i++) {
-                rpImgSeconds += Math.max(3, 12 - i);
-            }
-            const rpReadMinutes = Math.max(1, Math.ceil((rpCharCount / 500 * 60 + rpImgSeconds) / 60));
+            // --- 文字数・読了目安の算出（一覧と同じ共通関数を利用） ---
+            const readingMeta = getArticleReadingMeta(item.content);
 
             // HTML生成
             container.innerHTML = `
@@ -15771,10 +15858,10 @@ window.renderFullColumnView = function() {
                         <!-- 文字数・読了目安 -->
                         <div class="article-meta-readinfo">
                             <i class="bi bi-file-earmark-text"></i>
-                            <span>${rpCharCount.toLocaleString()}文字</span>
+                            <span>${readingMeta.charCount.toLocaleString()}文字</span>
                             <span class="rp-sep">・</span>
                             <i class="bi bi-clock-history"></i>
-                            <span>読了目安 約${rpReadMinutes}分</span>
+                            <span>読了目安 約${readingMeta.readMinutes}分</span>
                         </div>
                     </div>
                 </div>
@@ -15832,7 +15919,7 @@ window.renderFullColumnView = function() {
 
             showView('article-detail');
             window.scrollTo(0, 0);
-            startReadingProgress(rpReadMinutes);
+            startReadingProgress(readingMeta.readMinutes);
             buildArticleTOC();
         }
     };
