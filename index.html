@@ -2603,6 +2603,301 @@
     pointer-events: none;
     user-select: none;
     transition: all 0.5s;
+}
+
+/* --- 会員限定機能：共通ログイン要求UI --- */
+.member-login-gate-card {
+    width: min(calc(100% - 32px), 430px);
+    max-width: 430px;
+    padding: 32px 28px 28px;
+    border: 1px solid rgba(185, 28, 28, 0.22);
+    border-top: 3px solid var(--accent-red);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 88% 10%, rgba(197,160,89,0.20), transparent 34%),
+        linear-gradient(145deg, rgba(255,255,255,0.99), rgba(255,250,245,0.98));
+    box-shadow: 0 24px 70px rgba(28, 20, 16, 0.22), 0 4px 14px rgba(185,28,28,0.10);
+}
+.dark .member-login-gate-card {
+    border-color: rgba(212, 175, 55, 0.28);
+    border-top-color: var(--accent-gold);
+    background:
+        radial-gradient(circle at 88% 10%, rgba(212,175,55,0.13), transparent 34%),
+        linear-gradient(145deg, rgba(31,27,25,0.99), rgba(17,17,18,0.99));
+    box-shadow: 0 24px 70px rgba(0,0,0,0.55), 0 4px 14px rgba(212,175,55,0.10);
+}
+.member-login-gate-seal,
+.member-login-dialog-seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    color: #fff7df;
+    background: linear-gradient(145deg, #b91c1c, #7f1d1d);
+    border: 1px solid rgba(255,225,167,0.48);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.34), 0 10px 24px rgba(127,29,29,0.24);
+}
+.member-login-gate-seal {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 14px;
+    font-size: 1.45rem;
+}
+.member-login-eyebrow {
+    margin: 0 0 7px;
+    color: #a06d16;
+    font-size: 0.66rem;
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: 0.19em;
+    text-align: center;
+}
+.dark .member-login-eyebrow { color: #e7bd61; }
+.member-login-gate-title,
+.member-login-dialog-title {
+    margin: 0;
+    color: var(--text-main);
+    font-family: 'Zen Old Mincho', serif;
+    font-weight: 800;
+    letter-spacing: 0.035em;
+}
+.member-login-gate-title {
+    font-size: 1.18rem;
+    line-height: 1.55;
+    text-align: center;
+}
+.member-login-gate-copy {
+    margin: 10px auto 20px;
+    max-width: 25rem;
+    color: var(--text-sub);
+    font-size: 0.82rem;
+    line-height: 1.8;
+    font-weight: 600;
+    text-align: center;
+}
+.member-login-primary,
+.member-login-secondary,
+.member-login-dialog-close {
+    -webkit-tap-highlight-color: transparent;
+}
+.member-login-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid rgba(255,230,171,0.58);
+    border-radius: 14px;
+    color: #fffdf8;
+    background: linear-gradient(135deg, #c53030 0%, #991b1b 52%, #7f1d1d 100%);
+    box-shadow: 0 10px 22px rgba(153,27,27,0.26), inset 0 1px 0 rgba(255,255,255,0.24);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.93rem;
+    font-weight: 800;
+    letter-spacing: 0.035em;
+    transition: transform 160ms cubic-bezier(0.23,1,0.32,1), box-shadow 160ms cubic-bezier(0.23,1,0.32,1), filter 160ms ease;
+}
+.member-login-primary:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px rgba(153,27,27,0.34), inset 0 1px 0 rgba(255,255,255,0.26);
+}
+.member-login-primary:active { transform: scale(0.97); }
+.member-login-primary:focus-visible,
+.member-login-secondary:focus-visible,
+.member-login-dialog-close:focus-visible {
+    outline: 3px solid rgba(197,160,89,0.75);
+    outline-offset: 3px;
+}
+.member-login-dialog {
+    width: min(calc(100vw - 32px), 480px);
+    max-width: 480px;
+    max-height: min(760px, calc(100dvh - 32px));
+    margin: auto;
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 26px;
+    background: transparent;
+    color: var(--text-main);
+}
+.member-login-dialog::backdrop {
+    background: rgba(18, 13, 12, 0.60);
+    backdrop-filter: blur(8px) saturate(0.84);
+    -webkit-backdrop-filter: blur(8px) saturate(0.84);
+}
+.member-login-dialog-surface {
+    position: relative;
+    overflow: hidden;
+    padding: 36px 30px 28px;
+    border: 1px solid rgba(185,28,28,0.24);
+    border-top: 3px solid var(--accent-red);
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at 88% 8%, rgba(197,160,89,0.23), transparent 31%),
+        radial-gradient(circle at 8% 90%, rgba(185,28,28,0.08), transparent 34%),
+        linear-gradient(145deg, rgba(255,255,255,0.99), rgba(255,250,245,0.99));
+    box-shadow: 0 30px 80px rgba(0,0,0,0.32), 0 7px 26px rgba(185,28,28,0.12);
+}
+.dark .member-login-dialog-surface {
+    border-color: rgba(212,175,55,0.30);
+    border-top-color: var(--accent-gold);
+    background:
+        radial-gradient(circle at 88% 8%, rgba(212,175,55,0.14), transparent 31%),
+        radial-gradient(circle at 8% 90%, rgba(185,28,28,0.13), transparent 34%),
+        linear-gradient(145deg, rgba(32,28,27,0.99), rgba(15,15,16,0.99));
+    box-shadow: 0 30px 80px rgba(0,0,0,0.72), 0 7px 26px rgba(185,28,28,0.13);
+}
+.member-login-dialog-pattern {
+    position: absolute;
+    top: -70px;
+    right: -50px;
+    width: 210px;
+    height: 210px;
+    border: 1px solid rgba(197,160,89,0.20);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.member-login-dialog-pattern::before,
+.member-login-dialog-pattern::after {
+    position: absolute;
+    content: '';
+    border: 1px solid rgba(197,160,89,0.16);
+    border-radius: inherit;
+    inset: 19px;
+}
+.member-login-dialog-pattern::after { inset: 39px; }
+.member-login-dialog-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--card-border);
+    border-radius: 50%;
+    color: var(--text-sub);
+    background: color-mix(in srgb, var(--card-bg) 84%, transparent);
+    font-size: 0.94rem;
+    transition: color 160ms ease, transform 160ms cubic-bezier(0.23,1,0.32,1), background 160ms ease;
+}
+.member-login-dialog-close:hover {
+    color: var(--accent-red);
+    background: rgba(185,28,28,0.09);
+    transform: rotate(4deg);
+}
+.member-login-dialog-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.member-login-dialog-seal {
+    width: 66px;
+    height: 66px;
+    margin-bottom: 15px;
+    font-size: 1.6rem;
+}
+.member-login-dialog-title {
+    max-width: 23rem;
+    font-size: clamp(1.28rem, 4.8vw, 1.55rem);
+    line-height: 1.55;
+}
+.member-login-dialog-description {
+    max-width: 25rem;
+    margin: 10px 0 0;
+    color: var(--text-sub);
+    font-size: 0.86rem;
+    line-height: 1.85;
+    font-weight: 600;
+}
+.member-login-dialog-feature {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 22px 0 16px;
+    padding: 11px 13px;
+    border: 1px solid rgba(197,160,89,0.27);
+    border-radius: 13px;
+    background: rgba(197,160,89,0.075);
+}
+.dark .member-login-dialog-feature { background: rgba(212,175,55,0.09); }
+.member-login-dialog-feature-label {
+    color: var(--text-sub);
+    font-size: 0.70rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+.member-login-dialog-feature strong {
+    color: var(--text-main);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.83rem;
+    text-align: right;
+}
+.member-login-dialog-benefits {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 22px;
+    padding: 0;
+    list-style: none;
+}
+.member-login-dialog-benefits li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: var(--text-sub);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    font-weight: 600;
+}
+.member-login-dialog-benefits i {
+    margin-top: 0.08rem;
+    color: #b7791f;
+    font-size: 0.93rem;
+}
+.dark .member-login-dialog-benefits i { color: var(--accent-gold); }
+.member-login-dialog-actions { display: grid; gap: 8px; }
+.member-login-secondary {
+    min-height: 38px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    color: var(--text-sub);
+    background: transparent;
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition: color 160ms ease, background 160ms ease, transform 160ms cubic-bezier(0.23,1,0.32,1);
+}
+.member-login-secondary:hover {
+    color: var(--text-main);
+    background: rgba(128,128,128,0.08);
+}
+.member-login-secondary:active { transform: scale(0.97); }
+.member-login-dialog[open] .member-login-dialog-surface {
+    animation: member-login-dialog-in 220ms cubic-bezier(0.23,1,0.32,1) both;
+}
+@keyframes member-login-dialog-in {
+    from { opacity: 0; transform: translateY(10px) scale(0.965); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 520px) {
+    .member-login-dialog { width: min(calc(100vw - 24px), 480px); max-height: calc(100dvh - 24px); }
+    .member-login-dialog-surface { padding: 32px 21px 22px; border-radius: 22px; }
+    .member-login-gate-card { width: min(calc(100% - 24px), 430px); padding: 28px 20px 22px; }
+    .member-login-dialog-feature { align-items: flex-start; flex-direction: column; gap: 5px; }
+    .member-login-dialog-feature strong { text-align: left; }
+}
+html.reduce-motion .member-login-dialog[open] .member-login-dialog-surface,
+html.reduce-motion .member-login-primary,
+html.reduce-motion .member-login-secondary,
+html.reduce-motion .member-login-dialog-close { animation: none !important; transition: none !important; }
+
 }.article-content {
     font-size: var(--article-font-size);
     line-height: var(--article-line-height);
@@ -3397,7 +3692,7 @@
             #sidebar, #mist-container, #loading-overlay, #site-footer,
             #ver-history-overlay, #ver-history-panel, #tutorial-overlay, #secret-overlay,
             #countdown-overlay, #guest-name-modal, #edit-profile-modal,
-            #zodiac-login-modal, #lab-modal, #history-login-overlay, #dream-login-overlay,
+            #member-login-dialog, #lab-modal, #history-login-overlay, #dream-login-overlay,
             .nav-btn, .btn-primary, .btn-outline,
             #about-pdf-btn, #privacy-pdf-btn,
             #about-pdf-btn + p, #privacy-pdf-btn + p {
@@ -4162,7 +4457,7 @@ body.theme-newyear {
 
         /* 1. モーダル（ポップアップ）の共通修正 
            縦に長いコンテンツでも画面内に収まり、全体をスクロール可能にする設定 */
-        #edit-profile-modal, #zodiac-login-modal, .lab-modal-overlay {
+        #edit-profile-modal, .lab-modal-overlay {
             /* 固定配置とサイズ確保 */
             position: fixed !important;
             top: 0 !important;
@@ -4187,10 +4482,10 @@ body.theme-newyear {
             background: rgba(0,0,0,0.6);
             backdrop-filter: blur(5px);
         }/* モーダルが表示される時のスタイル（JSのinline styleを上書きして強制適用） */
-        #edit-profile-modal[style*="display: flex"], #zodiac-login-modal[style*="display: flex"], .lab-modal-overlay.active {
+        #edit-profile-modal[style*="display: flex"], .lab-modal-overlay.active {
             display: flex !important;
         }/* モーダルの中身（白いカード部分） */
-        #edit-profile-modal > div, #zodiac-login-modal > div, .lab-modal-card {
+        #edit-profile-modal > div, .lab-modal-card {
             /* 画面中央に配置しつつ、スクロール時は自然に流れるように */
             margin: auto !important; /* これで縦中央寄せ＋スクロール時の余白確保を実現 */
             width: 100% !important;
@@ -5245,7 +5540,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 html body.omikuji-result-printing #countdown-overlay,
                 html body.omikuji-result-printing #guest-name-modal,
                 html body.omikuji-result-printing #edit-profile-modal,
-                html body.omikuji-result-printing #zodiac-login-modal,
+                html body.omikuji-result-printing #member-login-dialog,
                 html body.omikuji-result-printing #lab-modal,
                 html body.omikuji-result-printing #history-login-overlay,
                 html body.omikuji-result-printing #dream-login-overlay,
@@ -6396,28 +6691,6 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         color: var(--text-main) !important;
                     }
 
-                    /* ---- 12星座 会員限定モーダル ---- */
-                    html:not(.dark) #zodiac-login-modal > div {
-                        background: var(--card-bg) !important;
-                        border-color: var(--card-border) !important;
-                    }
-                    html:not(.dark) #zodiac-login-modal .text-zinc-100 {
-                        color: var(--text-main) !important;
-                    }
-                    html:not(.dark) #zodiac-login-modal .text-zinc-400 {
-                        color: var(--text-sub) !important;
-                    }
-                    html:not(.dark) #zodiac-login-modal .text-zinc-500 {
-                        color: var(--text-sub) !important;
-                    }
-                    html:not(.dark) #zodiac-login-modal button.absolute {
-                        color: var(--text-sub) !important;
-                    }
-                    html:not(.dark) #zodiac-login-modal button.absolute:hover {
-                        background: var(--input-bg) !important;
-                        color: var(--text-main) !important;
-                    }
-
             </style>
             
             <div class="bento-grid">
@@ -6962,23 +7235,6 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 <!-- 4位以下リスト (初期は hidden) -->
                 <div id="full-ranking-list" class="hidden space-y-4"></div>
 
-                <!-- ログインモーダル -->
-                <div id="zodiac-login-modal"
-                     class="fixed top-0 left-0 w-full h-full bg-black/70 z-[3000] hidden items-center justify-center backdrop-blur-sm"
-                     onclick="closeZodiacModal(event)">
-                    <div class="p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center relative border border-zinc-700" style="background: #111111;" onclick="event.stopPropagation()">
-                        <button onclick="closeZodiacModal(null)"
-                                class="absolute top-4 right-4 text-zinc-500 hover:text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-zinc-800 transition">
-                            <i class="bi bi-x-lg text-lg"></i>
-                        </button>
-                        <div class="mb-4 text-yellow-400 text-5xl"><i class="bi bi-star-fill"></i></div>
-                        <h3 class="text-xl font-bold mb-2 text-zinc-100">会員限定機能</h3>
-                        <p class="text-sm text-zinc-400 mb-6">お気に入りは会員限定です。<br>ログインして天命を記録しましょう。</p>
-                        <button onclick="showView('auth'); closeZodiacModal(null);" class="btn-primary w-full justify-center py-3">
-                            ログイン / 登録
-                        </button>
-                    </div>
-                </div>
             </div>
         </section>
         
@@ -7139,19 +7395,21 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 </div>
                 <!-- ▲▲▲ ぼかし対象ラッパー（#lab-content-wrapper）はここで閉じる ▲▲▲ -->
 
-                <!-- 非ログイン時のロック画面 -->
+                <!-- 未ログイン時のロック画面：操作時は共通ログイン要求モーダルへ接続する -->
                 <div id="lab-lock" class="lab-lock-container hidden">
-                    <div class="lab-lock-card">
-                        <div class="mb-4 text-6xl text-gray-300 dark:text-gray-600">
+                    <div class="member-login-gate-card lab-lock-card">
+                        <div class="member-login-gate-seal" aria-hidden="true">
                             <i class="bi bi-lock-fill"></i>
                         </div>
-                        <h3 class="text-xl font-black mb-3 text-gray-800 dark:text-white">会員限定エリア</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mb-8 leading-relaxed font-medium">
-                            ここから先は会員様のみが入室できる<br>
-                            天命実験室（Labs）です。
+                        <p class="member-login-eyebrow">MEMBER ACCESS</p>
+                        <h3 class="member-login-gate-title">TENMEI Labs は会員限定です</h3>
+                        <p class="member-login-gate-copy">
+                            参拝証を発行すると、天命実験室の
+                            実験的な機能をご利用いただけます。
                         </p>
-                        <button onclick="showView('auth')" class="btn-primary w-full py-3 shadow-lg font-bold text-lg">
-                            ログインして入室
+                        <button type="button" onclick="openMemberLoginDialog('labs', this)" class="member-login-primary member-login-gate-action">
+                            <i class="bi bi-person-vcard-fill" aria-hidden="true"></i>
+                            ログイン / 参拝証を発行
                         </button>
                     </div>
                 </div>
@@ -7988,19 +8246,21 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </div>
     </div>
 
-    <!-- 非ログイン時のオーバーレイ -->
+    <!-- 未ログイン時のロック画面：Labsと同じ共通カード・共通モーダルを利用する -->
     <div id="dream-login-overlay" class="login-lock-container hidden">
-        <div class="login-lock-card">
-            <div class="lab-icon-box icon-bg-gray mx-auto mb-6" style="width:64px;height:64px;">
-                <i class="bi bi-lock-fill"></i>
+        <div class="member-login-gate-card login-lock-card">
+            <div class="member-login-gate-seal" aria-hidden="true">
+                <i class="bi bi-moon-stars-fill"></i>
             </div>
-            <h3 class="text-xl font-black mb-2" style="font-family:'Zen Old Mincho',serif;">夢占いには会員証が必要です</h3>
-            <p class="text-sm mb-6 leading-relaxed" style="color:var(--text-sub);">
-                ログインすると、AIによる夢占いと、<br>あなた自身の夢の記録を残すことができます。
+            <p class="member-login-eyebrow">MEMBER ACCESS</p>
+            <h3 class="member-login-gate-title">AI夢占いは会員限定です</h3>
+            <p class="member-login-gate-copy">
+                参拝証を発行すると、AIによる夢占いと
+                あなた自身の夢の記録をご利用いただけます。
             </p>
-            <button onclick="showView('auth')" class="btn-primary shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/></svg>
-                ログイン / 登録
+            <button type="button" onclick="openMemberLoginDialog('dream', this)" class="member-login-primary member-login-gate-action">
+                <i class="bi bi-person-vcard-fill" aria-hidden="true"></i>
+                ログイン / 参拝証を発行
             </button>
         </div>
     </div>
@@ -9348,6 +9608,47 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </div>
     </div>
 
+    <!-- 会員限定機能：共通ログイン要求モーダル -->
+    <dialog id="member-login-dialog" class="member-login-dialog" aria-labelledby="member-login-dialog-title" aria-describedby="member-login-dialog-description">
+        <div class="member-login-dialog-surface">
+            <button type="button" class="member-login-dialog-close" onclick="closeMemberLoginDialog()" aria-label="会員限定機能の案内を閉じる" autofocus>
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
+
+            <div class="member-login-dialog-header">
+                <div class="member-login-dialog-pattern" aria-hidden="true"></div>
+                <div class="member-login-dialog-seal" aria-hidden="true">
+                    <i id="member-login-dialog-icon" class="bi bi-person-vcard-fill"></i>
+                </div>
+                <p class="member-login-eyebrow">MEMBER PASS</p>
+                <h2 id="member-login-dialog-title" class="member-login-dialog-title" tabindex="-1">参拝証を発行して、続きへ進む</h2>
+                <p id="member-login-dialog-description" class="member-login-dialog-description">
+                    この機能は参拝証をお持ちの方にご利用いただけます。ログインまたは無料の参拝証発行で、すぐにお使いいただけます。
+                </p>
+            </div>
+
+            <div class="member-login-dialog-feature" aria-live="polite">
+                <span class="member-login-dialog-feature-label">ご利用になろうとした機能</span>
+                <strong id="member-login-dialog-feature-name">会員限定機能</strong>
+            </div>
+
+            <ul class="member-login-dialog-benefits" aria-label="参拝証で利用できる主な機能">
+                <li><i class="bi bi-cloud-check-fill" aria-hidden="true"></i><span>端末を替えても記録を引き継げます</span></li>
+                <li><i class="bi bi-shield-check" aria-hidden="true"></i><span>お気に入り・AI夢占い・TENMEI Labsをご利用いただけます</span></li>
+            </ul>
+
+            <div class="member-login-dialog-actions">
+                <button type="button" class="member-login-primary" onclick="startMemberLoginFromDialog()">
+                    <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+                    ログイン / 参拝証を発行
+                </button>
+                <button type="button" class="member-login-secondary" onclick="closeMemberLoginDialog()">
+                    今は閲覧を続ける
+                </button>
+            </div>
+        </div>
+    </dialog>
+
     <!-- 未ログイン参拝者：参拝者名の設定モーダル -->
     <div id="guest-name-modal"
          class="fixed top-0 left-0 w-full h-full bg-black/70 z-[3000] hidden items-center justify-center backdrop-blur-sm"
@@ -9433,6 +9734,111 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         //  設定: Cloudflare WorkerのURL
         // ==========================================
         const API_BASE = "https://tenmei-mori-backend.nden14800.workers.dev";
+
+        // ==========================================
+        //  会員限定機能：共通ログイン要求モーダル
+        //  W3C/MDNのモーダルダイアログ指針に沿って、
+        //  ネイティブdialog・フォーカス復帰・Escape・背景クリックを統一する。
+        // ==========================================
+        const MEMBER_LOGIN_DIALOG_COPY = Object.freeze({
+            default: {
+                featureName: '会員限定機能',
+                title: '参拝証を発行して、続きへ進む',
+                description: 'この機能は参拝証をお持ちの方にご利用いただけます。ログインまたは無料の参拝証発行で、すぐにお使いいただけます。',
+                iconClass: 'bi-person-vcard-fill'
+            },
+            zodiac: {
+                featureName: '星座のお気に入り登録',
+                title: '気になる運勢を、いつでも見返せます',
+                description: '星座と血液型のお気に入り登録は、参拝証をお持ちの方にご利用いただけます。ログインすると最大5件まで記録できます。',
+                iconClass: 'bi-star-fill'
+            },
+            labs: {
+                featureName: 'TENMEI Labs',
+                title: '天命実験室へ、参拝証を持って入室',
+                description: 'TENMEI Labsの実験的な機能は、参拝証をお持ちの方にご利用いただけます。ログインまたは無料の参拝証発行で入室できます。',
+                iconClass: 'bi-flask-fill'
+            },
+            dream: {
+                featureName: 'AI夢占い',
+                title: '夢の記録を、あなたの参拝証に残す',
+                description: 'AI夢占いは参拝証をお持ちの方のための機能です。ログインすると、夢の解釈を「夢の記録」として見返せます。',
+                iconClass: 'bi-moon-stars-fill'
+            }
+        });
+
+        let memberLoginDialogTrigger = null;
+        let memberLoginDialogSource = 'default';
+
+        function getMemberLoginDialog() {
+            return document.getElementById('member-login-dialog');
+        }
+
+        function openMemberLoginDialog(source = 'default', trigger = null) {
+            const dialog = getMemberLoginDialog();
+            if (!dialog) {
+                showView('auth');
+                return;
+            }
+
+            const copy = MEMBER_LOGIN_DIALOG_COPY[source] || MEMBER_LOGIN_DIALOG_COPY.default;
+            memberLoginDialogSource = MEMBER_LOGIN_DIALOG_COPY[source] ? source : 'default';
+            memberLoginDialogTrigger = trigger instanceof HTMLElement ? trigger : document.activeElement;
+
+            const title = document.getElementById('member-login-dialog-title');
+            const description = document.getElementById('member-login-dialog-description');
+            const featureName = document.getElementById('member-login-dialog-feature-name');
+            const icon = document.getElementById('member-login-dialog-icon');
+            if (title) title.textContent = copy.title;
+            if (description) description.textContent = copy.description;
+            if (featureName) featureName.textContent = copy.featureName;
+            if (icon) icon.className = `bi ${copy.iconClass}`;
+
+            if (!dialog.open) {
+                dialog.showModal();
+            }
+
+            requestAnimationFrame(() => {
+                const closeButton = dialog.querySelector('.member-login-dialog-close');
+                if (closeButton instanceof HTMLElement) closeButton.focus();
+            });
+        }
+
+        function closeMemberLoginDialog() {
+            const dialog = getMemberLoginDialog();
+            if (dialog?.open) dialog.close();
+        }
+
+        function startMemberLoginFromDialog() {
+            closeMemberLoginDialog();
+            showView('auth');
+        }
+
+        function setupMemberLoginDialog() {
+            const dialog = getMemberLoginDialog();
+            if (!dialog || dialog.dataset.memberLoginDialogReady === 'true') return;
+            dialog.dataset.memberLoginDialogReady = 'true';
+
+            dialog.addEventListener('click', (event) => {
+                const rect = dialog.getBoundingClientRect();
+                const clickedOutsideSurface = event.target === dialog && (
+                    event.clientX < rect.left || event.clientX > rect.right ||
+                    event.clientY < rect.top || event.clientY > rect.bottom
+                );
+                if (clickedOutsideSurface) dialog.close();
+            });
+
+            dialog.addEventListener('close', () => {
+                const trigger = memberLoginDialogTrigger;
+                memberLoginDialogTrigger = null;
+                memberLoginDialogSource = 'default';
+                if (trigger instanceof HTMLElement && document.contains(trigger)) {
+                    trigger.focus({ preventScroll: true });
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', setupMemberLoginDialog, { once: true });
         const SITE_URL = "https://tenmei-mori.pages.dev";
 
         // --- XSS対策用エスケープ関数 ---
@@ -17105,11 +17511,11 @@ const TenmeiLab = {
         // ★セキュリティ修正：currentState.userはコンソールから直接書き換え可能なため、
         // 判定にはサーバー検証済みのLabAuth.isVerified()のみを使う
         if (!LabAuth.isVerified()) {
-            // 警告を出す
-            showToast("会員限定の機能です。ログインして入室してください。", "warning");
-            
             // スイッチをいじられた場合は、強制的に状態を元に戻す
-            if (el) el.checked = !el.checked; 
+            if (el) el.checked = !el.checked;
+
+            // 会員限定であることと、次に取れる行動を共通モーダルで明示する。
+            openMemberLoginDialog('labs', el || document.activeElement);
             
             // 剥がされたロック画面とぼかしを強制的に復活させる
             const lock = document.getElementById('lab-lock');
@@ -18817,7 +19223,7 @@ ${getShareUrl()}`;
                 return;
             }
             if (!currentState.user) {
-                if (typeof window.showToast === 'function') window.showToast('夢占いの利用にはログインが必要です。', 'warning');
+                openMemberLoginDialog('dream', btn || document.activeElement);
                 return;
             }
 
@@ -20479,9 +20885,8 @@ async function logout() {
         if(event) event.stopPropagation();
 
         if (!currentState.user) {
-            const modal = document.getElementById('zodiac-login-modal');
-            if(modal) modal.style.display = 'flex';
-            modal.classList.remove('hidden');
+            const trigger = (typeof event !== 'undefined' && event?.currentTarget) || document.activeElement;
+            openMemberLoginDialog('zodiac', trigger);
             return;
         }
 
@@ -20597,7 +21002,8 @@ function createCardHTML(data) {
                         <div class="flex items-center gap-1 mb-1">
                             <span class="text-2xl">${data.sign.icon}</span>
                             <button class="fav-star-btn ${isFav ? 'active' : ''}" 
-                                    onclick="toggleFavorite('${data.sign.id}', '${data.blood}')">
+                                    onclick="toggleFavorite('${data.sign.id}', '${data.blood}')"
+                                    aria-label="${data.sign.name} ${data.blood}型をお気に入り${isFav ? 'から外す' : 'に登録する'}">
                                 <i class="bi bi-star${isFav ? '-fill' : ''}"></i>
                             </button>
                         </div>
@@ -20693,23 +21099,6 @@ function createCardHTML(data) {
     // ※以前は同名の renderRanking() がこの下にもう一つ定義されており、
     //   後者の定義に上書きされて完全なデッドコードになっていたため削除。
     //   実処理は下の renderFavorites() の直後にある renderRanking() を参照。
-
-    // --- 12星座用ログインモーダルを閉じる関数（完全修正版） ---
-function closeZodiacModal(e) {
-    // 引数 e がある場合（背景クリック時）はIDチェック
-    // 引数 e が null または undefined の場合（ボタンから直接呼び出し）は強制クローズ
-    if (!e || e.target.id === 'zodiac-login-modal') {
-        const modal = document.getElementById('zodiac-login-modal');
-        if (modal) {
-            // Tailwindのhiddenクラスを追加して非表示に
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            
-            // 安全のため style.display も操作
-            modal.style.display = 'none';
-        }
-    }
-}
 
 // --- Labsのロック制御を含む showView 関数の該当部分（確認用） ---
 // 既存の showView 関数内の if(viewId === 'lab') ブロックが以下のようになっているか確認してください
