@@ -2592,7 +2592,17 @@
     opacity: 1 !important;
     backdrop-filter: none !important; 
     transform: translateZ(0); /* 描画レイヤーを分離 */
-}/* ダークモード時のカードスタイル */
+}
+
+/* LabsとAI夢占いは、ヒーロー直下から同じ視覚的オフセットに統一する。 */
+#lab-lock.lab-lock-container,
+#dream-login-overlay.login-lock-container {
+    box-sizing: border-box;
+    align-items: flex-start;
+    padding: clamp(8rem, 10vw, 11rem) 0 2.5rem;
+}
+
+/* ダークモード時のカードスタイル */
 .dark .lab-lock-card {
     background-color: rgba(20, 20, 20, 0.98) !important; /* ほぼ不透明な黒 */
     border-color: rgba(255, 255, 255, 0.15);
@@ -2711,7 +2721,8 @@
     outline: 3px solid rgba(197,160,89,0.75);
     outline-offset: 3px;
 }
-.member-login-dialog {
+.member-login-dialog,
+.guest-name-dialog {
     width: min(calc(100vw - 32px), 480px);
     max-width: 480px;
     max-height: min(760px, calc(100dvh - 32px));
@@ -2723,12 +2734,14 @@
     background: transparent;
     color: var(--text-main);
 }
-.member-login-dialog::backdrop {
+.member-login-dialog::backdrop,
+.guest-name-dialog::backdrop {
     background: rgba(18, 13, 12, 0.60);
     backdrop-filter: blur(8px) saturate(0.84);
     -webkit-backdrop-filter: blur(8px) saturate(0.84);
 }
-.member-login-dialog-surface {
+.member-login-dialog-surface,
+.guest-name-dialog-surface {
     position: relative;
     overflow: hidden;
     padding: 36px 30px 28px;
@@ -2741,7 +2754,8 @@
         linear-gradient(145deg, rgba(255,255,255,0.99), rgba(255,250,245,0.99));
     box-shadow: 0 30px 80px rgba(0,0,0,0.32), 0 7px 26px rgba(185,28,28,0.12);
 }
-.dark .member-login-dialog-surface {
+.dark .member-login-dialog-surface,
+.dark .guest-name-dialog-surface {
     border-color: rgba(212,175,55,0.30);
     border-top-color: var(--accent-gold);
     background:
@@ -2817,6 +2831,66 @@
     line-height: 1.85;
     font-weight: 600;
 }
+.guest-name-dialog-field {
+    display: grid;
+    gap: 8px;
+    margin: 22px 0 14px;
+}
+.guest-name-dialog-label {
+    color: var(--text-main);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.035em;
+}
+.guest-name-dialog-input {
+    min-height: 52px;
+    padding: 0 15px;
+    border: 1px solid rgba(197,160,89,0.35);
+    border-radius: 14px;
+    color: var(--text-main);
+    background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.96rem;
+    font-weight: 700;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.guest-name-dialog-input::placeholder { color: var(--text-sub); font-weight: 500; }
+.guest-name-dialog-input:focus {
+    border-color: var(--accent-gold);
+    background: color-mix(in srgb, var(--card-bg) 96%, transparent);
+    box-shadow: 0 0 0 4px rgba(197,160,89,0.15);
+}
+.guest-name-dialog-error {
+    margin: -4px 0 0;
+    color: #dc2626;
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+.dark .guest-name-dialog-error { color: #fca5a5; }
+.guest-name-dialog-guidance {
+    display: grid;
+    gap: 9px;
+    margin: 0 0 20px;
+    padding: 13px 14px;
+    border: 1px solid rgba(197,160,89,0.26);
+    border-radius: 14px;
+    background: rgba(197,160,89,0.075);
+}
+.guest-name-dialog-guidance p {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    color: var(--text-sub);
+    font-size: 0.75rem;
+    line-height: 1.7;
+    font-weight: 600;
+}
+.guest-name-dialog-guidance i { margin-top: 0.08rem; color: #b7791f; }
+.dark .guest-name-dialog-guidance { background: rgba(212,175,55,0.09); }
+.dark .guest-name-dialog-guidance i { color: var(--accent-gold); }
 .member-login-dialog-feature {
     display: flex;
     align-items: center;
@@ -2879,7 +2953,8 @@
     background: rgba(128,128,128,0.08);
 }
 .member-login-secondary:active { transform: scale(0.97); }
-.member-login-dialog[open] .member-login-dialog-surface {
+.member-login-dialog[open] .member-login-dialog-surface,
+.guest-name-dialog[open] .guest-name-dialog-surface {
     animation: member-login-dialog-in 220ms cubic-bezier(0.23,1,0.32,1) both;
 }
 @keyframes member-login-dialog-in {
@@ -2887,13 +2962,15 @@
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 @media (max-width: 520px) {
-    .member-login-dialog { width: min(calc(100vw - 24px), 480px); max-height: calc(100dvh - 24px); }
-    .member-login-dialog-surface { padding: 32px 21px 22px; border-radius: 22px; }
+    .member-login-dialog, .guest-name-dialog { width: min(calc(100vw - 24px), 480px); max-height: calc(100dvh - 24px); }
+    .member-login-dialog-surface, .guest-name-dialog-surface { padding: 32px 21px 22px; border-radius: 22px; }
     .member-login-gate-card { width: min(calc(100% - 24px), 430px); padding: 28px 20px 22px; }
+    #lab-lock.lab-lock-container, #dream-login-overlay.login-lock-container { padding-top: 5rem; }
     .member-login-dialog-feature { align-items: flex-start; flex-direction: column; gap: 5px; }
     .member-login-dialog-feature strong { text-align: left; }
 }
 html.reduce-motion .member-login-dialog[open] .member-login-dialog-surface,
+html.reduce-motion .guest-name-dialog[open] .guest-name-dialog-surface,
 html.reduce-motion .member-login-primary,
 html.reduce-motion .member-login-secondary,
 html.reduce-motion .member-login-dialog-close { animation: none !important; transition: none !important; }
@@ -9650,40 +9727,45 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     </dialog>
 
     <!-- 未ログイン参拝者：参拝者名の設定モーダル -->
-    <div id="guest-name-modal"
-         class="fixed top-0 left-0 w-full h-full bg-black/70 z-[3000] hidden items-center justify-center backdrop-blur-sm"
-         style="padding:16px;box-sizing:border-box;">
-        <div class="p-8 rounded-2xl shadow-2xl max-w-sm w-full relative border" style="background: var(--card-bg); border-color: var(--card-border);">
-            <button onclick="closeGuestNameModal()"
-                    class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full transition"
-                    style="color: var(--text-sub);">
-                <i class="bi bi-x-lg"></i>
+    <dialog id="guest-name-modal" class="guest-name-dialog" aria-labelledby="guest-name-dialog-title" aria-describedby="guest-name-dialog-description">
+        <div class="guest-name-dialog-surface">
+            <div class="member-login-dialog-pattern" aria-hidden="true"></div>
+            <button type="button" class="member-login-dialog-close" onclick="closeGuestNameModal()" aria-label="参拝者名の設定を閉じる">
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
             </button>
-            <div class="text-center mb-5">
-                <div class="mx-auto mb-3 flex items-center justify-center rounded-full" style="width:56px;height:56px;background:rgba(197,160,89,0.15);color:var(--accent-gold);font-size:1.6rem;">
-                    <i class="bi bi-person-badge"></i>
+            <div class="member-login-dialog-header">
+                <div class="member-login-dialog-seal" aria-hidden="true">
+                    <i class="bi bi-person-vcard-fill"></i>
                 </div>
-                <h3 class="text-lg font-black mb-1" style="font-family:'Zen Old Mincho',serif;">参拝者名の設定</h3>
-                <p class="text-sm" style="color:var(--text-sub);">おみくじを引く前に、杜に記す名前をお決めください。</p>
+                <p class="member-login-eyebrow">VISITOR NAME</p>
+                <h3 id="guest-name-dialog-title" class="member-login-dialog-title">杜に記す、あなたの名を</h3>
+                <p id="guest-name-dialog-description" class="member-login-dialog-description">おみくじを引く前に、参拝者名をお決めください。記録や表示に使う、あなたのための呼び名です。</p>
             </div>
 
-            <input id="guest-name-input" type="text" maxlength="20" placeholder="例：はるかぜ"
-                   class="w-full mb-3 text-sm themed-input">
-            <p id="guest-name-error" class="text-xs mb-2 hidden" style="color:#dc2626;">参拝者名を入力してください。</p>
-
-            <div class="text-xs leading-relaxed mb-5 p-3 rounded-lg" style="background: rgba(197,160,89,0.08); color: var(--text-sub);">
-                <p class="mb-1"><i class="bi bi-exclamation-circle mr-1"></i>結果ページや轍で公開されるので、本名（フルネーム）は入力しないでください。</p>
-                <p><i class="bi bi-hdd mr-1"></i>この名前はお使いの端末（localStorage）に保存されます。データを消去・変更すると、これまでの記録には二度とアクセスできなくなりますのでご注意ください。</p>
+            <div class="guest-name-dialog-field">
+                <label for="guest-name-input" class="guest-name-dialog-label">参拝者名</label>
+                <input id="guest-name-input" type="text" maxlength="20" placeholder="例：はるかぜ" autocomplete="nickname"
+                       class="guest-name-dialog-input" aria-describedby="guest-name-error guest-name-guidance"
+                       onkeydown="if(event.key === 'Enter' && !event.isComposing) submitGuestName()">
+                <p id="guest-name-error" class="guest-name-dialog-error hidden" role="alert">参拝者名を入力してください。</p>
             </div>
 
-            <button onclick="submitGuestName()" class="btn-primary w-full justify-center py-3 mb-3">
-                この名前で参拝する
-            </button>
-            <button onclick="closeGuestNameModal(); showView('auth');" class="w-full text-center text-xs py-2" style="color: var(--text-sub);">
-                会員登録・ログインする場合はこちら
-            </button>
+            <div id="guest-name-guidance" class="guest-name-dialog-guidance">
+                <p><i class="bi bi-eye-fill" aria-hidden="true"></i><span>結果ページや轍で表示されるため、本名（フルネーム）は入力しないでください。</span></p>
+                <p><i class="bi bi-device-ssd-fill" aria-hidden="true"></i><span>この名前はこの端末に保存されます。端末のデータを消去・変更すると、これまでの記録には再びアクセスできなくなります。</span></p>
+            </div>
+
+            <div class="member-login-dialog-actions">
+                <button type="button" onclick="submitGuestName()" class="member-login-primary">
+                    <i class="bi bi-torii-fill" aria-hidden="true"></i>
+                    この名前で参拝する
+                </button>
+                <button type="button" onclick="closeGuestNameModal(false); showView('auth');" class="member-login-secondary">
+                    会員登録・ログインする場合はこちら
+                </button>
+            </div>
         </div>
-    </div>
+    </dialog>
 
 
     <!-- プロフィール編集モーダル (修正版) -->
@@ -9838,7 +9920,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             });
         }
 
-        document.addEventListener('DOMContentLoaded', setupMemberLoginDialog, { once: true });
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMemberLoginDialog();
+            initGuestNameModalDialog();
+        }, { once: true });
         const SITE_URL = "https://tenmei-mori.pages.dev";
 
         // --- XSS対策用エスケープ関数 ---
@@ -17032,30 +17117,59 @@ function getVisitorDisplayName() {
     return getGuestName() || "ゲスト";
 }
 
-// 参拝者名モーダル：確定後に実行するコールバックを保持しておく
+// 参拝者名モーダル：確定後に実行するコールバックと、閉じた後のフォーカス復帰先を保持する。
 let _guestNameModalCallback = null;
+let _guestNameModalTrigger = null;
+let _guestNameModalRestoreFocus = true;
 
-function openGuestNameModal(onConfirm) {
+function openGuestNameModal(onConfirm, trigger = null) {
     _guestNameModalCallback = (typeof onConfirm === 'function') ? onConfirm : null;
+    _guestNameModalTrigger = trigger instanceof HTMLElement ? trigger : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+    _guestNameModalRestoreFocus = true;
+
     const modal = document.getElementById('guest-name-modal');
     const input = document.getElementById('guest-name-input');
     const err = document.getElementById('guest-name-error');
     if (input) input.value = getGuestName() || '';
     if (err) err.classList.add('hidden');
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-    if (input) setTimeout(() => input.focus(), 50);
+    if (modal instanceof HTMLDialogElement && !modal.open) modal.showModal();
+    if (input) requestAnimationFrame(() => input.focus({ preventScroll: true }));
 }
 
-function closeGuestNameModal() {
+function closeGuestNameModal(restoreFocus = true) {
     const modal = document.getElementById('guest-name-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
     _guestNameModalCallback = null;
+    _guestNameModalRestoreFocus = restoreFocus;
+    if (modal instanceof HTMLDialogElement && modal.open) modal.close();
+}
+
+function initGuestNameModalDialog() {
+    const dialog = document.getElementById('guest-name-modal');
+    if (!(dialog instanceof HTMLDialogElement)) return;
+
+    dialog.addEventListener('click', (event) => {
+        const rect = dialog.getBoundingClientRect();
+        const clickedOutsideSurface = event.target === dialog && (
+            event.clientX < rect.left || event.clientX > rect.right ||
+            event.clientY < rect.top || event.clientY > rect.bottom
+        );
+        if (clickedOutsideSurface) closeGuestNameModal(true);
+    });
+
+    dialog.addEventListener('cancel', (event) => {
+        event.preventDefault();
+        closeGuestNameModal(true);
+    });
+
+    dialog.addEventListener('close', () => {
+        const trigger = _guestNameModalTrigger;
+        const restoreFocus = _guestNameModalRestoreFocus;
+        _guestNameModalTrigger = null;
+        _guestNameModalRestoreFocus = true;
+        if (restoreFocus && trigger && document.contains(trigger)) {
+            requestAnimationFrame(() => trigger.focus({ preventScroll: true }));
+        }
+    });
 }
 
 function submitGuestName() {
@@ -17075,7 +17189,7 @@ function submitGuestName() {
     }
 
     const cb = _guestNameModalCallback;
-    closeGuestNameModal();
+    closeGuestNameModal(false);
     updateAuthUI(); // ホーム画面の名前表示などを更新
     if (cb) cb();
 }

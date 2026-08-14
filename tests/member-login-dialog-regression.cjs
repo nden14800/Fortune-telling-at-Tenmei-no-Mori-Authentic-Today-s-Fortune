@@ -70,6 +70,38 @@ requireText(
   '共通ログイン要求モーダルの背景遮蔽スタイルがありません。'
 );
 requireText(
+  '<dialog id="guest-name-modal" class="guest-name-dialog" aria-labelledby="guest-name-dialog-title" aria-describedby="guest-name-dialog-description">',
+  '参拝者名モーダルがネイティブdialogとして定義されていません。'
+);
+requireText(
+  'function openGuestNameModal(onConfirm, trigger = null)',
+  '参拝者名モーダルを開く共通関数がありません。'
+);
+requireText(
+  'modal.showModal();',
+  '参拝者名モーダルがモーダルとして開かれません。'
+);
+requireText(
+  "dialog.addEventListener('cancel'",
+  '参拝者名モーダルのEscape操作が定義されていません。'
+);
+requireText(
+  'initGuestNameModalDialog();',
+  '参拝者名モーダルの初期化が読み込み時に実行されません。'
+);
+requireText(
+  'trigger.focus({ preventScroll: true })',
+  '参拝者名モーダルを閉じた後に操作起点へフォーカスが戻りません。'
+);
+requireText(
+  '#lab-lock.lab-lock-container,\n#dream-login-overlay.login-lock-container',
+  'LabsとAI夢占いのロックカードに共通の垂直配置基準がありません。'
+);
+requireText(
+  'padding: clamp(8rem, 10vw, 11rem) 0 2.5rem;',
+  'LabsとAI夢占いのロックカードに固定の視覚的オフセットがありません。'
+);
+requireText(
   'html.reduce-motion .member-login-dialog[open] .member-login-dialog-surface',
   '共通ログイン要求モーダルの低モーション対応がありません。'
 );
@@ -91,6 +123,8 @@ console.log(JSON.stringify({
   nativeDialog: true,
   focusReturn: true,
   sources: ['zodiac', 'labs', 'dream'],
+  guestNameNativeDialog: true,
+  sharedGateVerticalOffset: true,
   reducedMotion: true,
   legacyZodiacModalRemoved: true,
 }, null, 2));
