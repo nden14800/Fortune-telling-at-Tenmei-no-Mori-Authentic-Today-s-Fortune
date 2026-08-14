@@ -6,6 +6,13 @@ const indexPath = path.join(repositoryRoot, 'index.html');
 const assetDirectory = path.join(repositoryRoot, 'assets', 'article-images');
 const indexHtml = fs.readFileSync(indexPath, 'utf8');
 const generatedImageIds = [45, 46, 47, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61];
+const tallScreenshotSources = [
+  '/assets/article-images/atago-jinja-omikuji-full-page.webp',
+  '/assets/article-images/macchan-mikuji-full-page.webp',
+  '/assets/article-images/omikuji-do-full-page.webp',
+  '/assets/article-images/omikuji-online-full-page.webp',
+  '/assets/article-images/prism-japan-omikuji-full-page.webp',
+];
 const failures = [];
 
 for (const id of generatedImageIds) {
@@ -29,13 +36,25 @@ for (const id of generatedImageIds) {
   }
 }
 
-if (!indexHtml.includes('img[src$=".webp"]') || !indexHtml.includes('aspect-ratio: 16 / 9') || !indexHtml.includes('object-fit: cover')) {
+if (!indexHtml.includes('.article-visual--ai-generated img') || !indexHtml.includes('aspect-ratio: 16 / 9') || !indexHtml.includes('object-fit: cover')) {
   failures.push('AI生成WebP向けの表示比率・object-fit規則がありません。');
+}
+if (indexHtml.includes('.article-content .article-visual img[src$=".webp"]')) {
+  failures.push('全WebPへ固定16:9を適用する規則が残っています。');
+}
+for (const screenshotSource of tallScreenshotSources) {
+  const imagePosition = indexHtml.indexOf(screenshotSource);
+  const figureStart = indexHtml.lastIndexOf('<figure', imagePosition);
+  const figureEnd = indexHtml.indexOf('</figure>', imagePosition);
+  const figureFragment = indexHtml.slice(figureStart, figureEnd);
+  if (imagePosition === -1 || !figureFragment.includes('article-visual--screen')) {
+    failures.push(`縦長スクリーンショットの全体表示用クラスがありません: ${screenshotSource}`);
+  }
 }
 
 const disclosureLabelCount = (indexHtml.match(/<strong>AI生成イメージ<\/strong>/g) || []).length;
 const nonPhotographNoticeCount = (indexHtml.match(/実在の場所・人物・出来事を撮影した写真ではありません。/g) || []).length;
-const disclosureFigureCount = (indexHtml.match(/article-visual--ai-generated/g) || []).length - 1;
+const disclosureFigureCount = (indexHtml.match(/<figure class="article-visual article-visual--overview article-visual--ai-generated">/g) || []).length;
 
 if (disclosureLabelCount !== generatedImageIds.length) {
   failures.push(`AI生成ラベルの件数が不正です: ${disclosureLabelCount}`);
