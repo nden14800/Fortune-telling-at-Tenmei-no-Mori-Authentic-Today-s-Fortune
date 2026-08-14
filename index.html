@@ -2374,7 +2374,441 @@
     display: none;
 }.input-error-msg.show {
     display: block;
-}/* --- おみくじ選択・結果画面：Bento UI拡張 --- */
+}
+
+/* --- 参拝証の発行：和モダン認証フロー UI --- */
+.auth-choice-grid {
+    max-width: 680px;
+    gap: 14px;
+}
+.auth-choice-card {
+    position: relative;
+    display: flex;
+    min-height: 166px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
+    padding: 26px 28px;
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--card-bg) 97%, #fff 3%), var(--card-bg));
+    color: var(--text-main);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 180ms cubic-bezier(0.23, 1, 0.32, 1), background 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.auth-choice-card::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 84px;
+    height: 84px;
+    border-radius: 0 20px 0 72px;
+    background: radial-gradient(circle at 100% 0%, rgba(212, 175, 55, 0.2), transparent 70%);
+    content: '';
+    pointer-events: none;
+}
+.auth-choice-card:hover {
+    border-color: var(--accent-gold);
+    box-shadow: 0 16px 28px rgba(32, 20, 16, 0.1);
+    transform: translateY(-3px);
+}
+.auth-choice-card:active {
+    transform: scale(0.98);
+}
+.auth-choice-card:focus-visible,
+.auth-google-button:focus-visible,
+.auth-back-button:focus-visible,
+.auth-password-toggle:focus-visible,
+.auth-primary-action:focus-visible,
+.auth-alternative-link:focus-visible {
+    outline: 3px solid rgba(185, 28, 28, 0.48);
+    outline-offset: 3px;
+}
+.auth-choice-card--login {
+    border-top: 3px solid #b91c1c;
+}
+.auth-choice-card--register {
+    border-top: 3px solid #b8860b;
+}
+.auth-choice-card .auth-icon-circle {
+    position: relative;
+    z-index: 1;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    background: rgba(185, 28, 28, 0.1);
+    color: var(--accent-red);
+    font-size: 1.35rem;
+}
+.auth-choice-card--register .auth-icon-circle {
+    background: rgba(184, 134, 11, 0.12);
+    color: #a16207;
+}
+.dark .auth-choice-card--register .auth-icon-circle {
+    color: #facc15;
+}
+.auth-choice-title {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 5px;
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+.auth-choice-description {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: var(--text-sub);
+    font-size: 0.76rem;
+    line-height: 1.7;
+}
+.auth-google-button {
+    grid-column: 1 / -1;
+    display: flex;
+    min-height: 64px;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    padding: 12px 22px;
+    border: 1px solid #747775;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #1f1f1f;
+    cursor: pointer;
+    font-family: Arial, 'Helvetica Neue', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.25;
+    transition: border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.auth-google-button:hover {
+    border-color: #1f1f1f;
+    box-shadow: 0 3px 10px rgba(60, 64, 67, 0.2);
+}
+.auth-google-button:active {
+    box-shadow: inset 0 1px 2px rgba(60, 64, 67, 0.24);
+    transform: scale(0.99);
+}
+.auth-google-button svg {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+}
+.auth-google-button-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+.auth-google-button-copy small {
+    color: #5f6368;
+    font-size: 0.69rem;
+    font-weight: 500;
+}
+.dark .auth-google-button {
+    border-color: #8e918f;
+    background: #1f1f1f;
+    color: #e3e3e3;
+}
+.dark .auth-google-button:hover {
+    border-color: #e3e3e3;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.34);
+}
+.dark .auth-google-button-copy small {
+    color: #c4c7c5;
+}
+.auth-form-container.auth-flow-shell {
+    position: relative;
+    max-width: 536px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 30px;
+    border: 1px solid rgba(185, 28, 28, 0.26);
+    border-top: 3px solid var(--accent-red);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 92% 8%, rgba(212, 175, 55, 0.14), transparent 27%),
+        radial-gradient(circle at 4% 96%, rgba(185, 28, 28, 0.09), transparent 30%),
+        var(--card-bg);
+    box-shadow: 0 18px 42px rgba(38, 23, 16, 0.12);
+}
+.dark .auth-form-container.auth-flow-shell {
+    border-color: rgba(212, 175, 55, 0.3);
+    border-top-color: #d4af37;
+    background:
+        radial-gradient(circle at 92% 8%, rgba(212, 175, 55, 0.14), transparent 27%),
+        radial-gradient(circle at 4% 96%, rgba(185, 28, 28, 0.15), transparent 30%),
+        linear-gradient(145deg, rgba(32, 28, 27, 0.99), rgba(15, 15, 16, 0.99));
+    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.34);
+}
+.auth-flow-shell::before {
+    position: absolute;
+    top: -70px;
+    right: -55px;
+    width: 170px;
+    height: 170px;
+    border: 1px solid rgba(212, 175, 55, 0.17);
+    border-radius: 50%;
+    box-shadow: 0 0 0 18px rgba(212, 175, 55, 0.035), 0 0 0 37px rgba(212, 175, 55, 0.025);
+    content: '';
+    pointer-events: none;
+}
+.auth-flow-header {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin: 0 0 24px;
+    padding: 0 34px 17px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--card-border) 85%, transparent);
+}
+.auth-flow-header--center {
+    display: block;
+    padding-right: 0;
+    text-align: center;
+}
+.auth-flow-kicker {
+    display: block;
+    margin: 0 0 5px;
+    color: var(--accent-gold);
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+}
+.auth-flow-title {
+    margin: 0;
+    color: var(--text-main);
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+}
+.auth-flow-description {
+    margin: 7px 0 0;
+    color: var(--text-sub);
+    font-size: 0.78rem;
+    line-height: 1.75;
+}
+.auth-back-button {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--card-bg) 88%, var(--accent-gold) 12%);
+    color: var(--accent-red);
+    cursor: pointer;
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.auth-back-button:hover {
+    border-color: var(--accent-gold);
+    background: color-mix(in srgb, var(--card-bg) 76%, var(--accent-gold) 24%);
+    transform: translateX(-2px);
+}
+.auth-back-button:active {
+    transform: scale(0.96);
+}
+.auth-field-group {
+    position: relative;
+    margin: 0 0 17px;
+}
+.auth-field-label {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    margin: 0 0 8px;
+    color: var(--text-main);
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+.auth-required {
+    color: var(--accent-red);
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+.auth-field-hint {
+    margin: 8px 0 0;
+    color: var(--text-sub);
+    font-size: 0.72rem;
+    line-height: 1.65;
+}
+.auth-field-hint i {
+    color: var(--accent-gold);
+}
+.auth-form-container.auth-flow-shell .profile-input-field {
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid color-mix(in srgb, var(--card-border) 90%, #a16207 10%);
+    border-radius: 13px;
+    background: color-mix(in srgb, var(--input-bg) 92%, var(--card-bg) 8%);
+    color: var(--text-main);
+    font-size: 0.94rem;
+}
+.auth-form-container.auth-flow-shell .profile-input-field::placeholder {
+    color: color-mix(in srgb, var(--text-sub) 70%, transparent);
+}
+.auth-form-container.auth-flow-shell .profile-input-field:focus {
+    border-color: var(--accent-red);
+    box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.13);
+}
+.auth-password-wrap {
+    position: relative;
+}
+.auth-password-wrap .profile-input-field {
+    padding-right: 54px;
+}
+.auth-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    display: inline-flex;
+    width: 38px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--text-sub);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: color 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.auth-password-toggle:hover {
+    background: rgba(185, 28, 28, 0.1);
+    color: var(--accent-red);
+}
+.auth-security-section {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 9px;
+    margin: 20px 0 16px;
+    padding: 13px;
+    border: 1px solid color-mix(in srgb, var(--card-border) 88%, var(--accent-gold) 12%);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--card-bg) 92%, var(--accent-gold) 8%);
+}
+.auth-security-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin: 0;
+    color: var(--text-sub);
+    font-size: 0.7rem;
+    line-height: 1.6;
+}
+.auth-security-note i {
+    margin-top: 2px;
+    color: var(--accent-gold);
+}
+.auth-security-section [id^="turnstile-"] {
+    min-height: 0;
+}
+.auth-primary-action {
+    width: 100%;
+    min-height: 50px;
+    justify-content: center;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(153, 27, 27, 0.21);
+}
+.auth-primary-action:active {
+    transform: scale(0.98);
+}
+.auth-alternative-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    margin-top: 15px;
+    border: 0;
+    background: transparent;
+    color: var(--text-sub);
+    cursor: pointer;
+    font-size: 0.74rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.auth-alternative-link:hover {
+    color: var(--accent-red);
+}
+.auth-form-container.auth-flow-shell .auth-code-otp-box {
+    border-color: color-mix(in srgb, var(--card-border) 82%, var(--accent-gold) 18%);
+}
+.auth-form-container.auth-flow-shell .auth-code-otp-box:focus {
+    border-color: var(--accent-red);
+}
+.auth-code-status-icon {
+    display: inline-flex;
+    width: 58px;
+    height: 58px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    border: 1px solid rgba(185, 28, 28, 0.25);
+    border-radius: 18px;
+    background: rgba(185, 28, 28, 0.1);
+    color: var(--accent-red);
+    font-size: 1.7rem;
+}
+.auth-step-note {
+    margin: -6px 0 18px;
+    color: var(--text-sub);
+    font-size: 0.72rem;
+    line-height: 1.65;
+}
+@media (max-width: 640px) {
+    .auth-choice-grid {
+        grid-template-columns: 1fr;
+    }
+    .auth-choice-card,
+    .auth-google-button {
+        grid-column: 1;
+    }
+    .auth-choice-card {
+        min-height: 136px;
+        padding: 21px 22px;
+    }
+    .auth-form-container.auth-flow-shell {
+        padding: 23px 18px;
+        border-radius: 20px;
+    }
+    .auth-flow-header {
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+    }
+    .auth-flow-title {
+        font-size: 1.22rem;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .auth-choice-card,
+    .auth-choice-card .auth-icon-circle,
+    .auth-google-button,
+    .auth-back-button,
+    .auth-password-toggle {
+        transition: none;
+    }
+    .auth-choice-card:hover,
+    .auth-google-button:active,
+    .auth-back-button:hover {
+        transform: none;
+    }
+}
+
+/* --- おみくじ選択・結果画面：Bento UI拡張 --- */
 
 /* 1. 選択画面のヘッダーカード */
 .draw-header-card {
@@ -7843,34 +8277,26 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             </div>
 
             <!-- 1. 初期選択画面 -->
-            <div id="auth-selection" class="auth-bento-grid">
-                
-                <!-- ログインボタン -->
-                <div class="stats-card-interactive auth-action-card border-blue-200 dark:border-blue-900" onclick="startAuthFlow('login')">
-                    <div class="auth-icon-circle bg-blue-100 dark:bg-blue-900/30 text-blue-600">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-1">ログイン</h3>
-                    <p class="text-xs text-gray-500">参拝証をお持ちの方</p>
-                </div>
+            <div id="auth-selection" class="auth-bento-grid auth-choice-grid" aria-label="ログイン方法を選択">
+                <button type="button" class="auth-choice-card auth-choice-card--login" data-auth-choice="login" onclick="startAuthFlow('login')" aria-describedby="auth-choice-login-description">
+                    <span class="auth-icon-circle" aria-hidden="true"><i class="bi bi-box-arrow-in-right"></i></span>
+                    <span class="auth-choice-title">ログイン</span>
+                    <span id="auth-choice-login-description" class="auth-choice-description">すでに参拝証をお持ちの方</span>
+                </button>
 
-                <!-- 新規登録ボタン -->
-                <div class="stats-card-interactive auth-action-card border-green-200 dark:border-green-900" onclick="startAuthFlow('register')">
-                    <div class="auth-icon-circle bg-green-100 dark:bg-green-900/30 text-green-600">
-                        <i class="bi bi-person-plus-fill"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-1">新規登録</h3>
-                    <p class="text-xs text-gray-500">初めての方はこちら</p>
-                </div>
+                <button type="button" class="auth-choice-card auth-choice-card--register" data-auth-choice="register" onclick="startAuthFlow('register')" aria-describedby="auth-choice-register-description">
+                    <span class="auth-icon-circle" aria-hidden="true"><i class="bi bi-person-plus-fill"></i></span>
+                    <span class="auth-choice-title">新規登録</span>
+                    <span id="auth-choice-register-description" class="auth-choice-description">初めて参拝証を発行する方</span>
+                </button>
 
-                <!-- Googleでログイン -->
-                <div class="stats-card-interactive auth-action-card auth-google-card border-red-200 dark:border-red-900" style="grid-column: span 2;" onclick="startGoogleLogin()">
-                    <div class="auth-icon-circle bg-red-100 dark:bg-red-900/30 text-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="28" height="28"><path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.86l6.09-6.09C34.46 3.09 29.5 1 24 1 14.82 1 7.02 6.48 3.44 14.23l7.1 5.52C12.35 13.72 17.71 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.71c-.55 2.97-2.22 5.49-4.73 7.19l7.27 5.65C43.32 37.61 46.5 31.49 46.5 24.5z"/><path fill="#FBBC05" d="M10.54 28.25A14.58 14.58 0 0 1 9.5 24c0-1.48.26-2.91.73-4.25l-7.1-5.52A23.86 23.86 0 0 0 0 24c0 3.87.93 7.52 2.58 10.74l7.96-6.49z"/><path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.5-4.95l-7.27-5.65c-1.83 1.23-4.17 1.95-6.23 1.95-6.29 0-11.65-4.22-13.46-9.9l-7.96 6.49C7.02 41.52 14.82 47 24 47z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-                    </div>
-                    <h3 class="font-bold text-xl mb-1">Googleでログイン</h3>
-                    <p class="text-xs text-gray-500">認証コード不要</p>
-                </div>
+                <button type="button" class="auth-google-button" onclick="startGoogleLogin()" aria-describedby="auth-google-description">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.86l6.09-6.09C34.46 3.09 29.5 1 24 1 14.82 1 7.02 6.48 3.44 14.23l7.1 5.52C12.35 13.72 17.71 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.71c-.55 2.97-2.22 5.49-4.73 7.19l7.27 5.65C43.32 37.61 46.5 31.49 46.5 24.5z"/><path fill="#FBBC05" d="M10.54 28.25A14.58 14.58 0 0 1 9.5 24c0-1.48.26-2.91.73-4.25l-7.1-5.52A23.86 23.86 0 0 0 0 24c0 3.87.93 7.52 2.58 10.74l7.96-6.49z"/><path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.5-4.95l-7.27-5.65c-1.83 1.23-4.17 1.95-6.23 1.95-6.29 0-11.65-4.22-13.46-9.9l-7.96 6.49C7.02 41.52 14.82 47 24 47z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+                    <span class="auth-google-button-copy">
+                        <span>Googleでログイン</span>
+                        <small id="auth-google-description">認証コード不要</small>
+                    </span>
+                </button>
             </div>
 
             <!-- 機能比較表（未ログイン / ログイン会員） -->
@@ -7914,7 +8340,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 <td style="text-align: left;">おみくじの轍（参拝履歴の保存・検索）</td>
                                 <td>
                                     <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
-                                    <div class="text-[10px] mt-0.5" style="color:var(--text-sub);">端末のみ保存<br>（参拝者名の設定が必要）</div>
+                                    <div class="text-[10px] mt-0.5" style="color:var(--text-sub);">ゲストIDで識別<br>（端末とサーバーに保存）</div>
                                 </td>
                                 <td class="highlight">
                                     <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
@@ -7925,7 +8351,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 <td style="text-align: left;">参拝の記録（個人統計・運勢グラフ）</td>
                                 <td>
                                     <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
-                                    <div class="text-[10px] mt-0.5" style="color:var(--text-sub);">端末のみ保存<br>（参拝者名の設定が必要）</div>
+                                    <div class="text-[10px] mt-0.5" style="color:var(--text-sub);">ゲストIDで識別<br>（端末とサーバーに保存）</div>
                                 </td>
                                 <td class="highlight">
                                     <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
@@ -7952,99 +8378,110 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 </div>
             </div>
 
-            <!-- 2. 入力フォーム (ログイン/登録共通) -->
-            <div id="auth-step-1" class="hidden auth-form-container stats-card-interactive">
-                <div class="flex items-center mb-6">
-                    <button onclick="backToAuthSelection()" class="text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition mr-4">
-                        <i class="bi bi-arrow-left text-xl"></i>
+            <!-- 2. 入力フォーム（ログイン／登録共通） -->
+            <div id="auth-step-1" class="hidden auth-form-container auth-flow-shell">
+                <div class="auth-flow-header">
+                    <button type="button" onclick="backToAuthSelection()" class="auth-back-button" aria-label="ログイン方法の選択へ戻る">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
                     </button>
-                    <h3 class="font-bold text-xl" id="auth-form-title">ログイン</h3>
+                    <div>
+                        <span class="auth-flow-kicker">MEMBER AUTHENTICATION</span>
+                        <h3 class="auth-flow-title" id="auth-form-title">ログイン</h3>
+                        <p class="auth-flow-description" id="auth-form-description">参拝証に登録したメールアドレスで続けます。</p>
+                    </div>
                 </div>
 
                 <!-- ログイン用フィールド -->
-                <div id="form-login-fields" class="hidden space-y-4">
-                    <div>
-                        <label class="profile-input-label">メールアドレス</label>
-                        <input type="email" id="login-email" class="profile-input-field" placeholder="example@email.com" autocomplete="email" oninput="validateAuthField(this)" onblur="validateAuthField(this, true)">
-                        <p class="input-error-msg" id="login-email-err">メールアドレスの形式が正しくありません</p>
+                <div id="form-login-fields" class="hidden">
+                    <div class="auth-field-group">
+                        <label for="login-email" class="auth-field-label">メールアドレス <span class="auth-required">必須</span></label>
+                        <input type="email" id="login-email" class="profile-input-field" placeholder="example@email.com" autocomplete="email" required aria-required="true" aria-describedby="login-email-err" oninput="validateAuthField(this)" onblur="validateAuthField(this, true)">
+                        <p class="input-error-msg" id="login-email-err" aria-live="polite">メールアドレスの形式が正しくありません</p>
                     </div>
-                    <div>
-                        <label class="profile-input-label">パスワード</label>
-                        <input type="password" id="login-password" class="profile-input-field" placeholder="********" autocomplete="current-password">
+                    <div class="auth-field-group">
+                        <label for="login-password" class="auth-field-label">パスワード <span class="auth-required">必須</span></label>
+                        <div class="auth-password-wrap">
+                            <input type="password" id="login-password" class="profile-input-field" placeholder="パスワードを入力" autocomplete="current-password" required aria-required="true">
+                            <button type="button" class="auth-password-toggle" onclick="toggleAuthPassword('login-password', this)" aria-controls="login-password" aria-label="パスワードを表示" aria-pressed="false"><i class="bi bi-eye" aria-hidden="true"></i></button>
+                        </div>
                     </div>
-                    <div id="turnstile-login" class="flex justify-center mt-2"></div>
-                    <button onclick="initiateAuth('login')" class="btn-primary w-full justify-center py-3 mt-2 shadow-lg">
-                        <i class="bi bi-send"></i> 認証コードを送信
+                    <div class="auth-security-section">
+                        <p class="auth-security-note"><i class="bi bi-shield-check" aria-hidden="true"></i><span>安全な認証のため、セキュリティチェックを完了してください。</span></p>
+                        <div id="turnstile-login" class="flex justify-center" aria-label="セキュリティチェック"></div>
+                    </div>
+                    <button type="button" onclick="initiateAuth('login')" class="btn-primary auth-primary-action">
+                        <i class="bi bi-send" aria-hidden="true"></i> 認証コードを送信
                     </button>
                 </div>
 
                 <!-- 登録用フィールド -->
-                <div id="form-register-fields" class="hidden space-y-4">
-                    <div>
-                        <label class="profile-input-label">参拝者名 (ユーザー名)</label>
-                        <input type="text" id="reg-username" class="profile-input-field" placeholder="はるかぜ" autocomplete="nickname">
-                        <p class="text-xs mt-1.5 leading-relaxed" style="color: var(--text-sub);">
-                            <i class="bi bi-exclamation-circle mr-1"></i>結果ページや轍で公開されるので、本名（フルネーム）は入力しないでください。
-                        </p>
+                <div id="form-register-fields" class="hidden">
+                    <div class="auth-field-group">
+                        <label for="reg-username" class="auth-field-label">参拝者名 <span class="auth-required">必須</span></label>
+                        <input type="text" id="reg-username" class="profile-input-field" placeholder="はるかぜ" autocomplete="nickname" required aria-required="true" aria-describedby="reg-username-hint">
+                        <p class="auth-field-hint" id="reg-username-hint"><i class="bi bi-info-circle" aria-hidden="true"></i> 結果ページや轍で公開されるため、本名（フルネーム）は入力しないでください。</p>
                     </div>
-                    <div>
-                        <label class="profile-input-label">メールアドレス</label>
-                        <input type="email" id="reg-email" class="profile-input-field" placeholder="example@email.com" autocomplete="email" oninput="validateAuthField(this)" onblur="validateAuthField(this, true)">
-                        <p class="input-error-msg" id="reg-email-err">メールアドレスの形式が正しくありません</p>
+                    <div class="auth-field-group">
+                        <label for="reg-email" class="auth-field-label">メールアドレス <span class="auth-required">必須</span></label>
+                        <input type="email" id="reg-email" class="profile-input-field" placeholder="example@email.com" autocomplete="email" required aria-required="true" aria-describedby="reg-email-err" oninput="validateAuthField(this)" onblur="validateAuthField(this, true)">
+                        <p class="input-error-msg" id="reg-email-err" aria-live="polite">メールアドレスの形式が正しくありません</p>
                     </div>
-                    <div>
-                        <label class="profile-input-label">パスワード</label>
-                        <input type="password" id="reg-password" class="profile-input-field" placeholder="8文字以上" autocomplete="new-password" oninput="validateAuthField(this)" onblur="validateAuthField(this, true)">
-                        <p class="input-error-msg" id="reg-password-err">パスワードは8文字以上で入力してください</p>
-                    </div>                    
-                    <div id="turnstile-register" class="flex justify-center mt-2"></div>
-                    <button onclick="initiateAuth('register')" class="btn-primary w-full justify-center py-3 mt-2 shadow-lg">
-                        <i class="bi bi-send"></i> 認証コードを送信
+                    <div class="auth-field-group">
+                        <label for="reg-password" class="auth-field-label">パスワード <span class="auth-required">必須</span></label>
+                        <div class="auth-password-wrap">
+                            <input type="password" id="reg-password" class="profile-input-field" placeholder="8文字以上" autocomplete="new-password" required minlength="8" aria-required="true" aria-describedby="reg-password-err" oninput="validateAuthField(this)" onblur="validateAuthField(this, true)">
+                            <button type="button" class="auth-password-toggle" onclick="toggleAuthPassword('reg-password', this)" aria-controls="reg-password" aria-label="パスワードを表示" aria-pressed="false"><i class="bi bi-eye" aria-hidden="true"></i></button>
+                        </div>
+                        <p class="input-error-msg" id="reg-password-err" aria-live="polite">パスワードは8文字以上で入力してください</p>
+                    </div>
+                    <div class="auth-security-section">
+                        <p class="auth-security-note"><i class="bi bi-shield-check" aria-hidden="true"></i><span>安全な認証のため、セキュリティチェックを完了してください。</span></p>
+                        <div id="turnstile-register" class="flex justify-center" aria-label="セキュリティチェック"></div>
+                    </div>
+                    <button type="button" onclick="initiateAuth('register')" class="btn-primary auth-primary-action">
+                        <i class="bi bi-send" aria-hidden="true"></i> 認証コードを送信
                     </button>
                 </div>
             </div>
 
-            <!-- 3. 認証コード入力 (モダンUI / 分割ボックス方式) -->
-            <div id="auth-step-2" class="hidden auth-form-container stats-card-interactive text-center">
-                <div class="mb-6">
-                    <i class="bi bi-envelope-check text-5xl text-red-500 animate-pulse"></i>
+            <!-- 3. 認証コード入力（既存フローを統一サーフェスで表示） -->
+            <div id="auth-step-2" class="hidden auth-form-container auth-flow-shell text-center">
+                <div class="auth-code-status-icon" aria-hidden="true"><i class="bi bi-envelope-check"></i></div>
+                <div class="auth-flow-header auth-flow-header--center">
+                    <span class="auth-flow-kicker">VERIFY YOUR EMAIL</span>
+                    <h3 class="auth-flow-title">認証コードを入力</h3>
+                    <p class="auth-flow-description" id="auth-code-desc" aria-live="polite">送信されたメールに記載されている<br>6桁の数字を入力してください。</p>
                 </div>
-                <h3 class="font-bold text-lg mb-2">認証コードを入力</h3>
-                <p class="text-xs text-gray-500 mb-2 leading-relaxed" id="auth-code-desc">
-                    送信されたメールに記載されている<br>6桁の数字を入力してください。
-                </p>
-                <p class="text-[11px] text-gray-400 mb-6 leading-relaxed">
-                    <i class="bi bi-info-circle"></i> メールが届かない場合は、迷惑メールフォルダもご確認ください。
-                </p>
+                <p class="auth-step-note"><i class="bi bi-info-circle" aria-hidden="true"></i> メールが届かない場合は、迷惑メールフォルダもご確認ください。</p>
                 
                 <div class="mb-2">
                     <!-- 隠しinput: finalizeAuth()が値を読み取る既存の仕組みをそのまま利用 -->
                     <input type="hidden" id="auth-code-input">
-                    <div class="auth-code-otp-group" id="auth-code-otp-group" onpaste="handleOtpPaste(event)">
-                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="0" oninput="handleOtpInput(this, 0)" onkeydown="handleOtpKeydown(event, 0)">
-                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="1" oninput="handleOtpInput(this, 1)" onkeydown="handleOtpKeydown(event, 1)">
-                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="2" oninput="handleOtpInput(this, 2)" onkeydown="handleOtpKeydown(event, 2)">
-                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="3" oninput="handleOtpInput(this, 3)" onkeydown="handleOtpKeydown(event, 3)">
-                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="4" oninput="handleOtpInput(this, 4)" onkeydown="handleOtpKeydown(event, 4)">
-                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="5" oninput="handleOtpInput(this, 5)" onkeydown="handleOtpKeydown(event, 5)">
+                    <div class="auth-code-otp-group" id="auth-code-otp-group" role="group" aria-label="6桁の認証コード" aria-describedby="auth-code-paste-note" onpaste="handleOtpPaste(event)">
+                        <input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" class="auth-code-otp-box" data-otp-index="0" aria-label="認証コード 1桁目" oninput="handleOtpInput(this, 0)" onkeydown="handleOtpKeydown(event, 0)">
+                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="1" aria-label="認証コード 2桁目" oninput="handleOtpInput(this, 1)" onkeydown="handleOtpKeydown(event, 1)">
+                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="2" aria-label="認証コード 3桁目" oninput="handleOtpInput(this, 2)" onkeydown="handleOtpKeydown(event, 2)">
+                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="3" aria-label="認証コード 4桁目" oninput="handleOtpInput(this, 3)" onkeydown="handleOtpKeydown(event, 3)">
+                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="4" aria-label="認証コード 5桁目" oninput="handleOtpInput(this, 4)" onkeydown="handleOtpKeydown(event, 4)">
+                        <input type="text" inputmode="numeric" maxlength="1" class="auth-code-otp-box" data-otp-index="5" aria-label="認証コード 6桁目" oninput="handleOtpInput(this, 5)" onkeydown="handleOtpKeydown(event, 5)">
                     </div>
-                    <p class="text-[10px] text-gray-400 mt-2">半角数字のみ・貼り付けにも対応しています</p>
+                    <p class="auth-step-note" id="auth-code-paste-note">半角数字のみ・貼り付けにも対応しています。</p>
                 </div>
 
                 <div class="auth-code-timer" id="auth-code-timer-wrap">
-                    <i class="bi bi-clock-history"></i>
+                    <i class="bi bi-clock-history" aria-hidden="true"></i>
                     <span>有効期限まで <span class="timer-num" id="auth-code-timer-num">5:00</span></span>
                 </div>
-                <button class="auth-code-resend-btn mt-2 mb-4" id="auth-code-resend-btn" onclick="resendAuthCode()" disabled>
+                <button type="button" class="auth-code-resend-btn mt-2 mb-4" id="auth-code-resend-btn" onclick="resendAuthCode()" disabled>
                     コードを再送する
                 </button>
 
-                <button onclick="finalizeAuth()" class="btn-primary w-full justify-center py-3 shadow-lg mb-4">
-                    <i class="bi bi-check-lg"></i> 認証を完了する
+                <button type="button" onclick="finalizeAuth()" class="btn-primary auth-primary-action">
+                    <i class="bi bi-check-lg" aria-hidden="true"></i> 認証を完了する
                 </button>
                 
-                <button onclick="backToAuthStep1()" class="text-xs text-gray-400 hover:text-red-500 underline">
-                    入力画面に戻る
+                <button type="button" onclick="backToAuthStep1()" class="auth-alternative-link">
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i> 入力画面に戻る
                 </button>
             </div>
         </section>
@@ -19985,6 +20422,18 @@ function startGoogleLogin() {
     window.location.href = `${API_BASE}/api/auth/google/redirect`;
 }
 
+// パスワード入力は既存のautocomplete・送信処理を保ったまま、必要時だけ表示を切り替える。
+function toggleAuthPassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    if (!input || !button) return;
+    const shouldShow = input.type === 'password';
+    input.type = shouldShow ? 'text' : 'password';
+    button.setAttribute('aria-pressed', String(shouldShow));
+    button.setAttribute('aria-label', shouldShow ? 'パスワードを隠す' : 'パスワードを表示');
+    const icon = button.querySelector('i');
+    if (icon) icon.className = shouldShow ? 'bi bi-eye-slash' : 'bi bi-eye';
+}
+
 // Googleアカウント連携（コネクト）
 async function connectGoogleAccount() {
     const token = localStorage.getItem('auth_token');
@@ -20056,19 +20505,26 @@ function startAuthFlow(mode) {
     const loginFields = document.getElementById('form-login-fields');
     const regFields = document.getElementById('form-register-fields');
     const title = document.getElementById('auth-form-title');
+    const description = document.getElementById('auth-form-description');
 
     if (mode === 'login') {
         loginFields.classList.remove('hidden');
         regFields.classList.add('hidden');
         title.textContent = 'ログイン';
+        if (description) description.textContent = '参拝証に登録したメールアドレスで続けます。';
     } else {
         loginFields.classList.add('hidden');
         regFields.classList.remove('hidden');
         title.textContent = '新規登録';
+        if (description) description.textContent = '参拝者名とメールアドレスを登録して、参拝証を発行します。';
     }
 
     // フォームが表示されてからTurnstileウィジェットを描画・リセット
     renderTurnstileForMode(mode);
+    requestAnimationFrame(() => {
+        const firstField = document.getElementById(mode === 'login' ? 'login-email' : 'reg-username');
+        if (firstField) firstField.focus();
+    });
 }
 
 // 2. 選択画面に戻る
@@ -20077,6 +20533,10 @@ function backToAuthSelection() {
     document.getElementById('auth-selection').classList.remove('hidden');
     const compareEl = document.getElementById('auth-feature-compare');
     if (compareEl) compareEl.classList.remove('hidden');
+    requestAnimationFrame(() => {
+        const choice = document.querySelector(`[data-auth-choice="${currentState.authMode}"]`);
+        if (choice) choice.focus();
+    });
 }
 
 // 3. 入力画面に戻る (コード入力から戻る時)
@@ -20084,6 +20544,10 @@ function backToAuthStep1() {
     document.getElementById('auth-step-2').classList.add('hidden');
     document.getElementById('auth-step-1').classList.remove('hidden');
     stopAuthCodeTimer();
+    requestAnimationFrame(() => {
+        const firstField = document.getElementById(currentState.authMode === 'login' ? 'login-email' : 'reg-username');
+        if (firstField) firstField.focus();
+    });
 }
 
 // --- 認証コード：分割ボックス(OTP)入力の制御 ---
