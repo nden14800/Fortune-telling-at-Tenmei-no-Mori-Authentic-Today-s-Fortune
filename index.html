@@ -2659,6 +2659,60 @@
     aspect-ratio: 16 / 9;
     object-fit: cover;
 }
+
+/* AI生成画像であることを初回閲覧時から明示し、実在の撮影写真との誤認を防ぐ */
+.article-content .article-visual--ai-generated {
+    overflow: hidden;
+    border-color: rgba(106, 78, 36, 0.30);
+}
+.article-content .ai-image-disclosure {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 14px;
+    background: linear-gradient(135deg, rgba(252, 249, 238, 0.98), rgba(244, 238, 216, 0.98));
+    border-bottom: 1px solid rgba(154, 116, 45, 0.24);
+    color: #4f3a20;
+    text-align: left;
+}
+.article-content .ai-image-disclosure__badge {
+    flex: 0 0 auto;
+    margin-top: 1px;
+    padding: 3px 8px;
+    border: 1px solid rgba(126, 86, 23, 0.48);
+    border-radius: 999px;
+    background: #6d451c;
+    color: #fffdf7;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.70rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1.35;
+}
+.article-content .ai-image-disclosure__copy {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.55;
+}
+.article-content .ai-image-disclosure__copy strong {
+    color: #442f18;
+    font-size: 0.82rem;
+}
+.article-content .ai-image-disclosure__copy span {
+    color: #695333;
+}
+@media (max-width: 520px) {
+    .article-content .ai-image-disclosure {
+        gap: 8px;
+        padding: 10px 11px;
+    }
+    .article-content .ai-image-disclosure__copy {
+        font-size: 0.73rem;
+    }
+}
 .article-content .article-visual--rank {
     max-width: min(100%, 720px);
     border-color: rgba(167, 125, 34, 0.42);
@@ -12991,7 +13045,7 @@ function escapeHtml(str) {
             colorClass: "yellow",
             content: `
                 <div class="article-content">
-                    <p>お盆の時期が近づくと、「お盆はお寺の行事だから、神社へお参りしてはいけないのでは？」と迷う方がいらっしゃいます。結論からいえば、<strong>お盆だからという理由だけで神社への参拝を避ける必要はありません</strong>。むしろ、お盆は仏教だけに閉じた行事ではなく、日本で古くから大切にされてきた「ご先祖を想い、迎える」夏の習わしです。今回は、お盆と神道のつながり、そしてこの時期の参拝で心に留めたいことをお話しします。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-061-overview.webp" alt="【作法】お盆に神社へお参りしてもいい？——先祖を想う夏、神道の答えの図解。先祖を想う夏の参拝。迎える、祈る、静かに訪れるを視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：先祖を想う夏の参拝。迎える・祈る・静かに訪れるを視覚化しています。</figcaption></figure>
+                    <p>お盆の時期が近づくと、「お盆はお寺の行事だから、神社へお参りしてはいけないのでは？」と迷う方がいらっしゃいます。結論からいえば、<strong>お盆だからという理由だけで神社への参拝を避ける必要はありません</strong>。むしろ、お盆は仏教だけに閉じた行事ではなく、日本で古くから大切にされてきた「ご先祖を想い、迎える」夏の習わしです。今回は、お盆と神道のつながり、そしてこの時期の参拝で心に留めたいことをお話しします。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-061-overview.webp" alt="【作法】お盆に神社へお参りしてもいい？——先祖を想う夏、神道の答えのAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。先祖を想う夏の参拝。迎える、祈る、静かに訪れるを視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：先祖を想う夏の参拝。迎える・祈る・静かに訪れるを視覚化しています。</figcaption></figure>
 
                     <h3>お盆は、仏教だけの行事ではない</h3>
                     <p>「お盆」という言葉は仏教の盂蘭盆会（うらぼんえ）に由来するといわれます。しかし、亡き人の御霊を迎え、家族で偲び、またお送りするという営みは、日本に古くから伝わる先祖祭りの感覚とも深く重なっています。現在のお盆は、仏教の供養と日本固有の祖先を敬う習わしが、長い時間をかけて一つになったものと考えられています。</p>
@@ -13021,7 +13075,7 @@ function escapeHtml(str) {
             colorClass: "green",
             content: `
                 <div class="article-content">
-                    <p>今日7月31日は、七十二候でいう「土潤溽暑（つちうるおうてむしあつし）」の期間（7月28日〜8月1日頃）の終わりにあたります。二十四節気「大暑」の次候にあたるこの候は、「土が湿って蒸し暑くなる」という意味。梅雨の湿気を含んだ大地に、真夏の強い日差しが照りつけることで生まれる、あのむわっとした熱気を言い表した言葉です。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-060-overview.webp" alt="【干支・暦】七十二候「土潤溽暑」——土が神様の名を宿す字になったわけの図解。土と神が結ぶ文字の景色。土 潤 溽 暑、社という字、季節の律儀さを視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：土と神が結ぶ文字の景色。土 潤 溽 暑・社という字・季節の律儀さを視覚化しています。</figcaption></figure>
+                    <p>今日7月31日は、七十二候でいう「土潤溽暑（つちうるおうてむしあつし）」の期間（7月28日〜8月1日頃）の終わりにあたります。二十四節気「大暑」の次候にあたるこの候は、「土が湿って蒸し暑くなる」という意味。梅雨の湿気を含んだ大地に、真夏の強い日差しが照りつけることで生まれる、あのむわっとした熱気を言い表した言葉です。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-060-overview.webp" alt="【干支・暦】七十二候「土潤溽暑」——土が神様の名を宿す字になったわけのAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。土と神が結ぶ文字の景色。土 潤 溽 暑、社という字、季節の律儀さを視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：土と神が結ぶ文字の景色。土 潤 溽 暑・社という字・季節の律儀さを視覚化しています。</figcaption></figure>
 
                     <h3>「潤う土」と「蒸れる土」——対になる二つの候</h3>
                     <p>実は七十二候で「土」を主役にした候は、これだけではありません。冬の終わり、2月頃には「土脉潤起（つちのしょううるおいおこる）」という候があり、こちらは雪解けの雨で凍っていた大地がしっとりと潤い始める様子を表します。同じ「土が潤う」という表現でも、片や春の目覚め、片や夏の蒸し暑さと、真逆の季節感を担っているのが面白いところです。昔の人々は、目に見えない土の中の変化を、こうして年に何度も暦に刻んできました。</p>
@@ -13043,7 +13097,7 @@ function escapeHtml(str) {
             colorClass: "purple",
             content: `
                 <div class="article-content">
-                    <p>今日7月26日（日）は「土用の丑の日」。2026年の夏土用は7月20日から8月6日までの18日間ですが、この期間に丑の日が巡ってくるのは今日1回だけで、「二の丑」はありません。うなぎ屋の店先が賑わうこの日、実は土の中では、うなぎとは別の主役がひっそりと活動しているのをご存知でしょうか。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-059-overview.webp" alt="【基礎知識】今日は「土用の丑の日」——うなぎの陰に隠れた、土の中の神様のはなしの図解。四季の境目に息づく土の神。春、夏、秋、冬を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：四季の境目に息づく土の神。春・夏・秋・冬を視覚化しています。</figcaption></figure>
+                    <p>今日7月26日（日）は「土用の丑の日」。2026年の夏土用は7月20日から8月6日までの18日間ですが、この期間に丑の日が巡ってくるのは今日1回だけで、「二の丑」はありません。うなぎ屋の店先が賑わうこの日、実は土の中では、うなぎとは別の主役がひっそりと活動しているのをご存知でしょうか。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-059-overview.webp" alt="【基礎知識】今日は「土用の丑の日」——うなぎの陰に隠れた、土の中の神様のはなしのAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。四季の境目に息づく土の神。春、夏、秋、冬を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：四季の境目に息づく土の神。春・夏・秋・冬を視覚化しています。</figcaption></figure>
 
                     <h3>「土用」は夏だけじゃない。年に4回訪れる季節の境目</h3>
                     <p>土用というと真夏の風物詩というイメージが強いですが、本来は立春・立夏・立秋・立冬それぞれの直前、約18日間を指す暦の言葉で、1年に4回訪れます。この期間中の干支の日に「い」「う」「た」「ひ」のつく食べ物を食べると良いとされ、夏の土用では「う」のつくうなぎ・うどん・梅干し・瓜などが好まれてきました。数ある土用の中でも夏だけが特別に有名になったのは、体調を崩しやすい猛暑を乗り切るための「食い養生」の知恵が、江戸時代以降に広く根付いたためです。</p>
@@ -13068,7 +13122,7 @@ function escapeHtml(str) {
             colorClass: "orange",
             content: `
                 <div class="article-content">
-                    <p>先週ご紹介した祇園祭・山鉾巡行（前祭）は、7月17日に無事執り行われました。そして今、京都では後祭に向けた「山鉾建て」の真っ最中です（後祭の山鉾建ては7月18日〜21日）。ちょうど本日7月19日は、後祭を彩る北観音山・南観音山の「真松（しんまつ）」をどちらが選ぶか、じゃんけんで決める「松取式」が行われる日でもあります。今回はその山鉾建てを陰で支える伝統技術「縄絡み（なわがらみ）」についてお話しします。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-058-overview.webp" alt="【建築】山鉾を支える伝統技術「縄絡み」——釘を1本も使わない、職人の手仕事の図解。釘を使わず、揺れを受け流す。荒縄、結ぶ、しなやかに支えるを視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：釘を使わず、揺れを受け流す。荒縄・結ぶ・しなやかに支えるを視覚化しています。</figcaption></figure>
+                    <p>先週ご紹介した祇園祭・山鉾巡行（前祭）は、7月17日に無事執り行われました。そして今、京都では後祭に向けた「山鉾建て」の真っ最中です（後祭の山鉾建ては7月18日〜21日）。ちょうど本日7月19日は、後祭を彩る北観音山・南観音山の「真松（しんまつ）」をどちらが選ぶか、じゃんけんで決める「松取式」が行われる日でもあります。今回はその山鉾建てを陰で支える伝統技術「縄絡み（なわがらみ）」についてお話しします。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-058-overview.webp" alt="【建築】山鉾を支える伝統技術「縄絡み」——釘を1本も使わない、職人の手仕事のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。釘を使わず、揺れを受け流す。荒縄、結ぶ、しなやかに支えるを視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：釘を使わず、揺れを受け流す。荒縄・結ぶ・しなやかに支えるを視覚化しています。</figcaption></figure>
 
                     <h3>釘を1本も使わない、荒縄だけの組み立て</h3>
                     <p>重さ十数トン、高さ25mにも及ぶ巨大な山鉾ですが、実はその骨組みには<strong>釘が1本も使われていません</strong>。四本柱に貫（ぬき）や筋違（すじかい）を組んで胴組を作り、それを固定するのは「荒縄（あらなわ）」だけ。この伝統技法が「縄絡み」です。作業は「作事三役」と呼ばれる手伝い方・大工方・車方の職人たちの手によって、毎年一からすべて組み直されます。</p>
@@ -13093,7 +13147,7 @@ function escapeHtml(str) {
             colorClass: "red",
             content: `
                 <div class="article-content">
-                    <p>今週金曜日・7月17日は、京都の夏を彩る<strong>祇園祭</strong>のハイライト「山鉾巡行（前祭）」です。同じ日の夕方には八坂神社から神輿が出る神幸祭も行われます。豪華絢爛な山鉾が都大路を進む姿は「動く美術館」とも呼ばれますが、実はこのお祭り、先週ご紹介した夏越の大祓と同じ神話にルーツを持っていることをご存知でしょうか。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-057-overview.webp" alt="【年中行事】今週金曜は祇園祭・山鉾巡行——869年から続く「疫病退散」の祈りと、先週の茅の輪との意外な接点の図解。疫病退散の祈りを運ぶ山鉾。869年、長刀鉾、蘇民将来を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：疫病退散の祈りを運ぶ山鉾。869年・長刀鉾・蘇民将来を視覚化しています。</figcaption></figure>
+                    <p>今週金曜日・7月17日は、京都の夏を彩る<strong>祇園祭</strong>のハイライト「山鉾巡行（前祭）」です。同じ日の夕方には八坂神社から神輿が出る神幸祭も行われます。豪華絢爛な山鉾が都大路を進む姿は「動く美術館」とも呼ばれますが、実はこのお祭り、先週ご紹介した夏越の大祓と同じ神話にルーツを持っていることをご存知でしょうか。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-057-overview.webp" alt="【年中行事】今週金曜は祇園祭・山鉾巡行——869年から続く「疫病退散」の祈りと、先週の茅の輪との意外な接点のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。疫病退散の祈りを運ぶ山鉾。869年、長刀鉾、蘇民将来を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：疫病退散の祈りを運ぶ山鉾。869年・長刀鉾・蘇民将来を視覚化しています。</figcaption></figure>
 
                     <h3>始まりは869年、疫病を鎮めるための神事だった</h3>
                     <p>祇園祭は八坂神社の祭礼で、7月1日の「吉符入」から31日の「疫神社夏越祭」まで、まる1か月にわたって神事が続きます。その起源は平安時代前期の貞観11年（869年）にさかのぼります。当時、全国的に疫病が流行したことを受け、神泉苑に66本の矛を立てて悪霊を移し、洛中の穢れを祓う「御霊会（ごりょうえ）」が行われました。66という数字は、当時の日本の国の数を表していたと伝えられています。これが千年以上続く祇園祭の始まりです。</p>
@@ -13122,7 +13176,7 @@ function escapeHtml(str) {
             content: `
                 <div class="article-content">
                     <p>今週火曜日・6月30日は<strong>夏越の大祓（なごしのおおはらえ）</strong>です。<br>
-                    一年の折り返しを迎えるこの日、全国各地の神社で茅の輪くぐりが行われます。初詣でお参りしてから半年——あなたの心身にも、知らぬ間に穢れが積もっているかもしれません。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-056-overview.webp" alt="【年中行事】今週火曜は夏越の大祓——茅の輪をくぐって、2026年前半の罪穢れを落とそうの図解。茅の輪を八の字にくぐる。左、右、左を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：茅の輪を八の字にくぐる。左・右・左を視覚化しています。</figcaption></figure>
+                    一年の折り返しを迎えるこの日、全国各地の神社で茅の輪くぐりが行われます。初詣でお参りしてから半年——あなたの心身にも、知らぬ間に穢れが積もっているかもしれません。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-056-overview.webp" alt="【年中行事】今週火曜は夏越の大祓——茅の輪をくぐって、2026年前半の罪穢れを落とそうのAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。茅の輪を八の字にくぐる。左、右、左を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：茅の輪を八の字にくぐる。左・右・左を視覚化しています。</figcaption></figure>
 
                     <h3>夏越の大祓とは——年に2回ある「大掃除」</h3>
                     <p>夏越の大祓とは、半年の間に知らず知らずのうちに身についた罪穢れを落とし、残りの半年を心身ともに清々しく無事に過ごせるよう祈願する神事で、毎年6月30日に行われます。これとは別に12月末にも「年越の祓（としこしのはらえ）」が行われ、半年間の穢れを落とす大祓は年に2回、神社にとって大切な神事とされています。</p>  
@@ -13155,7 +13209,7 @@ function escapeHtml(str) {
             colorClass: "yellow",
             content: `
                 <div class="article-content">
-                    <p>明日2026年6月21日は<strong>夏至（げし）</strong>です。一年で最も昼が長く、太陽の力が頂点に達するこの日——実は日本各地の神社と、夏至は切っても切れない深い縁があります。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-055-overview.webp" alt="【干支・暦】明日は夏至——「太陽の頂点」と神社の知られざる関係の図解。太陽の頂点を結ぶ神社の線。朝日、神域、アマテラスを視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：太陽の頂点を結ぶ神社の線。朝日・神域・アマテラスを視覚化しています。</figcaption></figure>
+                    <p>明日2026年6月21日は<strong>夏至（げし）</strong>です。一年で最も昼が長く、太陽の力が頂点に達するこの日——実は日本各地の神社と、夏至は切っても切れない深い縁があります。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-055-overview.webp" alt="【干支・暦】明日は夏至——「太陽の頂点」と神社の知られざる関係のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。太陽の頂点を結ぶ神社の線。朝日、神域、アマテラスを視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：太陽の頂点を結ぶ神社の線。朝日・神域・アマテラスを視覚化しています。</figcaption></figure>
 
                     <h3>夏至とは何か——二十四節気の「太陽の頂点」</h3>
                     <p>夏至は<strong>二十四節気</strong>のひとつです。太陽が黄道上で最も北に位置し、北半球では一年で最も昼の時間が長くなります。2026年は明日6月21日（日）がその日にあたります。夏至と冬至で太陽が出ている時間を比べると、その差は実に約4時間50分にもなります。</p>
@@ -13187,7 +13241,7 @@ function escapeHtml(str) {
             colorClass: "orange",
             content: `
                 <div class="article-content">
-                    <p>神社の参道や拝殿前に、どっしりと構える一対の像——私たちは当たり前のように両方を「狛犬」と呼んでいます。ところが実はこの二体、<strong>同じ種類の生き物ではなかった</strong>のです。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-054-overview.webp" alt="【豆知識】神社の「狛犬」、向かって右が口を開けている——阿吽の秘密と、実は「獅子と狛犬の異種コンビ」だった話の図解。異なる二体で、入口を守る。阿、吽、獅子と狛犬を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：異なる二体で、入口を守る。阿・吽・獅子と狛犬を視覚化しています。</figcaption></figure>
+                    <p>神社の参道や拝殿前に、どっしりと構える一対の像——私たちは当たり前のように両方を「狛犬」と呼んでいます。ところが実はこの二体、<strong>同じ種類の生き物ではなかった</strong>のです。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-054-overview.webp" alt="【豆知識】神社の「狛犬」、向かって右が口を開けている——阿吽の秘密と、実は「獅子と狛犬の異種コンビ」だった話のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。異なる二体で、入口を守る。阿、吽、獅子と狛犬を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：異なる二体で、入口を守る。阿・吽・獅子と狛犬を視覚化しています。</figcaption></figure>
 
                     <h3>向かって右が「獅子」、左が「狛犬」——異種コンビの正体</h3>
                     <p>正確には、神社の入り口に置かれる一対は<strong>「獅子（しし）」と「狛犬（こまいぬ）」の二種</strong>から成ります。向かって右側にいるのが「獅子」。口を大きく開けた<strong>阿形（あぎょう）</strong>で、角を持ちません。向かって左にいるのが「狛犬」。口を閉じた<strong>吽形（うんぎょう）</strong>で、一本の角を持つのが本来の姿です。</p>
@@ -13275,7 +13329,7 @@ function escapeHtml(str) {
             content: `
                 <div class="article-content">
                     <p>今日6月6日、関東甲信地方の梅雨入り平年日は6月7日頃——つまりまさに今、梅雨の足音が聞こえてきた時期です。<br>
-                    ところで「梅雨」と書いてなぜ「つゆ」と読むのでしょうか。実はこの言葉、語源をたどると中国からカビを経由して日本へやってきた、少々ユニークな歴史があります。そして神社との意外な接点も——。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-052-overview.webp" alt="【雑学】「梅雨（つゆ）」の語源——梅とカビと、雨を司る龍神の話の図解。梅・雨・龍神がつなぐ季節。梅、雨、龍神を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：梅・雨・龍神がつなぐ季節。梅・雨・龍神を視覚化しています。</figcaption></figure>
+                    ところで「梅雨」と書いてなぜ「つゆ」と読むのでしょうか。実はこの言葉、語源をたどると中国からカビを経由して日本へやってきた、少々ユニークな歴史があります。そして神社との意外な接点も——。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-052-overview.webp" alt="【雑学】「梅雨（つゆ）」の語源——梅とカビと、雨を司る龍神の話のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。梅・雨・龍神がつなぐ季節。梅、雨、龍神を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：梅・雨・龍神がつなぐ季節。梅・雨・龍神を視覚化しています。</figcaption></figure>
 
                     <h3>「梅雨」という字の語源——実は「カビ」だった？</h3>
                     <p>「梅雨」という言葉はもともと中国が語源です。中国の長江流域では、梅の実が熟す5〜6月頃に長雨が降ることから<strong>「梅雨（メイユー）」</strong>と呼ばれていました。この言葉が江戸時代に日本へ伝わり、「梅雨（ばいう）」として定着していきます。</p>
@@ -13307,7 +13361,7 @@ function escapeHtml(str) {
             content: `
                 <div class="article-content">
                     <p>おみくじを引いたとき、吉凶の結果だけ見てそのまま結んで帰っていませんか？<br>
-                    実はおみくじには「学問」「仕事」「旅行」など複数の項目が並んでいます。これらは<strong>神様からの具体的なアドバイス</strong>——今の自分に必要なメッセージが、各項目に丁寧に記されているのです。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-051-overview.webp" alt="【読み解き】おみくじの「学問」「仕事」「旅行」——現代流の正しい読み方の図解。項目を、今日の行動へ訳す。学問、仕事、旅行を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：項目を、今日の行動へ訳す。学問・仕事・旅行を視覚化しています。</figcaption></figure>
+                    実はおみくじには「学問」「仕事」「旅行」など複数の項目が並んでいます。これらは<strong>神様からの具体的なアドバイス</strong>——今の自分に必要なメッセージが、各項目に丁寧に記されているのです。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-051-overview.webp" alt="【読み解き】おみくじの「学問」「仕事」「旅行」——現代流の正しい読み方のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。項目を、今日の行動へ訳す。学問、仕事、旅行を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：項目を、今日の行動へ訳す。学問・仕事・旅行を視覚化しています。</figcaption></figure>
 
                     <h3>おみくじは「占い」ではなく「神様からの言葉」</h3>
                     <p>おみくじの起源は平安時代にさかのぼります。現在の形の原型は、比叡山延暦寺の元三慈恵大師良源（りょうげん）が観音菩薩より授かったとされる偈文（げもん）100枚が始まりとされ、比叡山横川の元三大師堂がおみくじ発祥の地として知られています。</p>
@@ -13336,7 +13390,7 @@ function escapeHtml(str) {
             colorClass: "blue",
             content: `
                 <div class="article-content">
-                    <p>神社の境内に入ると、まず目に入る建物のひとつが<strong>手水舎（ちょうずや・てみずや）</strong>です。柄杓で水をすくい、手を清めてから参拝する——この何気ない所作には、日本神話にまでさかのぼる深い意味が込められています。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-050-overview.webp" alt="【建築】手水舎（ちょうずや）の構造——「水で清める」のは、神話の時代から続く禊の形の図解。水で整える、禊の入口。屋根、水盤、柄杓を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：水で整える、禊の入口。屋根・水盤・柄杓を視覚化しています。</figcaption></figure>
+                    <p>神社の境内に入ると、まず目に入る建物のひとつが<strong>手水舎（ちょうずや・てみずや）</strong>です。柄杓で水をすくい、手を清めてから参拝する——この何気ない所作には、日本神話にまでさかのぼる深い意味が込められています。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-050-overview.webp" alt="【建築】手水舎（ちょうずや）の構造——「水で清める」のは、神話の時代から続く禊の形のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。水で整える、禊の入口。屋根、水盤、柄杓を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：水で整える、禊の入口。屋根・水盤・柄杓を視覚化しています。</figcaption></figure>
 
                     <h3>手水舎とは何か——建物の構造</h3>
                     <p>手水舎は多くの場合、<strong>四方が吹き放しの屋根と柱</strong>から成るシンプルな建物です。その中央に水を湛えた大きな鉢「<strong>水盤（すいばん）</strong>」が据えられ、柄杓が置かれています。四方吹き放しの造りは風通しを確保しながら雨をしのぐためで、参拝者が常に使いやすい設計になっています。</p>
@@ -13366,7 +13420,7 @@ function escapeHtml(str) {
             content: `
                 <div class="article-content">
                     <p>神社に参拝するとき、皆さんはお賽銭をいくら入れますか？<br>
-                    「5円はご縁があるから縁起がいい」「10円は遠縁になるからダメ」——そんな語呂合わせを意識している方も多いのではないでしょうか。今日はそのお賽銭にまつわる「都市伝説」と、本当の意味をお伝えします。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-049-overview.webp" alt="【作法】「お賽銭」の本当の意味——金額の語呂合わせより、ずっと大切なことの図解。米から始まる、感謝のかたち。米、賽、こころを視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：米から始まる、感謝のかたち。米・賽・こころを視覚化しています。</figcaption></figure>
+                    「5円はご縁があるから縁起がいい」「10円は遠縁になるからダメ」——そんな語呂合わせを意識している方も多いのではないでしょうか。今日はそのお賽銭にまつわる「都市伝説」と、本当の意味をお伝えします。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-049-overview.webp" alt="【作法】「お賽銭」の本当の意味——金額の語呂合わせより、ずっと大切なことのAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。米から始まる、感謝のかたち。米、賽、こころを視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：米から始まる、感謝のかたち。米・賽・こころを視覚化しています。</figcaption></figure>
 
                     <h3>お賽銭の起源は「お米」だった</h3>
                     <p>実は、お賽銭の起源はお金ではありません。もともと神様へのお供えは<strong>米や海山の幸</strong>でした。特にお米は「天照大御神が授けてくださった貴重なもの」として特別視されており、白紙で巻いて包んだ<strong>「おひねり」</strong>として神前にお供えする風習が広まっていました。</p>
@@ -13396,7 +13450,7 @@ function escapeHtml(str) {
             content: `
                 <div class="article-content">
                     <p>明日5月10日は<strong>母の日</strong>です。<br>
-                    日頃の感謝を伝えるこの日に、少し立ち止まって日本神話を紐解いてみると、はるか古代から受け継がれてきた「母と命」をめぐる、壮大な物語に出会えます。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-048-overview.webp" alt="【歴史】日本神話の「母なる神」たち——イザナミとコノハナサクヤヒメが語る、命の物語の図解。命を生む二柱の物語。イザナミ、コノハナサクヤヒメ、いのちを視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：命を生む二柱の物語。イザナミ・コノハナサクヤヒメ・いのちを視覚化しています。</figcaption></figure>
+                    日頃の感謝を伝えるこの日に、少し立ち止まって日本神話を紐解いてみると、はるか古代から受け継がれてきた「母と命」をめぐる、壮大な物語に出会えます。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-048-overview.webp" alt="【歴史】日本神話の「母なる神」たち——イザナミとコノハナサクヤヒメが語る、命の物語のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。命を生む二柱の物語。イザナミ、コノハナサクヤヒメ、いのちを視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：命を生む二柱の物語。イザナミ・コノハナサクヤヒメ・いのちを視覚化しています。</figcaption></figure>
 
                     <h3>日本を「生んだ」神——イザナミノミコト</h3>
                     <p>日本神話に登場する最古の夫婦神が、<strong>イザナギノミコト</strong>と<strong>イザナミノミコト</strong>です。『古事記』では、この二柱が高天原の神々から「国生み」を命じられ、淡路島を皮切りに日本の国土を次々と生み出していったと伝えられています。さらに山・海・川・風など森羅万象を司る35柱もの神々を産んだイザナミは、まさに日本そのものを生んだ「大地の母」でした。</p>
@@ -13424,7 +13478,7 @@ function escapeHtml(str) {
             content: `
                 <div class="article-content">
                     <p>今日は5月2日。あと3日で「こどもの日」——<strong>端午の節句（たんごのせっく）</strong>がやってきます。<br>
-                    鯉のぼりや菖蒲湯……馴染み深いこれらの風習には、神社の祓いと深く結びついた「厄除け」の意味が込められていることをご存知でしょうか。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-047-overview.webp" alt="【年中行事】端午の節句と神社——「鯉のぼり」と「菖蒲」が持つ、本当の厄除けの力の図解。菖蒲と鯉に託す厄除け。菖蒲、鯉、登竜門を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：菖蒲と鯉に託す厄除け。菖蒲・鯉・登竜門を視覚化しています。</figcaption></figure>
+                    鯉のぼりや菖蒲湯……馴染み深いこれらの風習には、神社の祓いと深く結びついた「厄除け」の意味が込められていることをご存知でしょうか。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-047-overview.webp" alt="【年中行事】端午の節句と神社——「鯉のぼり」と「菖蒲」が持つ、本当の厄除けの力のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。菖蒲と鯉に託す厄除け。菖蒲、鯉、登竜門を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：菖蒲と鯉に託す厄除け。菖蒲・鯉・登竜門を視覚化しています。</figcaption></figure>
 
                     <h3>端午の節句は「菖蒲の節句」だった</h3>
                     <p>端午の節句の別名は<strong>「菖蒲（しょうぶ）の節句」</strong>です。起源は約2300年前の古代中国にさかのぼり、雨季を迎えて病気や災厄が増える5月を「毒月（どくづき）」と呼び、邪気を祓うために薬草の菖蒲を活用していたことが始まりとされています。</p>
@@ -13456,7 +13510,7 @@ function escapeHtml(str) {
             content: `
                 <div class="article-content">
                     <p>4月も下旬。皆さんは今年、桜を楽しむことができましたか？<br>
-                    花見スポットにシートを広げ、お弁当を食べながら桜を眺めるこのお花見の文化。実はその起源が「神様を迎えるお祭り」だったことをご存知でしょうか。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-046-overview.webp" alt="【豆知識】「お花見」の本当の起源——桜の下に集まる行為は「神様を迎える祭り」だったの図解。桜の下で、田の神を迎える。山の神、桜、田の神を視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：桜の下で、田の神を迎える。山の神・桜・田の神を視覚化しています。</figcaption></figure>
+                    花見スポットにシートを広げ、お弁当を食べながら桜を眺めるこのお花見の文化。実はその起源が「神様を迎えるお祭り」だったことをご存知でしょうか。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-046-overview.webp" alt="【豆知識】「お花見」の本当の起源——桜の下に集まる行為は「神様を迎える祭り」だったのAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。桜の下で、田の神を迎える。山の神、桜、田の神を視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：桜の下で、田の神を迎える。山の神・桜・田の神を視覚化しています。</figcaption></figure>
 
                     <h3>お花見は「山の神様・田の神様を迎える祭り」だった</h3>
                     <p>古来、日本では春のある日に人々が連れ立って山へ登り、花を摘んで<strong>山の神様・田の神様（農業を司る神様）</strong>を里へお迎えする風習がありました。神様が山から下りてきてくださることで、その年の農作物の豊作が約束される——そう信じられていたのです。</p>
@@ -13484,7 +13538,7 @@ function escapeHtml(str) {
             content: `
                 <div class="article-content">
                     <p>4月も下旬に入りました。進学や就職、クラス替えなど、新しい環境でスタートを切った皆様、本当にお疲れ様です。<br>
-                    桜の季節があっという間に過ぎ去り、気がつけば木々は鮮やかな緑色の葉を広げ始めています。</p><figure class="article-visual article-visual--overview"><img src="/assets/article-images/column-045-overview.webp" alt="【季節】新生活の疲れを癒やす「新緑」の力。鎮守の森で深呼吸をの図解。鎮守の森で、深く息をする。吸う、ととのえる、吐くを視覚化しています。" loading="lazy"><figcaption><strong>図解の見どころ</strong>：鎮守の森で、深く息をする。吸う・ととのえる・吐くを視覚化しています。</figcaption></figure>
+                    桜の季節があっという間に過ぎ去り、気がつけば木々は鮮やかな緑色の葉を広げ始めています。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="/assets/article-images/column-045-overview.webp" alt="【季節】新生活の疲れを癒やす「新緑」の力。鎮守の森で深呼吸をのAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。鎮守の森で、深く息をする。吸う、ととのえる、吐くを視覚化しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：鎮守の森で、深く息をする。吸う・ととのえる・吐くを視覚化しています。</figcaption></figure>
                     
                     <h3>「木の気」を取り込む</h3>
                     <p>東洋の陰陽五行説において、春は「木（もく）」のエネルギーが最も強まる季節です。特に4月下旬から5月にかけての「新緑」は、成長や発展、そして生命力の象徴とされています。</p>
@@ -18815,6 +18869,8 @@ ${getShareUrl()}`;
         function stripHtmlToText(html) {
             const tmp = document.createElement('div');
             tmp.innerHTML = html || '';
+            // 表示上のAI生成開示は記事の本文・要約素材には含めない。
+            tmp.querySelectorAll('.ai-image-disclosure').forEach(element => element.remove());
             return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
         }
 
@@ -18824,6 +18880,8 @@ ${getShareUrl()}`;
         function countArticleCharacters(html) {
             const tmp = document.createElement('div');
             tmp.innerHTML = html || '';
+            // 表示上のAI生成開示は記事本文の文字数・読了目安には含めない。
+            tmp.querySelectorAll('.ai-image-disclosure').forEach(element => element.remove());
             return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, '').length;
         }
 

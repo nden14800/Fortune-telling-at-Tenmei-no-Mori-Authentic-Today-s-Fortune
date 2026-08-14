@@ -33,6 +33,23 @@ if (!indexHtml.includes('img[src$=".webp"]') || !indexHtml.includes('aspect-rati
   failures.push('AI生成WebP向けの表示比率・object-fit規則がありません。');
 }
 
+const disclosureLabelCount = (indexHtml.match(/<strong>AI生成イメージ<\/strong>/g) || []).length;
+const nonPhotographNoticeCount = (indexHtml.match(/実在の場所・人物・出来事を撮影した写真ではありません。/g) || []).length;
+const disclosureFigureCount = (indexHtml.match(/article-visual--ai-generated/g) || []).length - 1;
+
+if (disclosureLabelCount !== generatedImageIds.length) {
+  failures.push(`AI生成ラベルの件数が不正です: ${disclosureLabelCount}`);
+}
+if (nonPhotographNoticeCount !== generatedImageIds.length * 2) {
+  failures.push(`非実写説明の件数が不正です: ${nonPhotographNoticeCount}`);
+}
+if (disclosureFigureCount !== generatedImageIds.length) {
+  failures.push(`AI生成画像用figureの件数が不正です: ${disclosureFigureCount}`);
+}
+if (!indexHtml.includes('ai-image-disclosure__badge') || !indexHtml.includes('ai-image-disclosure__copy')) {
+  failures.push('AI生成ラベルの表示部品がありません。');
+}
+
 if (failures.length > 0) {
   console.error('神籤草子画像回帰テストに失敗しました。');
   for (const failure of failures) {
