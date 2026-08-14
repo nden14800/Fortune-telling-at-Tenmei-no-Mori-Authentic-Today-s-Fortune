@@ -8217,7 +8217,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     </div>
                     <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                         <p>おみくじを引く前に設定した参拝者名（ログイン中は会員名）で、これまでに引いたおみくじの回数や運勢の分布、大吉を引いた回数などの個人統計をグラフで確認できます。</p>
-                        <p>会員登録（参拝証の発行）は必須ではありませんが、未ログインの記録はお使いの端末のlocalStorageのみに保存されるため、端末やブラウザを変えたり、データを消去したりすると記録にアクセスできなくなります。長く記録を残したい場合は「08. 参拝証の発行」から会員登録をおすすめします。</p>
+                        <p>会員登録（参拝証の発行）は必須ではありません。未ログインの場合、端末のlocalStorageに保存したゲストIDで記録を識別し、参拝記録とゲストプロフィールは当サイトのサーバーにも保存されます。ブラウザのデータを消去したり、別の端末・ブラウザを使ったりすると、同じゲストIDを使えず、それまでの記録にアクセスできなくなる場合があります。長く記録を残したい場合は「08. 参拝証の発行」から会員登録をおすすめします。</p>
                     </div>
                 </div>
 
@@ -8273,7 +8273,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </h3>
                     </div>
                     <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                        <p>おみくじや占いは登録なしでもお楽しみいただけます。参拝の記録・おみくじの轍は、おみくじを引く前に参拝者名を設定するだけで未ログインでもご利用いただけますが、記録はお使いの端末のみに保存されます。参拝証を発行（会員登録）すると、記録がクラウドに保存され端末を変えても引き継げるようになるほか、お気に入り登録・AI夢占い・TENMEI LABSといった追加機能も使えるようになります。</p>
+                        <p>おみくじや占いは登録なしでもお楽しみいただけます。参拝の記録・おみくじの轍は、おみくじを引く前に参拝者名を設定するだけで未ログインでもご利用いただけます。未ログインの記録は、端末のlocalStorageに保存したゲストIDで識別され、参拝記録とゲストプロフィールは当サイトのサーバーにも保存されます。参拝証を発行（会員登録）すると、ログインして別の端末からもご自身のアカウントの記録を利用できるほか、お気に入り登録・AI夢占い・TENMEI LABSといった追加機能も使えるようになります。</p>
                         <p>メールアドレスとパスワードを入力し、メールに届く認証コードを入力するだけで発行できます。2回目以降のログインでは、メール内のボタンをワンクリックするだけで完了する方式も選べます（認証コードを直接入力する方式ももちろん利用できます）。Googleアカウントでのログインにも対応しています。</p>
                     </div>
                 </div>
@@ -8516,7 +8516,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <span class="text-4xl text-red-400"><i class="bi bi-info-circle-fill"></i></span>
                             <span class="text-white">当サイトについて</span>
                         </h2>
-                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">制定: 2026/01/02 ・ 改定: 2026/07/26 (第16版) ・ 運営: nden148</p>
+                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">制定: 2026/01/02 ・ 改定: 2026/08/14 (第17版) ・ 運営: nden148</p>
                         <button onclick="downloadAsPDF('about')" id="about-pdf-btn" class="mt-3 text-xs font-bold flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:-translate-y-0.5" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff;">
                             <i class="bi bi-file-earmark-pdf"></i> PDFをダウンロード
                         </button>
@@ -8558,7 +8558,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     </div>
                     <div class="p-6 md:p-8 text-sm leading-8 text-gray-700 dark:text-gray-300">
                         <p class="mb-6 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                            本章では、天命乃杜が備える機能・技術仕様を分野別にご紹介します。以下はすべて実際の実装内容に基づいた情報です。
+                            本章では、天命乃杜が備える機能・技術仕様を分野別にご紹介します。内容は本ページの改定日時点における実装に基づいており、仕様は更新に伴い変更される場合があります。
                         </p>
 
                         <h4 class="font-bold mt-6 mb-2 flex items-center gap-2 text-base text-gray-900 dark:text-white">
@@ -8590,7 +8590,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <i class="bi bi-caret-right-fill text-red-500"></i> データ保存
                         </h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5 text-sm mb-6">
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">履歴保存</span><span class="font-bold">永続保存（おみくじの轍）</span></div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">履歴保存</span><span class="font-bold">退会または削除まで保存（無期限の可用性・復旧は保証しません）</span></div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">クラウド同期</span><span class="font-bold">可能（Turso）</span></div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">履歴検索</span><span class="font-bold">検索・ページ機能付き</span></div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">結果再表示</span><span class="font-bold">いつでも可能</span></div>
@@ -8638,7 +8638,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5 text-sm">
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">ダークモード</span><span class="font-bold">完全対応（システム・ライト・ダーク選択式）</span></div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">表示カスタマイズ</span><span class="font-bold">TENMEI LABS（実験的機能）</span></div>
-                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">読込速度</span><span class="font-bold">爆速（エッジ配信）</span></div>
+                            <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">読込速度</span><span class="font-bold">エッジ配信による高速な表示を目指す</span></div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">アクセシビリティ</span><span class="font-bold">文字サイズ変更可</span></div>
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">会員ランク制度</span><span class="font-bold">あり（参拝実績連動）</span></div>
                         </div>
@@ -8662,7 +8662,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <i class="bi bi-caret-right-fill text-gray-400"></i> 1. 更新頻度と今後の開発方針について
                         </h4>
                         <p class="mb-4 pl-6">
-                            当サイトは2026年1月25日の大規模アップデートをもって、おみくじ、統計、アカウント、Labs、御守といった主要機能の基盤構築が一通り完了いたしました。さらに2026年6月6日には、Discordシェア機能・開発者情報画面・チュートリアル・バリエーション強化・セキュリティ整理など、複数の機能追加・改善を実施し、同月13日にはバージョン3.1として画像生成ライブラリの刷新やサイドバー周りの不具合修正、サイトフッターの新設などを行いました。現在はシステムとして安定したフェーズに移行しておりますが、これは「開発終了」を意味するものではありません。現時点で予定されている大規模な更新はございませんが、今後も新たな着想や技術的進歩があった場合には、不定期に新機能の追加や改良を行っていく方針です。基本的には安定稼働を最優先としつつ、杜は静かに進化を続けてまいります。
+                            当サイトは主要機能の安定稼働を大切にしながら、利用状況、寄せられたご意見、セキュリティ上の確認および技術的な進歩を踏まえ、不定期に機能追加・改善・不具合修正を行います。更新の内容と時期は固定せず、実施した主な変更は「更新の軌跡」および「社務所だより」でお知らせします。これからも、安定性を最優先に、杜を静かに育ててまいります。
                         </p>
                         
                         <h4 class="font-bold mt-6 mb-2 flex items-center gap-2 text-base text-gray-900 dark:text-white">
@@ -8931,7 +8931,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <span class="text-4xl text-red-400"><i class="bi bi-shield-lock-fill"></i></span>
                             <span class="text-white">プライバシーポリシー</span>
                         </h2>
-                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">制定: 2026/01/02 ・ 改定: 2026/07/31 (第17版) ・ 運営: nden148</p>
+                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">制定: 2026/01/02 ・ 改定: 2026/08/14 (第18版) ・ 運営: nden148</p>
                         <button onclick="downloadAsPDF('privacy')" id="privacy-pdf-btn" class="mt-3 text-xs font-bold flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:-translate-y-0.5" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff;">
                             <i class="bi bi-file-earmark-pdf"></i> PDFをダウンロード
                         </button>
@@ -8986,12 +8986,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <p class="mb-4">当サイトは、本サービスの提供にあたり、以下の情報を適法かつ公正な手段により収集します。</p>
                             <div class="bg-gray-50 dark:bg-zinc-800/50 p-4 rounded-lg mb-4">
                                 <strong class="block mb-2 text-gray-800 dark:text-gray-200">1. ユーザー登録時に提供いただく情報</strong>
-                                本サービスの会員機能（クラウドへの記録保存、「TENMEI Labs」の利用等）を利用するために、ユーザー登録を行っていただく際、以下の情報の提供をお願いしております。なお、「おみくじの轍」や「参拝の記録」自体は、後述の参拝者名（端末のローカルストレージに保存）を設定するだけでも、ユーザー登録なしにご利用いただけます。
+                                本サービスの会員機能（クラウドへの記録保存、「TENMEI Labs」の利用等）を利用するために、ユーザー登録を行っていただく際、以下の情報の提供をお願いしております。なお、「おみくじの轍」や「参拝の記録」自体は、端末のローカルストレージに保存したゲストIDおよび参拝者名を設定するだけでも、ユーザー登録なしにご利用いただけます。未ログイン時の記録の保存方法は第7条をご確認ください。
                                 <ul class="list-disc pl-5 mt-2 text-gray-600 dark:text-gray-400">
                                     <li>メールアドレス（本人確認および認証コード送信のため必須）</li>
                                     <li>ユーザー名（サービス内での表示用ニックネーム）</li>
                                     <li>パスワード（アカウント保護のため。メールアドレスでの登録時のみ）</li>
                                     <li>GoogleユーザーID（Googleアカウントでのログインを利用する場合のみ。Googleが発行する固有の識別子）</li>
+                                    <li>Googleアカウントの表示名（Googleアカウントでのログインを利用する場合のみ。初期ユーザー名の候補として使用する場合があります）</li>
                                 </ul>
                             </div>
                             <div class="bg-gray-50 dark:bg-zinc-800/50 p-4 rounded-lg">
@@ -9019,7 +9020,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 <li>ユーザーにご自身の登録情報の閲覧や変更、削除、ご利用状況の閲覧を行っていただくため</li>
                                 <li>メンテナンス、重要なお知らせなど必要に応じたご連絡のため</li>
                                 <li>個人を識別できない形式に加工した統計データを作成し、本サービスの改善やマーケティング資料として利用・公表するため（例：「大吉」の出現率の統計的分析など）</li>
-                                <li>Google Analytics および Microsoft Clarity を利用したアクセス解析のため（当ウェブサイトを利用するユーザーの行動・操作傾向を調査し、サービス改善に役立てるため。収集情報は個人を特定しない形式で処理されます）</li>
+                                <li>Google Analytics および Microsoft Clarity を利用したアクセス解析のため（Cookieや疑似匿名IDを用いて閲覧・操作傾向を分析し、サービス改善に役立てるため。解析情報は単独で直接個人を特定することを目的とするものではありません）</li>
                                 <li>上記の利用目的に付随する目的</li>
                             </ul>
                         </div>
@@ -9074,14 +9075,14 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
                                     <p class="font-bold text-sm">5. Microsoft Clarity (Microsoft Corporation)</p>
                                     <p class="text-gray-500">利用目的：当ウェブサイトを利用するユーザーの操作・行動（クリック位置、スクロール深度等）を可視化・分析し、UI/UXの改善およびサービス向上に役立てるため</p>
-                                    <p class="text-gray-500">送信される情報：マウス操作・タップ操作の軌跡、クリック位置、スクロール深度、ページ閲覧情報（いずれも個人を特定しない形式で処理されます）</p>
-                                    <p class="mt-1">特記事項：Microsoft Clarityはセッションの録画およびヒートマップ生成に使用されます。収集した情報が広告目的に使用されることはありません。Microsoftのデータ利用方針については <a href="https://privacy.microsoft.com/ja-jp/privacystatement" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Microsoft プライバシーステートメント</a> をご参照ください。</p>
+                                    <p class="text-gray-500">送信される情報：Cookieおよび疑似匿名ID、マウス操作・タップ操作の軌跡、クリック位置、スクロール深度、ページ閲覧情報、端末・ブラウザ情報</p>
+                                    <p class="mt-1">特記事項：Microsoft Clarityは、Cookieおよび疑似匿名IDを用いて同一ブラウザの閲覧をセッション単位で関連付け、セッション記録およびヒートマップを生成します。これらはUI/UXの改善を目的とするもので、当サイトが氏名やメールアドレスによって個人を特定する目的では利用しません。Microsoftのデータ利用方針については <a href="https://privacy.microsoft.com/ja-jp/privacystatement" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Microsoft プライバシーステートメント</a> をご参照ください。</p>
                                 </div>
                                 <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
                                     <p class="font-bold text-sm">6. Google Identity Services / OAuth 2.0 (Google LLC)</p>
                                     <p class="text-gray-500">利用目的：Googleアカウントを使用したユーザー認証（ログイン・新規登録）の実現</p>
-                                    <p class="text-gray-500">送信される情報：Googleアカウントのメールアドレス、GoogleユーザーID（固有の識別子）</p>
-                                    <p class="mt-1">特記事項：当サイトはGoogle OAuth 2.0認可フローを利用してユーザーを認証します。取得する情報はメールアドレスとGoogleが発行する固有のユーザーIDのみです。パスワードはGoogle側で管理されており、当サイトへは一切送信されません。Googleのデータ利用方針については <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Google プライバシーポリシー</a> をご参照ください。</p>
+                                    <p class="text-gray-500">送信される情報：Googleアカウントのメールアドレス、GoogleユーザーID（固有の識別子）、Googleアカウントの表示名</p>
+                                    <p class="mt-1">特記事項：当サイトはGoogle OAuth 2.0認可フローを利用してユーザーを認証します。取得した表示名は、Googleアカウントで初めて登録する際の初期ユーザー名候補として使用する場合があります。GoogleアカウントのパスワードはGoogle側で管理されており、当サイトへは一切送信されません。Googleのデータ利用方針については <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Google プライバシーポリシー</a> をご参照ください。</p>
                                 </div>
                                 <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
                                     <p class="font-bold text-sm">7. OpenStreetMap (OpenStreetMap Foundation)</p>
@@ -9153,7 +9154,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             </h4>
                             <p class="mb-4">
                                 1. 当サイトでは、ユーザーの利便性向上、ログイン状態の保持、および利用状況の分析のために、クッキー（Cookie）またはブラウザのローカルストレージ（LocalStorage）機能を使用しています。これにより、ユーザーのブラウザ内に設定情報（ダークモード設定、お気に入り星座等）やセッション情報を一時的に保存します。<br>
-                                2. 未ログインで「参拝の記録」「おみくじの轍」をご利用いただく場合、設定していただいた参拝者名と、それに紐づく識別用ID（ゲストID）、およびおみくじの記録は、当サイトのサーバーではなくお使いの端末のローカルストレージにのみ保存されます。ブラウザの閲覧データを消去した場合や、別の端末・ブラウザからアクセスした場合、それまでの記録には二度とアクセスできなくなりますので、あらかじめご了承ください。長期的に記録を残したい場合は、参拝証の発行（会員登録）をおすすめします。<br>
+                                2. 未ログインで「参拝の記録」「おみくじの轍」をご利用いただく場合、識別用ID（ゲストID）と参拝者名はお使いの端末のローカルストレージに保存されます。一方で、ゲストIDに紐づく参拝記録およびゲストプロフィールは、当サイトのサーバーにも保存されます。ブラウザの閲覧データを消去した場合や、別の端末・ブラウザからアクセスした場合、同じゲストIDを使用できず、それまでの記録にアクセスできなくなる場合があります。参拝者名は結果ページや「おみくじの轍」で他の利用者に表示される場合があるため、本名や連絡先等を入力しないでください。長期的にアカウント単位で記録を利用したい場合は、参拝証の発行（会員登録）をおすすめします。<br>
                                 3. ユーザーは、ブラウザの設定を変更することにより、Cookie等の受け入れを拒否することができます。ただし、その場合、ログイン機能や履歴保存機能など、本サービスの一部機能が正常に動作しなくなる可能性がありますので、あらかじめご了承ください。
                             </p>
                         </div>
@@ -9164,18 +9165,20 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             </h4>
                             <p class="mb-4">
                                 1. ユーザーは、当サイトの「アカウント設定」画面を通じて、いつでもご自身の登録情報（ユーザー名）を閲覧および修正することができます。<br>
-                                2. ユーザーは、当サイトに対し、ご自身の個人情報の削除（退会）を求めることができます。当サイトは、ユーザー本人からの請求であることを確認の上（ログイン状態での操作をもって本人確認とします）、データベースから当該ユーザーに関連する全ての個人情報（メールアドレス、パスワードハッシュ、利用履歴、お気に入り情報）を遅滞なく、かつ復元不可能な方法で削除いたします。<br>
+                                2. ユーザーは、当サイトの「アカウント設定」画面から退会手続きを行えます。当サイトは、ログイン状態での操作により本人確認を行った上で、データベース上の当該アカウントに関連するレコードを削除します。削除対象には、メールアドレス、ユーザー名、パスワードハッシュ、おみくじの履歴（history）、AI夢占いの夢の本文および生成解釈を含む夢の記録（dream_history）、プロフィール、御朱印、お気に入り、設定、セッション、認証コード、認証申請記録およびアカウント情報を含みます。削除後は、通常のサービス機能からこれらの記録を復元できません。<br>
                                 3. 前項の規定にかかわらず、履歴情報および特性情報などの個人情報以外の情報については、原則として開示いたしません。
                             </p>
                         </div>
 
                         <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
                             <h4 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
-                                <span class="text-gray-400 text-xs font-normal">09</span> 第9条（プライバシーポリシーの変更）
+                                <span class="text-gray-400 text-xs font-normal">09</span> 第9条（プライバシーポリシーの変更・改定履歴）
                             </h4>
                             <p class="mb-4">
-                                1. 本ポリシーの内容は、法令その他本ポリシーに別段の定めのある事項を除いて、ユーザーに通知することなく変更することができるものとします。<br>
-                                2. 当サイトが別途定める場合を除いて、変更後のプライバシーポリシーは、本ウェブサイトに掲載したときから効力を生じるものとします。ユーザーは、本サービスを利用するたびに最新のプライバシーポリシーを確認するものとします。
+                                1. 本ポリシーの内容は、法令、サービス内容または情報の取扱いの変更に応じて改定する場合があります。重要な変更を行う場合は、本ページへの掲載その他適切な方法でお知らせします。<br>
+                                2. 当サイトが別途定める場合を除いて、変更後のプライバシーポリシーは、本ウェブサイトに掲載したときから効力を生じるものとします。<br>
+                                3. <strong>現行版：第18版（最終改定日：2026年8月14日）</strong><br>
+                                4. <strong>第18版の主な変更：</strong>未ログイン時の参拝記録のサーバー保存、Googleログイン時に取得する表示名、Microsoft ClarityによるCookie・疑似匿名ID・セッション記録、退会時に削除するAI夢占いの夢の記録を明確化しました。
                             </p>
                         </div>
 
@@ -9206,7 +9209,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 </p>
                                 <ol class="list-decimal pl-5 mt-2 space-y-1">
                                     <li>本サービスの利用を直ちに中止してください。</li>
-                                    <li>ログイン後の「アカウント設定」画面にある<strong>「アカウント削除」ボタン</strong>を押下してください。これにより、メールアドレスを含む全ての個人データがサーバーから物理的に削除されます。</li>
+                                    <li>ログイン後の「アカウント設定」画面にある<strong>「アカウント削除」ボタン</strong>を押下してください。これにより、第8条第2項に定める当該アカウントの登録情報・関連記録（AI夢占いの夢の記録を含む）がデータベースから削除されます。</li>
                                 </ol>
                                 <p class="mt-4 text-xs text-gray-500 dark:text-gray-400">
                                     ※アカウント削除後のデータ復旧は一切できません。あらかじめご了承ください。
