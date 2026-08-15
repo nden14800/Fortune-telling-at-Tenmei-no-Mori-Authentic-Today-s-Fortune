@@ -2436,6 +2436,348 @@
     #view-about.printing .about-codex-chapter > div { padding: 5.5mm 6mm !important; }
 }
 
+
+/* =========================================================
+   プライバシーポリシー：第18版の本文・PDF導線を保持する規程書テンプレート
+   ========================================================= */
+.privacy-ledger-layout {
+    --privacy-paper: #fffdfa;
+    --privacy-paper-soft: #f7f2eb;
+    --privacy-ink: #322725;
+    --privacy-muted: #776b66;
+    --privacy-line: rgba(115, 84, 77, 0.18);
+    --privacy-red: #9f1d25;
+    --privacy-red-deep: #6f151b;
+    --privacy-gold: #b99047;
+    --privacy-red-soft: rgba(159, 29, 37, 0.08);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: clamp(1rem, 2.7vw, 2rem) 0 5rem;
+    color: var(--privacy-ink);
+}
+.privacy-ledger-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2rem;
+    align-items: center;
+    min-height: 248px;
+    overflow: hidden;
+    padding: 2.5rem 2.75rem;
+    border: 1px solid rgba(159, 29, 37, 0.2);
+    border-radius: 28px;
+    background: radial-gradient(circle at 92% 14%, rgba(185, 144, 71, 0.19), transparent 24%), radial-gradient(circle at 6% 100%, rgba(159, 29, 37, 0.1), transparent 32%), linear-gradient(135deg, #fffdf9 0%, #fbf3e9 55%, #f5eadc 100%);
+    box-shadow: 0 22px 50px rgba(68, 34, 28, 0.09);
+}
+.privacy-ledger-hero::before {
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(159, 29, 37, 0.13);
+    border-radius: 19px;
+    content: '';
+    pointer-events: none;
+}
+.privacy-ledger-hero::after {
+    position: absolute;
+    top: -96px;
+    right: -48px;
+    width: 270px;
+    height: 270px;
+    border: 1px solid rgba(185, 144, 71, 0.24);
+    border-radius: 50%;
+    box-shadow: 0 0 0 23px rgba(185, 144, 71, 0.05), 0 0 0 52px rgba(159, 29, 37, 0.025);
+    content: '';
+    pointer-events: none;
+}
+.privacy-ledger-hero-copy,
+.privacy-ledger-hero-seal { position: relative; z-index: 1; }
+.privacy-ledger-eyebrow,
+.privacy-ledger-section-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.48rem;
+    margin: 0;
+    color: var(--privacy-red);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+.privacy-ledger-eyebrow i,
+.privacy-ledger-section-kicker i { color: var(--privacy-gold); font-size: 0.82rem; }
+.privacy-ledger-hero h1 {
+    margin: 0.55rem 0 0;
+    color: var(--privacy-ink);
+    font-family: 'Zen Old Mincho', serif;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+}
+.privacy-ledger-meta {
+    margin: 0.85rem 0 0;
+    color: var(--privacy-muted);
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.86rem;
+    line-height: 1.75;
+}
+.privacy-ledger-lead {
+    max-width: 650px;
+    margin: 0.82rem 0 0;
+    color: #584943;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.96rem;
+    line-height: 1.85;
+}
+.privacy-ledger-actions { margin-top: 1.05rem; }
+#view-privacy #privacy-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 42px;
+    padding: 0.66rem 1.05rem;
+    border: 1px solid rgba(159, 29, 37, 0.32);
+    border-radius: 999px;
+    background: var(--privacy-red);
+    color: #fffaf4;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    box-shadow: 0 9px 18px rgba(159, 29, 37, 0.16);
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+#view-privacy #privacy-pdf-btn:hover { background: var(--privacy-red-deep); box-shadow: 0 12px 22px rgba(159, 29, 37, 0.24); transform: translateY(-1px); }
+#view-privacy #privacy-pdf-btn:active { transform: scale(0.97); }
+#view-privacy #privacy-pdf-btn:focus-visible,
+#view-privacy .privacy-ledger-toc a:focus-visible,
+#view-privacy .privacy-ledger-article a:focus-visible {
+    outline: 3px solid rgba(185, 144, 71, 0.9);
+    outline-offset: 3px;
+}
+.privacy-ledger-actions p { max-width: 600px; margin: 0.55rem 0 0; color: var(--privacy-muted); font-size: 0.72rem; line-height: 1.7; }
+.privacy-ledger-hero-seal {
+    display: grid;
+    width: 116px;
+    height: 116px;
+    place-items: center;
+    align-content: center;
+    border: 1px solid rgba(159, 29, 37, 0.22);
+    border-radius: 50%;
+    background: rgba(255, 253, 250, 0.78);
+    color: var(--privacy-red);
+    box-shadow: 0 12px 28px rgba(68, 34, 28, 0.1), inset 0 0 0 7px rgba(185, 144, 71, 0.08);
+    text-align: center;
+}
+.privacy-ledger-hero-seal i { font-size: 2.15rem; line-height: 1; }
+.privacy-ledger-hero-seal span { margin-top: 0.32rem; color: var(--privacy-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.5rem; font-weight: 800; letter-spacing: 0.13em; line-height: 1.38; }
+.privacy-ledger-guide {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(360px, 1fr);
+    gap: 1.65rem;
+    align-items: center;
+    margin-top: 1.35rem;
+    padding: 1.45rem 1.7rem;
+    border: 1px solid var(--privacy-line);
+    border-radius: 22px;
+    background: rgba(255, 253, 250, 0.88);
+    box-shadow: 0 10px 25px rgba(68, 34, 28, 0.05);
+}
+.privacy-ledger-guide h2,
+.privacy-ledger-toc h2,
+.privacy-ledger-article-heading h2 { margin: 0.34rem 0 0; color: var(--privacy-ink); font-family: 'Zen Old Mincho', serif; font-size: 1.34rem; font-weight: 700; letter-spacing: 0.05em; }
+.privacy-ledger-guide p:not(.privacy-ledger-section-kicker),
+.privacy-ledger-article-heading p:not(.privacy-ledger-section-kicker) { margin: 0.5rem 0 0; color: var(--privacy-muted); font-family: 'Shippori Mincho', serif; font-size: 0.9rem; line-height: 1.75; }
+.privacy-ledger-guide-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.62rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.privacy-ledger-guide-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 46px;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid rgba(115, 84, 77, 0.13);
+    border-radius: 12px;
+    background: var(--privacy-paper-soft);
+    color: var(--privacy-ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.74rem;
+}
+.privacy-ledger-guide-list span { color: var(--privacy-gold); font-family: 'Zen Old Mincho', serif; font-size: 0.84rem; }
+.privacy-ledger-toc { margin-top: 1.35rem; }
+.privacy-ledger-toc > div,
+.privacy-ledger-prologue,
+.privacy-ledger-article {
+    border: 1px solid var(--privacy-line);
+    border-radius: 22px;
+    background: rgba(255, 253, 250, 0.9);
+    box-shadow: 0 10px 25px rgba(68, 34, 28, 0.05);
+}
+.privacy-ledger-toc > div { padding: 1.45rem 1.7rem; }
+.privacy-ledger-toc-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.privacy-ledger-toc-note { margin: 0; color: var(--privacy-muted); font-size: 0.74rem; white-space: nowrap; }
+#view-privacy #privacy-toc-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.15rem 1rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+#view-privacy #privacy-toc-list a { display: block; padding: 0.48rem 0.2rem; color: var(--privacy-ink); font-size: 0.82rem; font-weight: 700; line-height: 1.5; text-decoration: none; }
+#view-privacy #privacy-toc-list a::before { display: inline-block; width: 0.9rem; color: var(--privacy-red); content: '›'; }
+#view-privacy #privacy-toc-list a:hover { color: var(--privacy-red); text-decoration: underline; text-underline-offset: 0.22rem; }
+.privacy-ledger-content { display: grid; gap: 1.35rem; margin-top: 1.35rem; }
+.privacy-ledger-prologue { padding: 1.55rem 1.7rem; color: var(--privacy-ink); font-family: 'Shippori Mincho', serif; font-size: 0.94rem; line-height: 2; }
+.privacy-ledger-prologue p { margin: 0; }
+.privacy-ledger-article { overflow: hidden; }
+.privacy-ledger-article-heading { padding: 1.5rem 1.7rem; border-bottom: 1px solid var(--privacy-line); background: linear-gradient(90deg, rgba(159, 29, 37, 0.055), rgba(185, 144, 71, 0.045)); }
+.privacy-ledger-article > div:not(.privacy-ledger-article-heading) {
+    position: relative;
+    margin: 0 1.25rem;
+    padding: 1.55rem 1.45rem 1.55rem 1.7rem;
+    border-bottom: 1px solid var(--privacy-line);
+    border-left: 4px solid rgba(159, 29, 37, 0.22);
+    color: #514640;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.89rem;
+    line-height: 1.95;
+}
+.privacy-ledger-article > div:last-child { border-bottom: 0; }
+.privacy-ledger-article > div:not(.privacy-ledger-article-heading)::before { position: absolute; top: 1.55rem; left: -1.2rem; width: 0.82rem; height: 0.82rem; border: 3px solid var(--privacy-paper); border-radius: 50%; background: var(--privacy-red); box-shadow: 0 0 0 1px rgba(159, 29, 37, 0.28); content: ''; }
+.privacy-ledger-article h3 { display: flex; align-items: center; gap: 0.65rem; margin: 0 0 0.9rem; color: var(--privacy-ink); font-family: 'Zen Old Mincho', serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.035em; line-height: 1.5; }
+.privacy-ledger-article h3 > span { color: var(--privacy-gold) !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem !important; font-weight: 800; letter-spacing: 0.08em; }
+.privacy-ledger-article p { margin: 0; }
+.privacy-ledger-article p + p { margin-top: 1rem; }
+.privacy-ledger-article strong { color: inherit; }
+.privacy-ledger-article ul,
+.privacy-ledger-article ol { margin-top: 0.82rem; }
+.privacy-ledger-article .bg-gray-50,
+.privacy-ledger-article .bg-white,
+.privacy-ledger-article .bg-red-50 {
+    border: 1px solid rgba(115, 84, 77, 0.15) !important;
+    border-radius: 13px !important;
+    background: var(--privacy-paper-soft) !important;
+    color: inherit !important;
+}
+.privacy-ledger-article .text-gray-500,
+.privacy-ledger-article .text-gray-600,
+.privacy-ledger-article .text-gray-700,
+.privacy-ledger-article .text-gray-800,
+.privacy-ledger-article .text-gray-900 { color: inherit !important; }
+.privacy-ledger-article .space-y-3 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
+.privacy-ledger-article .space-y-3 > * + * { margin-top: 0 !important; }
+.privacy-ledger-article .space-y-3 > div { min-width: 0; padding: 1rem !important; }
+.privacy-ledger-article a { color: var(--privacy-red); font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 800; text-underline-offset: 0.2rem; }
+.privacy-ledger-article > div:last-child { border-left-color: rgba(159, 29, 37, 0.72); background: linear-gradient(90deg, rgba(159, 29, 37, 0.06), transparent 68%); }
+.privacy-ledger-article > div:last-child h3,
+.privacy-ledger-article > div:last-child .text-red-600 { color: var(--privacy-red) !important; }
+.dark .privacy-ledger-layout {
+    --privacy-paper: #181414;
+    --privacy-paper-soft: #211918;
+    --privacy-ink: #f4e8df;
+    --privacy-muted: #bcaea7;
+    --privacy-line: rgba(238, 215, 195, 0.14);
+    --privacy-red-soft: rgba(224, 107, 99, 0.1);
+}
+.dark .privacy-ledger-hero { border-color: rgba(213, 179, 106, 0.28); background: radial-gradient(circle at 92% 16%, rgba(213, 179, 106, 0.13), transparent 25%), radial-gradient(circle at 6% 100%, rgba(159, 29, 37, 0.18), transparent 33%), linear-gradient(135deg, #181313 0%, #1f1818 58%, #151212 100%); box-shadow: 0 22px 50px rgba(0, 0, 0, 0.3); }
+.dark .privacy-ledger-hero::before { border-color: rgba(213, 179, 106, 0.15); }
+.dark .privacy-ledger-hero h1,
+.dark .privacy-ledger-guide h2,
+.dark .privacy-ledger-toc h2,
+.dark .privacy-ledger-article-heading h2,
+.dark .privacy-ledger-article h3 { color: #fffaf4; }
+.dark .privacy-ledger-lead,
+.dark .privacy-ledger-article > div:not(.privacy-ledger-article-heading) { color: #e4d7cf; }
+.dark .privacy-ledger-hero-seal { border-color: rgba(213, 179, 106, 0.3); background: rgba(24, 20, 20, 0.72); }
+.dark .privacy-ledger-guide,
+.dark .privacy-ledger-toc > div,
+.dark .privacy-ledger-prologue,
+.dark .privacy-ledger-article { background: rgba(28, 23, 22, 0.94); }
+.dark .privacy-ledger-article-heading { background: linear-gradient(90deg, rgba(159, 29, 37, 0.15), rgba(213, 179, 106, 0.06)); }
+.dark .privacy-ledger-article .bg-gray-50,
+.dark .privacy-ledger-article .bg-white,
+.dark .privacy-ledger-article .bg-red-50 { background: rgba(255, 255, 255, 0.045) !important; border-color: rgba(255, 255, 255, 0.12) !important; }
+.dark .privacy-ledger-article .text-red-600 { color: #f39a93 !important; }
+@media (prefers-color-scheme: dark) {
+    html:not(.light) .privacy-ledger-layout {
+        --privacy-paper: #181414;
+        --privacy-paper-soft: #211918;
+        --privacy-ink: #f4e8df;
+        --privacy-muted: #bcaea7;
+        --privacy-line: rgba(238, 215, 195, 0.14);
+    }
+    html:not(.light) .privacy-ledger-hero { border-color: rgba(213, 179, 106, 0.28); background: radial-gradient(circle at 92% 16%, rgba(213, 179, 106, 0.13), transparent 25%), radial-gradient(circle at 6% 100%, rgba(159, 29, 37, 0.18), transparent 33%), linear-gradient(135deg, #181313 0%, #1f1818 58%, #151212 100%); }
+    html:not(.light) .privacy-ledger-hero h1,
+    html:not(.light) .privacy-ledger-guide h2,
+    html:not(.light) .privacy-ledger-toc h2,
+    html:not(.light) .privacy-ledger-article-heading h2,
+    html:not(.light) .privacy-ledger-article h3 { color: #fffaf4; }
+    html:not(.light) .privacy-ledger-hero-seal { border-color: rgba(213, 179, 106, 0.3); background: rgba(24, 20, 20, 0.72); }
+    html:not(.light) .privacy-ledger-guide,
+    html:not(.light) .privacy-ledger-toc > div,
+    html:not(.light) .privacy-ledger-prologue,
+    html:not(.light) .privacy-ledger-article { background: rgba(28, 23, 22, 0.94); }
+    html:not(.light) .privacy-ledger-article > div:not(.privacy-ledger-article-heading) { color: #e4d7cf; }
+    html:not(.light) .privacy-ledger-article .bg-gray-50,
+    html:not(.light) .privacy-ledger-article .bg-white,
+    html:not(.light) .privacy-ledger-article .bg-red-50 { background: rgba(255, 255, 255, 0.045) !important; border-color: rgba(255, 255, 255, 0.12) !important; }
+}
+@media (max-width: 760px) {
+    .privacy-ledger-layout { padding-top: 0.8rem; }
+    .privacy-ledger-hero,
+    .privacy-ledger-guide { grid-template-columns: 1fr; }
+    .privacy-ledger-hero { min-height: 0; padding: 1.35rem; border-radius: 22px; }
+    .privacy-ledger-hero::before { inset: 9px; border-radius: 15px; }
+    .privacy-ledger-hero::after { top: -112px; right: -92px; }
+    .privacy-ledger-hero-seal { width: 98px; height: 98px; }
+    .privacy-ledger-hero-seal i { font-size: 1.7rem; }
+    .privacy-ledger-guide { gap: 1.15rem; padding: 1.25rem; }
+    .privacy-ledger-guide-list,
+    #view-privacy #privacy-toc-list,
+    .privacy-ledger-article .space-y-3 { grid-template-columns: 1fr; }
+    .privacy-ledger-toc > div,
+    .privacy-ledger-prologue { padding: 1.25rem; }
+    .privacy-ledger-article-heading { padding: 1.25rem; }
+    .privacy-ledger-article > div:not(.privacy-ledger-article-heading) { margin: 0 0.9rem; padding: 1.2rem 1rem 1.2rem 1.25rem; }
+    .privacy-ledger-toc-head { align-items: start; flex-direction: column; }
+    .privacy-ledger-toc-note { white-space: normal; }
+}
+@media (max-width: 460px) {
+    .privacy-ledger-hero h1 { font-size: 1.8rem; }
+    .privacy-ledger-hero-seal { width: 84px; height: 84px; }
+    .privacy-ledger-hero-seal span { display: none; }
+    .privacy-ledger-guide,
+    .privacy-ledger-toc > div,
+    .privacy-ledger-prologue { border-radius: 17px; }
+    .privacy-ledger-article { border-radius: 17px; }
+    .privacy-ledger-article-heading { padding: 1rem; }
+    .privacy-ledger-article > div:not(.privacy-ledger-article-heading) { margin: 0 0.7rem; padding: 1rem 0.85rem 1rem 1.05rem; }
+}
+@media print {
+    #view-privacy.printing .privacy-ledger-hero { margin-bottom: 5mm !important; padding: 9mm 10mm !important; border-color: #c4a25f !important; border-radius: 0 !important; background: #160e10 !important; box-shadow: none !important; color: #fffaf4 !important; }
+    #view-privacy.printing .privacy-ledger-hero h1 { color: #fffaf4 !important; }
+    #view-privacy.printing .privacy-ledger-hero .privacy-ledger-meta { color: #eadfda !important; }
+    #view-privacy.printing .privacy-ledger-hero .privacy-ledger-lead,
+    #view-privacy.printing .privacy-ledger-hero .privacy-ledger-actions p { color: #d6c5bf !important; }
+    #view-privacy.printing .privacy-ledger-hero .privacy-ledger-eyebrow,
+    #view-privacy.printing .privacy-ledger-hero .privacy-ledger-hero-seal { color: #ffcf82 !important; }
+    #view-privacy.printing .privacy-ledger-hero-seal { border-color: rgba(255, 207, 130, 0.45) !important; background: rgba(22, 14, 16, 0.78) !important; }
+    #view-privacy.printing .privacy-ledger-guide,
+    #view-privacy.printing .privacy-ledger-toc > div,
+    #view-privacy.printing .privacy-ledger-prologue,
+    #view-privacy.printing .privacy-ledger-article { box-shadow: none !important; }
+    #view-privacy.printing .privacy-ledger-hero,
+    #view-privacy.printing .privacy-ledger-guide,
+    #view-privacy.printing .privacy-ledger-toc > div,
+    #view-privacy.printing .privacy-ledger-prologue,
+    #view-privacy.printing .privacy-ledger-article > div { break-inside: avoid; page-break-inside: avoid; }
+    #view-privacy.printing .privacy-ledger-toc > div { padding: 5mm 6mm !important; }
+    #view-privacy.printing .privacy-ledger-content { gap: 0 !important; }
+    #view-privacy.printing .privacy-ledger-content > * + * { margin-top: 5mm !important; }
+    #view-privacy.printing .privacy-ledger-article-heading,
+    #view-privacy.printing .privacy-ledger-article > div:not(.privacy-ledger-article-heading) { padding: 5.5mm 6mm !important; }
+}
+
 .howto-hero-card {
     transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }.howto-hero-card:hover {
@@ -10984,62 +11326,73 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </ul>
     </section>
 </section>
-<!-- ビュー: プライバシーポリシー (モダンUI刷新版) -->
-        <section id="view-privacy" class="view-section max-w-5xl mx-auto pb-20">
-            
-            <!-- ヘッダーカード -->
-            <div class="bento-card privacy-hero-card mb-6 relative overflow-hidden bg-gradient-to-br from-red-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
+
+        <section id="view-privacy" class="view-section privacy-ledger-layout" aria-labelledby="privacy-page-title">
+            <header class="privacy-ledger-hero">
                 <img class="pdf-hero-background" src="/assets/pdf-hero-background-v2.png" alt="" aria-hidden="true" style="display: none;">
-                <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #ef4444 0%, transparent 70%);"></div>
-                <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #d4af37 0%, transparent 70%);"></div>
-                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div class="flex-1">
-                        <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">PRIVACY POLICY</p>
-                        <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                            <span class="text-4xl text-red-400"><i class="bi bi-shield-lock-fill"></i></span>
-                            <span class="text-white">プライバシーポリシー</span>
-                        </h2>
-                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">制定: 2026/01/02 ・ 改定: 2026/08/14 (第18版) ・ 運営: nden148</p>
-                        <button onclick="downloadAsPDF('privacy')" id="privacy-pdf-btn" class="mt-3 text-xs font-bold flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:-translate-y-0.5" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff;">
-                            <i class="bi bi-file-earmark-pdf"></i> PDFをダウンロード
+                <div class="privacy-ledger-hero-copy">
+                    <p class="privacy-ledger-eyebrow"><i class="bi bi-shield-check" aria-hidden="true"></i> PRIVACY REGISTER</p>
+                    <h1 id="privacy-page-title">プライバシーポリシー</h1>
+                    <p class="privacy-ledger-meta">制定: 2026/01/02 ・ 改定: 2026/08/14 (第18版) ・ 運営: nden148</p>
+                    <p class="privacy-ledger-lead">情報の取扱い、外部サービス、保存と削除の考え方を、一つの規程として記しています。</p>
+                    <div class="privacy-ledger-actions">
+                        <button type="button" onclick="downloadAsPDF('privacy')" id="privacy-pdf-btn">
+                            <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+                            <span>PDFとして保存・印刷</span>
                         </button>
-                        <p class="text-[11px] text-zinc-400 mt-1">※スマートフォン・タブレットでは、共有メニュー経由で印刷画面が開きます（プレビューは「印刷」選択後に表示されます）</p>
+                        <p>スマートフォン・タブレットでは、共有メニュー経由で印刷画面が開きます（プレビューは「印刷」選択後に表示されます）。</p>
                     </div>
-                    <div class="flex-shrink-0 text-center flex flex-col items-center gap-2">
-                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #7f1d1d, #b91c1c); box-shadow: 0 0 24px rgba(239,68,68,0.3);">
-                            <i class="bi bi-file-earmark-lock2-fill text-4xl text-white"></i>
+                </div>
+                <div class="privacy-ledger-hero-seal" aria-hidden="true">
+                    <i class="bi bi-shield-lock"></i>
+                    <span>DATA<br>CARE</span>
+                </div>
+            </header>
+
+            <section class="privacy-ledger-guide" aria-labelledby="privacy-guide-heading">
+                <div class="privacy-ledger-guide-intro">
+                    <p class="privacy-ledger-section-kicker"><i class="bi bi-signpost-split" aria-hidden="true"></i> READING GUIDE</p>
+                    <h2 id="privacy-guide-heading">この規程の道案内</h2>
+                    <p>収集する情報、外部サービス、保存と削除、改定履歴を目的ごとに読み進められます。</p>
+                </div>
+                <ol class="privacy-ledger-guide-list" aria-label="規程の主な確認事項">
+                    <li><span>01</span><strong>収集と利用</strong></li>
+                    <li><span>02</span><strong>外部サービス</strong></li>
+                    <li><span>03</span><strong>保存・削除</strong></li>
+                    <li><span>04</span><strong>改定と連絡</strong></li>
+                </ol>
+            </section>
+
+            <nav id="privacy-toc-container" class="privacy-ledger-toc hidden" aria-labelledby="privacy-toc-heading">
+                <div>
+                    <div class="privacy-ledger-toc-head">
+                        <div>
+                            <p class="privacy-ledger-section-kicker"><i class="bi bi-list-ol" aria-hidden="true"></i> CONTENTS</p>
+                            <h2 id="privacy-toc-heading">目次</h2>
                         </div>
-                        <p class="text-xs text-zinc-500 font-bold tracking-widest">DATA PROTECTION</p>
+                        <p class="privacy-ledger-toc-note">条・節を選んで移動</p>
                     </div>
+                    <ul id="privacy-toc-list"></ul>
                 </div>
-            </div>
+            </nav>
 
-            <!-- 目次 (TOC) -->
-            <div id="privacy-toc-container" class="hidden mb-6">
-                <div class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
-                    <h3 class="font-bold text-sm text-gray-500 mb-3 uppercase tracking-wider"><i class="bi bi-list-ul mr-2"></i>目次</h3>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm font-medium" id="privacy-toc-list"></ul>
-                </div>
-            </div>
-
-            <!-- 本文エリア（PDF化対象） -->
-            <div id="privacy-content-area" class="space-y-8">
-                
-                <!-- 導入 -->
-                <div class="bento-card p-8 font-serif text-sm leading-loose text-gray-700 dark:text-gray-300">
+            <article id="privacy-content-area" class="privacy-ledger-content" aria-labelledby="privacy-articles-heading">
+                <section class="privacy-ledger-prologue" aria-label="プライバシーポリシーの前文">
                     <p>
                         運勢・天命乃杜（以下、「当サイト」といいます。）は、当サイトが提供するウェブサービス「運勢・天命乃杜」（以下、「本サービス」といいます。）における、ユーザーの個人情報の取扱いについて、以下のとおりプライバシーポリシー（以下、「本ポリシー」といいます。）を定めます。当サイトは、個人情報の保護に関する法律（平成15年法律第57号。以下「個人情報保護法」といいます。）その他関係法令を遵守するとともに、本ポリシーに基づき、ユーザーの個人情報を適正に取り扱い、その保護に努めます。
                     </p>
-                </div>
+                </section>
 
-                <!-- 各条項 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 md:p-8 space-y-8 text-sm leading-8 text-gray-700 dark:text-gray-300">
-                        
-                        <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
-                            <h4 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                <section class="privacy-ledger-article" aria-labelledby="privacy-articles-heading">
+                    <div class="privacy-ledger-article-heading">
+                        <p class="privacy-ledger-section-kicker"><i class="bi bi-journal-text" aria-hidden="true"></i> POLICY TEXT</p>
+                        <h2 id="privacy-articles-heading">規程本文</h2>
+                        <p>第18版の内容を、そのまま掲載しています。</p>
+                    </div>
+                    <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
                                 <span class="text-gray-400 text-xs font-normal">01</span> 第1条（定義）
-                            </h4>
+                            </h3>
                             <p class="mb-4">
                                 本ポリシーにおいて使用する用語の定義は、以下のとおりとします。
                                 <br>1. <strong>「個人情報」</strong>とは、個人情報保護法第2条第1項にいう「個人情報」を指すものとし、生存する個人に関する情報であって、当該情報に含まれる氏名、生年月日、住所、電話番号、連絡先、その他の記述等により特定の個人を識別できる情報（他の情報と容易に照合することができ、それにより特定の個人を識別することができることとなるものを含みます。）を指します。
@@ -11048,9 +11401,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
 
                         <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
-                            <h4 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
                                 <span class="text-gray-400 text-xs font-normal">02</span> 第2条（収集する個人情報および収集方法）
-                            </h4>
+                            </h3>
                             <p class="mb-4">当サイトは、本サービスの提供にあたり、以下の情報を適法かつ公正な手段により収集します。</p>
                             <div class="bg-gray-50 dark:bg-zinc-800/50 p-4 rounded-lg mb-4">
                                 <strong class="block mb-2 text-gray-800 dark:text-gray-200">1. ユーザー登録時に提供いただく情報</strong>
@@ -11077,9 +11430,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
 
                         <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
-                            <h4 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
                                 <span class="text-gray-400 text-xs font-normal">03</span> 第3条（個人情報の利用目的）
-                            </h4>
+                            </h3>
                             <p class="mb-4">当サイトが個人情報を収集・利用する目的は、以下のとおりです。</p>
                             <ul class="list-disc pl-5 space-y-1">
                                 <li>本サービスの提供・運営のため（認証システムによるログイン状態の維持、履歴データの呼び出し等）</li>
@@ -11094,9 +11447,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
 
                         <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
-                            <h4 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
                                 <span class="text-gray-400 text-xs font-normal">04</span> 第4条（個人情報の安全管理措置）
-                            </h4>
+                            </h3>
                             <p class="mb-4">当サイトは、取り扱う個人情報の漏洩、滅失またはき損の防止、その他の個人情報の安全管理のために、必要かつ適切な措置を講じています。</p>
                             <p class="mb-4">
                                 <strong>1. 技術的保護措置：</strong><br>
@@ -11109,9 +11462,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
 
                         <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
-                            <h4 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
                                 <span class="text-gray-400 text-xs font-normal">05</span> 第5条（外部サービスとの連携とデータ移転）
-                            </h4>
+                            </h3>
                             <p class="mb-4">
                                 本サービスの一部の機能は、信頼できる第三者の外部サービスを利用して提供されています。これに伴い、必要な範囲で以下の通りデータが送信されますが、各事業者はそれぞれのプライバシーポリシーに従ってデータを管理しています。
                             </p>
@@ -11130,6 +11483,163 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 </div>
                                 <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
                                     <p class="font-bold text-sm">3. Turso (ChiselStrike, Inc.)</p>
+                                    <p class="text-gray-500">利用目的：ユーザー情報、履歴データ、統計データの保管および認証管理</p>
+                                    <p class="text-gray-500">送信される情報：メールアドレス、パスワード（ハッシュ化済）、ユーザー名、利用履歴</p>
+                                    <p class="mt-1">特記事項：TursoはSQLite互換のエッジデータベースであり、データはLibSQL/HTTPプロトコルを通じて安全に送信・保存されます。Tursoのデータ利用方針については <a href="https://turso.tech/privacy-policy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Turso プライバシーポリシー</a> をご参照ください。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">4. Google Analytics (Google LLC)</p>
+                                    <p class="text-gray-500">利用目的：当ウェブサイトを利用するユーザーの行動・アクセス傾向を分析し、サービスの改善および利便性向上に役立てるため</p>
+                                    <p class="text-gray-500">送信される情報：アクセスしたページのURL、滞在時間、流入元、利用端末・ブラウザ情報、Cookie情報（いずれも匿名化・集計された統計情報として処理されます）</p>
+                                    <p class="mt-1">特記事項：Google Analyticsが収集するデータは個人を特定するものではありません。Googleのデータ利用方針については <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Google プライバシーポリシー</a> をご参照ください。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">5. Microsoft Clarity (Microsoft Corporation)</p>
+                                    <p class="text-gray-500">利用目的：当ウェブサイトを利用するユーザーの操作・行動（クリック位置、スクロール深度等）を可視化・分析し、UI/UXの改善およびサービス向上に役立てるため</p>
+                                    <p class="text-gray-500">送信される情報：Cookieおよび疑似匿名ID、マウス操作・タップ操作の軌跡、クリック位置、スクロール深度、ページ閲覧情報、端末・ブラウザ情報</p>
+                                    <p class="mt-1">特記事項：Microsoft Clarityは、Cookieおよび疑似匿名IDを用いて同一ブラウザの閲覧をセッション単位で関連付け、セッション記録およびヒートマップを生成します。これらはUI/UXの改善を目的とするもので、当サイトが氏名やメールアドレスによって個人を特定する目的では利用しません。Microsoftのデータ利用方針については <a href="https://privacy.microsoft.com/ja-jp/privacystatement" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Microsoft プライバシーステートメント</a> をご参照ください。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">6. Google Identity Services / OAuth 2.0 (Google LLC)</p>
+                                    <p class="text-gray-500">利用目的：Googleアカウントを使用したユーザー認証（ログイン・新規登録）の実現</p>
+                                    <p class="text-gray-500">送信される情報：Googleアカウントのメールアドレス、GoogleユーザーID（固有の識別子）、Googleアカウントの表示名</p>
+                                    <p class="mt-1">特記事項：当サイトはGoogle OAuth 2.0認可フローを利用してユーザーを認証します。取得した表示名は、Googleアカウントで初めて登録する際の初期ユーザー名候補として使用する場合があります。GoogleアカウントのパスワードはGoogle側で管理されており、当サイトへは一切送信されません。Googleのデータ利用方針については <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Google プライバシーポリシー</a> をご参照ください。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">7. OpenStreetMap (OpenStreetMap Foundation)</p>
+                                    <p class="text-gray-500">利用目的：「全国・土地の運気」の地図版において、日本地図のタイル画像を表示するため</p>
+                                    <p class="text-gray-500">送信される情報：地図タイルの取得リクエスト（アクセス元IPアドレスを含む）</p>
+                                    <p class="mt-1">特記事項：地図タイルの取得はユーザーのブラウザから直接OpenStreetMapのサーバーへ行われます。送信される情報に氏名・メールアドレス等の個人を特定する情報は含まれません。OpenStreetMapは世界中の有志によるオープンデータプロジェクトであり、商業的なデータ収集・広告目的への利用は行われておりません。詳細は <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">OpenStreetMap Foundation プライバシーポリシー</a> をご参照ください。</p>
+                                    <p class="mt-1">現在地ボタンについて：地図版に設置している「現在地ボタン」を押した場合、ブラウザからお客様の端末の位置情報（緯度・経度）の取得許可を求めます。取得した位置情報は地図の中心座標を移動させる目的のみに使用され、当サイトのサーバーおよびOpenStreetMapのサーバーには送信・保存されません。位置情報の許可はブラウザの設定からいつでも取り消すことができます。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">8. Cloudflare Turnstile (Cloudflare, Inc.)</p>
+                                    <p class="text-gray-500">利用目的：メールアドレスによるログイン・新規登録の際、ボット（自動化されたプログラム）による不正アクセスを防ぐためのセキュリティチェック</p>
+                                    <p class="text-gray-500">送信される情報：ウィジェット操作に伴うブラウザ環境情報（User Agent、画面解像度等）、アクセス元IPアドレス</p>
+                                    <p class="mt-1">特記事項：Cloudflare Turnstileはユーザーの操作パターンをCloudflareのサーバーで解析し、人間による操作かボットによる操作かを自動的に判定します。取得した情報は当サイトのサーバーには保存されず、判定処理はCloudflareの管理下で行われます。「Googleでログイン」を使用される場合は本機能は適用されません。Cloudflareのデータ利用方針については <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Cloudflare プライバシーポリシー</a> をご参照ください。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">9. Discord (Discord Inc.)</p>
+                                    <p class="text-gray-500">利用目的：公式Discord参拝所への参加、サイト更新情報の共有、スラッシュコマンドによるおみくじ・御守・星座占い・天命相談等の提供、および公開チャンネル上でのご意見・不具合報告の受付</p>
+                                    <p class="text-gray-500">送信される情報：Discord上のユーザー名・ユーザーID、サーバー内での投稿内容、スラッシュコマンドの入力内容（/天命コマンド使用時のカテゴリ・キーワード選択を含む）、Discordが取得する通信情報等</p>
+                                    <p class="text-gray-500">/天命コマンドへの入力内容（カテゴリ・キーワード）はCloudflare Worker上でレスポンス生成のみに使用され、サーバーへの保存・記録は行いません。ただし、Discordのチャンネル上に表示された選択内容は他の参加者から閲覧される可能性があります。機微な個人情報はコマンド入力欄にも記載しないでください。</p>
+                                    <p class="mt-1">特記事項：公式Discord参拝所はDiscord Inc.が提供する外部サービス上で運用されます。参加・投稿・コマンド実行に伴う情報はDiscordの管理下でも処理されます。公開チャンネルには個人情報や機微な内容を投稿しないでください。Discordのデータ利用方針については <a href="https://discord.com/privacy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Discord プライバシーポリシー</a> をご参照ください。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">10. CDN配信の静的ライブラリ（jsDelivr／cdnjs／Google Fonts 等）</p>
+                                    <p class="text-gray-500">利用目的：フォント・アイコン・地図表示・画像生成（おみくじ結果や御守の保存画像作成）等に用いるJavaScriptライブラリおよびフォントファイルの配信</p>
+                                    <p class="text-gray-500">送信される情報：ファイル取得リクエストに伴うアクセス元IPアドレス、ブラウザ情報（各CDN事業者へ）</p>
+                                    <p class="mt-1">特記事項：当サイトはBootstrap Icons・Leaflet・画像保存機能（html-to-image）等の一部を、jsDelivr・cdnjs・Google Fontsといった外部CDN経由で配信しています。これらはいずれも静的なファイル配信のみを行うサービスであり、氏名・メールアドレス等の個人情報を収集するものではありませんが、ファイル取得の際にIPアドレスが各事業者へ送信される点にご留意ください。各社のデータ利用方針は <a href="https://www.jsdelivr.com/terms/privacy-policy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">jsDelivr</a>／<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">cdnjs (Cloudflare)</a>／<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Google Fonts</a> をご参照ください。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">11. Cloudflare Workers AI (Cloudflare, Inc.)</p>
+                                    <p class="text-gray-500">利用目的：「社務所だより」「神籤草子」の記事要約機能において、AI（Llama 3.1系モデル）による記事本文の自動要約を生成するため</p>
+                                    <p class="text-gray-500">送信される情報：要約対象となる記事本文（当サイトが公開しているコラム・お知らせ記事の文章のみで、氏名・メールアドレス等の個人情報は含まれません）</p>
+                                    <p class="mt-1">特記事項：Cloudflare Workers AIは、Cloudflareが提供するサーバーレスのAI推論基盤です。入力された記事本文がモデルの学習・改善のために利用されることはありません。生成された要約文・使用モデル名・処理時間・文字数等はTursoデータベースに保存され、同じ記事に対する2回目以降のアクセス時に再利用されます。要約はAIによる自動生成であるため、実際の記事内容と異なる場合があります。Cloudflareのデータ利用方針については <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Cloudflare プライバシーポリシー</a> をご参照ください。</p>
+                                    <p class="mt-1">なお、おみくじ結果画面に表示される「AI悩み相談（一言アドバイス）」機能も同じCloudflare Workers AIを利用していますが、こちらは入力いただいた悩みの内容・おみくじの運勢・生成された助言のいずれも当サイトのデータベースには一切保存されず、その場限りの表示にとどまります。ログインの有無を問わずご利用いただけます。</p>
+                                </div>
+                                <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
+                                    <p class="font-bold text-sm">12. AI夢占い機能におけるCloudflare Workers AI (Cloudflare, Inc.)</p>
+                                    <p class="text-gray-500">利用目的：会員限定機能「AI夢占い」において、ユーザーが入力した夢の内容をもとに、AI（Llama 3.1系モデル）による夢占い的な解釈を生成するため</p>
+                                    <p class="text-gray-500">送信される情報：ユーザーがご自身で入力された夢の内容の文章（氏名等の個人情報を含めないようご入力時にご留意ください）</p>
+                                    <p class="mt-1">特記事項：入力された夢の内容がモデルの学習・改善のために利用されることはありません。生成された解釈は、入力された夢の内容とともにログイン中のメールアドレスに紐づけてTursoデータベースに保存され、ご自身の「夢の記録」としてマイページ上で閲覧できます。本機能はログインユーザーのみご利用いただけ、利用回数は1時間あたり10回までのレート制限があります。夢の記録の削除をご希望の場合は、第8条に基づく退会手続きにより、関連する記録も含めて削除されます。解釈はAIによる自動生成であり、断定的な予言を意図するものではありません。Cloudflareのデータ利用方針については <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Cloudflare プライバシーポリシー</a> をご参照ください。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                                <span class="text-gray-400 text-xs font-normal">06</span> 第6条（個人情報の第三者提供）
+                            </h3>
+                            <p class="mb-4">当サイトは、次に掲げる場合を除いて、あらかじめユーザーの同意を得ることなく、第三者に個人情報を提供することはありません。ただし、個人情報保護法その他の法令で認められる場合を除きます。</p>
+                            <ul class="list-disc pl-5 space-y-1">
+                                <li>法令に基づく場合</li>
+                                <li>人の生命、身体または財産の保護のために必要がある場合であって、本人の同意を得ることが困難であるとき</li>
+                                <li>公衆衛生の向上または児童の健全な育成の推進のために特に必要がある場合であって、本人の同意を得ることが困難であるとき</li>
+                                <li>国の機関もしくは地方公共団体またはその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合であって、本人の同意を得ることにより当該事務の遂行に支障を及ぼすおそれがあるとき</li>
+                                <li>予め次の事項を告知あるいは公表し、かつ当サイトが個人情報保護委員会に届出をしたとき
+                                    <ul class="list-disc pl-4 mt-1 text-xs text-gray-500">
+                                        <li>利用目的に第三者への提供を含むこと</li>
+                                        <li>第三者に提供されるデータの項目</li>
+                                        <li>第三者への提供の手段または方法</li>
+                                        <li>本人の求めに応じて個人情報の第三者への提供を停止すること</li>
+                                        <li>本人の求めを受け付ける方法</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                                <span class="text-gray-400 text-xs font-normal">07</span> 第7条（クッキー(Cookie)およびローカルストレージ）
+                            </h3>
+                            <p class="mb-4">
+                                1. 当サイトでは、ユーザーの利便性向上、ログイン状態の保持、および利用状況の分析のために、クッキー（Cookie）またはブラウザのローカルストレージ（LocalStorage）機能を使用しています。これにより、ユーザーのブラウザ内に設定情報（ダークモード設定、お気に入り星座等）やセッション情報を一時的に保存します。<br>
+                                2. 未ログインで「参拝の記録」「おみくじの轍」をご利用いただく場合、識別用ID（ゲストID）と参拝者名はお使いの端末のローカルストレージに保存されます。一方で、ゲストIDに紐づく参拝記録およびゲストプロフィールは、当サイトのサーバーにも保存されます。ブラウザの閲覧データを消去した場合や、別の端末・ブラウザからアクセスした場合、同じゲストIDを使用できず、それまでの記録にアクセスできなくなる場合があります。参拝者名は結果ページや「おみくじの轍」で他の利用者に表示される場合があるため、本名や連絡先等を入力しないでください。長期的にアカウント単位で記録を利用したい場合は、参拝証の発行（会員登録）をおすすめします。<br>
+                                3. ユーザーは、ブラウザの設定を変更することにより、Cookie等の受け入れを拒否することができます。ただし、その場合、ログイン機能や履歴保存機能など、本サービスの一部機能が正常に動作しなくなる可能性がありますので、あらかじめご了承ください。
+                            </p>
+                        </div>
+
+                        <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                                <span class="text-gray-400 text-xs font-normal">08</span> 第8条（個人情報の開示・訂正・削除）
+                            </h3>
+                            <p class="mb-4">
+                                1. ユーザーは、当サイトの「アカウント設定」画面を通じて、いつでもご自身の登録情報（ユーザー名）を閲覧および修正することができます。<br>
+                                2. ユーザーは、当サイトの「アカウント設定」画面から退会手続きを行えます。当サイトは、ログイン状態での操作により本人確認を行った上で、データベース上の当該アカウントに関連するレコードを削除します。削除対象には、メールアドレス、ユーザー名、パスワードハッシュ、おみくじの履歴（history）、AI夢占いの夢の本文および生成解釈を含む夢の記録（dream_history）、プロフィール、御朱印、お気に入り、設定、セッション、認証コード、認証申請記録およびアカウント情報を含みます。削除後は、通常のサービス機能からこれらの記録を復元できません。<br>
+                                3. 前項の規定にかかわらず、履歴情報および特性情報などの個人情報以外の情報については、原則として開示いたしません。
+                            </p>
+                        </div>
+
+                        <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                                <span class="text-gray-400 text-xs font-normal">09</span> 第9条（プライバシーポリシーの変更・改定履歴）
+                            </h3>
+                            <p class="mb-4">
+                                1. 本ポリシーの内容は、法令、サービス内容または情報の取扱いの変更に応じて改定する場合があります。重要な変更を行う場合は、本ページへの掲載その他適切な方法でお知らせします。<br>
+                                2. 当サイトが別途定める場合を除いて、変更後のプライバシーポリシーは、本ウェブサイトに掲載したときから効力を生じるものとします。<br>
+                                3. <strong>現行版：第18版（最終改定日：2026年8月14日）</strong><br>
+                                4. <strong>第18版の主な変更：</strong>未ログイン時の参拝記録のサーバー保存、Googleログイン時に取得する表示名、Microsoft ClarityによるCookie・疑似匿名ID・セッション記録、退会時に削除するAI夢占いの夢の記録を明確化しました。
+                            </p>
+                        </div>
+
+                        <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
+                            <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+                                <span class="text-gray-400 text-xs font-normal">10</span> 第10条（免責事項）
+                            </h3>
+                            <p class="mb-4">
+                                当サイトからリンクやバナーなどによって他のサイトに移動された場合、移動先サイトで提供される情報、サービス等について一切の責任を負いません。また、移動先サイトにおける個人情報の取扱いについては、当該サイトのプライバシーポリシーをご確認ください。
+                            </p>
+                        </div>
+
+                        <div class="pl-4 border-l-4 border-red-500">
+                            <h3 class="font-bold text-lg mb-4 text-red-600 dark:text-red-400 flex items-center gap-2">
+                                <span class="text-red-200 text-xs font-normal">11</span> 第11条（連絡方法と個別対応の制限）
+                            </h3>
+                            <div class="bg-red-50 dark:bg-red-900/20 p-6 rounded-xl border border-red-100 dark:border-red-900/50">
+                                <p class="mb-2 font-bold text-red-700 dark:text-red-300 flex items-center gap-2"><i class="bi bi-exclamation-circle-fill"></i> 重要：連絡先について</p>
+                                <p class="mb-4">
+                                    本サービスは個人開発による非営利・実験的なプロジェクトとして運営されております。現在、<strong>お問い合わせフォームおよびサポート用メールアドレスは設置しておりません。</strong>ただし、公式Discord参拝所の開設に伴い、サイトに関する一般的なご連絡、不具合と思われる現象の共有、機能改善のご提案については、Discord上の公開チャンネル等で受け付ける場合があります。
+                                </p>
+                                <p class="mb-4">
+                                    公式Discord参拝所は、ユーザー同士の交流および運営からのお知らせを目的とする外部コミュニティであり、法令上の正式な開示請求窓口、苦情処理窓口、個別サポート窓口ではありません。投稿内容は他の参加者から閲覧される可能性があるため、メールアドレス、認証情報、住所、電話番号、その他個人を特定できる情報は投稿しないでください。
+                                </p>
+                                <p class="mb-2 font-bold text-gray-800 dark:text-gray-200">【対処方法】</p>
+                                <p>
+                                    本サービスにおける個人情報の取扱い等に懸念が生じた場合、またはサービスの利用継続が困難であると判断された場合は、以下の手順によりご自身で対応をお願いいたします。Discord上でご連絡いただいた場合であっても、個別対応や返信を保証するものではありません。
+                                </p>
+                                <ol class="list-decimal pl-5 mt-2 space-y-1">
+                                    <li>本サービスの利用を直ちに中止してください。</li>
+                                    <li>ログイン後の「アカウント設定」画面にある<strong>「アカウント削除」ボタン</strong>を押下してください。これにより、第8条第2項に定める当該アカウントの登録情報・関連記録（AI夢占いの夢の記録を含む）がデータベースから削除されます。</li>
+                                </ol>
+                                <p class="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                                    ※アカウント削除後のデータ復旧は一切できません。あらかじめご了承ください。
+                                </p>
+                            </div>
+                        </div>
+                </section>
+            </article>
+        </section>">3. Turso (ChiselStrike, Inc.)</p>
                                     <p class="text-gray-500">利用目的：ユーザー情報、履歴データ、統計データの保管および認証管理</p>
                                     <p class="text-gray-500">送信される情報：メールアドレス、パスワード（ハッシュ化済）、ユーザー名、利用履歴</p>
                                     <p class="mt-1">特記事項：TursoはSQLite互換のエッジデータベースであり、データはLibSQL/HTTPプロトコルを通じて安全に送信・保存されます。Tursoのデータ利用方針については <a href="https://turso.tech/privacy-policy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Turso プライバシーポリシー</a> をご参照ください。</p>
@@ -23131,9 +23641,9 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         // 一部のiOS/WebKit環境では後続のライトテーマ規則が印刷用色指定を上書きするため、
         // PDF生成中だけインラインのimportant指定でHero文字のコントラストを保証する。
         const palette = [
-            ['.about-hero-card h2, .privacy-hero-card h2, .about-hero-card h2 .text-white, .privacy-hero-card h2 .text-white, .about-codex-hero h1', '#fffaf4'],
-            ['.about-hero-card p.text-zinc-300, .privacy-hero-card p.text-zinc-300, .about-codex-hero .about-codex-meta', '#eadfda'],
-            ['.about-hero-card p.text-zinc-400, .privacy-hero-card p.text-zinc-400, .about-hero-card .text-zinc-500, .privacy-hero-card .text-zinc-500, .about-codex-hero .about-codex-lead, .about-codex-hero .about-codex-actions p', '#d6c5bf'],
+            ['.about-hero-card h2, .privacy-hero-card h2, .about-hero-card h2 .text-white, .privacy-hero-card h2 .text-white, .about-codex-hero h1, .privacy-ledger-hero h1', '#fffaf4'],
+            ['.about-hero-card p.text-zinc-300, .privacy-hero-card p.text-zinc-300, .about-codex-hero .about-codex-meta, .privacy-ledger-hero .privacy-ledger-meta', '#eadfda'],
+            ['.about-hero-card p.text-zinc-400, .privacy-hero-card p.text-zinc-400, .about-hero-card .text-zinc-500, .privacy-hero-card .text-zinc-500, .about-codex-hero .about-codex-lead, .about-codex-hero .about-codex-actions p, .privacy-ledger-hero .privacy-ledger-lead, .privacy-ledger-hero .privacy-ledger-actions p', '#d6c5bf'],
             ['.about-hero-card h2 .text-red-400, .privacy-hero-card h2 .text-red-400', '#ff9a91']
         ];
         const snapshots = [];

@@ -4,9 +4,11 @@ const path = require('node:path');
 
 const htmlPath = path.resolve(__dirname, '..', 'index.html');
 const html = fs.readFileSync(htmlPath, 'utf8');
-const developerSection = html.match(
-  /<section id="view-developer"[\s\S]*?<\/section>\n\s*<!-- ビュー: プライバシーポリシー/
-)?.[0] || '';
+const developerStart = html.indexOf('<section id="view-developer"');
+const privacyStart = html.indexOf('<section id="view-privacy"', developerStart);
+const developerSection = developerStart >= 0 && privacyStart > developerStart
+  ? html.slice(developerStart, privacyStart)
+  : '';
 
 assert(developerSection, '開発者について画面のセクションを抽出できません。');
 

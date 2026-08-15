@@ -100,7 +100,7 @@ assert.equal(
   '#view-about #about-pdf-btn:focus-visible,',
   '#view-about.printing .about-codex-hero {',
   '#view-about.printing .about-codex-chapter > div {',
-  ".about-codex-hero h1', '#fffaf4'",
+  '.about-codex-hero h1, .privacy-ledger-hero h1',
 ].forEach((text) => {
   requireText(text, `当サイトについて画面のテーマ・フォーカス・PDF出力契約が失われています: ${text}`);
 });
