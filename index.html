@@ -3287,8 +3287,21 @@
     background: var(--news-paper-soft);
     transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
+.news-bulletin-search-field > .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    border: 0;
+    white-space: nowrap;
+}
+.news-bulletin-search-field > i { flex: 0 0 auto; }
 .news-bulletin-search-field:focus-within { border-color: var(--news-gold); background: var(--news-paper); box-shadow: 0 0 0 3px rgba(184, 139, 57, 0.18); }
-.news-bulletin-search-field input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--news-ink); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.9rem; line-height: 1.5; }
+.news-bulletin-search-field input { width: 100%; min-width: 0; flex: 1 1 auto; border: 0; outline: 0; color: var(--news-ink); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.9rem; line-height: 1.5; }
 .news-bulletin-search-field input::placeholder { color: var(--news-muted); opacity: 0.78; }
 .news-bulletin-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; margin-top: 1.15rem; }
 .news-bulletin-card {
@@ -3362,6 +3375,8 @@
 .news-bulletin-layout input:focus-visible,
 .news-chronicle-layout a:focus-visible,
 .news-chronicle-layout button:focus-visible { outline: 3px solid rgba(184, 139, 57, 0.95); outline-offset: 3px; }
+/* 検索欄は親コンテナのfocus-withinを唯一のフォーカス表示として用いる。 */
+.news-bulletin-search-field input:focus-visible { outline: 0; outline-offset: 0; }
 .dark .news-bulletin-layout,
 .dark .news-chronicle-layout { --news-paper: #181414; --news-paper-soft: #221a18; --news-paper-deep: #2b211e; --news-ink: #f6e8df; --news-muted: #c3b0a7; --news-line: rgba(238, 215, 195, 0.15); --news-gold-soft: rgba(213, 179, 106, 0.16); }
 .dark .news-bulletin-hero { border-color: rgba(213, 179, 106, 0.3); background: radial-gradient(circle at 92% 16%, rgba(213, 179, 106, 0.14), transparent 25%), radial-gradient(circle at 6% 100%, rgba(165, 42, 50, 0.2), transparent 33%), linear-gradient(135deg, #181313 0%, #211918 58%, #151212 100%); }
