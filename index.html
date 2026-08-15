@@ -2356,6 +2356,44 @@
     font-weight: 800;
     letter-spacing: 0.16em;
 }
+/* ライトモードでは、参拝証のヒーローを杜の紙面意匠へ切り替える。
+   システムがライトの場合と、設定でライトを明示した場合の両方に対応する。 */
+html.light .auth-passport-hero {
+    border-color: rgba(185, 28, 28, 0.26);
+    background: linear-gradient(118deg, #fffdf8 0%, #fff4f1 52%, #f7efe1 100%);
+    box-shadow: 0 20px 46px rgba(89, 45, 29, 0.12);
+    color: #351b1b;
+}
+html.light .auth-passport-hero::before {
+    border-color: rgba(185, 28, 28, 0.16);
+}
+html.light .auth-passport-hero::after {
+    border-color: rgba(197, 160, 89, 0.3);
+    box-shadow: 0 0 0 26px rgba(197, 160, 89, 0.07), 0 0 0 58px rgba(185, 28, 28, 0.035);
+}
+html.light .auth-passport-kicker,
+html.light .auth-passport-title i { color: #a16207; }
+html.light .auth-passport-title { color: #351b1b; }
+html.light .auth-passport-lede { color: #67433c; }
+@media (prefers-color-scheme: light) {
+    html:not(.dark) .auth-passport-hero {
+        border-color: rgba(185, 28, 28, 0.26);
+        background: linear-gradient(118deg, #fffdf8 0%, #fff4f1 52%, #f7efe1 100%);
+        box-shadow: 0 20px 46px rgba(89, 45, 29, 0.12);
+        color: #351b1b;
+    }
+    html:not(.dark) .auth-passport-hero::before {
+        border-color: rgba(185, 28, 28, 0.16);
+    }
+    html:not(.dark) .auth-passport-hero::after {
+        border-color: rgba(197, 160, 89, 0.3);
+        box-shadow: 0 0 0 26px rgba(197, 160, 89, 0.07), 0 0 0 58px rgba(185, 28, 28, 0.035);
+    }
+    html:not(.dark) .auth-passport-kicker,
+    html:not(.dark) .auth-passport-title i { color: #a16207; }
+    html:not(.dark) .auth-passport-title { color: #351b1b; }
+    html:not(.dark) .auth-passport-lede { color: #67433c; }
+}
 .auth-pilgrimage-layout {
     display: grid;
     grid-template-columns: minmax(216px, 0.32fr) minmax(0, 0.68fr);
