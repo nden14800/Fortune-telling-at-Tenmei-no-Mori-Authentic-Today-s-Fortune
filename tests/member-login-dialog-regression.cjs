@@ -105,6 +105,26 @@ requireText(
   'html.reduce-motion .member-login-dialog[open] .member-login-dialog-surface',
   '共通ログイン要求モーダルの低モーション対応がありません。'
 );
+requireText(
+  '<div id="stats-lock" class="login-lock-container hidden">\n        <section class="member-login-gate-card visitor-name-gate-card"',
+  '参拝記録の参拝者名ゲートが共通の和モダンカードへ統一されていません。'
+);
+requireText(
+  '<div id="history-login-overlay" class="login-lock-container hidden">\n        <section class="member-login-gate-card visitor-name-gate-card"',
+  'おみくじの轍の参拝者名ゲートが共通の和モダンカードへ統一されていません。'
+);
+requireText(
+  'class="member-login-primary">\n                    <i class="bi bi-person-badge" aria-hidden="true"></i> 参拝者名を設定する',
+  '参拝者名ゲートの主操作が共通の深紅グラデーションボタンへ統一されていません。'
+);
+requireText(
+  '.visitor-name-gate-actions .member-login-primary,\n.visitor-name-gate-actions .member-login-secondary',
+  '参拝者名ゲートの主操作・補助操作の共通幅ルールがありません。'
+);
+requireText(
+  'min-height: 42px;',
+  '参拝者名ゲートの補助操作に十分な操作面積がありません。'
+);
 forbidText(
   'zodiac-login-modal',
   '廃止済みの星座専用ログインモーダルへの参照が残っています。'
@@ -126,5 +146,7 @@ console.log(JSON.stringify({
   guestNameNativeDialog: true,
   sharedGateVerticalOffset: true,
   reducedMotion: true,
+  visitorNameGatesUnified: true,
+  visitorNamePrimaryActionUnified: true,
   legacyZodiacModalRemoved: true,
 }, null, 2));

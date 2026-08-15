@@ -3070,6 +3070,27 @@
         linear-gradient(145deg, rgba(31,27,25,0.99), rgba(17,17,18,0.99));
     box-shadow: 0 24px 70px rgba(0,0,0,0.55), 0 4px 14px rgba(212,175,55,0.10);
 }
+
+/* 参拝記録・おみくじの轍の「参拝者名」ゲートは、入力ダイアログと同じ和モダンの案内面へ統一する。 */
+.visitor-name-gate-card {
+    pointer-events: auto;
+    text-align: center;
+}
+.visitor-name-gate-actions {
+    display: grid;
+    gap: 8px;
+}
+.visitor-name-gate-actions .member-login-primary,
+.visitor-name-gate-actions .member-login-secondary {
+    width: 100%;
+    margin: 0;
+}
+.visitor-name-gate-actions .member-login-secondary {
+    min-height: 42px;
+}
+.dark .visitor-name-gate-card .member-login-secondary:hover {
+    background: rgba(255,255,255,0.08);
+}
 .member-login-gate-seal,
 .member-login-dialog-seal {
     display: inline-flex;
@@ -8228,23 +8249,26 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
     </div>
 
-    <!-- 非ログイン時のロック画面 -->
+    <!-- 参拝者名が未設定の場合の案内ゲート（入力ダイアログと同じ意匠） -->
     <div id="stats-lock" class="login-lock-container hidden">
-        <div class="login-lock-card">
-            <div class="lab-icon-box icon-bg-gray mx-auto mb-6" style="width:64px;height:64px;">
+        <section class="member-login-gate-card visitor-name-gate-card" aria-labelledby="stats-lock-title" aria-describedby="stats-lock-description">
+            <div class="member-login-gate-seal" aria-hidden="true">
                 <i class="bi bi-person-lock"></i>
             </div>
-            <h3 class="text-xl font-black mb-2" style="font-family:'Zen Old Mincho',serif;">記録は閉じられています</h3>
-            <p class="text-sm mb-6 leading-relaxed" style="color:var(--text-sub);">
-                自分だけの参拝記録を残し、<br>運勢の傾向を分析するには参拝者名の設定（またはログイン）が必要です。
+            <p class="member-login-eyebrow">VISITOR NAME</p>
+            <h3 id="stats-lock-title" class="member-login-gate-title">記録は閉じられています</h3>
+            <p id="stats-lock-description" class="member-login-gate-copy">
+                自分だけの参拝記録を残し、運勢の傾向を分析するには、参拝者名の設定またはログインが必要です。
             </p>
-            <button onclick="openGuestNameModal(() => { showView('stats'); loadMyStats(); })" class="btn-primary shadow-lg mb-3">
-                <i class="bi bi-person-badge"></i> 参拝者名を設定する
-            </button>
-            <button onclick="showView('auth')" class="w-full text-center text-xs py-1" style="color: var(--text-sub);">
-                会員登録・ログインする場合はこちら
-            </button>
-        </div>
+            <div class="visitor-name-gate-actions">
+                <button type="button" onclick="openGuestNameModal(() => { showView('stats'); loadMyStats(); })" class="member-login-primary">
+                    <i class="bi bi-person-badge" aria-hidden="true"></i> 参拝者名を設定する
+                </button>
+                <button type="button" onclick="showView('auth')" class="member-login-secondary">
+                    会員登録・ログインする場合はこちら
+                </button>
+            </div>
+        </section>
     </div>
 
     </div> <!-- /コンテンツ＋ロック画面ラッパー -->
@@ -8664,23 +8688,26 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
     </div>
 
-    <!-- 非ログイン時のオーバーレイ -->
+    <!-- 参拝者名が未設定の場合の案内ゲート（入力ダイアログと同じ意匠） -->
     <div id="history-login-overlay" class="login-lock-container hidden">
-        <div class="login-lock-card">
-            <div class="lab-icon-box icon-bg-gray mx-auto mb-6" style="width:64px;height:64px;">
+        <section class="member-login-gate-card visitor-name-gate-card" aria-labelledby="history-lock-title" aria-describedby="history-lock-description">
+            <div class="member-login-gate-seal" aria-hidden="true">
                 <i class="bi bi-lock-fill"></i>
             </div>
-            <h3 class="text-xl font-black mb-2" style="font-family:'Zen Old Mincho',serif;">轍を見るには参拝者名が必要です</h3>
-            <p class="text-sm mb-6 leading-relaxed" style="color:var(--text-sub);">
-                参拝者名を設定（またはログイン）すると、<br>あなた自身の過去の運勢と、他の参拝者の記録を閲覧・検索することができます。
+            <p class="member-login-eyebrow">VISITOR NAME</p>
+            <h3 id="history-lock-title" class="member-login-gate-title">轍を見るには参拝者名が必要です</h3>
+            <p id="history-lock-description" class="member-login-gate-copy">
+                参拝者名を設定またはログインすると、あなた自身の過去の運勢と、他の参拝者の記録を閲覧・検索できます。
             </p>
-            <button onclick="openGuestNameModal(() => { showView('history'); loadHistory(); })" class="btn-primary shadow-lg mb-3">
-                <i class="bi bi-person-badge"></i> 参拝者名を設定する
-            </button>
-            <button onclick="showView('auth')" class="w-full text-center text-xs py-1" style="color: var(--text-sub);">
-                会員登録・ログインする場合はこちら
-            </button>
-        </div>
+            <div class="visitor-name-gate-actions">
+                <button type="button" onclick="openGuestNameModal(() => { showView('history'); loadHistory(); })" class="member-login-primary">
+                    <i class="bi bi-person-badge" aria-hidden="true"></i> 参拝者名を設定する
+                </button>
+                <button type="button" onclick="showView('auth')" class="member-login-secondary">
+                    会員登録・ログインする場合はこちら
+                </button>
+            </div>
+        </section>
     </div>
 
     </div> <!-- /コンテンツ＋ロック画面ラッパー -->
