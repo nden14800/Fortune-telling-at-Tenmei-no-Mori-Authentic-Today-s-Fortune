@@ -14,8 +14,49 @@ function countText(text) {
 }
 
 requireText(
-  '<section id="view-auth"',
-  '参拝証の発行画面が定義されていません。'
+  '<section id="view-auth" class="view-section auth-pilgrimage-view relative">',
+  '参拝証の発行画面が新しい参拝証の道程テンプレートとして定義されていません。'
+);
+requireText(
+  'class="auth-passport-hero"',
+  '参拝証の発行画面に独立した参拝証ヒーローがありません。'
+);
+requireText(
+  'class="auth-pilgrimage-layout"',
+  '参拝証の発行画面に道程と操作面を分ける新しい構造がありません。'
+);
+requireText(
+  'class="auth-journey-panel"',
+  '参拝証の発行画面に現在位置を示す道程パネルがありません。'
+);
+requireText(
+  'data-auth-stage="choice"',
+  '参拝証の発行画面に選択段階の状態管理がありません。'
+);
+requireText(
+  'data-auth-stage="details"',
+  '参拝証の発行画面に入力段階の状態管理がありません。'
+);
+requireText(
+  'data-auth-stage="verify"',
+  '参拝証の発行画面に認証完了段階の状態管理がありません。'
+);
+requireText(
+  'function updateAuthPilgrimageStage(stage)',
+  '参拝証の道程における段階同期関数がありません。'
+);
+requireText(
+  "updateAuthPilgrimageStage('details');",
+  'ログイン・登録入力時に参拝証の道程が同期しません。'
+);
+requireText(
+  "updateAuthPilgrimageStage('verify');",
+  '認証コード送信後に参拝証の道程が同期しません。'
+);
+assert.equal(
+  countText('auth-bento-grid'),
+  0,
+  '参拝証の発行画面に置換前のBento選択グリッドが残っています。'
 );
 requireText(
   'class="auth-choice-card auth-choice-card--login" data-auth-choice="login"',
@@ -134,4 +175,6 @@ console.log(JSON.stringify({
   turnstilePreserved: true,
   focusReturn: true,
   guestStorageDisclosureAligned: true,
+  pilgrimageTemplate: true,
+  stageSynchronization: true,
 }, null, 2));
