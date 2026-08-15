@@ -2778,13 +2778,285 @@
     #view-privacy.printing .privacy-ledger-article > div:not(.privacy-ledger-article-heading) { padding: 5.5mm 6mm !important; }
 }
 
-.howto-hero-card {
-    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-}.howto-hero-card:hover {
-    transform: translateY(-4px) scale(1.005);
-    border-color: var(--accent-gold);
-    box-shadow: 0 20px 35px rgba(0,0,0,0.15);
-}/* 1. ニュース検索エリア (履歴のコントロールバーと統一) */
+/* =========================================================
+   Ver.4.0 段階的刷新: 天命乃杜の使い方「参拝案内所」
+   既存の本文・目次ID・設定ID・ウォークスルー導線を保持する新テンプレート
+   ========================================================= */
+.howto-guide-layout {
+    --howto-paper: #fffdf9;
+    --howto-paper-soft: #f8f1e8;
+    --howto-paper-deep: #f2e6d7;
+    --howto-ink: #322522;
+    --howto-muted: #6d5c55;
+    --howto-line: rgba(112, 73, 52, 0.17);
+    --howto-red: #9a2830;
+    --howto-red-deep: #731e24;
+    --howto-gold: #b88b39;
+    --howto-gold-soft: rgba(184, 139, 57, 0.14);
+    max-width: 920px;
+    margin: 0 auto;
+    padding: clamp(1rem, 2.7vw, 2rem) 0 5rem;
+    color: var(--howto-ink);
+}
+.howto-guide-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+    min-height: 256px;
+    overflow: hidden;
+    padding: clamp(1.55rem, 4vw, 3.25rem);
+    border: 1px solid rgba(184, 139, 57, 0.46);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 92% 16%, rgba(184, 139, 57, 0.2), transparent 25%),
+        radial-gradient(circle at 6% 100%, rgba(154, 40, 48, 0.12), transparent 33%),
+        linear-gradient(135deg, #fffdfa 0%, #fbf4ec 58%, #f4e9dc 100%);
+    box-shadow: 0 22px 50px rgba(68, 34, 28, 0.09);
+}
+.howto-guide-hero::before {
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(184, 139, 57, 0.24);
+    border-radius: 20px;
+    content: '';
+    pointer-events: none;
+}
+.howto-guide-hero::after {
+    position: absolute;
+    top: -96px;
+    right: -50px;
+    width: 266px;
+    height: 266px;
+    border: 1px solid rgba(154, 40, 48, 0.13);
+    border-radius: 50%;
+    box-shadow: 0 0 0 25px rgba(184, 139, 57, 0.06), 0 0 0 49px rgba(154, 40, 48, 0.035);
+    content: '';
+    pointer-events: none;
+}
+.howto-guide-hero-copy,
+.howto-guide-hero-seal { position: relative; z-index: 1; }
+.howto-guide-eyebrow,
+.howto-guide-section-kicker,
+.howto-guide-prologue-label,
+.howto-guide-entry-heading p {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    color: var(--howto-red);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    line-height: 1.35;
+}
+.howto-guide-eyebrow i,
+.howto-guide-section-kicker i { color: var(--howto-gold); font-size: 0.82rem; }
+.howto-guide-hero h1 {
+    margin: 0.55rem 0 0;
+    color: var(--howto-ink);
+    font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+}
+.howto-guide-lead {
+    max-width: 640px;
+    margin: 0.95rem 0 0;
+    color: var(--howto-muted);
+    font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+    font-size: clamp(0.92rem, 1.7vw, 1.05rem);
+    line-height: 2;
+}
+.howto-guide-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 1rem 0 0;
+    padding: 0.42rem 0.7rem;
+    border: 1px solid rgba(184, 139, 57, 0.28);
+    border-radius: 999px;
+    color: var(--howto-red-deep);
+    background: rgba(255, 255, 255, 0.58);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+.howto-guide-summary i { color: var(--howto-gold); }
+.howto-guide-hero-seal {
+    display: grid;
+    width: 128px;
+    height: 128px;
+    place-items: center;
+    align-content: center;
+    gap: 0.45rem;
+    border: 1px solid rgba(184, 139, 57, 0.54);
+    border-radius: 50%;
+    color: var(--howto-red);
+    background: rgba(255, 253, 249, 0.72);
+    box-shadow: inset 0 0 0 7px rgba(184, 139, 57, 0.08);
+}
+.howto-guide-hero-seal i { color: var(--howto-gold); font-size: 2.05rem; }
+.howto-guide-hero-seal span { font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.13em; line-height: 1.35; text-align: center; }
+.howto-guide-overview {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(340px, 1.1fr);
+    gap: clamp(1.4rem, 4vw, 3.5rem);
+    align-items: center;
+    margin-top: 1.3rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--howto-line);
+    border-radius: 23px;
+    background: var(--howto-paper-soft);
+    box-shadow: 0 12px 30px rgba(68, 34, 28, 0.055);
+}
+.howto-guide-overview h2,
+.howto-guide-toc h2 { margin: 0.42rem 0 0; color: var(--howto-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.28rem, 2.6vw, 1.7rem); font-weight: 700; letter-spacing: 0.055em; line-height: 1.45; }
+.howto-guide-overview > div > p:last-child { margin: 0.68rem 0 0; color: var(--howto-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.9rem; line-height: 1.9; }
+.howto-guide-overview-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.62rem; margin: 0; padding: 0; list-style: none; }
+.howto-guide-overview-list li { min-height: 112px; padding: 0.85rem; border: 1px solid rgba(184, 139, 57, 0.25); border-radius: 15px; background: rgba(255, 253, 249, 0.78); }
+.howto-guide-overview-list span { display: block; color: var(--howto-gold); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.67rem; font-weight: 800; letter-spacing: 0.12em; }
+.howto-guide-overview-list strong { display: block; margin-top: 0.48rem; color: var(--howto-ink); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.85rem; line-height: 1.5; }
+.howto-guide-overview-list small { display: block; margin-top: 0.25rem; color: var(--howto-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; line-height: 1.6; }
+.howto-guide-toc { margin-top: 1.3rem; }
+.howto-guide-toc > div { padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--howto-line); border-radius: 23px; background: var(--howto-paper); box-shadow: 0 12px 30px rgba(68, 34, 28, 0.055); }
+.howto-guide-toc-head { display: flex; justify-content: space-between; gap: 1rem; align-items: end; }
+.howto-guide-toc-note { padding-bottom: 0.18rem; color: var(--howto-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+#view-howto #howto-toc-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.62rem; margin: 1.2rem 0 0; padding: 0; list-style: none; }
+#view-howto #howto-toc-list li { margin: 0; min-width: 0; }
+#view-howto #howto-toc-list a { display: flex; min-height: 44px; align-items: flex-start; gap: 0.42rem; padding: 0.67rem 0.72rem; border: 1px solid transparent; border-radius: 12px; color: var(--howto-ink); background: var(--howto-paper-soft); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.8rem; font-weight: 700; line-height: 1.5; text-decoration: none; transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease; }
+#view-howto #howto-toc-list a i { flex: 0 0 auto; margin: 0.22rem 0 0; color: var(--howto-gold); }
+#view-howto #howto-toc-list a:hover { border-color: rgba(154, 40, 48, 0.25); color: var(--howto-red-deep); background: rgba(154, 40, 48, 0.055); transform: translateY(-1px); }
+.howto-guide-content { display: grid; gap: 1.1rem; margin-top: 1.3rem; }
+.howto-guide-prologue { padding: clamp(1.6rem, 4vw, 2.7rem); border: 1px solid var(--howto-line); border-radius: 23px; color: var(--howto-ink); background: var(--howto-paper-soft); box-shadow: 0 12px 30px rgba(68, 34, 28, 0.05); text-align: center; }
+.howto-guide-prologue-label { justify-content: center; }
+.howto-guide-prologue > i { display: block; margin: 0.35rem 0 0; color: var(--howto-gold); font-size: 1.6rem; opacity: 0.75; }
+.howto-guide-prologue > p:last-child { margin: 0.6rem 0 0; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.02rem, 2vw, 1.22rem); font-weight: 600; letter-spacing: 0.06em; line-height: 2; }
+.howto-guide-entry { overflow: hidden; border: 1px solid var(--howto-line); border-radius: 23px; background: var(--howto-paper); box-shadow: 0 12px 30px rgba(68, 34, 28, 0.055); }
+.howto-guide-entry-heading { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.85rem; align-items: center; padding: clamp(1.05rem, 2.4vw, 1.45rem) clamp(1.15rem, 3vw, 2rem); border-bottom: 1px solid var(--howto-line); background: linear-gradient(90deg, rgba(184, 139, 57, 0.1), rgba(255, 255, 255, 0)); }
+.howto-guide-entry-number { display: grid; width: 2.6rem; height: 2.6rem; place-items: center; border-radius: 50%; color: #fffaf4; background: linear-gradient(135deg, var(--howto-red), var(--howto-red-deep)); box-shadow: 0 7px 15px rgba(115, 30, 36, 0.18); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.05em; }
+.howto-guide-entry-number i { font-size: 1.1rem; }
+.howto-guide-entry-heading p { color: var(--howto-gold); font-size: 0.6rem; }
+.howto-guide-entry-heading h3 { margin: 0.22rem 0 0; color: var(--howto-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.08rem, 2.4vw, 1.38rem); font-weight: 700; letter-spacing: 0.04em; line-height: 1.5; scroll-margin-top: 1rem; }
+.howto-guide-entry-body { padding: clamp(1.15rem, 3vw, 1.9rem) clamp(1.15rem, 3vw, 2rem); color: var(--howto-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.93rem; line-height: 2; }
+.howto-guide-entry-body p { margin: 0; }
+.howto-guide-entry-body p + p { margin-top: 0.9rem; }
+.howto-guide-muted { color: var(--howto-muted); opacity: 0.9; }
+.howto-guide-settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.78rem; padding: 0 clamp(1.15rem, 3vw, 2rem) clamp(1.15rem, 3vw, 2rem); }
+.howto-guide-settings-grid--reading { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.howto-guide-setting-card { min-width: 0; padding: 1rem; border: 1px solid rgba(184, 139, 57, 0.23); border-radius: 16px; background: var(--howto-paper-soft); }
+.howto-guide-setting-card--theme { grid-column: 1 / -1; }
+.howto-guide-setting-head { display: flex; min-width: 0; align-items: center; gap: 0.68rem; }
+.howto-guide-setting-icon { display: grid; width: 2.15rem; height: 2.15rem; flex: 0 0 auto; place-items: center; border-radius: 50%; color: var(--howto-red); background: var(--howto-gold-soft); }
+.howto-guide-setting-head h4 { margin: 0; color: var(--howto-ink); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.85rem; font-weight: 800; line-height: 1.45; }
+.howto-guide-setting-head p { margin: 0.08rem 0 0; color: var(--howto-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; line-height: 1.55; }
+.howto-guide-setting-row { display: flex; min-height: 44px; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.howto-guide-option-group { display: flex; min-height: 44px; gap: 0.22rem; width: 100%; margin-top: 0.9rem; padding: 0.22rem; border: 1px solid rgba(112, 73, 52, 0.14); border-radius: 13px; background: rgba(255, 253, 249, 0.76); }
+.howto-guide-option-group .theme-select-btn { min-height: 39px; padding: 0.5rem 0.38rem; border: 1px solid transparent; border-radius: 9px; color: var(--howto-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.76rem; font-weight: 700; line-height: 1.25; }
+.howto-guide-option-group .theme-select-btn:hover:not(.active) { color: var(--howto-red-deep); background: rgba(154, 40, 48, 0.06); }
+.howto-guide-option-group .theme-select-btn.active { color: #fffaf4; background: var(--howto-red); box-shadow: 0 3px 9px rgba(115, 30, 36, 0.2); }
+.howto-guide-switch { display: inline-flex; width: 3.4rem; min-width: 3.4rem; min-height: 44px; align-items: center; justify-content: flex-end; }
+.howto-guide-switch .slider { margin: 0; }
+.howto-guide-reset-wrap { display: flex; justify-content: center; padding: 0.15rem 0 0.35rem; }
+.howto-guide-reset-button,
+.howto-guide-revisit-button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 0.48rem; border: 1px solid rgba(154, 40, 48, 0.24); border-radius: 12px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.78rem; font-weight: 800; line-height: 1.45; transition: background 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease; }
+.howto-guide-reset-button { padding: 0.65rem 0.9rem; color: var(--howto-red-deep); background: transparent; }
+.howto-guide-reset-button:hover { color: #fffaf4; border-color: var(--howto-red); background: var(--howto-red); transform: translateY(-1px); }
+.howto-guide-revisit { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.2rem; align-items: center; padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid rgba(184, 139, 57, 0.37); border-radius: 23px; background: linear-gradient(135deg, rgba(184, 139, 57, 0.12), rgba(154, 40, 48, 0.055)); box-shadow: 0 12px 30px rgba(68, 34, 28, 0.055); }
+.howto-guide-revisit h3 { margin: 0.35rem 0 0; color: var(--howto-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.05rem, 2.4vw, 1.35rem); font-weight: 700; letter-spacing: 0.04em; line-height: 1.5; scroll-margin-top: 1rem; }
+.howto-guide-revisit p:last-child { margin: 0.43rem 0 0; color: var(--howto-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.85rem; line-height: 1.8; }
+.howto-guide-revisit-button { padding: 0.7rem 1rem; color: #fffaf4; border-color: var(--howto-red); background: var(--howto-red); box-shadow: 0 8px 16px rgba(115, 30, 36, 0.16); white-space: nowrap; }
+.howto-guide-revisit-button:hover { background: var(--howto-red-deep); transform: translateY(-1px); }
+#view-howto a:focus-visible,
+#view-howto button:focus-visible,
+#view-howto input:focus-visible + .slider { outline: 3px solid rgba(184, 139, 57, 0.9); outline-offset: 3px; }
+#view-howto .howto-guide-switch:focus-within { border-radius: 12px; outline: 3px solid rgba(184, 139, 57, 0.9); outline-offset: 3px; }
+.dark .howto-guide-layout { --howto-paper: #181414; --howto-paper-soft: #221a18; --howto-paper-deep: #2b211e; --howto-ink: #f6e8df; --howto-muted: #c3b0a7; --howto-line: rgba(238, 215, 195, 0.15); --howto-gold-soft: rgba(213, 179, 106, 0.16); }
+.dark .howto-guide-hero { border-color: rgba(213, 179, 106, 0.3); background: radial-gradient(circle at 92% 16%, rgba(213, 179, 106, 0.14), transparent 25%), radial-gradient(circle at 6% 100%, rgba(154, 40, 48, 0.2), transparent 33%), linear-gradient(135deg, #181313 0%, #211918 58%, #151212 100%); }
+.dark .howto-guide-hero::before { border-color: rgba(213, 179, 106, 0.18); }
+.dark .howto-guide-hero-seal,
+.dark .howto-guide-summary,
+.dark .howto-guide-overview-list li,
+.dark .howto-guide-option-group { background: rgba(28, 23, 22, 0.75); }
+.dark .howto-guide-summary,
+.dark .howto-guide-overview-list strong,
+.dark #view-howto #howto-toc-list a,
+.dark .howto-guide-entry-heading h3,
+.dark .howto-guide-setting-head h4,
+.dark .howto-guide-revisit h3 { color: #fffaf4; }
+.dark .howto-guide-option-group .theme-select-btn { color: #c3b0a7; }
+.dark .howto-guide-option-group .theme-select-btn.active { color: #fffaf4; background: #b44b51; }
+@media (prefers-color-scheme: dark) {
+    html:not(.light) .howto-guide-layout { --howto-paper: #181414; --howto-paper-soft: #221a18; --howto-paper-deep: #2b211e; --howto-ink: #f6e8df; --howto-muted: #c3b0a7; --howto-line: rgba(238, 215, 195, 0.15); --howto-gold-soft: rgba(213, 179, 106, 0.16); }
+    html:not(.light) .howto-guide-hero { border-color: rgba(213, 179, 106, 0.3); background: radial-gradient(circle at 92% 16%, rgba(213, 179, 106, 0.14), transparent 25%), radial-gradient(circle at 6% 100%, rgba(154, 40, 48, 0.2), transparent 33%), linear-gradient(135deg, #181313 0%, #211918 58%, #151212 100%); }
+    html:not(.light) .howto-guide-hero::before { border-color: rgba(213, 179, 106, 0.18); }
+    html:not(.light) .howto-guide-hero-seal,
+    html:not(.light) .howto-guide-summary,
+    html:not(.light) .howto-guide-overview-list li,
+    html:not(.light) .howto-guide-option-group { background: rgba(28, 23, 22, 0.75); }
+    html:not(.light) .howto-guide-summary,
+    html:not(.light) .howto-guide-overview-list strong,
+    html:not(.light) #view-howto #howto-toc-list a,
+    html:not(.light) .howto-guide-entry-heading h3,
+    html:not(.light) .howto-guide-setting-head h4,
+    html:not(.light) .howto-guide-revisit h3 { color: #fffaf4; }
+    html:not(.light) .howto-guide-option-group .theme-select-btn { color: #c3b0a7; }
+    html:not(.light) .howto-guide-option-group .theme-select-btn.active { color: #fffaf4; background: #b44b51; }
+}
+@media (min-width: 1025px) {
+    body.sidebar-collapsed #view-howto {
+        width: min(920px, calc(100% - 144px));
+        max-width: 920px;
+        margin-right: 0;
+        margin-left: max(144px, calc((100% - 920px) / 2));
+    }
+}
+@media (max-width: 760px) {
+    .howto-guide-layout { padding-top: 0.8rem; }
+    .howto-guide-hero,
+    .howto-guide-overview,
+    .howto-guide-revisit { grid-template-columns: 1fr; }
+    .howto-guide-hero { min-height: 0; padding: 1.35rem; border-radius: 22px; }
+    .howto-guide-hero::before { inset: 9px; border-radius: 15px; }
+    .howto-guide-hero::after { top: -112px; right: -92px; }
+    .howto-guide-hero-seal { width: 98px; height: 98px; }
+    .howto-guide-hero-seal i { font-size: 1.7rem; }
+    .howto-guide-overview { gap: 1.15rem; padding: 1.25rem; }
+    .howto-guide-overview-list,
+    #view-howto #howto-toc-list,
+    .howto-guide-settings-grid,
+    .howto-guide-settings-grid--reading { grid-template-columns: 1fr; }
+    .howto-guide-toc > div,
+    .howto-guide-prologue { padding: 1.25rem; }
+    .howto-guide-toc-head { align-items: start; flex-direction: column; }
+    .howto-guide-toc-note { white-space: normal; }
+    .howto-guide-revisit-button { width: 100%; }
+}
+@media (max-width: 460px) {
+    .howto-guide-hero h1 { font-size: 1.8rem; }
+    .howto-guide-hero-seal { width: 84px; height: 84px; }
+    .howto-guide-hero-seal span { display: none; }
+    .howto-guide-overview,
+    .howto-guide-toc > div,
+    .howto-guide-prologue,
+    .howto-guide-entry,
+    .howto-guide-revisit { border-radius: 17px; }
+    .howto-guide-entry-heading { padding: 1rem; }
+    .howto-guide-entry-body { padding: 1rem; }
+    .howto-guide-settings-grid { padding: 0 1rem 1rem; }
+    .howto-guide-entry-heading h3 { font-size: 1rem; }
+    .howto-guide-summary { display: flex; border-radius: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #view-howto *,
+    #view-howto *::before,
+    #view-howto *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+/* 1. ニュース検索エリア (履歴のコントロールバーと統一) */
 .news-control-bar {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
@@ -10524,389 +10796,294 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
         
     <!-- ビュー: 当サイトについて・利用規約・詳細解説 (モダンUI刷新版) -->
-        <section id="view-howto" class="view-section max-w-5xl mx-auto pb-20">
+        <!-- ビュー: 天命乃杜の使い方（Ver.4.0 参拝案内所テンプレート） -->
+        <section id="view-howto" class="view-section howto-guide-layout" aria-labelledby="howto-page-title">
+            <header class="howto-guide-hero">
+                <div class="howto-guide-hero-copy">
+                    <p class="howto-guide-eyebrow"><i class="bi bi-signpost-split" aria-hidden="true"></i> PILGRIMAGE GUIDE</p>
+                    <h1 id="howto-page-title">天命乃杜の使い方</h1>
+                    <p class="howto-guide-lead">おみくじから日々の設定まで、天命乃杜でできることを順にたどれる参拝案内所です。気になる項目からお読みいただけます。</p>
+                    <p class="howto-guide-summary"><i class="bi bi-journal-check" aria-hidden="true"></i> 12の機能案内と、環境・読書設定をご用意しています。</p>
+                </div>
+                <div class="howto-guide-hero-seal" aria-hidden="true">
+                    <i class="bi bi-compass"></i>
+                    <span>HOW<br>TO USE</span>
+                </div>
+            </header>
 
-            <!-- ヘッダーカード -->
-            <div class="bento-card howto-hero-card mb-6 relative overflow-hidden bg-gradient-to-br from-red-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
-                <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #ef4444 0%, transparent 70%);"></div>
-                <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #d4af37 0%, transparent 70%);"></div>
-                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div class="flex-1">
-                        <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">HELP CENTER</p>
-                        <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                            <span class="text-4xl text-red-400"><i class="bi bi-question-circle-fill"></i></span>
-                            <span class="text-white">天命乃杜の使い方</span>
-                        </h2>
-                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">各機能の使い方を、項目ごとにまとめました。気になるところだけお読みいただいて構いません。</p>
-                    </div>
-                    <div class="flex-shrink-0 text-center flex flex-col items-center gap-2">
-                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #7f1d1d, #b91c1c); box-shadow: 0 0 24px rgba(239,68,68,0.3);">
-                            <i class="bi bi-compass text-4xl text-white"></i>
+            <section class="howto-guide-overview" aria-labelledby="howto-overview-heading">
+                <div>
+                    <p class="howto-guide-section-kicker"><i class="bi bi-map" aria-hidden="true"></i> READING GUIDE</p>
+                    <h2 id="howto-overview-heading">参拝案内所の歩き方</h2>
+                    <p>各項目は、知りたい機能だけを選んで読めるように整理しています。ご利用前の確認から、表示の調整まで、この画面で迷わず進めます。</p>
+                </div>
+                <ol class="howto-guide-overview-list" aria-label="使い方画面の構成">
+                    <li><span>01</span><strong>機能を探す</strong><small>目次から目的の案内へ移動</small></li>
+                    <li><span>02</span><strong>使い方を読む</strong><small>各機能の特徴と利用上の注意を確認</small></li>
+                    <li><span>03</span><strong>環境を整える</strong><small>テーマと読書表示をお好みに調整</small></li>
+                </ol>
+            </section>
+
+            <nav id="howto-toc-container" class="howto-guide-toc hidden" aria-labelledby="howto-toc-heading">
+                <div>
+                    <div class="howto-guide-toc-head">
+                        <div>
+                            <p class="howto-guide-section-kicker"><i class="bi bi-list-nested" aria-hidden="true"></i> CONTENTS</p>
+                            <h2 id="howto-toc-heading">項目から探す</h2>
                         </div>
-                        <p class="text-xs text-zinc-500 font-bold tracking-widest">HOW TO USE</p>
+                        <span class="howto-guide-toc-note">見出しを選んで案内へ移動</span>
                     </div>
+                    <ul id="howto-toc-list"></ul>
                 </div>
-            </div>
+            </nav>
 
-            <!-- 目次 (TOC) -->
-            <div id="howto-toc-container" class="hidden mb-6">
-                <div class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
-                    <h3 class="font-bold text-sm text-gray-500 mb-3 uppercase tracking-wider"><i class="bi bi-list-ul mr-2"></i>目次</h3>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm font-medium" id="howto-toc-list"></ul>
-                </div>
-            </div>
+            <main id="howto-content-area" class="howto-guide-content" aria-labelledby="howto-content-heading">
+                <section class="howto-guide-prologue" aria-labelledby="howto-content-heading">
+                    <p class="howto-guide-prologue-label">WELCOME</p>
+                    <i class="bi bi-quote" aria-hidden="true"></i>
+                    <p id="howto-content-heading">はじめての方も、そうでない方も。<br>ここでは天命乃杜の各機能を、ひとつずつご案内します。</p>
+                </section>
 
-            <!-- 本文エリア -->
-            <div id="howto-content-area" class="space-y-8">
-
-                <!-- 導入 -->
-                <div class="bento-card p-8 text-center font-serif text-lg leading-loose text-gray-700 dark:text-gray-300">
-                    <i class="bi bi-quote text-4xl text-gray-200 dark:text-gray-700 block mb-2"></i>
-                    はじめての方も、そうでない方も。<br>ここでは天命乃杜の各機能を、ひとつずつご案内します。
-                </div>
-
-                <!-- 01 おみくじを引く -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">01</span>
-                            おみくじを引く（天命の授与所）
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry howto-guide-entry--fortune">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">01</span>
+                        <div><p>MAIN FUNCTION</p><h3>おみくじを引く（天命の授与所）</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>ホーム画面の「おみくじを引く」ボタンから天命の授与所へ進み、並んでいる札の中から気になる1枚を選んでタップしてください。</p>
                         <p>結果には大吉から大凶までの12段階の運勢に加え、和歌・解説文、願事・恋愛・待人など七項目の詳細、そしてラッキーアイテム・ラッキー場所・ラッキーカラー・ラッキー人物が表示されます。</p>
                         <p>結果画面の下部からは、おみくじの結果を画像として端末に保存したり、公式Discordサーバーの参拝記録チャンネルへ結果を共有することもできます。</p>
                         <p>結果画面には「AI悩み相談」も用意されています。引いた運勢を踏まえて、今の悩みごとをAIに一言相談できる機能で、ログイン不要でどなたでもお使いいただけます。相談内容や回答は保存されず、その場限りの表示にとどまります。</p>
                         <p>何度でも引き直すことができますが、その日の結果は「今の自分に必要な言葉」として、じっくり読んでいただくのがおすすめです。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 02 12星座占い -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">02</span>
-                            12星座占い
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">02</span>
+                        <div><p>DAILY FORTUNE</p><h3>12星座占い</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>サイドバーの「12星座占い」から、自分の星座と血液型を選ぶと、その日の運勢を確認できます。12星座×4血液型、全48通りの運勢を毎日0時に更新してランキング形式で公開しているのが特徴です。</p>
                         <p>恋愛・お金・仕事など分野ごとの運勢に加え、ラッキーナンバー・ラッキーアイテム・ラッキーカラーも毎日更新されます。同じ星座・血液型の組み合わせでも、日付が変わればまた違う結果が表示されます。</p>
                         <p>結果画面の星アイコンをタップすると、その星座×血液型の組み合わせをお気に入りとして登録できます（最大5件まで）。よく確認する組み合わせを登録しておけば、いつでもすぐに見返せます。参拝証をお持ちの方限定の機能です。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 03 デジタル御守授与所 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">03</span>
-                            デジタル御守授与所
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">03</span>
+                        <div><p>DIGITAL CHARM</p><h3>デジタル御守授与所</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>サイドバーの「御守」から、健康・恋愛・金運・学業などいくつかの願い事の中から選び、名前を入力すると、あなただけのデジタル御守が授与されます。</p>
                         <p>完成した御守は画像として端末に保存できます。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 04 参拝の記録 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">04</span>
-                            参拝の記録
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">04</span>
+                        <div><p>YOUR RECORD</p><h3>参拝の記録</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>おみくじを引く前に設定した参拝者名（ログイン中は会員名）で、これまでに引いたおみくじの回数や運勢の分布、大吉を引いた回数などの個人統計をグラフで確認できます。</p>
                         <p>会員登録（参拝証の発行）は必須ではありません。未ログインの場合、端末のlocalStorageに保存したゲストIDで記録を識別し、参拝記録とゲストプロフィールは当サイトのサーバーにも保存されます。ブラウザのデータを消去したり、別の端末・ブラウザを使ったりすると、同じゲストIDを使えず、それまでの記録にアクセスできなくなる場合があります。長く記録を残したい場合は「08. 参拝証の発行」から会員登録をおすすめします。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 05 おみくじの轍 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">05</span>
-                            おみくじの轍
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">05</span>
+                        <div><p>PILGRIMAGE HISTORY</p><h3>おみくじの轍</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>参拝者名を設定する（またはログインする）と、これまでに引いたおみくじの履歴を一覧で振り返ることができます。条件を絞り込んでの検索や、全体の傾向の確認も可能です。</p>
                         <p>ここには他の参拝者の履歴も表示されます。参拝者名は結果ページや轍で公開されるため、本名（フルネーム）の入力はお控えください。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 06 全国・土地の運気 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">06</span>
-                            全国・土地の運気
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">06</span>
+                        <div><p>REGIONAL FORTUNE</p><h3>全国・土地の運気</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>サイドバーの「全国の運気」では、都道府県ごとの運気ランキングを毎日更新でご覧いただけます。自分の住んでいる地域や気になる土地の運気をチェックしてみてください。</p>
                         <p>ランキング形式の「テキスト版」に加えて、日本地図上にマーカーで運気を表示する「地図版」も選べます。マーカーはスコアに応じて金・赤・青・灰の4色に色分けされ、地図左上の現在地ボタンを押すと、現在地付近まで地図を自動で移動できます（取得した位置情報はサーバーには送信・保存されません）。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 07 社務所だより・神籤草子 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">07</span>
-                            社務所だより・神籤草子
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">07</span>
+                        <div><p>READING ROOM</p><h3>社務所だより・神籤草子</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>「社務所だより」は、天命乃杜のアップデート情報や不具合修正のお知らせをまとめた運営からのお知らせ欄です。</p>
                         <p>「神籤草子」は、おみくじや運勢にまつわるコラム記事を集めた読みものコーナーです。おみくじの歴史や豆知識など、参拝の合間に読んでいただける内容を掲載しています。</p>
                         <p>各記事の本文冒頭には「要約する」ボタンがあり、押すとAIが記事の要点を150文字程度に自動でまとめて表示します。長い記事でも先に概要をつかんでから読み進められます。要約結果はいいね・よくないねで評価でき、使用したAIモデル名や文字数の比較なども確認できます。なお、要約はAIによる自動生成のため、実際の記事内容と異なる場合があります。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 08 参拝証の発行 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">08</span>
-                            参拝証の発行（会員登録・ログイン）
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">08</span>
+                        <div><p>MEMBERSHIP</p><h3>参拝証の発行（会員登録・ログイン）</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>おみくじや占いは登録なしでもお楽しみいただけます。参拝の記録・おみくじの轍は、おみくじを引く前に参拝者名を設定するだけで未ログインでもご利用いただけます。未ログインの記録は、端末のlocalStorageに保存したゲストIDで識別され、参拝記録とゲストプロフィールは当サイトのサーバーにも保存されます。参拝証を発行（会員登録）すると、ログインして別の端末からもご自身のアカウントの記録を利用できるほか、お気に入り登録・AI夢占い・TENMEI LABSといった追加機能も使えるようになります。</p>
                         <p>メールアドレスとパスワードを入力し、メールに届く認証コードを入力するだけで発行できます。2回目以降のログインでは、メール内のボタンをワンクリックするだけで完了する方式も選べます（認証コードを直接入力する方式ももちろん利用できます）。Googleアカウントでのログインにも対応しています。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 09 Discord連携 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">09</span>
-                            公式Discordサーバー
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">09</span>
+                        <div><p>COMMUNITY</p><h3>公式Discordサーバー</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>ホーム画面の「公式Discord参拝所へ」ボタンから、天命乃杜の公式Discordサーバーに参加できます。</p>
                         <p>サーバー内では /おみくじ や /星座占い などのコマンドでその場で占いを楽しめるほか、サイトで引いたおみくじの結果を参拝記録チャンネルへ共有し、参拝者同士で分かち合うこともできます。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 10 環境設定（ログイン不要） -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">10</span>
-                            環境設定
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry howto-guide-entry--settings">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">10</span>
+                        <div><p>DISPLAY PREFERENCES</p><h3>環境設定</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>表示テーマや演出の速さなど、閲覧環境に関する設定です。参拝証をお持ちでない方も、ここから調整いただけます。</p>
-                        <p class="text-xs" style="opacity:0.7;">設定はこの端末（ブラウザ）に記憶されます。参拝証をお持ちの方は、ログイン後にどの端末からでも同じ設定が引き継がれます。</p>
+                        <p class="howto-guide-muted">設定はこの端末（ブラウザ）に記憶されます。参拝証をお持ちの方は、ログイン後にどの端末からでも同じ設定が引き継がれます。</p>
                     </div>
-                    <div class="p-6 md:p-8 space-y-4 border-t border-gray-100 dark:border-zinc-800">
-                        <!-- 表示テーマ -->
-                        <div>
-                            <div class="flex items-center gap-2 mb-2">
-                                <div class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 shrink-0">
-                                    <i class="bi bi-moon-stars-fill"></i>
-                                </div>
-                                <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
-                                    表示テーマ
-                                    <span class="block text-[10px] text-gray-400 font-normal">サイトの配色を選択</span>
-                                </div>
+                    <div class="howto-guide-settings-grid" aria-label="環境設定の項目">
+                        <section class="howto-guide-setting-card howto-guide-setting-card--theme" aria-labelledby="howto-theme-heading">
+                            <div class="howto-guide-setting-head">
+                                <span class="howto-guide-setting-icon"><i class="bi bi-circle-half" aria-hidden="true"></i></span>
+                                <div><h4 id="howto-theme-heading">表示テーマ</h4><p>サイトの配色を選択</p></div>
                             </div>
-                            <div class="theme-select-group" data-value="system">
-                                <button type="button" class="theme-select-btn" data-theme="system" onclick="AppConfig.toggle('theme','system')" title="端末の設定に合わせる">
-                                    <i class="bi bi-circle-half"></i><span>自動</span>
-                                </button>
-                                <button type="button" class="theme-select-btn" data-theme="light" onclick="AppConfig.toggle('theme','light')" title="常にライトモード">
-                                    <i class="bi bi-sun-fill"></i><span>ライト</span>
-                                </button>
-                                <button type="button" class="theme-select-btn" data-theme="dark" onclick="AppConfig.toggle('theme','dark')" title="常にダークモード">
-                                    <i class="bi bi-moon-stars-fill"></i><span>ダーク</span>
-                                </button>
+                            <div class="theme-select-group howto-guide-option-group" data-value="system" role="group" aria-label="表示テーマ">
+                                <button type="button" class="theme-select-btn" data-theme="system" onclick="AppConfig.toggle('theme','system')" title="端末の設定に合わせる" aria-pressed="false"><i class="bi bi-circle-half" aria-hidden="true"></i><span>自動</span></button>
+                                <button type="button" class="theme-select-btn" data-theme="light" onclick="AppConfig.toggle('theme','light')" title="常にライトモード" aria-pressed="false"><i class="bi bi-sun-fill" aria-hidden="true"></i><span>ライト</span></button>
+                                <button type="button" class="theme-select-btn" data-theme="dark" onclick="AppConfig.toggle('theme','dark')" title="常にダークモード" aria-pressed="false"><i class="bi bi-moon-stars-fill" aria-hidden="true"></i><span>ダーク</span></button>
                             </div>
-                        </div>
+                        </section>
 
-                        <!-- 神速の祈り -->
-                        <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-zinc-700">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
-                                    <i class="bi bi-lightning-charge-fill"></i>
-                                </div>
-                                <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
-                                    神速の祈り
-                                    <span class="block text-[10px] text-gray-400 font-normal">おみくじ演出を省略</span>
-                                </div>
+                        <section class="howto-guide-setting-card" aria-labelledby="howto-speed-heading">
+                            <div class="howto-guide-setting-row">
+                                <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i></span><div><h4 id="howto-speed-heading">神速の祈り</h4><p>おみくじ演出を省略</p></div></div>
+                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-speed-toggle" onchange="AppConfig.toggle('speed', this.checked)" aria-label="神速の祈りを切り替える"><span class="slider" aria-hidden="true"></span></label>
                             </div>
-                            <label class="toggle-switch scale-90">
-                                <input type="checkbox" id="howto-speed-toggle" onchange="AppConfig.toggle('speed', this.checked)">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                        </section>
 
-                        <!-- サイドバーの挙動 -->
-                        <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-zinc-700">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center text-slate-500 dark:text-slate-400">
-                                    <i class="bi bi-layout-sidebar"></i>
-                                </div>
-                                <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
-                                    サイドバーの挙動
-                                    <span class="block text-[10px] text-gray-400 font-normal">サイドバーの開閉方式を切り替え</span>
-                                </div>
+                        <section class="howto-guide-setting-card" aria-labelledby="howto-sidebar-heading">
+                            <div class="howto-guide-setting-row">
+                                <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-layout-sidebar" aria-hidden="true"></i></span><div><h4 id="howto-sidebar-heading">サイドバーの挙動</h4><p>サイドバーの開閉方式を切り替え</p></div></div>
+                                <label class="toggle-switch howto-guide-switch" title="ON: ボタンで開閉 / OFF: ホバーで展開"><input type="checkbox" id="howto-sidebarbtn-toggle" onchange="AppConfig.toggle('sidebarButton', this.checked)" aria-label="サイドバーの開閉方式を切り替える"><span class="slider" aria-hidden="true"></span></label>
                             </div>
-                            <label class="toggle-switch scale-90" title="ON: ボタンで開閉 / OFF: ホバーで展開">
-                                <input type="checkbox" id="howto-sidebarbtn-toggle" onchange="AppConfig.toggle('sidebarButton', this.checked)">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                        </section>
 
-                        <!-- タブの呼びかけ -->
-                        <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-zinc-700">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center text-rose-500">
-                                    <i class="bi bi-window-stack"></i>
-                                </div>
-                                <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
-                                    タブの呼びかけ
-                                    <span class="block text-[10px] text-gray-400 font-normal">離席中、タブの文字が語りかけます</span>
-                                </div>
+                        <section class="howto-guide-setting-card" aria-labelledby="howto-tabtitle-heading">
+                            <div class="howto-guide-setting-row">
+                                <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span><div><h4 id="howto-tabtitle-heading">タブの呼びかけ</h4><p>離席中、タブの文字が語りかけます</p></div></div>
+                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-tabtitle-toggle" onchange="AppConfig.toggle('tabTitle', this.checked)" aria-label="タブの呼びかけを切り替える"><span class="slider" aria-hidden="true"></span></label>
                             </div>
-                            <label class="toggle-switch scale-90">
-                                <input type="checkbox" id="howto-tabtitle-toggle" onchange="AppConfig.toggle('tabTitle', this.checked)">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                        </section>
                     </div>
-                </div>
+                </section>
 
-                <!-- 10.5 読書設定 (フカヨミより移植・ログイン不要) -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm"><i class="bi bi-body-text"></i></span>
-                            読書設定
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry howto-guide-entry--settings">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number"><i class="bi bi-body-text" aria-hidden="true"></i></span>
+                        <div><p>READING PREFERENCES</p><h3>読書設定</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>社務所だより・神籤草子などの記事本文の見え方を、お好みにあわせて調整できます。参拝証をお持ちでない方も、ここから調整いただけます。</p>
                     </div>
-                    <div class="p-6 md:p-8 space-y-4 border-t border-gray-100 dark:border-zinc-800">
-                        <div>
-                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                                文字サイズ
-                                <span class="block text-[10px] text-gray-400 font-normal">記事本文の文字の大きさ</span>
+                    <div class="howto-guide-settings-grid howto-guide-settings-grid--reading" aria-label="読書設定の項目">
+                        <section class="howto-guide-setting-card" aria-labelledby="howto-font-size-heading">
+                            <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-textarea-t" aria-hidden="true"></i></span><div><h4 id="howto-font-size-heading">文字サイズ</h4><p>記事本文の文字の大きさ</p></div></div>
+                            <div class="theme-select-group opt-select-group howto-guide-option-group" data-setting="fontSize" data-value="md" role="group" aria-label="文字サイズ">
+                                <button type="button" class="theme-select-btn" data-value="sm" onclick="AppConfig.toggle('fontSize','sm')" aria-pressed="false"><span>小</span></button>
+                                <button type="button" class="theme-select-btn" data-value="md" onclick="AppConfig.toggle('fontSize','md')" aria-pressed="false"><span>標準</span></button>
+                                <button type="button" class="theme-select-btn" data-value="lg" onclick="AppConfig.toggle('fontSize','lg')" aria-pressed="false"><span>大</span></button>
+                                <button type="button" class="theme-select-btn" data-value="xl" onclick="AppConfig.toggle('fontSize','xl')" aria-pressed="false"><span>特大</span></button>
                             </div>
-                            <div class="theme-select-group opt-select-group" data-setting="fontSize" data-value="md">
-                                <button type="button" class="theme-select-btn" data-value="sm" onclick="AppConfig.toggle('fontSize','sm')"><span>小</span></button>
-                                <button type="button" class="theme-select-btn" data-value="md" onclick="AppConfig.toggle('fontSize','md')"><span>標準</span></button>
-                                <button type="button" class="theme-select-btn" data-value="lg" onclick="AppConfig.toggle('fontSize','lg')"><span>大</span></button>
-                                <button type="button" class="theme-select-btn" data-value="xl" onclick="AppConfig.toggle('fontSize','xl')"><span>特大</span></button>
+                        </section>
+
+                        <section class="howto-guide-setting-card" aria-labelledby="howto-line-height-heading">
+                            <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-text-paragraph" aria-hidden="true"></i></span><div><h4 id="howto-line-height-heading">行間</h4><p>行と行の間隔</p></div></div>
+                            <div class="theme-select-group opt-select-group howto-guide-option-group" data-setting="lineHeight" data-value="normal" role="group" aria-label="行間">
+                                <button type="button" class="theme-select-btn" data-value="normal" onclick="AppConfig.toggle('lineHeight','normal')" aria-pressed="false"><span>標準</span></button>
+                                <button type="button" class="theme-select-btn" data-value="relaxed" onclick="AppConfig.toggle('lineHeight','relaxed')" aria-pressed="false"><span>ゆったり</span></button>
                             </div>
-                        </div>
-                        <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
-                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                                行間
-                                <span class="block text-[10px] text-gray-400 font-normal">行と行の間隔</span>
+                        </section>
+
+                        <section class="howto-guide-setting-card" aria-labelledby="howto-body-font-heading">
+                            <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-fonts" aria-hidden="true"></i></span><div><h4 id="howto-body-font-heading">本文の書体</h4><p>明朝体は雰囲気重視、ゴシック体は視認性重視です</p></div></div>
+                            <div class="theme-select-group opt-select-group howto-guide-option-group" data-setting="bodyFont" data-value="serif" role="group" aria-label="本文の書体">
+                                <button type="button" class="theme-select-btn" data-value="serif" onclick="AppConfig.toggle('bodyFont','serif')" aria-pressed="false"><span>明朝体</span></button>
+                                <button type="button" class="theme-select-btn" data-value="sans" onclick="AppConfig.toggle('bodyFont','sans')" aria-pressed="false"><span>ゴシック体</span></button>
                             </div>
-                            <div class="theme-select-group opt-select-group" data-setting="lineHeight" data-value="normal">
-                                <button type="button" class="theme-select-btn" data-value="normal" onclick="AppConfig.toggle('lineHeight','normal')"><span>標準</span></button>
-                                <button type="button" class="theme-select-btn" data-value="relaxed" onclick="AppConfig.toggle('lineHeight','relaxed')"><span>ゆったり</span></button>
+                        </section>
+
+                        <section class="howto-guide-setting-card" aria-labelledby="howto-content-width-heading">
+                            <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-arrows-angle-expand" aria-hidden="true"></i></span><div><h4 id="howto-content-width-heading">本文の幅</h4><p>1行あたりの文字量</p></div></div>
+                            <div class="theme-select-group opt-select-group howto-guide-option-group" data-setting="contentWidth" data-value="standard" role="group" aria-label="本文の幅">
+                                <button type="button" class="theme-select-btn" data-value="standard" onclick="AppConfig.toggle('contentWidth','standard')" aria-pressed="false"><span>標準</span></button>
+                                <button type="button" class="theme-select-btn" data-value="wide" onclick="AppConfig.toggle('contentWidth','wide')" aria-pressed="false"><span>広め</span></button>
                             </div>
-                        </div>
-                        <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
-                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                                本文の書体
-                                <span class="block text-[10px] text-gray-400 font-normal">明朝体は雰囲気重視、ゴシック体は視認性重視です</span>
+                        </section>
+
+                        <section class="howto-guide-setting-card" aria-labelledby="howto-reduce-motion-heading">
+                            <div class="howto-guide-setting-row">
+                                <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-universal-access" aria-hidden="true"></i></span><div><h4 id="howto-reduce-motion-heading">アニメーションを減らす</h4><p>演出や画面遷移のアニメーションを抑えます</p></div></div>
+                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-reduce-motion-toggle" onchange="AppConfig.toggle('reduceMotion', this.checked)" aria-label="アニメーションを減らす設定を切り替える"><span class="slider" aria-hidden="true"></span></label>
                             </div>
-                            <div class="theme-select-group opt-select-group" data-setting="bodyFont" data-value="serif">
-                                <button type="button" class="theme-select-btn" data-value="serif" onclick="AppConfig.toggle('bodyFont','serif')"><span>明朝体</span></button>
-                                <button type="button" class="theme-select-btn" data-value="sans" onclick="AppConfig.toggle('bodyFont','sans')"><span>ゴシック体</span></button>
-                            </div>
-                        </div>
-                        <div class="pt-3 border-t border-gray-100 dark:border-zinc-700">
-                            <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                                本文の幅
-                                <span class="block text-[10px] text-gray-400 font-normal">1行あたりの文字量</span>
-                            </div>
-                            <div class="theme-select-group opt-select-group" data-setting="contentWidth" data-value="standard">
-                                <button type="button" class="theme-select-btn" data-value="standard" onclick="AppConfig.toggle('contentWidth','standard')"><span>標準</span></button>
-                                <button type="button" class="theme-select-btn" data-value="wide" onclick="AppConfig.toggle('contentWidth','wide')"><span>広め</span></button>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-zinc-700">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-full rs-accent-teal-icon flex items-center justify-center">
-                                    <i class="bi bi-universal-access"></i>
-                                </div>
-                                <div class="text-sm font-bold text-gray-700 dark:text-gray-300">
-                                    アニメーションを減らす
-                                    <span class="block text-[10px] text-gray-400 font-normal">演出や画面遷移のアニメーションを抑えます</span>
-                                </div>
-                            </div>
-                            <label class="toggle-switch scale-90">
-                                <input type="checkbox" id="howto-reduce-motion-toggle" onchange="AppConfig.toggle('reduceMotion', this.checked)">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
+                        </section>
                     </div>
+                </section>
+
+                <div class="howto-guide-reset-wrap">
+                    <button type="button" onclick="resetAllSettings()" class="howto-guide-reset-button"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i><span>環境設定・読書設定・TENMEI Labs機能を全て初期値に戻す</span></button>
                 </div>
 
-                <!-- 10.6 全ての設定を初期値に戻す -->
-                <div class="text-center">
-                    <button type="button" onclick="resetAllSettings()" class="text-xs text-gray-400 hover:text-red-500 hover:underline transition">
-                        <i class="bi bi-arrow-counterclockwise mr-1"></i>環境設定・読書設定・TENMEI Labs機能を全て初期値に戻す
-                    </button>
-                </div>
-
-                <!-- 11 AI夢占い -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">11</span>
-                            AI夢占い
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">11</span>
+                        <div><p>MEMBER FEATURE</p><h3>AI夢占い</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>サイドバーの「AI夢占い」から、見た夢の内容を入力すると、AIが夢占い的な解釈を返してくれます。参拝証をお持ちの方限定の機能です。</p>
                         <p>解釈された結果は「夢の記録」として、マイページからいつでも見返すことができます。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- 12 TENMEI LABS -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
-                        <h3 class="text-xl font-black flex items-center gap-3">
-                            <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">12</span>
-                            TENMEI LABS
-                        </h3>
-                    </div>
-                    <div class="p-6 md:p-8 space-y-3 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                <section class="howto-guide-entry">
+                    <header class="howto-guide-entry-heading">
+                        <span class="howto-guide-entry-number">12</span>
+                        <div><p>EXPERIMENTAL</p><h3>TENMEI LABS</h3></div>
+                    </header>
+                    <div class="howto-guide-entry-body">
                         <p>参拝証をお持ちの方限定で、実験的な機能を試せる場所です。サイドバーの「Labs」からアクセスできます。</p>
                         <p>ここに用意されている機能は開発中・お試し段階のものも含まれるため、随時内容が変わることがあります。</p>
-                        <p style="opacity:0.7;">ところで——このサイトには、ふと呟いた言葉に応えてくれる小さな仕掛けが、いくつか眠っています。参拝の合間に、何か話しかけてみるのも一興かもしれません。合言葉を見つけたら、Labsの「合言葉入力」欄で確かめられます。</p>
+                        <p class="howto-guide-muted">ところで——このサイトには、ふと呟いた言葉に応えてくれる小さな仕掛けが、いくつか眠っています。参拝の合間に、何か話しかけてみるのも一興かもしれません。合言葉を見つけたら、Labsの「合言葉入力」欄で確かめられます。</p>
                     </div>
-                </div>
+                </section>
 
-                <!-- ウォークスルーへの導線 -->
-                <div class="bento-card p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                <section class="howto-guide-revisit" aria-labelledby="howto-revisit-heading">
                     <div>
-                        <h3 class="font-bold flex items-center gap-2"><i class="bi bi-stars text-yellow-500"></i>もう一度、簡単な案内を見る</h3>
-                        <p class="text-xs text-gray-500 mt-1">初回訪問時に表示された5枚のスライド形式の簡単な案内を、もう一度見ることができます。</p>
+                        <p class="howto-guide-section-kicker"><i class="bi bi-stars" aria-hidden="true"></i> WALKTHROUGH</p>
+                        <h3 id="howto-revisit-heading">もう一度、簡単な案内を見る</h3>
+                        <p>初回訪問時に表示された5枚のスライド形式の簡単な案内を、もう一度見ることができます。</p>
                     </div>
-                    <button onclick="openTutorial()" class="btn-primary px-6 py-2 flex-shrink-0 whitespace-nowrap">ウォークスルーを見る</button>
-                </div>
-
-            </div>
+                    <button type="button" onclick="openTutorial()" class="howto-guide-revisit-button"><i class="bi bi-play-circle" aria-hidden="true"></i><span>ウォークスルーを見る</span></button>
+                </section>
+            </main>
         </section>
 
-                <section id="view-about" class="view-section about-codex-layout" aria-labelledby="about-page-title">
+        <section id="view-about" class="view-section about-codex-layout" aria-labelledby="about-page-title">
             <header class="about-codex-hero">
                 <img class="pdf-hero-background" src="/assets/pdf-hero-background-v2.png" alt="" aria-hidden="true" style="display: none;">
                 <div class="about-codex-hero-copy">
@@ -23682,7 +23859,9 @@ function renderServerPagination(currentPage, totalItems, perPage) {
             if(howtoThemeGroup) {
                 howtoThemeGroup.dataset.value = currentSettings.theme;
                 howtoThemeGroup.querySelectorAll('.theme-select-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.theme === currentSettings.theme);
+                    const isActive = btn.dataset.theme === currentSettings.theme;
+                    btn.classList.toggle('active', isActive);
+                    btn.setAttribute('aria-pressed', String(isActive));
                 });
             }
 
@@ -25010,7 +25189,11 @@ const LiveChart = {
                 root.style.setProperty('--article-font-size', sizeMap[settings.fontSize] || sizeMap.md);
                 document.querySelectorAll('.opt-select-group[data-setting="fontSize"]').forEach(group => {
                     group.dataset.value = settings.fontSize;
-                    group.querySelectorAll('.theme-select-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === settings.fontSize));
+                    group.querySelectorAll('.theme-select-btn').forEach(btn => {
+                        const isSelected = btn.dataset.value === settings.fontSize;
+                        btn.classList.toggle('active', isSelected);
+                        btn.setAttribute('aria-pressed', String(isSelected));
+                    });
                 });
             }
             if (settings.lineHeight !== undefined) {
@@ -25018,7 +25201,11 @@ const LiveChart = {
                 root.style.setProperty('--article-line-height', lineMap[settings.lineHeight] || lineMap.normal);
                 document.querySelectorAll('.opt-select-group[data-setting="lineHeight"]').forEach(group => {
                     group.dataset.value = settings.lineHeight;
-                    group.querySelectorAll('.theme-select-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === settings.lineHeight));
+                    group.querySelectorAll('.theme-select-btn').forEach(btn => {
+                        const isSelected = btn.dataset.value === settings.lineHeight;
+                        btn.classList.toggle('active', isSelected);
+                        btn.setAttribute('aria-pressed', String(isSelected));
+                    });
                 });
             }
             if (settings.bodyFont !== undefined) {
@@ -25026,7 +25213,11 @@ const LiveChart = {
                 root.style.setProperty('--article-font-family', fontMap[settings.bodyFont] || fontMap.serif);
                 document.querySelectorAll('.opt-select-group[data-setting="bodyFont"]').forEach(group => {
                     group.dataset.value = settings.bodyFont;
-                    group.querySelectorAll('.theme-select-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === settings.bodyFont));
+                    group.querySelectorAll('.theme-select-btn').forEach(btn => {
+                        const isSelected = btn.dataset.value === settings.bodyFont;
+                        btn.classList.toggle('active', isSelected);
+                        btn.setAttribute('aria-pressed', String(isSelected));
+                    });
                 });
             }
             if (settings.contentWidth !== undefined) {
@@ -25034,7 +25225,11 @@ const LiveChart = {
                 root.style.setProperty('--article-max-width', widthMap[settings.contentWidth] || widthMap.standard);
                 document.querySelectorAll('.opt-select-group[data-setting="contentWidth"]').forEach(group => {
                     group.dataset.value = settings.contentWidth;
-                    group.querySelectorAll('.theme-select-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.value === settings.contentWidth));
+                    group.querySelectorAll('.theme-select-btn').forEach(btn => {
+                        const isSelected = btn.dataset.value === settings.contentWidth;
+                        btn.classList.toggle('active', isSelected);
+                        btn.setAttribute('aria-pressed', String(isSelected));
+                    });
                 });
             }
             if (settings.reduceMotion !== undefined) {
@@ -25152,10 +25347,12 @@ const AppConfig = {
             applyThemeByConfig(isActive);
             // アカウント設定・使い方ページの両方に同じセグメントコントロールが
             // 存在しうるため、選択状態を全箇所へ即座に同期する
-            document.querySelectorAll('.theme-select-group').forEach(group => {
+            document.querySelectorAll('.theme-select-group:not(.opt-select-group)').forEach(group => {
                 group.dataset.value = isActive;
                 group.querySelectorAll('.theme-select-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.theme === isActive);
+                    const isSelected = btn.dataset.theme === isActive;
+                    btn.classList.toggle('active', isSelected);
+                    btn.setAttribute('aria-pressed', String(isSelected));
                 });
             });
         } else if(key === 'speed') {
@@ -25190,7 +25387,9 @@ const AppConfig = {
             document.querySelectorAll(`.opt-select-group[data-setting="${key}"]`).forEach(group => {
                 group.dataset.value = isActive;
                 group.querySelectorAll('.theme-select-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.value === isActive);
+                    const isSelected = btn.dataset.value === isActive;
+                    btn.classList.toggle('active', isSelected);
+                    btn.setAttribute('aria-pressed', String(isSelected));
                 });
             });
         } else if(key === 'reduceMotion') {
