@@ -2920,6 +2920,225 @@ html.light .auth-passport-lede { color: #67433c; }
     .auth-code-otp-box:focus { transform: none; }
 }
 
+/* 参拝証の発行：選択札の再設計。既存の認証イベントとフォーカス復帰用フックは維持する。 */
+.auth-choice-card {
+    --auth-choice-accent: var(--accent-red);
+    position: relative;
+    display: flex;
+    min-height: 246px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 20px 21px 18px;
+    border: 1px solid color-mix(in srgb, var(--auth-choice-accent) 44%, var(--card-border));
+    border-radius: 24px;
+    background: linear-gradient(155deg, color-mix(in srgb, var(--card-bg) 93%, var(--auth-choice-accent) 7%), var(--card-bg));
+    color: var(--text-main);
+    text-align: left;
+    cursor: pointer;
+    isolation: isolate;
+    transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.auth-choice-card::before {
+    position: absolute;
+    top: -74px;
+    right: -63px;
+    bottom: auto;
+    left: auto;
+    width: 184px;
+    height: 184px;
+    border: 1px solid color-mix(in srgb, var(--auth-choice-accent) 30%, transparent);
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 0 0 18px color-mix(in srgb, var(--auth-choice-accent) 7%, transparent), 0 0 0 42px color-mix(in srgb, var(--auth-choice-accent) 4%, transparent);
+    content: '';
+    z-index: -1;
+}
+.auth-choice-card::after {
+    position: absolute;
+    right: 21px;
+    bottom: 15px;
+    left: 21px;
+    width: auto;
+    height: 1px;
+    background: linear-gradient(90deg, var(--auth-choice-accent), color-mix(in srgb, var(--auth-choice-accent) 8%, transparent));
+    content: '';
+    opacity: 0.72;
+}
+.auth-choice-card--login { --auth-choice-accent: var(--accent-red); }
+.auth-choice-card--register { --auth-choice-accent: var(--accent-gold); }
+.auth-choice-card:hover {
+    border-color: var(--auth-choice-accent);
+    box-shadow: 0 18px 31px rgba(38, 23, 16, 0.15);
+    transform: translateY(-5px);
+}
+.auth-choice-card:active { transform: scale(0.98); }
+.auth-choice-topline,
+.auth-choice-content,
+.auth-choice-action { position: relative; z-index: 1; }
+.auth-choice-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.auth-choice-number {
+    display: grid;
+    width: 31px;
+    height: 31px;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--auth-choice-accent) 46%, transparent);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--auth-choice-accent) 10%, transparent);
+    color: var(--auth-choice-accent);
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 0.76rem;
+    font-weight: 900;
+}
+.auth-choice-kind {
+    color: color-mix(in srgb, var(--auth-choice-accent) 78%, var(--text-main));
+    font-family: Arial, 'Helvetica Neue', sans-serif;
+    font-size: 0.61rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-align: right;
+}
+.auth-choice-content {
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+    margin: 18px 0 12px;
+}
+.auth-choice-emblem {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    place-items: center;
+    border-radius: 18px 18px 18px 5px;
+    background: var(--auth-choice-accent);
+    box-shadow: 0 8px 16px color-mix(in srgb, var(--auth-choice-accent) 28%, transparent);
+    color: #fffaf4;
+    font-size: 1.38rem;
+}
+.auth-choice-copy { min-width: 0; }
+.auth-choice-title,
+.auth-choice-description,
+.auth-choice-detail { display: block; }
+.auth-choice-title {
+    margin: 0 0 5px;
+    color: var(--text-main);
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 1.25rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+.auth-choice-description {
+    color: var(--text-sub);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.6;
+}
+.auth-choice-detail {
+    margin-top: 8px;
+    color: color-mix(in srgb, var(--text-sub) 88%, var(--text-main));
+    font-size: 0.68rem;
+    line-height: 1.65;
+}
+.auth-choice-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 9px;
+    padding: 8px 0 7px;
+    color: var(--auth-choice-accent);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+.auth-choice-action i { font-size: 1.05rem; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+.auth-choice-card:hover .auth-choice-action i { transform: translate(2px, -2px); }
+.auth-google-option {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 0.5fr);
+    gap: 20px;
+    align-items: center;
+    min-height: 116px;
+    padding: 19px 20px;
+    border: 1px solid var(--card-border);
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--card-bg) 93%, var(--accent-gold) 7%);
+}
+.auth-google-option-copy { min-width: 0; }
+.auth-google-option-kicker {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--accent-gold);
+    font-family: Arial, 'Helvetica Neue', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+.auth-google-option h4 {
+    margin: 0;
+    color: var(--text-main);
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 1.02rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+}
+.auth-google-option p { margin: 6px 0 0; color: var(--text-sub); font-size: 0.72rem; line-height: 1.65; }
+.auth-google-button {
+    grid-column: auto;
+    display: flex;
+    min-height: 60px;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    width: 100%;
+    margin: 0;
+    padding: 12px 18px;
+    border: 1px solid #747775;
+    border-radius: 15px;
+    background: #ffffff;
+    color: #1f1f1f;
+    cursor: pointer;
+    font-family: Arial, 'Helvetica Neue', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.25;
+    transition: border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.auth-google-button:hover {
+    border-color: #1f1f1f;
+    box-shadow: 0 5px 12px rgba(60, 64, 67, 0.2);
+    transform: translateY(-1px);
+}
+.auth-google-button:active {
+    box-shadow: inset 0 1px 2px rgba(60, 64, 67, 0.24);
+    transform: scale(0.99);
+}
+.auth-google-button svg { flex: 0 0 auto; width: 21px; height: 21px; }
+.auth-google-button-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.auth-google-button-copy small { color: #5f6368; font-size: 0.68rem; font-weight: 500; }
+.dark .auth-google-option { background: color-mix(in srgb, var(--card-bg) 88%, var(--accent-gold) 12%); }
+.dark .auth-google-button { border-color: #8e918f; background: #1f1f1f; color: #e3e3e3; }
+.dark .auth-google-button:hover { border-color: #e3e3e3; box-shadow: 0 5px 12px rgba(0, 0, 0, 0.34); }
+.dark .auth-google-button-copy small { color: #c4c7c5; }
+.auth-choice-card:focus-visible,
+.auth-google-button:focus-visible { outline: 3px solid rgba(185, 28, 28, 0.6); outline-offset: 4px; }
+@media (max-width: 640px) {
+    .auth-choice-card { min-height: 202px; padding: 19px; }
+    .auth-google-option { grid-column: 1; grid-template-columns: 1fr; gap: 15px; padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .auth-choice-card:hover,
+    .auth-choice-card:hover .auth-choice-action i,
+    .auth-google-button:hover { transform: none; }
+}
+
 /* --- おみくじ選択・結果画面：Bento UI拡張 --- */
 
 /* 1. 選択画面のヘッダーカード */
@@ -8451,21 +8670,24 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
                         <div class="auth-choice-grid">
                             <button type="button" class="auth-choice-card auth-choice-card--login" data-auth-choice="login" onclick="startAuthFlow('login')" aria-describedby="auth-choice-login-description">
-                                <span class="auth-icon-circle" aria-hidden="true"><i class="bi bi-box-arrow-in-right"></i></span>
-                                <span class="auth-choice-copy"><span class="auth-choice-title">ログイン</span><span id="auth-choice-login-description" class="auth-choice-description">すでに参拝証をお持ちの方</span></span>
-                                <i class="bi bi-arrow-right auth-choice-arrow" aria-hidden="true"></i>
+                                <span class="auth-choice-topline"><span class="auth-choice-number" aria-hidden="true">壱</span><span class="auth-choice-kind">RETURNING VISITOR</span></span>
+                                <span class="auth-choice-content"><span class="auth-choice-emblem" aria-hidden="true"><i class="bi bi-box-arrow-in-right"></i></span><span class="auth-choice-copy"><span class="auth-choice-title">ログイン</span><span id="auth-choice-login-description" class="auth-choice-description">すでに参拝証をお持ちの方</span><span class="auth-choice-detail">登録済みのメールアドレスで、記録を引き継ぎます。</span></span></span>
+                                <span class="auth-choice-action"><span>ログインへ進む</span><i class="bi bi-arrow-up-right" aria-hidden="true"></i></span>
                             </button>
 
                             <button type="button" class="auth-choice-card auth-choice-card--register" data-auth-choice="register" onclick="startAuthFlow('register')" aria-describedby="auth-choice-register-description">
-                                <span class="auth-icon-circle" aria-hidden="true"><i class="bi bi-person-plus-fill"></i></span>
-                                <span class="auth-choice-copy"><span class="auth-choice-title">新規登録</span><span id="auth-choice-register-description" class="auth-choice-description">初めて参拝証を発行する方</span></span>
-                                <i class="bi bi-arrow-right auth-choice-arrow" aria-hidden="true"></i>
+                                <span class="auth-choice-topline"><span class="auth-choice-number" aria-hidden="true">弐</span><span class="auth-choice-kind">FIRST MEMBER PASS</span></span>
+                                <span class="auth-choice-content"><span class="auth-choice-emblem" aria-hidden="true"><i class="bi bi-person-plus-fill"></i></span><span class="auth-choice-copy"><span class="auth-choice-title">新規登録</span><span id="auth-choice-register-description" class="auth-choice-description">初めて参拝証を発行する方</span><span class="auth-choice-detail">参拝の記録を、端末を越えて受け継げます。</span></span></span>
+                                <span class="auth-choice-action"><span>発行をはじめる</span><i class="bi bi-arrow-up-right" aria-hidden="true"></i></span>
                             </button>
 
-                            <button type="button" class="auth-google-button" onclick="startGoogleLogin()" aria-describedby="auth-google-description">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.86l6.09-6.09C34.46 3.09 29.5 1 24 1 14.82 1 7.02 6.48 3.44 14.23l7.1 5.52C12.35 13.72 17.71 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.71c-.55 2.97-2.22 5.49-4.73 7.19l7.27 5.65C43.32 37.61 46.5 31.49 46.5 24.5z"/><path fill="#FBBC05" d="M10.54 28.25A14.58 14.58 0 0 1 9.5 24c0-1.48.26-2.91.73-4.25l-7.1-5.52A23.86 23.86 0 0 0 0 24c0 3.87.93 7.52 2.58 10.74l7.96-6.49z"/><path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.5-4.95l-7.27-5.65c-1.83 1.23-4.17 1.95-6.23 1.95-6.29 0-11.65-4.22-13.46-9.9l-7.96 6.49C7.02 41.52 14.82 47 24 47z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-                                <span class="auth-google-button-copy"><span>Googleでログイン</span><small id="auth-google-description">認証コード不要</small></span>
-                            </button>
+                            <section class="auth-google-option" aria-labelledby="auth-google-option-title">
+                                <div class="auth-google-option-copy"><span class="auth-google-option-kicker">GOOGLE ACCOUNT</span><h4 id="auth-google-option-title">Googleで続ける</h4><p>Googleアカウントを使う場合は、認証コードの入力なしで進めます。</p></div>
+                                <button type="button" class="auth-google-button" onclick="startGoogleLogin()" aria-describedby="auth-google-description">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.86l6.09-6.09C34.46 3.09 29.5 1 24 1 14.82 1 7.02 6.48 3.44 14.23l7.1 5.52C12.35 13.72 17.71 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.71c-.55 2.97-2.22 5.49-4.73 7.19l7.27 5.65C43.32 37.61 46.5 31.49 46.5 24.5z"/><path fill="#FBBC05" d="M10.54 28.25A14.58 14.58 0 0 1 9.5 24c0-1.48.26-2.91.73-4.25l-7.1-5.52A23.86 23.86 0 0 0 0 24c0 3.87.93 7.52 2.58 10.74l7.96-6.49z"/><path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.5-4.95l-7.27-5.65c-1.83 1.23-4.17 1.95-6.23 1.95-6.29 0-11.65-4.22-13.46-9.9l-7.96 6.49C7.02 41.52 14.82 47 24 47z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+                                    <span class="auth-google-button-copy"><span>Googleでログイン</span><small id="auth-google-description">認証コード不要</small></span>
+                                </button>
+                            </section>
 
                             <section id="auth-feature-compare" class="auth-feature-summary" aria-labelledby="auth-feature-compare-title">
                                 <div class="auth-feature-summary-header">
