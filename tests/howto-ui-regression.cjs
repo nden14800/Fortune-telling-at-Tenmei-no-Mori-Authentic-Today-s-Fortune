@@ -78,6 +78,12 @@ assert.equal(
   requireSectionText(`id="${id}"`, `使い方画面の設定トグルIDが失われています: ${id}`);
 });
 
+assert.equal(
+  (howtoSection.match(/class="howto-guide-switch-state"/g) || []).length,
+  4,
+  '環境・読書設定の4つのスイッチに明示的なON/OFF状態表示がありません。'
+);
+
 [
   "onclick=\"AppConfig.toggle('theme','system')\"",
   "onclick=\"AppConfig.toggle('theme','light')\"",
@@ -113,6 +119,14 @@ assert.equal(
   '.howto-guide-option-group .theme-select-btn.active {',
   'body.sidebar-collapsed #view-howto {',
   'margin-left: max(144px, calc((100% - 920px) / 2));',
+  '@media (min-width: 761px) and (max-width: 1366px) {',
+  'body.sidebar-collapsed #main-content #view-howto.howto-guide-layout {',
+  'margin-left: auto !important;',
+  '#view-howto .howto-guide-switch input {',
+  'position: absolute;',
+  '#view-howto .howto-guide-switch-state::before { content: \'OFF\'; }',
+  '#view-howto .howto-guide-switch input:checked ~ .howto-guide-switch-state::before { content: \'ON\'; }',
+  '#view-howto .howto-guide-switch input:checked + .slider::before { transform: translateX(1.47rem); }',
   "btn.setAttribute('aria-pressed', String(isSelected));",
   "btn.setAttribute('aria-pressed', String(isActive));",
 ].forEach((text) => {
@@ -136,4 +150,6 @@ console.log(JSON.stringify({
   themeRulesPresent: true,
   visibleFocusPresent: true,
   reducedMotionRulePresent: true,
+  tabletCenteredLayoutPresent: true,
+  explicitSwitchStatePresent: true,
 }, null, 2));

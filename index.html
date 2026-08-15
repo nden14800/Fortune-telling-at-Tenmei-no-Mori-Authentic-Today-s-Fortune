@@ -3015,6 +3015,88 @@
         margin-left: max(144px, calc((100% - 920px) / 2));
     }
 }
+/* タブレット横向きでは、固定サイドバーを除いた本文領域の中央へ案内所を配置する。 */
+@media (min-width: 761px) and (max-width: 1366px) {
+    #main-content #view-howto.howto-guide-layout {
+        width: min(920px, calc(100% - 2rem));
+        max-width: calc(100% - 2rem);
+        margin-left: auto;
+        margin-right: auto;
+    }
+    body.sidebar-collapsed #main-content #view-howto.howto-guide-layout {
+        width: min(920px, calc(100% - 2rem)) !important;
+        max-width: calc(100% - 2rem) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    .howto-guide-settings-grid,
+    .howto-guide-settings-grid--reading { grid-template-columns: minmax(0, 1fr); }
+    .howto-guide-setting-card { padding: 1.05rem 1.15rem; }
+}
+
+/* 共通スライダーの24px規則を使い方画面では上書きし、状態と操作領域を明確にする。 */
+#view-howto .howto-guide-switch {
+    display: grid;
+    width: 7.55rem;
+    min-width: 7.55rem;
+    min-height: 44px;
+    grid-template-columns: 3.25rem minmax(2.55rem, 1fr);
+    gap: 0.55rem;
+    align-items: center;
+    justify-content: end;
+}
+#view-howto .howto-guide-switch input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+#view-howto .howto-guide-switch .slider {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 3.25rem;
+    height: 1.75rem;
+    margin: 0;
+    border: 1px solid rgba(83, 64, 55, 0.3);
+    border-radius: 999px;
+    background: #8c827d;
+    box-shadow: inset 0 1px 2px rgba(41, 28, 24, 0.18);
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+#view-howto .howto-guide-switch .slider::before {
+    width: 1.15rem;
+    height: 1.15rem;
+    left: 0.25rem;
+    bottom: 0.24rem;
+    background: #fffdf9;
+    box-shadow: 0 1px 3px rgba(41, 28, 24, 0.22);
+    transition: transform 160ms ease;
+}
+#view-howto .howto-guide-switch input:checked + .slider {
+    border-color: var(--howto-red-deep);
+    background: var(--howto-red);
+    box-shadow: inset 0 1px 2px rgba(72, 13, 20, 0.28);
+}
+#view-howto .howto-guide-switch input:checked + .slider::before { transform: translateX(1.47rem); }
+#view-howto .howto-guide-switch-state {
+    min-width: 2.55rem;
+    color: var(--howto-muted);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-align: left;
+}
+#view-howto .howto-guide-switch-state::before { content: 'OFF'; }
+#view-howto .howto-guide-switch input:checked ~ .howto-guide-switch-state { color: var(--howto-red-deep); }
+#view-howto .howto-guide-switch input:checked ~ .howto-guide-switch-state::before { content: 'ON'; }
+#view-howto .howto-guide-switch input:focus-visible + .slider {
+    outline: 3px solid rgba(184, 139, 57, 0.95);
+    outline-offset: 3px;
+}
+
 @media (max-width: 760px) {
     .howto-guide-layout { padding-top: 0.8rem; }
     .howto-guide-hero,
@@ -10973,21 +11055,21 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         <section class="howto-guide-setting-card" aria-labelledby="howto-speed-heading">
                             <div class="howto-guide-setting-row">
                                 <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i></span><div><h4 id="howto-speed-heading">神速の祈り</h4><p>おみくじ演出を省略</p></div></div>
-                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-speed-toggle" onchange="AppConfig.toggle('speed', this.checked)" aria-label="神速の祈りを切り替える"><span class="slider" aria-hidden="true"></span></label>
+                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-speed-toggle" onchange="AppConfig.toggle('speed', this.checked)" aria-label="神速の祈りを切り替える"><span class="slider" aria-hidden="true"></span><span class="howto-guide-switch-state" aria-hidden="true"></span></label>
                             </div>
                         </section>
 
                         <section class="howto-guide-setting-card" aria-labelledby="howto-sidebar-heading">
                             <div class="howto-guide-setting-row">
                                 <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-layout-sidebar" aria-hidden="true"></i></span><div><h4 id="howto-sidebar-heading">サイドバーの挙動</h4><p>サイドバーの開閉方式を切り替え</p></div></div>
-                                <label class="toggle-switch howto-guide-switch" title="ON: ボタンで開閉 / OFF: ホバーで展開"><input type="checkbox" id="howto-sidebarbtn-toggle" onchange="AppConfig.toggle('sidebarButton', this.checked)" aria-label="サイドバーの開閉方式を切り替える"><span class="slider" aria-hidden="true"></span></label>
+                                <label class="toggle-switch howto-guide-switch" title="ON: ボタンで開閉 / OFF: ホバーで展開"><input type="checkbox" id="howto-sidebarbtn-toggle" onchange="AppConfig.toggle('sidebarButton', this.checked)" aria-label="サイドバーの開閉方式を切り替える"><span class="slider" aria-hidden="true"></span><span class="howto-guide-switch-state" aria-hidden="true"></span></label>
                             </div>
                         </section>
 
                         <section class="howto-guide-setting-card" aria-labelledby="howto-tabtitle-heading">
                             <div class="howto-guide-setting-row">
                                 <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span><div><h4 id="howto-tabtitle-heading">タブの呼びかけ</h4><p>離席中、タブの文字が語りかけます</p></div></div>
-                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-tabtitle-toggle" onchange="AppConfig.toggle('tabTitle', this.checked)" aria-label="タブの呼びかけを切り替える"><span class="slider" aria-hidden="true"></span></label>
+                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-tabtitle-toggle" onchange="AppConfig.toggle('tabTitle', this.checked)" aria-label="タブの呼びかけを切り替える"><span class="slider" aria-hidden="true"></span><span class="howto-guide-switch-state" aria-hidden="true"></span></label>
                             </div>
                         </section>
                     </div>
@@ -11039,7 +11121,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         <section class="howto-guide-setting-card" aria-labelledby="howto-reduce-motion-heading">
                             <div class="howto-guide-setting-row">
                                 <div class="howto-guide-setting-head"><span class="howto-guide-setting-icon"><i class="bi bi-universal-access" aria-hidden="true"></i></span><div><h4 id="howto-reduce-motion-heading">アニメーションを減らす</h4><p>演出や画面遷移のアニメーションを抑えます</p></div></div>
-                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-reduce-motion-toggle" onchange="AppConfig.toggle('reduceMotion', this.checked)" aria-label="アニメーションを減らす設定を切り替える"><span class="slider" aria-hidden="true"></span></label>
+                                <label class="toggle-switch howto-guide-switch"><input type="checkbox" id="howto-reduce-motion-toggle" onchange="AppConfig.toggle('reduceMotion', this.checked)" aria-label="アニメーションを減らす設定を切り替える"><span class="slider" aria-hidden="true"></span><span class="howto-guide-switch-state" aria-hidden="true"></span></label>
                             </div>
                         </section>
                     </div>
