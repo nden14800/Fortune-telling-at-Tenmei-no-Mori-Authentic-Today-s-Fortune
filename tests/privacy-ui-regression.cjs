@@ -86,6 +86,16 @@ assert.equal(
   '外部サービス12件の開示カードが保持されていません。'
 );
 assert.equal(
+  (privacySection.match(/<p class="font-bold text-sm">(?:1[0-2]|[1-9])\./g) || []).length,
+  12,
+  '外部サービス開示が規程書外へ重複して漏れています。'
+);
+assert.equal(
+  privacySection.includes('</section>">3. Turso (ChiselStrike, Inc.)</p>'),
+  false,
+  '規程書終了後に不要なタグ断片が残っています。'
+);
+assert.equal(
   (externalServicesSection.match(/target="_blank" rel="noopener noreferrer"/g) || []).length,
   14,
   '外部サービス開示の安全な新規タブリンク14件が保持されていません。'
