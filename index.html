@@ -1951,6 +1951,491 @@
     .developer-study-repository { grid-template-columns: auto minmax(0, 1fr); }
     .developer-study-repository-external { display: none; }
 }
+
+/* =========================================================
+   Ver.4.0 段階的刷新: 当サイトについて
+   既存の本文・利用規約・PDF導線・目次IDを保持する文書殿テンプレート
+   ========================================================= */
+.about-codex-layout {
+    --about-paper: #fffdfa;
+    --about-paper-soft: #f8f2e8;
+    --about-paper-deep: #f2e7d7;
+    --about-ink: #2d201d;
+    --about-muted: #685751;
+    --about-line: rgba(107, 66, 47, 0.16);
+    --about-red: #9f1d25;
+    --about-red-deep: #74141a;
+    --about-gold: #b68a35;
+    --about-gold-soft: rgba(182, 138, 53, 0.14);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: clamp(1rem, 2.7vw, 2rem) 0 5rem;
+    color: var(--about-ink);
+}
+.about-codex-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+    min-height: 256px;
+    overflow: hidden;
+    padding: clamp(1.55rem, 4vw, 3.25rem);
+    border: 1px solid rgba(182, 138, 53, 0.45);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 92% 16%, rgba(182, 138, 53, 0.2), transparent 25%),
+        radial-gradient(circle at 6% 100%, rgba(159, 29, 37, 0.12), transparent 33%),
+        linear-gradient(135deg, #fffdfa 0%, #fbf4ed 58%, #f5eadb 100%);
+    box-shadow: 0 22px 50px rgba(68, 34, 28, 0.09);
+}
+.about-codex-hero::before {
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(182, 138, 53, 0.24);
+    border-radius: 20px;
+    content: '';
+    pointer-events: none;
+}
+.about-codex-hero::after {
+    position: absolute;
+    top: -96px;
+    right: -50px;
+    width: 266px;
+    height: 266px;
+    border: 1px solid rgba(159, 29, 37, 0.13);
+    border-radius: 50%;
+    box-shadow: 0 0 0 25px rgba(182, 138, 53, 0.06), 0 0 0 49px rgba(159, 29, 37, 0.035);
+    content: '';
+    pointer-events: none;
+}
+.about-codex-hero-copy,
+.about-codex-hero-seal { position: relative; z-index: 1; }
+.about-codex-eyebrow,
+.about-codex-section-kicker,
+.about-codex-prologue-label,
+.about-codex-chapter-label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    color: var(--about-red);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    line-height: 1.35;
+}
+.about-codex-eyebrow i,
+.about-codex-section-kicker i { color: var(--about-gold); font-size: 0.82rem; }
+.about-codex-hero h1 {
+    margin: 0.55rem 0 0;
+    color: var(--about-ink);
+    font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+}
+.about-codex-meta {
+    margin: 0.55rem 0 0;
+    color: var(--about-muted);
+    font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+    font-size: clamp(0.8rem, 1.55vw, 0.92rem);
+    line-height: 1.75;
+}
+.about-codex-lead {
+    max-width: 39rem;
+    margin: 1rem 0 0;
+    color: var(--about-ink);
+    font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+    font-size: clamp(0.96rem, 1.8vw, 1.08rem);
+    font-weight: 500;
+    line-height: 1.85;
+}
+.about-codex-actions { margin-top: 1.25rem; }
+#view-about #about-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 42px;
+    padding: 0.7rem 1rem;
+    border: 1px solid rgba(116, 20, 26, 0.18);
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--about-red) 0%, var(--about-red-deep) 100%);
+    box-shadow: 0 8px 16px rgba(116, 20, 26, 0.16);
+    color: #fffaf4;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.035em;
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+#view-about #about-pdf-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(116, 20, 26, 0.23); }
+#view-about #about-pdf-btn:active { transform: scale(0.97); }
+#view-about #about-pdf-btn:focus-visible,
+#view-about a:focus-visible {
+    outline: 3px solid var(--about-gold);
+    outline-offset: 3px;
+}
+.about-codex-actions p {
+    max-width: 38rem;
+    margin: 0.62rem 0 0;
+    color: var(--about-muted);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.7rem;
+    line-height: 1.65;
+}
+.about-codex-hero-seal {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    width: 122px;
+    height: 122px;
+    border: 1px solid rgba(182, 138, 53, 0.45);
+    border-radius: 50%;
+    background: rgba(255, 253, 250, 0.78);
+    box-shadow: inset 0 0 0 7px rgba(182, 138, 53, 0.1), 0 14px 25px rgba(68, 34, 28, 0.09);
+    color: var(--about-red);
+    text-align: center;
+}
+.about-codex-hero-seal i { font-size: 2.15rem; line-height: 1; }
+.about-codex-hero-seal span {
+    margin-top: 0.32rem;
+    color: var(--about-muted);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    line-height: 1.35;
+}
+.about-codex-guide,
+.about-codex-toc > div,
+.about-codex-prologue,
+.about-codex-chapter {
+    border: 1px solid var(--about-line);
+    background: var(--about-paper);
+    box-shadow: 0 14px 30px rgba(68, 34, 28, 0.055);
+}
+.about-codex-guide {
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: start;
+    margin-top: 1.25rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: 22px;
+    background:
+        linear-gradient(90deg, rgba(182, 138, 53, 0.055), transparent 42%),
+        var(--about-paper);
+}
+.about-codex-guide h2,
+.about-codex-toc h2 {
+    margin: 0.42rem 0 0;
+    color: var(--about-ink);
+    font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
+    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+.about-codex-guide > div > p:last-child {
+    margin: 0.7rem 0 0;
+    color: var(--about-muted);
+    font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+.about-codex-guide-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.56rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.about-codex-guide-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.62rem;
+    min-height: 44px;
+    padding: 0.55rem 0.66rem;
+    border: 1px solid rgba(182, 138, 53, 0.18);
+    border-radius: 12px;
+    background: rgba(255, 253, 250, 0.7);
+    color: var(--about-ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.74rem;
+    line-height: 1.42;
+}
+.about-codex-guide-list li:last-child { grid-column: span 2; }
+.about-codex-guide-list span {
+    flex: 0 0 auto;
+    color: var(--about-gold);
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+.about-codex-toc { margin-top: 1.25rem; }
+.about-codex-toc > div { padding: clamp(1.25rem, 3vw, 2rem); border-radius: 22px; }
+.about-codex-toc-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--about-line);
+}
+.about-codex-toc-note {
+    color: var(--about-muted);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.7rem;
+    white-space: nowrap;
+}
+#view-about #about-toc-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.42rem 1.25rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+#view-about #about-toc-list li,
+#view-about #about-toc-list li.ml-4 { margin-left: 0; }
+#view-about #about-toc-list li a {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    padding: 0.38rem 0.48rem;
+    border-radius: 8px;
+    color: var(--about-muted);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.77rem;
+    font-weight: 600;
+    line-height: 1.55;
+    text-decoration: none;
+    transition: background 160ms cubic-bezier(0.23, 1, 0.32, 1), color 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+#view-about #about-toc-list li a:hover { background: var(--about-gold-soft); color: var(--about-red); }
+#view-about #about-toc-list li a i { margin: 0.18rem 0 0; color: var(--about-gold); }
+#view-about #about-toc-list li:has(.bi-dot) a { font-size: 0.72rem; font-weight: 500; }
+.about-codex-content { display: grid; gap: 1.25rem; margin-top: 1.25rem; }
+.about-codex-prologue {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.65rem, 4vw, 3.2rem);
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 50% 16%, rgba(182, 138, 53, 0.1), transparent 27%),
+        var(--about-paper);
+    color: var(--about-ink);
+    text-align: center;
+}
+.about-codex-prologue::before {
+    position: absolute;
+    top: 1.35rem;
+    left: 50%;
+    color: rgba(182, 138, 53, 0.18);
+    content: '“';
+    font-family: 'Zen Old Mincho', serif;
+    font-size: 5.5rem;
+    line-height: 1;
+    transform: translateX(-50%);
+}
+.about-codex-prologue-label { justify-content: center; position: relative; z-index: 1; }
+.about-codex-prologue .bi-quote { display: none; }
+.about-codex-prologue { font-family: 'Zen Old Mincho', 'Shippori Mincho', serif !important; font-size: clamp(1.06rem, 2.2vw, 1.3rem) !important; font-weight: 600; letter-spacing: 0.075em; line-height: 2.05 !important; }
+.about-codex-prologue br { display: none; }
+.about-codex-chapter {
+    overflow: hidden;
+    border-radius: 22px;
+    color: var(--about-ink);
+}
+.about-codex-chapter-head {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: clamp(1rem, 2.7vw, 1.55rem) clamp(1.2rem, 3vw, 2rem);
+    border-bottom: 1px solid var(--about-line);
+    background: linear-gradient(90deg, rgba(182, 138, 53, 0.1), transparent 52%);
+}
+.about-codex-chapter-label { flex: 0 0 auto; color: var(--about-gold); font-size: 0.62rem; writing-mode: vertical-rl; }
+.about-codex-chapter-head h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 0;
+    color: var(--about-ink);
+    font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
+    font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+}
+.about-codex-chapter-head h3 > span {
+    width: 2.05rem !important;
+    height: 2.05rem !important;
+    border: 1px solid rgba(159, 29, 37, 0.26);
+    border-radius: 50% !important;
+    background: var(--about-red) !important;
+    box-shadow: 0 4px 10px rgba(116, 20, 26, 0.15);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.72rem !important;
+}
+.about-codex-chapter--policy .about-codex-chapter-head h3 > span,
+.about-codex-chapter--rights .about-codex-chapter-head h3 > span { background: #5e514e !important; }
+.about-codex-chapter--terms .about-codex-chapter-head h3 > span { background: #8a5b20 !important; }
+.about-codex-chapter--notice { border-color: rgba(159, 29, 37, 0.3) !important; }
+.about-codex-chapter--notice .about-codex-chapter-head { background: linear-gradient(90deg, rgba(159, 29, 37, 0.1), transparent 52%) !important; }
+.about-codex-chapter > div {
+    padding: clamp(1.2rem, 3vw, 2rem) !important;
+    background: transparent !important;
+    color: var(--about-ink) !important;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    line-height: 1.92 !important;
+}
+.about-codex-chapter > div > p:first-child { color: var(--about-muted) !important; }
+.about-codex-chapter h4 {
+    margin-top: 1.6rem !important;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(107, 66, 47, 0.11);
+    color: var(--about-ink) !important;
+    font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
+    font-size: 1rem !important;
+    letter-spacing: 0.035em;
+}
+.about-codex-chapter h4:first-child { margin-top: 0 !important; padding-top: 0; border-top: 0; }
+.about-codex-chapter h4 i { color: var(--about-gold) !important; }
+.about-codex-chapter .grid > div {
+    gap: 1rem;
+    border-color: rgba(107, 66, 47, 0.11) !important;
+}
+.about-codex-chapter .grid > div > span:first-child { color: var(--about-muted) !important; }
+.about-codex-chapter .grid > div > span:last-child { color: var(--about-ink); }
+.about-codex-chapter .space-y-6 > div {
+    padding: 0.1rem 0 0.1rem 1rem !important;
+    border-left-color: rgba(182, 138, 53, 0.62) !important;
+}
+.about-codex-chapter--notice p.text-red-600 {
+    border-color: rgba(159, 29, 37, 0.16) !important;
+    background: rgba(159, 29, 37, 0.055) !important;
+    color: var(--about-red) !important;
+}
+.about-codex-chapter strong { color: inherit; }
+.dark .about-codex-layout {
+    --about-paper: #181414;
+    --about-paper-soft: #221a18;
+    --about-paper-deep: #2a211d;
+    --about-ink: #f3e9dd;
+    --about-muted: #cdbdb1;
+    --about-line: rgba(255, 245, 232, 0.12);
+    --about-red: #e06b63;
+    --about-red-deep: #9d2c2c;
+    --about-gold: #d5b36a;
+    --about-gold-soft: rgba(213, 179, 106, 0.13);
+}
+.dark .about-codex-hero {
+    border-color: rgba(213, 179, 106, 0.28);
+    background:
+        radial-gradient(circle at 92% 16%, rgba(213, 179, 106, 0.13), transparent 25%),
+        radial-gradient(circle at 6% 100%, rgba(159, 29, 37, 0.18), transparent 33%),
+        linear-gradient(135deg, #181313 0%, #1f1818 58%, #151212 100%);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.3);
+}
+.dark .about-codex-hero-seal { border-color: rgba(213, 179, 106, 0.3); background: rgba(24, 20, 20, 0.72); }
+.dark .about-codex-guide,
+.dark .about-codex-toc > div,
+.dark .about-codex-prologue,
+.dark .about-codex-chapter { background: var(--about-paper); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.19); }
+.dark .about-codex-guide-list li { border-color: rgba(213, 179, 106, 0.16); background: rgba(255, 255, 255, 0.035); }
+.dark .about-codex-chapter-head { background: linear-gradient(90deg, rgba(213, 179, 106, 0.1), transparent 52%); }
+.dark .about-codex-chapter--notice .about-codex-chapter-head { background: linear-gradient(90deg, rgba(224, 107, 99, 0.11), transparent 52%) !important; }
+.dark .about-codex-chapter .grid > div > span:last-child { color: var(--about-ink); }
+.dark .about-codex-chapter--notice p.text-red-600 { background: rgba(224, 107, 99, 0.1) !important; color: #f6a49d !important; }
+@media (prefers-color-scheme: dark) {
+    html:not(.light) .about-codex-layout {
+        --about-paper: #181414;
+        --about-paper-soft: #221a18;
+        --about-paper-deep: #2a211d;
+        --about-ink: #f3e9dd;
+        --about-muted: #cdbdb1;
+        --about-line: rgba(255, 245, 232, 0.12);
+        --about-red: #e06b63;
+        --about-red-deep: #9d2c2c;
+        --about-gold: #d5b36a;
+        --about-gold-soft: rgba(213, 179, 106, 0.13);
+    }
+    html:not(.light) .about-codex-hero { border-color: rgba(213, 179, 106, 0.28); background: radial-gradient(circle at 92% 16%, rgba(213, 179, 106, 0.13), transparent 25%), radial-gradient(circle at 6% 100%, rgba(159, 29, 37, 0.18), transparent 33%), linear-gradient(135deg, #181313 0%, #1f1818 58%, #151212 100%); }
+    html:not(.light) .about-codex-hero-seal { border-color: rgba(213, 179, 106, 0.3); background: rgba(24, 20, 20, 0.72); }
+    html:not(.light) .about-codex-guide,
+    html:not(.light) .about-codex-toc > div,
+    html:not(.light) .about-codex-prologue,
+    html:not(.light) .about-codex-chapter { background: var(--about-paper); }
+    html:not(.light) .about-codex-guide-list li { border-color: rgba(213, 179, 106, 0.16); background: rgba(255, 255, 255, 0.035); }
+    html:not(.light) .about-codex-chapter-head { background: linear-gradient(90deg, rgba(213, 179, 106, 0.1), transparent 52%); }
+    html:not(.light) .about-codex-chapter--notice .about-codex-chapter-head { background: linear-gradient(90deg, rgba(224, 107, 99, 0.11), transparent 52%) !important; }
+    html:not(.light) .about-codex-chapter--notice p.text-red-600 { background: rgba(224, 107, 99, 0.1) !important; color: #f6a49d !important; }
+}
+@media (max-width: 760px) {
+    .about-codex-layout { padding-top: 0.8rem; }
+    .about-codex-hero,
+    .about-codex-guide { grid-template-columns: 1fr; }
+    .about-codex-hero { min-height: 0; padding: 1.35rem; border-radius: 22px; }
+    .about-codex-hero::before { inset: 9px; border-radius: 15px; }
+    .about-codex-hero::after { top: -112px; right: -92px; }
+    .about-codex-hero-seal { width: 98px; height: 98px; }
+    .about-codex-hero-seal i { font-size: 1.7rem; }
+    .about-codex-guide-list,
+    #view-about #about-toc-list { grid-template-columns: 1fr; }
+    .about-codex-guide-list li:last-child { grid-column: auto; }
+    .about-codex-toc-head { align-items: start; flex-direction: column; }
+    .about-codex-toc-note { white-space: normal; }
+    .about-codex-chapter-head { align-items: flex-start; }
+}
+@media (max-width: 460px) {
+    .about-codex-hero h1 { font-size: 1.8rem; }
+    .about-codex-hero-seal { width: 84px; height: 84px; }
+    .about-codex-hero-seal span { display: none; }
+    .about-codex-guide,
+    .about-codex-toc > div,
+    .about-codex-prologue { border-radius: 17px; }
+    .about-codex-chapter { border-radius: 17px; }
+    .about-codex-chapter-head { padding: 1rem; }
+    .about-codex-chapter > div { padding: 1rem !important; }
+}
+@media print {
+    #view-about.printing .about-codex-hero {
+        margin-bottom: 5mm !important;
+        padding: 9mm 10mm !important;
+        border-color: #c4a25f !important;
+        border-radius: 0 !important;
+        background: #160e10 !important;
+        box-shadow: none !important;
+        color: #fffaf4 !important;
+    }
+    #view-about.printing .about-codex-hero h1 { color: #fffaf4 !important; }
+    #view-about.printing .about-codex-hero .about-codex-meta { color: #eadfda !important; }
+    #view-about.printing .about-codex-hero .about-codex-lead,
+    #view-about.printing .about-codex-hero .about-codex-actions p { color: #d6c5bf !important; }
+    #view-about.printing .about-codex-hero .about-codex-eyebrow,
+    #view-about.printing .about-codex-hero .about-codex-hero-seal { color: #ffcf82 !important; }
+    #view-about.printing .about-codex-hero-seal { border-color: rgba(255, 207, 130, 0.45) !important; background: rgba(22, 14, 16, 0.78) !important; }
+    #view-about.printing .about-codex-guide,
+    #view-about.printing .about-codex-toc > div,
+    #view-about.printing .about-codex-prologue,
+    #view-about.printing .about-codex-chapter { box-shadow: none !important; }
+    #view-about.printing .about-codex-hero,
+    #view-about.printing .about-codex-guide,
+    #view-about.printing .about-codex-toc > div,
+    #view-about.printing .about-codex-prologue,
+    #view-about.printing .about-codex-chapter { break-inside: avoid; page-break-inside: avoid; }
+    #view-about.printing .about-codex-toc > div { padding: 5mm 6mm !important; }
+    #view-about.printing .about-codex-content { gap: 0 !important; }
+    #view-about.printing .about-codex-content > * + * { margin-top: 5mm !important; }
+    #view-about.printing .about-codex-chapter-head { padding: 4.5mm 6mm !important; }
+    #view-about.printing .about-codex-chapter > div { padding: 5.5mm 6mm !important; }
+}
+
 .howto-hero-card {
     transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }.howto-hero-card:hover {
@@ -10079,60 +10564,68 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             </div>
         </section>
 
-        <section id="view-about" class="view-section max-w-5xl mx-auto pb-20">
-            
-            <!-- ヘッダーカード -->
-            <div class="bento-card about-hero-card mb-6 relative overflow-hidden bg-gradient-to-br from-red-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
+                <section id="view-about" class="view-section about-codex-layout" aria-labelledby="about-page-title">
+            <header class="about-codex-hero">
                 <img class="pdf-hero-background" src="/assets/pdf-hero-background-v2.png" alt="" aria-hidden="true" style="display: none;">
-                <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #ef4444 0%, transparent 70%);"></div>
-                <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #d4af37 0%, transparent 70%);"></div>
-                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div class="flex-1">
-                        <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">ABOUT & TERMS OF SERVICE</p>
-                        <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                            <span class="text-4xl text-red-400"><i class="bi bi-info-circle-fill"></i></span>
-                            <span class="text-white">当サイトについて</span>
-                        </h2>
-                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">制定: 2026/01/02 ・ 改定: 2026/08/14 (第17版) ・ 運営: nden148</p>
-                        <button onclick="downloadAsPDF('about')" id="about-pdf-btn" class="mt-3 text-xs font-bold flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:-translate-y-0.5" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff;">
-                            <i class="bi bi-file-earmark-pdf"></i> PDFをダウンロード
+                <div class="about-codex-hero-copy">
+                    <p class="about-codex-eyebrow"><i class="bi bi-journal-bookmark" aria-hidden="true"></i> SITE CHARTER</p>
+                    <h1 id="about-page-title">当サイトについて</h1>
+                    <p class="about-codex-meta">制定: 2026/01/02 ・ 改定: 2026/08/14 (第17版) ・ 運営: nden148</p>
+                    <p class="about-codex-lead">天命乃杜の由緒、利用規約、運営方針を一つの文書としてまとめています。</p>
+                    <div class="about-codex-actions" aria-label="文書の操作">
+                        <button onclick="downloadAsPDF('about')" id="about-pdf-btn" type="button">
+                            <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+                            <span>PDFとして保存・印刷</span>
                         </button>
-                        <p class="text-[11px] text-zinc-400 mt-1">※スマートフォン・タブレットでは、共有メニュー経由で印刷画面が開きます（プレビューは「印刷」選択後に表示されます）</p>
+                        <p>スマートフォン・タブレットでは、共有メニュー経由で印刷画面が開きます（プレビューは「印刷」選択後に表示されます）。</p>
                     </div>
-                    <div class="flex-shrink-0 text-center flex flex-col items-center gap-2">
-                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #7f1d1d, #b91c1c); box-shadow: 0 0 24px rgba(239,68,68,0.3);">
-                            <i class="bi bi-journal-text text-4xl text-white"></i>
+                </div>
+                <div class="about-codex-hero-seal" aria-hidden="true">
+                    <i class="bi bi-journal-text"></i>
+                    <span>SITE<br>POLICY</span>
+                </div>
+            </header>
+
+            <section class="about-codex-guide" aria-labelledby="about-guide-heading">
+                <div>
+                    <p class="about-codex-section-kicker"><i class="bi bi-signpost-split" aria-hidden="true"></i> READING GUIDE</p>
+                    <h2 id="about-guide-heading">この文書の道案内</h2>
+                    <p>機能、運営方針、利用規約、権利、連絡窓口を、目的ごとに読み進められます。</p>
+                </div>
+                <ol class="about-codex-guide-list" aria-label="文書の構成">
+                    <li><span>01</span><strong>特徴と機能</strong></li>
+                    <li><span>02</span><strong>運用ポリシー</strong></li>
+                    <li><span>03</span><strong>利用規約</strong></li>
+                    <li><span>04</span><strong>著作権と二次利用</strong></li>
+                    <li><span>05</span><strong>免責事項・連絡窓口</strong></li>
+                </ol>
+            </section>
+
+            <nav id="about-toc-container" class="about-codex-toc hidden" aria-labelledby="about-toc-heading">
+                <div>
+                    <div class="about-codex-toc-head">
+                        <div>
+                            <p class="about-codex-section-kicker"><i class="bi bi-list-nested" aria-hidden="true"></i> CONTENTS</p>
+                            <h2 id="about-toc-heading">目次</h2>
                         </div>
-                        <p class="text-xs text-zinc-500 font-bold tracking-widest">SITE POLICY</p>
+                        <span class="about-codex-toc-note">章・節を選んで移動</span>
                     </div>
+                    <ul id="about-toc-list"></ul>
                 </div>
-            </div>
+            </nav>
 
-            <!-- 目次 (TOC) -->
-            <div id="about-toc-container" class="hidden mb-6">
-                <div class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
-                    <h3 class="font-bold text-sm text-gray-500 mb-3 uppercase tracking-wider"><i class="bi bi-list-ul mr-2"></i>目次</h3>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm font-medium" id="about-toc-list"></ul>
-                </div>
-            </div>
-
-            <!-- 本文エリア（PDF化対象） -->
-            <div id="about-content-area" class="space-y-8">
-                
-                <!-- 導入 -->
-                <div class="bento-card p-8 text-center font-serif text-lg leading-loose text-gray-700 dark:text-gray-300">
+            <main id="about-content-area" class="about-codex-content">
+                <section class="about-codex-prologue bento-card bento-card p-8 text-center font-serif text-lg leading-loose text-gray-700 dark:text-gray-300"><p class="about-codex-prologue-label">SITE PHILOSOPHY</p>
                     <i class="bi bi-quote text-4xl text-gray-200 dark:text-gray-700 block mb-2"></i>
                     天命乃杜は、テクノロジーで再定義された<br>「現代の鎮守の杜」です
-                </div>
-
-                <!-- 第1章：機能紹介 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
+                </section>
+                <section class="about-codex-chapter about-codex-chapter--features bento-card p-0 overflow-hidden">
+                    <header class="about-codex-chapter-head p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50"><p class="about-codex-chapter-label">CHAPTER 01</p>
                         <h3 class="text-xl font-black flex items-center gap-3">
                             <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">01</span>
                             天命乃杜の特徴と機能（完全版）
                         </h3>
-                    </div>
+                    </header>
                     <div class="p-6 md:p-8 text-sm leading-8 text-gray-700 dark:text-gray-300">
                         <p class="mb-6 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                             本章では、天命乃杜が備える機能・技術仕様を分野別にご紹介します。内容は本ページの改定日時点における実装に基づいており、仕様は更新に伴い変更される場合があります。
@@ -10220,16 +10713,14 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <div class="flex justify-between border-b border-gray-100 dark:border-gray-800 py-1.5"><span class="text-gray-500 dark:text-gray-500">会員ランク制度</span><span class="font-bold">あり（参拝実績連動）</span></div>
                         </div>
                     </div>
-                </div>
-
-                <!-- 第2章 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
+                </section>
+                <section class="about-codex-chapter about-codex-chapter--policy bento-card p-0 overflow-hidden">
+                    <header class="about-codex-chapter-head p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50"><p class="about-codex-chapter-label">CHAPTER 02</p>
                         <h3 class="text-xl font-black flex items-center gap-3">
                             <span class="flex items-center justify-center w-8 h-8 rounded bg-gray-700 text-white text-sm">02</span>
                             当サイトの運用ポリシーと技術的背景
                         </h3>
-                    </div>
+                    </header>
                     <div class="p-6 md:p-8 text-sm leading-8 text-gray-700 dark:text-gray-300">
                         <p class="mb-4">
                             「運勢・天命乃杜」は、最新のWeb技術を用いて構築された、極めて現代的かつ実験的な占いプラットフォームです。一般的な商用サイトとは異なり、開発者（nden148）が個人で設計・実装・運営を行っております。
@@ -10267,16 +10758,14 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             運営にかかるサーバー費用（Cloudflare Pages・Workers・Turso等）は、現時点ではいずれも無料枠の範囲内で賄えています。費用が発生する段階になっても、広告収益ではなく別の手段を検討する予定です。当サイトは収益化を目的としておらず、純粋に「良いものを作りたい」という動機のみで運営されています。
                         </p>
                     </div>
-                </div>
-
-                <!-- 第3章 -->
-                <div class="bento-card p-0 overflow-hidden" id="about-terms-section">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
+                </section>
+                <section class="about-codex-chapter about-codex-chapter--terms bento-card p-0 overflow-hidden" id="about-terms-section">
+                    <header class="about-codex-chapter-head p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50"><p class="about-codex-chapter-label">CHAPTER 03</p>
                         <h3 class="text-xl font-black flex items-center gap-3">
                             <span class="flex items-center justify-center w-8 h-8 rounded bg-gray-700 text-white text-sm">03</span>
                             利用規約
                         </h3>
-                    </div>
+                    </header>
                     <div class="p-6 md:p-8 text-sm leading-8 text-gray-700 dark:text-gray-300">
                         <p class="mb-4 font-medium text-gray-500">本サービスを利用される全ての参拝者（ユーザー）は、以下の規約に同意したものとみなされます。</p>
                         
@@ -10301,32 +10790,28 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- 第4章 -->
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50">
+                </section>
+                <section class="about-codex-chapter about-codex-chapter--rights bento-card p-0 overflow-hidden">
+                    <header class="about-codex-chapter-head p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-zinc-900/50"><p class="about-codex-chapter-label">CHAPTER 04</p>
                         <h3 class="text-xl font-black flex items-center gap-3">
                             <span class="flex items-center justify-center w-8 h-8 rounded bg-gray-700 text-white text-sm">04</span>
                             著作権と二次利用
                         </h3>
-                    </div>
+                    </header>
                     <div class="p-6 md:p-8 text-sm leading-8 text-gray-700 dark:text-gray-300">
                         <p class="mb-4">
                             1. 本サイトを構成するプログラムコード、デザイン、文章、ロゴ、および「TENMEI Labs」等の独自機能に関する知的財産権は、運営者（nden148）に帰属します。<br>
                             2. ただし、本サイトの機能を用いて生成された<strong>「おみくじ結果画像」および「デジタル御守画像」</strong>については、ユーザー個人のSNS（X, Instagram, LINE等）での共有を目的とする限りにおいて、ユーザーはこれを自由に利用（複製、公衆送信）することができます。この際、画像に含まれる©表記を削除しないことを推奨します。
                         </p>
                     </div>
-                </div>
-
-                <!-- 第5章 -->
-                <div class="bento-card p-0 overflow-hidden border-red-200 dark:border-red-900">
-                    <div class="p-6 border-b border-red-100 dark:border-red-900 bg-red-50 dark:bg-red-900/20">
+                </section>
+                <section class="about-codex-chapter about-codex-chapter--notice bento-card p-0 overflow-hidden border-red-200 dark:border-red-900">
+                    <header class="about-codex-chapter-head p-6 border-b border-red-100 dark:border-red-900 bg-red-50 dark:bg-red-900/20"><p class="about-codex-chapter-label">CHAPTER 05</p>
                         <h3 class="text-xl font-black flex items-center gap-3 text-red-800 dark:text-red-200">
                             <span class="flex items-center justify-center w-8 h-8 rounded bg-red-600 text-white text-sm">05</span>
                             免責事項および連絡窓口について
                         </h3>
-                    </div>
+                    </header>
                     <div class="p-6 md:p-8 text-sm leading-8 text-gray-700 dark:text-gray-300">
                         <p class="mb-4 text-red-600 dark:text-red-400 font-bold bg-white dark:bg-black/20 p-3 rounded border border-red-100 dark:border-red-900/50 text-center">
                             <i class="bi bi-exclamation-triangle-fill mr-2"></i>【重要】お問い合わせについて
@@ -10341,13 +10826,11 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             7. 当サイトは、コード・文章・画像等の制作過程においてAI（人工知能）を活用して開発されています。また「記事分析ダッシュボード」等、AIによる自動分析・生成結果を表示する機能を含みます。AIによる出力は高い性能を持つ場合であっても、その正確性・完全性・最新性を保証するものではなく、誤った情報や解釈のずれを含む可能性があります。AIが出力した内容を利用者ご自身の重要な判断材料とすることは避け、参考情報としてご活用ください。
                         </p>
                     </div>
-                </div>
-
-            </div>
+                </section>
+            </main>
         </section>
 
-
-        <!-- ビュー: 開発者について -->
+<!-- ビュー: 開発者について -->
 <section id="view-developer" class="view-section developer-study-layout" aria-labelledby="developer-page-title">
     <header class="developer-study-hero">
         <div class="developer-study-hero-copy">
@@ -22648,9 +23131,9 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         // 一部のiOS/WebKit環境では後続のライトテーマ規則が印刷用色指定を上書きするため、
         // PDF生成中だけインラインのimportant指定でHero文字のコントラストを保証する。
         const palette = [
-            ['.about-hero-card h2, .privacy-hero-card h2, .about-hero-card h2 .text-white, .privacy-hero-card h2 .text-white', '#fffaf4'],
-            ['.about-hero-card p.text-zinc-300, .privacy-hero-card p.text-zinc-300', '#eadfda'],
-            ['.about-hero-card p.text-zinc-400, .privacy-hero-card p.text-zinc-400, .about-hero-card .text-zinc-500, .privacy-hero-card .text-zinc-500', '#d6c5bf'],
+            ['.about-hero-card h2, .privacy-hero-card h2, .about-hero-card h2 .text-white, .privacy-hero-card h2 .text-white, .about-codex-hero h1', '#fffaf4'],
+            ['.about-hero-card p.text-zinc-300, .privacy-hero-card p.text-zinc-300, .about-codex-hero .about-codex-meta', '#eadfda'],
+            ['.about-hero-card p.text-zinc-400, .privacy-hero-card p.text-zinc-400, .about-hero-card .text-zinc-500, .privacy-hero-card .text-zinc-500, .about-codex-hero .about-codex-lead, .about-codex-hero .about-codex-actions p', '#d6c5bf'],
             ['.about-hero-card h2 .text-red-400, .privacy-hero-card h2 .text-red-400', '#ff9a91']
         ];
         const snapshots = [];
