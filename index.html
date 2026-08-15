@@ -3028,9 +3028,12 @@
     transform: translateZ(0); /* 描画レイヤーを分離 */
 }
 
-/* LabsとAI夢占いは、ヒーロー直下から同じ視覚的オフセットに統一する。 */
+/* 背景ぼかし上の案内カードは、すべてヒーロー直下から同じ視覚的オフセットに統一する。
+   親コンテンツの総高に依存する中央揃えを避け、長い履歴画面でもカードが下方へ流れないようにする。 */
 #lab-lock.lab-lock-container,
-#dream-login-overlay.login-lock-container {
+#dream-login-overlay.login-lock-container,
+#stats-lock.login-lock-container,
+#history-login-overlay.login-lock-container {
     box-sizing: border-box;
     align-items: flex-start;
     padding: clamp(8rem, 10vw, 11rem) 0 2.5rem;
@@ -3051,7 +3054,11 @@
 
 /* --- 会員限定機能：共通ログイン要求UI --- */
 .member-login-gate-card {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     width: min(calc(100% - 32px), 430px);
+    min-height: 364px;
     max-width: 430px;
     padding: 32px 28px 28px;
     border: 1px solid rgba(185, 28, 28, 0.22);
@@ -3079,6 +3086,11 @@
 .visitor-name-gate-actions {
     display: grid;
     gap: 8px;
+    margin-top: auto;
+}
+#lab-lock .member-login-gate-action,
+#dream-login-overlay .member-login-gate-action {
+    margin-top: auto;
 }
 .visitor-name-gate-actions .member-login-primary,
 .visitor-name-gate-actions .member-login-secondary {
@@ -3419,8 +3431,11 @@
 @media (max-width: 520px) {
     .member-login-dialog, .guest-name-dialog { width: min(calc(100vw - 24px), 480px); max-height: calc(100dvh - 24px); }
     .member-login-dialog-surface, .guest-name-dialog-surface { padding: 32px 21px 22px; border-radius: 22px; }
-    .member-login-gate-card { width: min(calc(100% - 24px), 430px); padding: 28px 20px 22px; }
-    #lab-lock.lab-lock-container, #dream-login-overlay.login-lock-container { padding-top: 5rem; }
+    .member-login-gate-card { width: min(calc(100% - 24px), 430px); min-height: 350px; padding: 28px 20px 22px; }
+    #lab-lock.lab-lock-container,
+    #dream-login-overlay.login-lock-container,
+    #stats-lock.login-lock-container,
+    #history-login-overlay.login-lock-container { padding-top: 5rem; }
     .member-login-dialog-feature { align-items: flex-start; flex-direction: column; gap: 5px; }
     .member-login-dialog-feature strong { text-align: left; }
 }

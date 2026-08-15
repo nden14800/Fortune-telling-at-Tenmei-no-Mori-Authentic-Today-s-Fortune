@@ -94,12 +94,16 @@ requireText(
   '参拝者名モーダルを閉じた後に操作起点へフォーカスが戻りません。'
 );
 requireText(
-  '#lab-lock.lab-lock-container,\n#dream-login-overlay.login-lock-container',
-  'LabsとAI夢占いのロックカードに共通の垂直配置基準がありません。'
+  '#lab-lock.lab-lock-container,\n#dream-login-overlay.login-lock-container,\n#stats-lock.login-lock-container,\n#history-login-overlay.login-lock-container',
+  '四つの背景ぼかし案内カードに共通の垂直配置基準がありません。'
 );
 requireText(
-  'padding: clamp(8rem, 10vw, 11rem) 0 2.5rem;',
-  'LabsとAI夢占いのロックカードに固定の視覚的オフセットがありません。'
+  'align-items: flex-start;\n    padding: clamp(8rem, 10vw, 11rem) 0 2.5rem;',
+  '背景ぼかし案内カードが親コンテンツの高さに依存せず、ヒーロー直下から同じ位置に配置されません。'
+);
+requireText(
+  '#history-login-overlay.login-lock-container { padding-top: 5rem; }',
+  '小さな画面でおみくじの轍の案内カードに共通の縦位置が適用されません。'
 );
 requireText(
   'html.reduce-motion .member-login-dialog[open] .member-login-dialog-surface',
@@ -125,6 +129,18 @@ requireText(
   'min-height: 42px;',
   '参拝者名ゲートの補助操作に十分な操作面積がありません。'
 );
+requireText(
+  'min-height: 364px;',
+  '四つの背景ぼかし案内カードに共通の高さ基準がありません。'
+);
+requireText(
+  '#lab-lock .member-login-gate-action,\n#dream-login-overlay .member-login-gate-action {\n    margin-top: auto;',
+  'LabsとAI夢占いの主操作が共通カードの下端基準へ揃いません。'
+);
+requireText(
+  '.visitor-name-gate-actions {\n    display: grid;\n    gap: 8px;\n    margin-top: auto;',
+  '参拝記録とおみくじの轍の操作群が共通カードの下端基準へ揃いません。'
+);
 forbidText(
   'zodiac-login-modal',
   '廃止済みの星座専用ログインモーダルへの参照が残っています。'
@@ -145,6 +161,9 @@ console.log(JSON.stringify({
   sources: ['zodiac', 'labs', 'dream'],
   guestNameNativeDialog: true,
   sharedGateVerticalOffset: true,
+  fourGateVerticalAlignment: true,
+  sharedGateCardHeight: true,
+  sharedGateActionBaseline: true,
   reducedMotion: true,
   visitorNameGatesUnified: true,
   visitorNamePrimaryActionUnified: true,
