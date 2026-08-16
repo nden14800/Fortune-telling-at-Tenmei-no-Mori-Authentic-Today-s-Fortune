@@ -9936,6 +9936,89 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     html.dark #view-lab .labs-control-panel, html.dark #view-lab .labs-experiment-card { box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26) !important; }
     html.dark #view-lab .lab-lock-card { background: linear-gradient(145deg, #211c2d, #18151f) !important; }
 
+    /* Ver.4.0: AI夢占い — 夢の記録と解釈を、共通の二重線ヒーローと通常カード階層へ統一する。 */
+    #view-dream.dream-oracle-layout {
+        width: min(100% - 32px, 960px) !important;
+        max-width: 960px !important;
+        margin: 0 auto !important;
+        padding-bottom: 48px !important;
+        --dream-paper-soft: #fff3ef;
+        --dream-ink: #352426;
+        --dream-muted: #786569;
+        --dream-accent: #a52d36;
+        --dream-gold: #a97a1b;
+        --dream-line: rgba(165, 45, 54, 0.22);
+        --dream-inner-line: rgba(165, 45, 54, 0.14);
+    }
+    .dream-oracle-hero {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: clamp(24px, 5vw, 52px);
+        min-height: 258px;
+        margin: 0 0 20px;
+        padding: clamp(28px, 5vw, 48px);
+        overflow: hidden;
+        border: 1px solid var(--dream-line);
+        border-radius: 28px;
+        background: radial-gradient(circle at 91% 16%, rgba(165, 45, 54, 0.15), transparent 25%), radial-gradient(circle at 7% 100%, rgba(197, 160, 89, 0.12), transparent 33%), linear-gradient(135deg, #fffafa 0%, #fff2f2 58%, #fff9f5 100%);
+        box-shadow: 0 20px 46px rgba(104, 46, 51, 0.09);
+    }
+    .dream-oracle-hero::before { position: absolute; inset: 12px; border: 1px solid var(--dream-inner-line); border-radius: 20px; content: ''; pointer-events: none; }
+    .dream-oracle-hero::after { position: absolute; top: -102px; right: -78px; width: 252px; height: 252px; border: 1px solid rgba(165, 45, 54, 0.14); border-radius: 50%; box-shadow: 0 0 0 20px rgba(165, 45, 54, 0.055), 0 0 0 46px rgba(197, 160, 89, 0.045); content: ''; pointer-events: none; }
+    .dream-oracle-copy { position: relative; z-index: 1; min-width: 0; }
+    .dream-oracle-kicker, .dream-panel-kicker { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; color: var(--dream-accent); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.16em; line-height: 1.4; }
+    .dream-oracle-title { margin: 0; color: var(--dream-ink); font-family: 'Zen Old Mincho', serif; font-size: clamp(2rem, 4.1vw, 3rem); font-weight: 900; letter-spacing: 0.035em; line-height: 1.2; }
+    .dream-oracle-summary { max-width: 43rem; margin: 15px 0 0; color: var(--dream-muted); font-family: 'Shippori Mincho', serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.04em; line-height: 1.9; }
+    .dream-oracle-meta { display: flex; flex-wrap: wrap; gap: 10px 16px; margin: 18px 0 0; color: var(--dream-accent); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; }
+    .dream-oracle-meta span { display: inline-flex; align-items: center; gap: 6px; }
+    .dream-oracle-disclaimer { margin: 14px 0 0; color: var(--dream-muted); font-size: 0.69rem; line-height: 1.6; }
+    .dream-oracle-mark[data-ver4-hero-emblem] { border: 1px solid color-mix(in srgb, var(--dream-accent) 44%, var(--card-border)) !important; color: var(--dream-accent) !important; background: color-mix(in srgb, var(--card-bg) 86%, #fff 14%) !important; box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--dream-accent) 8%, transparent), 0 14px 25px rgba(104, 46, 51, 0.09) !important; }
+    .dream-oracle-mark[data-ver4-hero-emblem] > i { color: var(--dream-accent) !important; }
+    .dream-oracle-mark[data-ver4-hero-emblem] > span { color: var(--dream-muted) !important; }
+    .dream-oracle-content { position: relative; }
+    .dream-oracle-stack { display: grid; gap: 16px; }
+    .dream-oracle-panel { position: relative; overflow: hidden; padding: 24px; border: 1px solid var(--card-border) !important; border-radius: 24px !important; background: var(--card-bg) !important; box-shadow: 0 12px 28px rgba(38, 23, 16, 0.06) !important; }
+    .dream-panel-heading { display: flex; align-items: flex-start; gap: 14px; margin: 0 0 20px; padding: 0 0 16px; border-bottom: 1px solid var(--card-border); }
+    .dream-panel-icon { display: grid; width: 46px; min-width: 46px; height: 46px; place-items: center; border: 1px solid var(--card-border); border-radius: 50%; color: var(--dream-accent); background: color-mix(in srgb, var(--dream-accent) 8%, var(--input-bg)); font-size: 1.1rem; }
+    .dream-oracle-panel h3 { margin: 0; color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 900; letter-spacing: 0.045em; line-height: 1.35; }
+    .dream-panel-copy { margin: 6px 0 0; color: var(--text-sub); font-size: 0.76rem; line-height: 1.7; }
+    .dream-oracle-input { display: block; width: 100%; min-height: 132px; box-sizing: border-box; padding: 14px 16px; border: 1px solid var(--card-border) !important; border-radius: 14px !important; background: var(--input-bg) !important; color: var(--text-main) !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.95rem; line-height: 1.7; outline: none; }
+    .dream-oracle-input::placeholder { color: var(--text-sub); opacity: 0.75; }
+    .dream-oracle-input:focus { border-color: color-mix(in srgb, var(--dream-accent) 62%, var(--card-border)) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--dream-accent) 13%, transparent); }
+    .dream-form-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 12px 0 0; }
+    .dream-character-note { margin: 0; color: var(--text-sub); font-size: 0.78rem; line-height: 1.5; }
+    .dream-submit-action { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 8px; padding: 0 16px !important; border: 1px solid color-mix(in srgb, var(--dream-accent) 68%, transparent) !important; border-radius: 14px !important; background: linear-gradient(135deg, #b7353e, #8e222c) !important; color: #fff !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.95rem !important; font-weight: 800 !important; box-shadow: 0 10px 20px rgba(165, 45, 54, 0.16); }
+    .dream-submit-action:hover { transform: translateY(-1px); box-shadow: 0 14px 24px rgba(165, 45, 54, 0.22); }
+    .dream-submit-action:active { transform: scale(0.97); }
+    .dream-response-card { margin: 20px 0 0; padding: 18px; border: 1px solid color-mix(in srgb, var(--dream-gold) 28%, var(--card-border)); border-radius: 18px; background: color-mix(in srgb, var(--dream-gold) 5%, var(--input-bg)); }
+    .dream-response-label { display: flex; align-items: center; gap: 7px; margin: 0 0 9px; color: var(--dream-gold); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em; }
+    #dream-response-text { margin: 0; color: var(--text-main); font-size: 0.95rem; line-height: 1.8; }
+    .dream-ai-disclaimer { margin: 16px 0 0; padding: 14px 0 0; border-top: 1px solid var(--card-border); color: var(--text-sub); font-size: 0.72rem; line-height: 1.7; }
+    #dream-history-list { display: grid; gap: 12px; }
+    .dream-history-entry { padding: 16px; border: 1px solid var(--card-border); border-radius: 18px; background: var(--input-bg); }
+    .dream-history-date { margin: 0 0 8px; color: var(--text-sub); font-size: 0.74rem; line-height: 1.4; }
+    .dream-history-dream { margin: 0; color: var(--text-main); font-size: 0.88rem; line-height: 1.7; }
+    .dream-history-dream i { color: var(--dream-accent); }
+    .dream-history-interpretation { margin: 10px 0 0; padding: 10px 0 0 14px; border-top: 1px solid var(--card-border); border-left: 2px solid color-mix(in srgb, var(--dream-gold) 72%, transparent); color: var(--dream-gold); font-size: 0.88rem; line-height: 1.7; }
+    #dream-history-pagination { margin-top: 20px !important; }
+    #dream-login-overlay .login-lock-card { border-top: 3px solid var(--dream-accent) !important; border-color: color-mix(in srgb, var(--dream-accent) 25%, var(--card-border)) !important; border-radius: 24px !important; background: linear-gradient(145deg, color-mix(in srgb, var(--card-bg) 98%, #fff 2%), color-mix(in srgb, var(--dream-paper-soft) 72%, var(--card-bg))) !important; box-shadow: 0 24px 64px rgba(104, 46, 51, 0.20) !important; }
+    html.dark #view-dream.dream-oracle-layout { --dream-paper-soft: #2b1d21; --dream-ink: #fff1f2; --dream-muted: #e2c6cb; --dream-accent: #ffadb8; --dream-gold: #e4ba64; --dream-line: rgba(255, 173, 184, 0.25); --dream-inner-line: rgba(255, 173, 184, 0.18); }
+    html.dark .dream-oracle-hero { border-color: var(--dream-line); background: radial-gradient(circle at 91% 16%, rgba(165, 45, 54, 0.27), transparent 25%), radial-gradient(circle at 7% 100%, rgba(197, 160, 89, 0.13), transparent 33%), linear-gradient(135deg, #28171b 0%, #301b20 58%, #1e1417 100%); }
+    html.dark .dream-oracle-title { color: var(--dream-ink); }
+    html.dark .dream-oracle-summary, html.dark .dream-oracle-disclaimer { color: var(--dream-muted); }
+    html.dark #view-dream .dream-oracle-panel { box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26) !important; }
+    html.dark #dream-login-overlay .login-lock-card { background: linear-gradient(145deg, #291a1f, #1c1417) !important; }
+
+    @media (max-width: 768px) {
+        .dream-oracle-hero { grid-template-columns: 1fr; padding: 24px 20px !important; }
+        .dream-oracle-panel { padding: 18px !important; border-radius: 18px !important; }
+        .dream-panel-heading { flex-direction: column; gap: 12px; }
+        .dream-form-actions { align-items: stretch; flex-direction: column; }
+        .dream-submit-action { width: 100%; }
+    }
+
     @media (max-width: 768px) {
         .prefecture-observatory-hero,
         .history-ledger-hero { grid-template-columns: 1fr; padding: 24px 20px !important; }
@@ -12746,100 +12829,86 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     </div> <!-- /コンテンツ＋ロック画面ラッパー -->
 </section>
 
-        <!-- ビュー: AI夢占い（緊急追加!21②） -->
-<section id="view-dream" class="view-section max-w-4xl mx-auto relative pb-20">
-
-    <!-- ヘッダー Hero カード -->
-    <div class="bento-card dream-hero-card mb-6 relative overflow-hidden bg-gradient-to-br from-red-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
-        <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #b91c1c 0%, transparent 70%);"></div>
-        <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #c5a059 0%, transparent 70%);"></div>
-
-        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div class="flex-1">
-                <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">AI DREAM DIVINATION</p>
-                <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                    <span class="text-4xl" style="color: var(--accent-gold);"><i class="bi bi-moon-stars-fill"></i></span>
-                    <span class="text-white">AI夢占い</span>
-                </h2>
-                <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">
-                    ゆうべ見た夢を、AIが静かに読み解きます。<br>
-                    その意味は、あなたの心が見せた、ひとつのメッセージかもしれません。
-                </p>
+        <!-- ビュー: AI夢占い（Ver.4.0 夢見の記録帳テンプレート） -->
+<section id="view-dream" class="view-section dream-oracle-layout" aria-labelledby="dream-page-title">
+    <header class="dream-oracle-hero">
+        <div class="dream-oracle-copy">
+            <p class="dream-oracle-kicker"><i class="bi bi-moon-stars-fill" aria-hidden="true"></i> AI DREAM DIVINATION</p>
+            <h1 id="dream-page-title" class="dream-oracle-title">AI夢占い</h1>
+            <p class="dream-oracle-summary">ゆうべ見た夢を、AIが静かに読み解きます。<br>その意味は、あなたの心が見せた、ひとつのメッセージかもしれません。</p>
+            <div class="dream-oracle-meta" aria-label="AI夢占いの案内">
+                <span><i class="bi bi-shield-check" aria-hidden="true"></i> 参拝証会員限定</span>
+                <span><i class="bi bi-journal-bookmark" aria-hidden="true"></i> 夢の記録を保存</span>
             </div>
-            <div class="flex-shrink-0 text-center hidden md:flex flex-col items-center gap-2">
-                <div class="w-20 h-20 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #b91c1c, #7f1d1d); box-shadow: 0 0 24px rgba(185,28,28,0.3);">
-                    <i class="bi bi-moon-stars-fill text-white" style="font-size: 36px;"></i>
-                </div>
-                <p class="text-xs text-zinc-500 font-bold tracking-widest">NIGHT ORACLE</p>
-            </div>
+            <p class="dream-oracle-disclaimer">夢占い的な解釈を通じて、心に残った情景を静かに見つめ直すための記録室です。</p>
         </div>
-    </div>
+        <div class="dream-oracle-mark" data-ver4-hero-emblem aria-hidden="true">
+            <i class="bi bi-moon-stars-fill"></i>
+            <span>NIGHT<br>ORACLE</span>
+        </div>
+    </header>
 
-    <!-- コンテンツ＋ロック画面ラッパー (position:relative でdream-login-overlayの基準点。ヒーローカードは含めない) -->
-    <div class="relative">
+    <!-- コンテンツ＋ロック画面ラッパー: 既存の会員ロック配置と識別子を維持する。 -->
+    <div class="dream-oracle-content relative">
+        <div id="dream-container" class="dream-oracle-stack" style="min-height: 460px;">
+            <section class="dream-oracle-panel dream-input-panel" aria-labelledby="dream-compose-title">
+                <div class="dream-panel-heading">
+                    <div class="dream-panel-icon" aria-hidden="true"><i class="bi bi-pencil-fill"></i></div>
+                    <div>
+                        <p class="dream-panel-kicker"><i class="bi bi-pencil-square" aria-hidden="true"></i> WRITE YOUR DREAM</p>
+                        <h3 id="dream-compose-title">見た夢を、そのまま綴ってください</h3>
+                        <p class="dream-panel-copy">場面、色、登場人物、目覚めたときの気持ちなど、覚えていることを自由に記してください。</p>
+                    </div>
+                </div>
+                <textarea id="dream-input" maxlength="400" rows="5" placeholder="例：知らない誰かに追いかけられて、必死に走っていた…" class="themed-input dream-oracle-input" aria-label="夢の内容"></textarea>
+                <div class="dream-form-actions">
+                    <p class="dream-character-note">400文字まで</p>
+                    <button id="dream-submit-btn" type="button" onclick="submitDreamFortune()" class="btn-primary dream-submit-action">
+                        <i class="bi bi-stars" aria-hidden="true"></i> 夢を占う
+                    </button>
+                </div>
+                <div id="dream-response-area" class="hidden dream-response-card" aria-live="polite">
+                    <p class="dream-response-label"><i class="bi bi-magic" aria-hidden="true"></i> DREAM INTERPRETATION</p>
+                    <p id="dream-response-text"></p>
+                </div>
+                <p class="dream-ai-disclaimer">※AIによる夢占い的な解釈であり、心理学的・医学的な診断ではありません。内容の正確性を保証するものではないため、あくまで娯楽としてお楽しみください。</p>
+            </section>
 
-    <!-- コンテンツコンテナ -->
-    <div id="dream-container" style="min-height: 460px;">
+            <section class="dream-oracle-panel dream-history-panel" aria-labelledby="dream-history-title">
+                <div class="dream-panel-heading">
+                    <div class="dream-panel-icon" aria-hidden="true"><i class="bi bi-journal-bookmark-fill"></i></div>
+                    <div>
+                        <p class="dream-panel-kicker"><i class="bi bi-clock-history" aria-hidden="true"></i> PERSONAL ARCHIVE</p>
+                        <h3 id="dream-history-title">過去の夢の記録</h3>
+                        <p class="dream-panel-copy">これまでに受け取った夢の解釈を、時系列で静かに振り返れます。</p>
+                    </div>
+                </div>
+                <div id="dream-history-list" aria-live="polite">
+                    <!-- JSでここにアイテムが挿入されます -->
+                </div>
+                <div id="dream-history-pagination" class="flex justify-center items-center gap-4"></div>
+            </section>
+        </div>
 
-        <!-- 入力エリア -->
-        <div class="bento-card mb-5">
-            <h3 class="font-bold flex items-center gap-2 text-sm mb-4">
-                <i class="bi bi-pencil-fill" style="color:#b91c1c;"></i>
-                見た夢を、そのまま綴ってください
-            </h3>
-            <textarea id="dream-input" maxlength="400" rows="4" placeholder="例：知らない誰かに追いかけられて、必死に走っていた…" class="themed-input w-full" style="resize: vertical;"></textarea>
-            <p class="text-xs mt-1 text-right" style="color: var(--text-sub);">400文字まで</p>
-            <div class="flex justify-end mt-2">
-                <button id="dream-submit-btn" onclick="submitDreamFortune()" class="btn-primary text-sm py-2 px-5">
-                    <i class="bi bi-stars"></i> 夢を占う
+        <!-- 未ログイン時のロック画面：Labsと同じ共通カード・共通モーダルを利用する。 -->
+        <div id="dream-login-overlay" class="login-lock-container hidden">
+            <div class="member-login-gate-card login-lock-card">
+                <div class="member-login-gate-seal" aria-hidden="true">
+                    <i class="bi bi-moon-stars-fill"></i>
+                </div>
+                <p class="member-login-eyebrow">MEMBER ACCESS</p>
+                <h3 class="member-login-gate-title">AI夢占いは会員限定です</h3>
+                <p class="member-login-gate-copy">
+                    参拝証を発行すると、AIによる夢占いと
+                    あなた自身の夢の記録をご利用いただけます。
+                </p>
+                <button type="button" onclick="openMemberLoginDialog('dream', this)" class="member-login-primary member-login-gate-action">
+                    <i class="bi bi-person-vcard-fill" aria-hidden="true"></i>
+                    ログイン / 参拝証を発行
                 </button>
             </div>
-
-            <!-- 回答表示エリア -->
-            <div id="dream-response-area" class="hidden mt-5 pt-5" style="border-top: 1px dashed var(--card-border);">
-                <p class="text-xs font-bold mb-2 flex items-center gap-1" style="color: var(--accent-gold);">
-                    <i class="bi bi-magic"></i> 夢の解釈
-                </p>
-                <p id="dream-response-text" class="text-sm leading-relaxed" style="color: var(--text-main);"></p>
-            </div>
-            <p class="text-[10px] mt-3 leading-relaxed" style="color: var(--text-sub); opacity: 0.8;">
-                ※AIによる夢占い的な解釈であり、心理学的・医学的な診断ではありません。内容の正確性を保証するものではないため、あくまで娯楽としてお楽しみください。
-            </p>
-        </div>
-
-        <!-- 過去の夢の記録 -->
-        <div class="bento-card" style="padding: 24px 20px;">
-            <h3 class="font-bold flex items-center gap-2 text-sm mb-4" style="border-bottom: 1px solid var(--card-border); padding-bottom: 14px;">
-                <i class="bi bi-journal-bookmark-fill" style="color:#b91c1c;"></i>
-                過去の夢の記録
-            </h3>
-            <div id="dream-history-list" class="space-y-3">
-                <!-- JSでここにアイテムが挿入されます -->
-            </div>
-            <div id="dream-history-pagination" class="flex justify-center items-center gap-4 mt-6"></div>
         </div>
     </div>
-
-    <!-- 未ログイン時のロック画面：Labsと同じ共通カード・共通モーダルを利用する -->
-    <div id="dream-login-overlay" class="login-lock-container hidden">
-        <div class="member-login-gate-card login-lock-card">
-            <div class="member-login-gate-seal" aria-hidden="true">
-                <i class="bi bi-moon-stars-fill"></i>
-            </div>
-            <p class="member-login-eyebrow">MEMBER ACCESS</p>
-            <h3 class="member-login-gate-title">AI夢占いは会員限定です</h3>
-            <p class="member-login-gate-copy">
-                参拝証を発行すると、AIによる夢占いと
-                あなた自身の夢の記録をご利用いただけます。
-            </p>
-            <button type="button" onclick="openMemberLoginDialog('dream', this)" class="member-login-primary member-login-gate-action">
-                <i class="bi bi-person-vcard-fill" aria-hidden="true"></i>
-                ログイン / 参拝証を発行
-            </button>
-        </div>
-    </div>
-
-    </div> <!-- /コンテンツ＋ロック画面ラッパー -->
 </section>
 
         <!-- ビュー: 社務所だより（検索・ページ機能付き） -->
@@ -24145,11 +24214,11 @@ ${getShareUrl()}`;
                 }
 
                 list.innerHTML = items.map(item => `
-                    <div class="p-3 rounded-lg" style="background: var(--input-bg); border: 1px solid var(--card-border);">
-                        <p class="text-xs mb-1" style="color: var(--text-sub);">${escapeHtml(item.created_at || '')}</p>
-                        <p class="text-sm mb-2" style="color: var(--text-main);"><i class="bi bi-chat-left-quote-fill" style="color:#b91c1c;"></i> ${escapeHtml(item.dream_text || '')}</p>
-                        <p class="text-sm pl-4" style="color: var(--accent-gold);"><i class="bi bi-magic"></i> ${escapeHtml(item.interpretation || '')}</p>
-                    </div>
+                    <article class="dream-history-entry">
+                        <p class="dream-history-date">${escapeHtml(item.created_at || '')}</p>
+                        <p class="dream-history-dream"><i class="bi bi-chat-left-quote-fill" aria-hidden="true"></i> ${escapeHtml(item.dream_text || '')}</p>
+                        <p class="dream-history-interpretation"><i class="bi bi-magic" aria-hidden="true"></i> ${escapeHtml(item.interpretation || '')}</p>
+                    </article>
                 `).join('');
 
                 if (pagination) {
