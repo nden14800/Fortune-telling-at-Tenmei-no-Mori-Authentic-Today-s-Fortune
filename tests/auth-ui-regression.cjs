@@ -31,6 +31,20 @@ requireText(
   '参拝証の発行画面に共通紙面に合わせた会員印がありません。'
 );
 requireText(
+  '<h2 id="auth-passport-title" class="auth-passport-title">参拝証の発行</h2>',
+  '参拝証の発行の主見出しが他の刷新済み画面と同じテキスト開始位置になっていません。'
+);
+assert.equal(
+  authSection.includes('class="auth-passport-title"><i'),
+  false,
+  '参拝証の発行の主見出し左にだけある旧アイコン構造が残っています。'
+);
+assert.equal(
+  html.includes('.auth-passport-title i {'),
+  false,
+  '参拝証の発行の主見出し左アイコン用スタイルが残っています。'
+);
+requireText(
   'class="auth-pilgrimage-stack"',
   '参拝証の発行画面に一体型の発行フロー構造がありません。'
 );
@@ -177,6 +191,10 @@ requireText(
   '.auth-journey-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }',
   '.auth-workbench { min-height: 0;',
   '@media (max-width: 760px) {',
+  '/* Ver.4.0: 画面横断の紙面・カードリズム統一',
+  '.prefecture-observatory-layout,\n.auth-pilgrimage-view {\n    width: min(100%, 960px);',
+  '.prefecture-observatory-hero,\n.auth-passport-hero {\n    min-height: 250px;',
+  '.prefecture-observatory-controls,\n.prefecture-ranking-panel,\n.prefecture-map-panel,\n.auth-journey-panel,\n.auth-workbench {\n    border-radius: 22px;',
 ].forEach((text) => {
   requireText(text, `参拝証の共通紙面・横方向の道程・レスポンシブ契約が失われています: ${text}`);
 });
@@ -213,4 +231,6 @@ console.log(JSON.stringify({
   sharedPaperLayout: true,
   horizontalJourneyPresent: true,
   stageSynchronization: true,
+  titleIconRemoved: true,
+  sharedCardRhythm: true,
 }, null, 2));

@@ -30,6 +30,8 @@ includes('全国・土地の運気', '画面の正式名称が維持されてい
 includes('id="pref-date-display"', '日付表示要素が維持されている');
 includes('独自のアルゴリズムに基づく娯楽コンテンツです。', '娯楽コンテンツの注意書きが維持されている');
 includes('class="prefecture-observatory-mark"', '土地の運気を示す印章が存在する');
+expect(!html.includes('class="prefecture-observatory-title-icon"'), '主見出しの左にだけある旧アイコン構造が残っていない');
+expect(!html.includes('.prefecture-observatory-title-icon {'), '主見出し左アイコンの旧スタイルが残っていない');
 expect(!html.includes('id="view-prefecture" class="view-section max-w-5xl mx-auto relative pb-20"'), '旧Bento形式の土地の運気ルートが残っていない');
 expect(!html.includes('<!-- ヘッダー Hero カード -->\n    <div class="bento-card mb-6 relative overflow-hidden text-white"'), '旧土地の運気ヒーローカードが残っていない');
 
@@ -99,6 +101,10 @@ includes('@media (min-width: 720px)', '広い画面向けのランキング配�
 includes('@media (max-width: 719px)', '狭い画面向けの一列配置規則が存在する');
 includes('@media (prefers-reduced-motion: reduce)', '低モーション規則が存在する');
 includes('height: clamp(360px, 58vw, 560px);', '地図が柔軟な高さで表示される');
+includes('/* Ver.4.0: 画面横断の紙面・カードリズム統一', '画面横断の紙面・カードリズム統一規則が存在する');
+includes('.prefecture-observatory-layout,\n.auth-pilgrimage-view {\n    width: min(100%, 960px);', '土地の運気と参拝証の共通コンテンツ幅が定義されている');
+includes('.prefecture-observatory-hero,\n.auth-passport-hero {\n    min-height: 250px;', '両画面のヒーローカード高が統一されている');
+includes('.prefecture-observatory-controls,\n.prefecture-ranking-panel,\n.prefecture-map-panel,\n.auth-journey-panel,\n.auth-workbench {\n    border-radius: 22px;', '両画面の主要カード角丸が統一されている');
 
 if (failures > 0) {
   console.error(`全国・土地の運気 国土見晴台回帰テスト: ${failures}件失敗`);
