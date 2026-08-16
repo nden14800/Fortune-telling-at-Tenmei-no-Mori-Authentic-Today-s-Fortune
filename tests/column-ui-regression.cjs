@@ -1,0 +1,137 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const htmlPath = path.resolve(__dirname, '..', 'index.html');
+const html = fs.readFileSync(htmlPath, 'utf8');
+const columnSection = html.match(
+  /<section id="view-column"[\s\S]*?<section id="view-article-detail"/
+)?.[0] || '';
+const detailSection = html.match(
+  /<section id="view-article-detail"[\s\S]*?<section id="view-howto"/
+)?.[0] || '';
+const columnRendererStart = html.indexOf('window.renderFullColumnView = function() {');
+const columnRendererEnd = html.indexOf('// 4. 記事詳細表示', columnRendererStart);
+const columnRenderer = columnRendererStart >= 0 && columnRendererEnd >= 0
+  ? html.slice(columnRendererStart, columnRendererEnd)
+  : '';
+
+assert(columnSection, '神籤草子一覧画面のセクションを抽出できません。');
+assert(detailSection, '共用記事詳細画面のセクションを抽出できません。');
+assert(columnRenderer, '神籤草子一覧の描画関数を抽出できません。');
+
+function requireText(text, message) {
+  assert(html.includes(text), message);
+}
+
+function requireColumnSectionText(text, message) {
+  assert(columnSection.includes(text), message);
+}
+
+function requireDetailSectionText(text, message) {
+  assert(detailSection.includes(text), message);
+}
+
+requireText(
+  '<section id="view-column" class="view-section column-library-layout" aria-labelledby="column-page-title">',
+  '神籤草子一覧がcolumn-library-layoutテンプレートとして定義されていません。'
+);
+requireColumnSectionText('class="column-library-hero"', '神籤草子一覧に神籤書架ヒーローがありません。');
+requireColumnSectionText('id="column-page-title">神籤草子</h1>', '神籤草子一覧のページ見出しがありません。');
+requireColumnSectionText('id="column-library-count"', '神籤草子一覧の件数表示領域がありません。');
+requireColumnSectionText('<search class="column-library-search" aria-labelledby="column-search-heading">', '神籤草子一覧の検索ランドマークがありません。');
+requireColumnSectionText('id="column-search-input"', '神籤草子一覧の検索入力IDが失われています。');
+requireColumnSectionText("oninput=\"handleSearch('column', this.value)\"", '神籤草子一覧の検索接続が失われています。');
+requireColumnSectionText('id="view-column-list" class="column-library-list"', '神籤草子一覧の動的リストIDが失われています。');
+requireColumnSectionText('id="column-pagination" class="column-library-pagination"', '神籤草子一覧のページングIDが失われています。');
+
+[
+  'window.renderFullColumnView = function() {',
+  "getPaginatedData('column', columnData)",
+  "getArticleReadingMeta(item.content)",
+  "openArticle('column', ${item.id})",
+  "createPaginationHTML('column', currentPage, totalPages, \"changePage('column', {P})\")",
+  'class="column-library-card"',
+  'class="column-library-card-open"',
+  'aria-labelledby="${articleTitleId}"',
+  'container.setAttribute(\'aria-busy\', \'true\')',
+  'container.setAttribute(\'aria-busy\', \'false\')',
+].forEach((text) => {
+  assert(columnRenderer.includes(text), `神籤草子一覧の既存機能接続が失われています: ${text}`);
+});
+
+[
+  "detailView.classList.toggle('column-reader-layout', isColumn)",
+  "detailView.setAttribute('aria-label', isColumn ? '神籤草子記事詳細' : '社務所だより記事詳細')",
+  "backNote.textContent = isColumn ? 'SACRED READING' : 'OFFICIAL RECORD'",
+  'class="column-reader-document"',
+  'class="column-reader-header"',
+  'class="column-reader-title"',
+  'id="summary-section"',
+  'id="summarize-btn"',
+  "requestArticleSummary('column', ${item.id})",
+  'id="summary-result"',
+  'class="column-reader-body"',
+  'class="article-content prose dark:prose-invert max-w-none leading-loose text-justify"',
+  'buildArticleTOC();',
+  'startReadingProgress(readingMeta.readMinutes);',
+].forEach((text) => {
+  requireText(text, `神籤草子記事詳細の既存機能接続が失われています: ${text}`);
+});
+
+requireDetailSectionText('id="article-detail-content"', '共用記事詳細の動的コンテンツIDが失われています。');
+requireDetailSectionText('article-reader-back', '神籤草子用に切り替える共用戻る導線がありません。');
+assert.equal(
+  columnSection.includes('column-hero-card'),
+  false,
+  '神籤草子一覧に置換前のcolumn-hero-card構造が残っています。'
+);
+assert.equal(
+  columnSection.includes('class="bento-card"'),
+  false,
+  '神籤草子一覧に置換前のBentoカード構造が残っています。'
+);
+assert.equal(
+  columnRenderer.includes('\\${'),
+  false,
+  '神籤草子描画関数に文字どおりの補間エスケープが残っています。'
+);
+
+[
+  '.column-library-layout,',
+  '.column-reader-layout {',
+  '.column-library-list {',
+  '.column-library-card {',
+  '.column-reader-document {',
+  '.column-reader-summary {',
+  '.column-reader-body .article-content .article-toc-unified {',
+  '.column-library-search-field > .sr-only {',
+  'clip-path: inset(50%);',
+  '.column-library-search-field > i { flex: 0 0 auto; }',
+  '.column-library-search-field input { width: 100%; min-width: 0; flex: 1 1 auto;',
+  '.column-library-search-field input:focus-visible { outline: 0; outline-offset: 0; }',
+  '.column-reader-body .article-visual--ai-generated img { aspect-ratio: 16 / 9; object-fit: cover; }',
+  '.dark .column-library-layout,',
+  '@media (prefers-color-scheme: dark) {',
+  '.column-library-layout a:focus-visible,',
+  '@media (min-width: 761px) and (max-width: 1366px) {',
+  'body.sidebar-collapsed #main-content #view-column.column-library-layout,',
+  '@media (prefers-reduced-motion: reduce) {',
+].forEach((text) => {
+  requireText(text, `神籤草子のテーマ・画像・フォーカス・レスポンシブ契約が失われています: ${text}`);
+});
+
+console.log('神籤草子一覧・記事詳細の回帰テストに合格しました。');
+console.log(JSON.stringify({
+  libraryTemplate: true,
+  readerTemplate: true,
+  searchContractPreserved: true,
+  paginationContractPreserved: true,
+  articleTransitionContractPreserved: true,
+  summaryContractPreserved: true,
+  tocAndReadingContractPreserved: true,
+  imageContractPreserved: true,
+  themeRulesPresent: true,
+  visibleFocusPresent: true,
+  responsiveLayoutPresent: true,
+}, null, 2));

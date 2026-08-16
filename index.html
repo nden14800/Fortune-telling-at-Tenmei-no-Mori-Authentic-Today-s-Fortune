@@ -3139,6 +3139,328 @@
     #view-howto *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
 
+/* Ver.4.0: 神籤草子 — 神籤書架・神籤読本 */
+.column-library-layout,
+.column-reader-layout {
+    --column-paper: #fcfbff;
+    --column-paper-soft: #f5f2ff;
+    --column-paper-deep: #ebe6fb;
+    --column-ink: #29243a;
+    --column-muted: #716b81;
+    --column-line: rgba(86, 74, 122, 0.2);
+    --column-indigo: #4b3fa4;
+    --column-violet: #7154c4;
+    --column-gold: #b49447;
+    width: min(920px, calc(100% - 2rem));
+    max-width: 920px;
+    margin: 0 auto;
+    padding-bottom: 5rem;
+}
+.column-library-hero,
+.column-library-search,
+.column-library-shelf,
+.column-reader-document,
+.column-reader-backbar {
+    border: 1px solid var(--column-line);
+    box-shadow: 0 15px 34px rgba(50, 40, 82, 0.07);
+}
+.column-library-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+    min-height: 246px;
+    overflow: hidden;
+    padding: clamp(1.55rem, 4vw, 3.15rem);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 91% 14%, rgba(113, 84, 196, 0.17), transparent 25%),
+        radial-gradient(circle at 7% 100%, rgba(180, 148, 71, 0.1), transparent 34%),
+        linear-gradient(135deg, #fdfcff 0%, #f6f3ff 57%, #eee9fb 100%);
+}
+.column-library-hero::before {
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(113, 84, 196, 0.2);
+    border-radius: 20px;
+    content: '';
+    pointer-events: none;
+}
+.column-library-hero::after {
+    position: absolute;
+    top: -114px;
+    right: -58px;
+    width: 296px;
+    height: 296px;
+    border: 1px solid rgba(75, 63, 164, 0.14);
+    border-radius: 50%;
+    box-shadow: 0 0 0 25px rgba(113, 84, 196, 0.055), 0 0 0 52px rgba(180, 148, 71, 0.035);
+    content: '';
+    pointer-events: none;
+}
+.column-library-hero-copy,
+.column-library-seal { position: relative; z-index: 1; }
+.column-library-eyebrow,
+.column-library-section-kicker,
+.column-reader-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    color: var(--column-indigo);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    line-height: 1.35;
+}
+.column-library-eyebrow i,
+.column-library-section-kicker i,
+.column-reader-eyebrow i { color: var(--column-gold); font-size: 0.82rem; }
+.column-library-title-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.72rem; margin-top: 0.55rem; }
+.column-library-title-row h1 {
+    margin: 0;
+    color: var(--column-ink);
+    font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+}
+.column-library-count {
+    display: inline-flex;
+    min-height: 28px;
+    align-items: center;
+    padding: 0.35rem 0.62rem;
+    border: 1px solid rgba(113, 84, 196, 0.24);
+    border-radius: 999px;
+    color: var(--column-indigo);
+    background: rgba(255, 255, 255, 0.64);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.4;
+}
+.column-library-lead {
+    max-width: 640px;
+    margin: 0.95rem 0 0;
+    color: var(--column-muted);
+    font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+    font-size: clamp(0.92rem, 1.7vw, 1.05rem);
+    line-height: 2;
+}
+.column-library-summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 29px;
+    margin: 1rem 0 0;
+    padding: 0.42rem 0.72rem;
+    border: 1px solid rgba(113, 84, 196, 0.22);
+    border-radius: 999px;
+    color: var(--column-indigo);
+    background: rgba(255, 255, 255, 0.61);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.45;
+}
+.column-library-summary i { margin-right: 0.38rem; color: var(--column-gold); }
+.column-library-seal {
+    display: grid;
+    width: 128px;
+    height: 128px;
+    place-items: center;
+    align-content: center;
+    gap: 0.45rem;
+    border: 1px solid rgba(113, 84, 196, 0.48);
+    border-radius: 50%;
+    color: var(--column-indigo);
+    background: rgba(253, 252, 255, 0.74);
+    box-shadow: inset 0 0 0 7px rgba(113, 84, 196, 0.075);
+}
+.column-library-seal i { color: var(--column-violet); font-size: 2.05rem; }
+.column-library-seal span { font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.13em; line-height: 1.35; text-align: center; }
+.column-library-search,
+.column-library-shelf { margin-top: 1.3rem; padding: clamp(1.2rem, 3vw, 1.9rem); border-radius: 23px; background: var(--column-paper); }
+.column-library-search-head,
+.column-library-shelf-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+.column-library-search h2,
+.column-library-shelf h2 { margin: 0.42rem 0 0; color: var(--column-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.25rem, 2.6vw, 1.68rem); font-weight: 700; letter-spacing: 0.055em; line-height: 1.45; }
+.column-library-search-head > p,
+.column-library-shelf-head > p { margin: 0 0 0.16rem; color: var(--column-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.75rem; font-weight: 600; line-height: 1.55; text-align: right; }
+.column-library-search-field {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 1rem;
+    padding: 0 0.9rem;
+    border: 1px solid rgba(86, 74, 122, 0.22);
+    border-radius: 14px;
+    color: var(--column-indigo);
+    background: var(--column-paper-soft);
+    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.column-library-search-field > .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    border: 0;
+    white-space: nowrap;
+}
+.column-library-search-field > i { flex: 0 0 auto; }
+.column-library-search-field:focus-within { border-color: var(--column-violet); background: var(--column-paper); box-shadow: 0 0 0 3px rgba(113, 84, 196, 0.17); }
+.column-library-search-field input { width: 100%; min-width: 0; flex: 1 1 auto; border: 0; outline: 0; color: var(--column-ink); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.9rem; line-height: 1.5; }
+.column-library-search-field input::placeholder { color: var(--column-muted); opacity: 0.78; }
+.column-library-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; margin-top: 1.15rem; }
+.column-library-card {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-width: 0;
+    min-height: 254px;
+    overflow: hidden;
+    border: 1px solid rgba(86, 74, 122, 0.18);
+    border-radius: 18px;
+    background: var(--column-paper-soft);
+    box-shadow: 0 7px 18px rgba(50, 40, 82, 0.04);
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+.column-library-card:hover,
+.column-library-card:focus-within { border-color: rgba(75, 63, 164, 0.4); box-shadow: 0 14px 26px rgba(50, 40, 82, 0.1); transform: translateY(-2px); }
+.column-library-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.9rem 1rem 0; }
+.column-library-category { display: inline-flex; min-height: 27px; align-items: center; gap: 0.34rem; padding: 0.3rem 0.54rem; border: 1px solid rgba(113, 84, 196, 0.18); border-radius: 999px; color: var(--column-indigo); background: rgba(255, 255, 255, 0.62); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; line-height: 1.35; }
+.column-library-category i { color: var(--column-gold); }
+.column-library-card time { flex: 0 0 auto; color: var(--column-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em; }
+.column-library-card-copy { min-width: 0; padding: 0.78rem 1rem 0.92rem; }
+.column-library-card-title { margin: 0; color: var(--column-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1.08rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.6; }
+.column-library-card-excerpt { display: -webkit-box; margin: 0.58rem 0 0; overflow: hidden; color: var(--column-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.82rem; line-height: 1.75; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.column-library-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding: 0.82rem 1rem; border-top: 1px solid rgba(86, 74, 122, 0.13); color: var(--column-muted); }
+.column-library-readinfo { display: flex; align-items: center; flex-wrap: wrap; gap: 0.28rem; min-width: 0; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; line-height: 1.5; }
+.column-library-readinfo i { color: var(--column-gold); }
+.column-library-readinfo-separator { opacity: 0.55; }
+.column-library-card-open { display: inline-flex; min-height: 34px; flex: 0 0 auto; align-items: center; gap: 0.32rem; padding: 0.35rem 0.4rem; border: 0; border-radius: 8px; color: var(--column-indigo); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; white-space: nowrap; cursor: pointer; }
+.column-library-card-open:hover { color: var(--column-violet); background: rgba(113, 84, 196, 0.08); }
+.column-library-empty { grid-column: 1 / -1; padding: 2.5rem 1rem; border: 1px dashed rgba(86, 74, 122, 0.3); border-radius: 18px; color: var(--column-muted); background: var(--column-paper-soft); text-align: center; }
+.column-library-empty i { display: block; margin-bottom: 0.7rem; color: var(--column-gold); font-size: 1.8rem; }
+.column-library-pagination { display: flex; justify-content: center; margin-top: 1.25rem; }
+.column-reader-frame { width: min(920px, 100%); margin: 0 auto; }
+.column-reader-backbar { display: flex; min-height: 58px; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; padding: 0.65rem 0.75rem; border-radius: 18px; background: var(--column-paper); }
+.column-reader-back { display: inline-flex; min-height: 42px; align-items: center; gap: 0.5rem; padding: 0.48rem 0.72rem; border: 1px solid transparent; border-radius: 11px; color: var(--column-muted); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.8rem; font-weight: 800; cursor: pointer; transition: color 160ms ease, background 160ms ease, transform 160ms ease; }
+.column-reader-back:hover { color: var(--column-indigo); background: rgba(113, 84, 196, 0.07); transform: translateX(-1px); }
+.column-reader-backnote { padding-right: 0.4rem; color: var(--column-gold); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.13em; white-space: nowrap; }
+.column-reader-document { overflow: hidden; border-radius: 26px; background: var(--column-paper); }
+.column-reader-header { position: relative; overflow: hidden; padding: clamp(1.65rem, 4vw, 3.2rem); border-bottom: 1px solid var(--column-line); background: linear-gradient(135deg, rgba(253, 252, 255, 0.98), rgba(238, 233, 251, 0.94)); text-align: center; }
+.column-reader-header::before { position: absolute; top: -75px; right: -54px; width: 226px; height: 226px; border: 1px solid rgba(113, 84, 196, 0.25); border-radius: 50%; box-shadow: 0 0 0 23px rgba(180, 148, 71, 0.04); content: ''; pointer-events: none; }
+.column-reader-header > * { position: relative; z-index: 1; }
+.column-reader-icon { display: grid; width: 3.15rem; height: 3.15rem; place-items: center; margin: 0 auto; border: 1px solid rgba(113, 84, 196, 0.32); border-radius: 50%; color: var(--column-violet); background: rgba(253, 252, 255, 0.82); box-shadow: inset 0 0 0 4px rgba(113, 84, 196, 0.065); font-size: 1.35rem; }
+.column-reader-eyebrow { justify-content: center; margin-top: 0.72rem; }
+.column-reader-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 0.85rem; }
+.column-reader-meta time,
+.column-reader-category { display: inline-flex; min-height: 28px; align-items: center; padding: 0.32rem 0.58rem; border-radius: 999px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 800; line-height: 1.4; }
+.column-reader-meta time { border: 1px solid rgba(86, 74, 122, 0.16); color: var(--column-muted); background: rgba(255, 255, 255, 0.64); }
+.column-reader-category { border: 1px solid rgba(113, 84, 196, 0.2); color: var(--column-indigo); background: rgba(255, 255, 255, 0.62); }
+.column-reader-title { max-width: 780px; margin: 0.9rem auto 0; color: var(--column-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.52rem, 3.1vw, 2.25rem); font-weight: 700; letter-spacing: 0.045em; line-height: 1.55; }
+.column-reader-readinfo { display: inline-flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 0.35rem; margin-top: 0.9rem; color: var(--column-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 700; line-height: 1.5; }
+.column-reader-readinfo i { color: var(--column-gold); }
+.column-reader-summary { margin: clamp(1rem, 3vw, 1.7rem) clamp(1rem, 4vw, 2.5rem) 0; padding: 0.95rem; border: 1px solid rgba(113, 84, 196, 0.23); border-radius: 17px; background: var(--column-paper-soft); }
+.column-reader-summary-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.column-reader-summary-copy { display: flex; min-width: 0; align-items: center; gap: 0.65rem; text-align: left; }
+.column-reader-summary-icon { display: grid; width: 2.4rem; height: 2.4rem; flex: 0 0 auto; place-items: center; border-radius: 50%; color: #fff; background: linear-gradient(135deg, var(--column-violet), var(--column-indigo)); }
+.column-reader-summary-copy p { margin: 0; color: var(--column-ink); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.8rem; font-weight: 800; line-height: 1.45; }
+.column-reader-summary-copy small { display: block; margin-top: 0.12rem; color: var(--column-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 600; line-height: 1.5; }
+.column-reader-summary-button { display: inline-flex; min-height: 42px; flex: 0 0 auto; align-items: center; gap: 0.38rem; padding: 0.55rem 0.78rem; border: 1px solid var(--column-indigo); border-radius: 11px; color: #fff; background: var(--column-indigo); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.76rem; font-weight: 800; cursor: pointer; transition: background 160ms ease, transform 160ms ease; }
+.column-reader-summary-button:hover { background: var(--column-violet); transform: translateY(-1px); }
+.column-reader-body { padding: clamp(1.4rem, 4vw, 3.1rem); }
+.column-reader-body .article-content { max-width: var(--article-max-width, 100%); margin-right: auto; margin-left: auto; color: var(--column-ink); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: var(--article-font-size, 1rem); line-height: var(--article-line-height, 2); text-align: left; }
+.column-reader-body .article-content .article-toc-unified { width: 100% !important; max-width: none !important; margin: 0 0 1.4rem !important; }
+.column-reader-body .article-content .article-toc-unified > div { padding: 1rem !important; border: 1px solid var(--column-line) !important; border-radius: 16px !important; background: var(--column-paper-soft) !important; }
+.column-reader-body .article-content .article-toc-unified p { color: var(--column-indigo) !important; font-family: 'Zen Kaku Gothic New', sans-serif; }
+.column-reader-body .article-content .article-toc-unified a { color: var(--column-ink); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.78rem; line-height: 1.55; }
+.column-reader-body .article-content .article-toc-unified a:hover { color: var(--column-violet); }
+.column-reader-body .article-content h3 { margin-top: 2.25rem; padding-left: 0.9rem; border-left: 3px solid var(--column-violet); color: var(--column-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.15rem, 2.4vw, 1.48rem); font-weight: 700; line-height: 1.65; scroll-margin-top: 1rem; }
+.column-reader-body .article-content h4 { margin-top: 1.65rem; color: var(--column-indigo); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.96rem; font-weight: 800; line-height: 1.7; scroll-margin-top: 1rem; }
+.column-reader-body .article-content p,
+.column-reader-body .article-content li { color: var(--column-ink); }
+.column-reader-body .article-content a { color: var(--column-indigo); text-decoration-color: rgba(75, 63, 164, 0.35); text-underline-offset: 0.18em; }
+.column-reader-body .article-visual--ai-generated { border-color: rgba(113, 84, 196, 0.25); background: var(--column-paper-soft); }
+.column-reader-body .article-visual--ai-generated img { aspect-ratio: 16 / 9; object-fit: cover; }
+.column-reader-body .article-visual--screen { background: var(--column-paper-soft); }
+.column-library-layout a:focus-visible,
+.column-library-layout button:focus-visible,
+.column-library-layout input:focus-visible,
+.column-reader-layout a:focus-visible,
+.column-reader-layout button:focus-visible { outline: 3px solid rgba(113, 84, 196, 0.9); outline-offset: 3px; }
+.column-library-search-field input:focus-visible { outline: 0; outline-offset: 0; }
+.dark .column-library-layout,
+.dark .column-reader-layout { --column-paper: #171522; --column-paper-soft: #211d30; --column-paper-deep: #2a2540; --column-ink: #f2eefc; --column-muted: #c4bdd4; --column-line: rgba(233, 227, 255, 0.15); }
+.dark .column-library-hero { border-color: rgba(167, 142, 239, 0.28); background: radial-gradient(circle at 91% 14%, rgba(141, 109, 225, 0.17), transparent 25%), radial-gradient(circle at 7% 100%, rgba(196, 165, 91, 0.12), transparent 34%), linear-gradient(135deg, #171421 0%, #201a30 57%, #13111d 100%); }
+.dark .column-library-hero::before { border-color: rgba(167, 142, 239, 0.18); }
+.dark .column-library-seal,
+.dark .column-library-count,
+.dark .column-library-summary,
+.dark .column-reader-icon,
+.dark .column-reader-meta time,
+.dark .column-reader-category { background: rgba(24, 21, 36, 0.78); }
+.dark .column-library-card,
+.dark .column-library-search-field,
+.dark .column-reader-summary { border-color: rgba(233, 227, 255, 0.16); }
+.dark .column-reader-header { background: linear-gradient(135deg, rgba(24, 21, 36, 0.98), rgba(45, 35, 70, 0.95)); }
+@media (prefers-color-scheme: dark) {
+    html:not(.light) .column-library-layout,
+    html:not(.light) .column-reader-layout { --column-paper: #171522; --column-paper-soft: #211d30; --column-paper-deep: #2a2540; --column-ink: #f2eefc; --column-muted: #c4bdd4; --column-line: rgba(233, 227, 255, 0.15); }
+    html:not(.light) .column-library-hero { border-color: rgba(167, 142, 239, 0.28); background: radial-gradient(circle at 91% 14%, rgba(141, 109, 225, 0.17), transparent 25%), radial-gradient(circle at 7% 100%, rgba(196, 165, 91, 0.12), transparent 34%), linear-gradient(135deg, #171421 0%, #201a30 57%, #13111d 100%); }
+    html:not(.light) .column-library-hero::before { border-color: rgba(167, 142, 239, 0.18); }
+    html:not(.light) .column-library-seal,
+    html:not(.light) .column-library-count,
+    html:not(.light) .column-library-summary,
+    html:not(.light) .column-reader-icon,
+    html:not(.light) .column-reader-meta time,
+    html:not(.light) .column-reader-category { background: rgba(24, 21, 36, 0.78); }
+    html:not(.light) .column-reader-header { background: linear-gradient(135deg, rgba(24, 21, 36, 0.98), rgba(45, 35, 70, 0.95)); }
+}
+@media (min-width: 1025px) {
+    body.sidebar-collapsed #view-column.column-library-layout,
+    body.sidebar-collapsed #view-article-detail.column-reader-layout { width: min(920px, calc(100% - 144px)); max-width: 920px; margin-right: 0; margin-left: max(144px, calc((100% - 920px) / 2)); }
+}
+@media (min-width: 761px) and (max-width: 1366px) {
+    #main-content #view-column.column-library-layout,
+    #main-content #view-article-detail.column-reader-layout { width: min(920px, calc(100% - 2rem)); max-width: calc(100% - 2rem); margin-right: auto; margin-left: auto; }
+    body.sidebar-collapsed #main-content #view-column.column-library-layout,
+    body.sidebar-collapsed #main-content #view-article-detail.column-reader-layout { width: min(920px, calc(100% - 2rem)) !important; max-width: calc(100% - 2rem) !important; margin-right: auto !important; margin-left: auto !important; }
+}
+@media (max-width: 760px) {
+    .column-library-layout,
+    .column-reader-layout { width: min(100% - 1.25rem, 920px); }
+    .column-library-hero { grid-template-columns: 1fr; min-height: 0; padding: 1.35rem; border-radius: 22px; }
+    .column-library-hero::before { inset: 9px; border-radius: 15px; }
+    .column-library-seal { width: 96px; height: 96px; }
+    .column-library-search-head,
+    .column-library-shelf-head { align-items: start; flex-direction: column; }
+    .column-library-search-head > p,
+    .column-library-shelf-head > p { text-align: left; }
+    .column-library-list { grid-template-columns: 1fr; }
+    .column-reader-backnote { display: none; }
+    .column-reader-summary-head { align-items: stretch; flex-direction: column; }
+    .column-reader-summary-button { justify-content: center; }
+    .column-reader-document { border-radius: 21px; }
+    .column-reader-body { padding: 1.25rem; }
+    .column-reader-body .article-content .article-toc-unified ul { grid-template-columns: 1fr !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #view-column *,
+    #view-column *::before,
+    #view-column *::after,
+    #view-article-detail.column-reader-layout *,
+    #view-article-detail.column-reader-layout *::before,
+    #view-article-detail.column-reader-layout *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
 /* Ver.4.0: 社務所だより — 社務所掲示録・社務所記録帳 */
 .news-bulletin-layout,
 .news-chronicle-layout {
@@ -11112,71 +11434,72 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     <nav id="news-pagination" class="news-bulletin-pagination" aria-label="社務所だよりのページ送り"></nav>
 </section>
 
-        <!-- ビュー: 神籤草子（検索・ページ機能付き） -->
-<section id="view-column" class="view-section max-w-4xl mx-auto relative pb-20">
-    <div class="bento-card column-hero-card mb-6 relative overflow-hidden bg-gradient-to-br from-indigo-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
-        <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #6366f1 0%, transparent 70%);"></div>
-        <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #d4af37 0%, transparent 70%);"></div>
-        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div class="flex-1">
-                <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">SACRED COLUMNS</p>
-                <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                    <span class="text-4xl text-indigo-400"><i class="bi bi-book-half"></i></span>
-                    <span class="text-white">神籤草子</span>
-                </h2>
-                <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">
-                    おみくじ・神社・暦・作法を静かに掘り下げる、
-                    杜の読み物と学びの書架です。
-                </p>
+        <!-- ビュー: 神籤草子（Ver.4.0 神籤書架テンプレート） -->
+<section id="view-column" class="view-section column-library-layout" aria-labelledby="column-page-title">
+    <header class="column-library-hero">
+        <div class="column-library-hero-copy">
+            <p class="column-library-eyebrow"><i class="bi bi-bookshelf" aria-hidden="true"></i> SACRED READING LIBRARY</p>
+            <div class="column-library-title-row">
+                <h1 id="column-page-title">神籤草子</h1>
+                <span id="column-library-count" class="column-library-count" aria-live="polite">全61篇を収録</span>
             </div>
-            <div class="flex-shrink-0 text-center flex flex-col items-center gap-2">
-                <div class="w-20 h-20 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #3730a3, #4f46e5); box-shadow: 0 0 24px rgba(99,102,241,0.35);">
-                    <i class="bi bi-journal-richtext text-4xl text-white"></i>
-                </div>
-                <p class="text-xs text-zinc-500 font-bold tracking-widest">神籤文庫</p>
+            <p class="column-library-lead">おみくじ・神社・暦・作法を、日々の暮らしにつながる言葉として綴る、杜の読み物の書架です。</p>
+            <p id="column-library-summary" class="column-library-summary"><i class="bi bi-journal-bookmark" aria-hidden="true"></i> 気になる題から、ひとつずつお読みいただけます。</p>
+        </div>
+        <div class="column-library-seal" aria-hidden="true">
+            <i class="bi bi-book-half"></i>
+            <span>SACRED<br>ESSAYS</span>
+        </div>
+    </header>
+
+    <search class="column-library-search" aria-labelledby="column-search-heading">
+        <div class="column-library-search-head">
+            <div>
+                <p class="column-library-section-kicker"><i class="bi bi-search" aria-hidden="true"></i> SEARCH THE SHELVES</p>
+                <h2 id="column-search-heading">書架から探す</h2>
             </div>
+            <p>題名・分類・本文から絞り込めます</p>
         </div>
-    </div>
-    
-    <!-- 検索コントロールバー (ニュースと共通デザイン) -->
-    <div class="news-control-bar">
-        <div class="flex items-center gap-2 mb-2">
-            <i class="bi bi-book text-gray-400"></i>
-            <span class="text-xs font-bold text-gray-500">書架を検索</span>
+        <div class="column-library-search-field">
+            <label class="sr-only" for="column-search-input">神籤草子を検索</label>
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <input type="search" id="column-search-input" placeholder="キーワードを入力..." oninput="handleSearch('column', this.value)">
         </div>
-        <input type="text" id="column-search-input" placeholder="キーワードを入力..." 
-               class="modern-filter-input w-full"
-               oninput="handleSearch('column', this.value)">
-    </div>
+    </search>
 
-    <!-- コラムグリッドリスト -->
-    <div id="view-column-list" class="column-grid-container">
-        <!-- JSでカードが自動挿入されます -->
-    </div>
+    <section class="column-library-shelf" aria-labelledby="column-records-heading">
+        <div class="column-library-shelf-head">
+            <div>
+                <p class="column-library-section-kicker"><i class="bi bi-collection" aria-hidden="true"></i> READING ARCHIVE</p>
+                <h2 id="column-records-heading">綴じ目から探す</h2>
+            </div>
+            <p id="column-results-summary" aria-live="polite">全61篇を新しい順に並べています</p>
+        </div>
+        <div id="view-column-list" class="column-library-list" aria-live="polite" aria-busy="false">
+            <!-- JavaScriptで記事カードを挿入 -->
+        </div>
+    </section>
 
-    <!-- ページネーション -->
-    <div id="column-pagination" class="flex justify-center items-center gap-4 mt-8">
-        <!-- JSで自動挿入 -->
-    </div>
+    <nav id="column-pagination" class="column-library-pagination" aria-label="神籤草子のページ送り"></nav>
 </section>
 
-        <!-- ビュー: 記事詳細 (モダン・リーダーUI) -->
+<!-- ビュー: 記事詳細 (モダン・リーダーUI) -->
         <!-- ビュー: 記事詳細（Ver.4.0 社務所記録帳テンプレート） -->
+<!-- ビュー: 記事詳細（Ver.4.0 共用読本フレーム） -->
 <section id="view-article-detail" class="view-section news-chronicle-layout" aria-label="社務所だより記事詳細">
-    <div class="news-chronicle-frame">
-        <nav class="news-chronicle-backbar" aria-label="記事詳細の操作">
-            <button type="button" onclick="articleBack()" class="news-chronicle-back">
+    <div class="news-chronicle-frame article-reader-frame">
+        <nav class="news-chronicle-backbar article-reader-backbar" aria-label="記事詳細の操作">
+            <button type="button" onclick="articleBack()" class="news-chronicle-back article-reader-back">
                 <i class="bi bi-arrow-left" aria-hidden="true"></i>
                 <span>社務所だより一覧へ</span>
             </button>
-            <span class="news-chronicle-backnote">OFFICIAL RECORD</span>
+            <span class="news-chronicle-backnote article-reader-backnote">OFFICIAL RECORD</span>
         </nav>
         <div id="article-detail-content"></div>
     </div>
 </section>
 
-        
-    <!-- ビュー: 当サイトについて・利用規約・詳細解説 (モダンUI刷新版) -->
+<!-- ビュー: 当サイトについて・利用規約・詳細解説 (モダンUI刷新版) -->
         <!-- ビュー: 天命乃杜の使い方（Ver.4.0 参拝案内所テンプレート） -->
         <section id="view-howto" class="view-section howto-guide-layout" aria-labelledby="howto-page-title">
             <header class="howto-guide-hero">
@@ -18787,65 +19110,72 @@ let historyPageState = {
 window.renderFullColumnView = function() {
     const container = document.getElementById('view-column-list');
     const pagination = document.getElementById('column-pagination');
-    const titleArea = document.querySelector('#view-column h2');
-    
-    if (!container) return;
+    const countDisplay = document.getElementById('column-library-count');
+    const heroSummary = document.getElementById('column-library-summary');
+    const resultsSummary = document.getElementById('column-results-summary');
+
+    if (!container || !pagination) return;
 
     const { data, totalPages, currentPage, totalItems } = getPaginatedData('column', columnData);
+    const hasQuery = Boolean(listState.column.query);
+    const summaryText = hasQuery
+        ? `${totalItems}篇が見つかりました`
+        : `全${columnData.length}篇を収録`;
 
-    const countDisplay = listState.column.query 
-        ? `<span class="text-sm font-normal ml-3 text-gray-500">Hit: ${totalItems}</span>`
-        : `<span class="text-sm font-normal ml-3 text-gray-500">Total: ${columnData.length}</span>`;
-    titleArea.innerHTML = `<span class="text-4xl text-indigo-400"><i class="bi bi-book-half"></i></span><span class="text-white">神籤草子</span> ${countDisplay}`;
+    if (countDisplay) countDisplay.textContent = summaryText;
+    if (heroSummary) heroSummary.innerHTML = hasQuery
+        ? `<i class="bi bi-search" aria-hidden="true"></i>「${listState.column.query}」の検索結果を表示しています。`
+        : '<i class="bi bi-journal-bookmark" aria-hidden="true"></i> 気になる題から、ひとつずつお読みいただけます。';
+    if (resultsSummary) resultsSummary.textContent = hasQuery
+        ? `${totalItems}篇の検索結果`
+        : `全${columnData.length}篇を新しい順に並べています`;
+
+    container.setAttribute('aria-busy', 'true');
 
     if (totalItems === 0) {
         container.innerHTML = `
-            <div class="col-span-full text-center py-10 text-gray-400">
-                <i class="bi bi-journal-x text-4xl mb-3 opacity-50"></i>
-                <p>該当するコラムが見つかりませんでした。</p>
+            <div class="column-library-empty">
+                <i class="bi bi-journal-x" aria-hidden="true"></i>
+                <p>該当する読み物が見つかりませんでした。</p>
             </div>`;
         pagination.innerHTML = '';
+        container.setAttribute('aria-busy', 'false');
         return;
     }
 
     container.innerHTML = data.map(item => {
-        // 色クラスの決定 (colorClassプロパティを利用、なければデフォルト)
-        const colorKey = item.colorClass || 'indigo';
-        const bgClass = `col-bg-${colorKey}`;
-        const lineClass = `c-${colorKey}`;
         const readingMeta = getArticleReadingMeta(item.content);
-
+        const articleTitleId = `column-article-title-${item.id}`;
+        const dateValue = String(item.date || '').replace(/\//g, '-');
+        const sourceExcerpt = String(item.desc || item.content || '')
+            .replace(/<[^>]*>/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+        const excerpt = sourceExcerpt.length > 88 ? `${sourceExcerpt.slice(0, 88)}…` : sourceExcerpt;
         return `
-            <article class="column-card ${lineClass}" onclick="openArticle('column', ${item.id})">
-                <!-- ヘッダー (表紙イメージ) -->
-                <div class="column-header ${bgClass}">
-                    <i class="bi ${item.icon}"></i>
+            <article class="column-library-card" aria-labelledby="${articleTitleId}">
+                <div class="column-library-card-top">
+                    <span class="column-library-category"><i class="bi ${item.icon || 'bi-journal-text'}" aria-hidden="true"></i> ${item.category}</span>
+                    <time datetime="${dateValue}">${item.date}</time>
                 </div>
-                
-                <!-- 本文エリア -->
-                <div class="column-body">
-                    <div class="column-category">
-                        <span>${item.category}</span>
-                    </div>
-                    <h3 class="column-title">${item.title}</h3>
-                    <div class="column-reading-footer">
-                        <div class="article-list-readinfo column-list-readinfo" aria-label="本文${readingMeta.charCount.toLocaleString()}文字、読了目安約${readingMeta.readMinutes}分">
-                            <span><i class="bi bi-file-earmark-text" aria-hidden="true"></i> ${readingMeta.charCount.toLocaleString()}文字</span>
-                            <span class="article-list-readinfo-separator" aria-hidden="true">・</span>
-                            <span><i class="bi bi-clock-history" aria-hidden="true"></i> 読了目安 約${readingMeta.readMinutes}分</span>
-                        </div>
-                        <div class="column-date">${item.date}</div>
-                    </div>
+                <div class="column-library-card-copy">
+                    <h3 id="${articleTitleId}" class="column-library-card-title">${item.title}</h3>
+                    <p class="column-library-card-excerpt">${excerpt || '本文を開いて、杜の読み物をお楽しみください。'}</p>
                 </div>
-            </article>
-        `;
+                <div class="column-library-card-footer">
+                    <div class="column-library-readinfo" aria-label="本文${readingMeta.charCount.toLocaleString()}文字、読了目安約${readingMeta.readMinutes}分">
+                        <span><i class="bi bi-file-earmark-text" aria-hidden="true"></i> ${readingMeta.charCount.toLocaleString()}文字</span>
+                        <span class="column-library-readinfo-separator" aria-hidden="true">・</span>
+                        <span><i class="bi bi-clock-history" aria-hidden="true"></i> 約${readingMeta.readMinutes}分</span>
+                    </div>
+                    <button type="button" class="column-library-card-open" onclick="openArticle('column', ${item.id})" aria-label="${item.title}を読む">本文を読む <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+                </div>
+            </article>`;
     }).join('');
 
     pagination.innerHTML = createPaginationHTML('column', currentPage, totalPages, "changePage('column', {P})");
-};
-
-
-   // 4. 記事詳細表示 (一覧画面のデザイン・色・アイコンを完全継承版)
+    container.setAttribute('aria-busy', 'false');
+};// 4. 記事詳細表示 (一覧画面のデザイン・色・アイコンを完全継承版)
     window.openArticle = function(type, id) {
         let item;
         if (type === 'news') item = newsData.find(d => d.id === id);
@@ -18857,12 +19187,38 @@ window.renderFullColumnView = function() {
         //   出し分けるため、いま開いている記事の種別を記録しておく
         window._currentArticleDetailType = type;
 
-        // 戻るボタンの制御
-        const backBtn = document.querySelector('#view-article-detail button');
+        // 戻る導線と共用読本フレームを記事種別に応じて切り替える。
+        const detailView = document.getElementById('view-article-detail');
+        const isColumn = type === 'column';
+        if (detailView) {
+            detailView.classList.toggle('column-reader-layout', isColumn);
+            detailView.classList.toggle('news-chronicle-layout', !isColumn);
+            detailView.setAttribute('aria-label', isColumn ? '神籤草子記事詳細' : '社務所だより記事詳細');
+        }
+        const readerFrame = detailView?.querySelector('.article-reader-frame');
+        if (readerFrame) {
+            readerFrame.classList.toggle('column-reader-frame', isColumn);
+            readerFrame.classList.toggle('news-chronicle-frame', !isColumn);
+        }
+        const readerBackbar = detailView?.querySelector('.article-reader-backbar');
+        if (readerBackbar) {
+            readerBackbar.classList.toggle('column-reader-backbar', isColumn);
+            readerBackbar.classList.toggle('news-chronicle-backbar', !isColumn);
+            readerBackbar.setAttribute('aria-label', isColumn ? '神籤草子記事詳細の操作' : '社務所だより記事詳細の操作');
+        }
+        const backBtn = detailView?.querySelector('.article-reader-back');
         if (backBtn) {
-            backBtn.setAttribute('onclick', `showView('${type}')`);
+            backBtn.classList.toggle('column-reader-back', isColumn);
+            backBtn.classList.toggle('news-chronicle-back', !isColumn);
+            backBtn.setAttribute('onclick', "showView('" + type + "')");
             const span = backBtn.querySelector('span');
-            if(span) span.textContent = (type === 'news' ? '社務所だより一覧へ' : '神籤草子一覧へ');
+            if (span) span.textContent = isColumn ? '神籤草子一覧へ' : '社務所だより一覧へ';
+        }
+        const backNote = detailView?.querySelector('.article-reader-backnote');
+        if (backNote) {
+            backNote.classList.toggle('column-reader-backnote', isColumn);
+            backNote.classList.toggle('news-chronicle-backnote', !isColumn);
+            backNote.textContent = isColumn ? 'SACRED READING' : 'OFFICIAL RECORD';
         }
 
         const container = document.getElementById('article-detail-content');
@@ -19004,67 +19360,39 @@ window.renderFullColumnView = function() {
                         </div>
                     </article>`;
             } else {
+                const dateValue = String(item.date || '').replace(/\//g, '-');
+                const columnTitleId = `column-reader-title-${item.id}`;
+                const colorKey = item.colorClass || 'gray';
                 container.innerHTML = `
-                <!-- 記事ヘッダー (動的スタイル適用) -->
-                <div class="bg-gradient-to-b ${headerBgClass} p-8 md:p-12 border-b border-gray-100 dark:border-gray-800">
-                    <div class="flex flex-col items-center text-center">
-                        <!-- アイコン -->
-                        <div class="mb-4 text-5xl ${iconColorClass} drop-shadow-sm transform transition hover:scale-110 duration-500">
-                            <i class="bi ${iconClass}"></i>
-                        </div>
-                        
-                        <!-- メタ情報 (日付・タグ) -->
-                        <div class="flex flex-wrap justify-center items-center gap-3 mb-5">
-                            <span class="px-3 py-1 rounded-full bg-white/80 dark:bg-black/50 backdrop-blur text-xs font-bold shadow-sm border border-black/5 text-gray-500 font-mono">
-                                ${item.date} ${item.time || ''}
-                            </span>
-                            ${tagHtml}
-                        </div>
-
-                        <!-- タイトル -->
-                        <h2 class="text-2xl md:text-3xl font-black leading-relaxed tracking-tight text-gray-900 dark:text-white drop-shadow-sm" style="font-family: 'Zen Old Mincho', serif;">
-                            ${item.title}
-                        </h2>
-
-                        <!-- 文字数・読了目安 -->
-                        <div class="article-meta-readinfo">
-                            <i class="bi bi-file-earmark-text"></i>
-                            <span>${readingMeta.charCount.toLocaleString()}文字</span>
-                            <span class="rp-sep">・</span>
-                            <i class="bi bi-clock-history"></i>
-                            <span>読了目安 約${readingMeta.readMinutes}分</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 記事本文 -->
-                <div class="p-6 md:p-12 bg-white dark:bg-zinc-900">
-
-                    <!-- AI要約セクション（本文を読む前に要点を確認できるよう、本文の直前に配置） -->
-                    <div id="summary-section" class="mb-8">
-                        <div class="flex items-center justify-between gap-3 flex-wrap p-4 md:p-5 rounded-2xl bg-gradient-to-r from-red-50 to-orange-50 dark:from-zinc-800 dark:to-zinc-800/60 border border-red-100 dark:border-zinc-700">
-                            <div class="flex items-center gap-3 min-w-0">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center text-white text-lg shrink-0">
-                                    <i class="bi bi-stars"></i>
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="text-sm font-bold text-gray-800 dark:text-gray-100">AIで要約する</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 truncate">本文を読む前に、要点だけ先に確認できます</p>
-                                </div>
+                    <article class="column-reader-document" aria-labelledby="${columnTitleId}">
+                        <header class="column-reader-header">
+                            <div class="column-reader-icon" aria-hidden="true"><i class="bi ${iconClass}"></i></div>
+                            <p class="column-reader-eyebrow"><i class="bi bi-book-half" aria-hidden="true"></i> SACRED READING</p>
+                            <div class="column-reader-meta">
+                                <time datetime="${dateValue}">${item.date} ${item.time || ''}</time>
+                                <span class="column-reader-category">${item.category}</span>
                             </div>
-                            <button id="summarize-btn" onclick="requestArticleSummary('${type}', ${item.id})" class="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-red-700 to-red-900 text-white text-sm font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
-                                <i class="bi bi-magic"></i>
-                                <span>要約する</span>
-                            </button>
+                            <h1 id="${columnTitleId}" class="column-reader-title">${item.title}</h1>
+                            <div class="column-reader-readinfo" aria-label="本文${readingMeta.charCount.toLocaleString()}文字、読了目安約${readingMeta.readMinutes}分">
+                                <i class="bi bi-file-earmark-text" aria-hidden="true"></i><span>${readingMeta.charCount.toLocaleString()}文字</span>
+                                <span aria-hidden="true">・</span>
+                                <i class="bi bi-clock-history" aria-hidden="true"></i><span>読了目安 約${readingMeta.readMinutes}分</span>
+                            </div>
+                        </header>
+                        <section id="summary-section" class="column-reader-summary" aria-labelledby="column-summary-heading">
+                            <div class="column-reader-summary-head">
+                                <div class="column-reader-summary-copy">
+                                    <span class="column-reader-summary-icon" aria-hidden="true"><i class="bi bi-stars"></i></span>
+                                    <div><p id="column-summary-heading">AIで要約する</p><small>本文を読む前に、要点だけ先に確認できます</small></div>
+                                </div>
+                                <button id="summarize-btn" type="button" onclick="requestArticleSummary('column', ${item.id})" class="column-reader-summary-button"><i class="bi bi-magic" aria-hidden="true"></i><span>要約する</span></button>
+                            </div>
+                            <div id="summary-result" class="hidden mt-4"></div>
+                        </section>
+                        <div class="column-reader-body">
+                            <div class="article-content prose dark:prose-invert max-w-none leading-loose text-justify" data-column-color="${colorKey}">${item.content}</div>
                         </div>
-                        <div id="summary-result" class="hidden mt-4"></div>
-                    </div>
-
-                    <div class="article-content prose dark:prose-invert max-w-none leading-loose text-justify">
-                        ${item.content}
-                    </div>
-                </div>
-            `;
+                    </article>`;
             }            // ★修正: 記事本文はフォント読み込み確定後にフェードイン表示することで、
             //   表示直後にフォールバックフォント→Webフォントへ切り替わって見える
             //   「読み込み後にフォントが変わる」現象を防止する

@@ -43,7 +43,7 @@ requireText(
   '<section id="view-article-detail" class="view-section news-chronicle-layout" aria-label="社務所だより記事詳細">',
   '記事詳細画面がnews-chronicle-layoutテンプレートとして定義されていません。'
 );
-requireDetailSectionText('class="news-chronicle-backbar"', '記事詳細に一覧へ戻る案内バーがありません。');
+requireDetailSectionText('news-chronicle-backbar', '記事詳細に一覧へ戻る案内バーがありません。');
 requireDetailSectionText('id="article-detail-content"', '記事詳細の動的コンテンツIDが失われています。');
 
 [
