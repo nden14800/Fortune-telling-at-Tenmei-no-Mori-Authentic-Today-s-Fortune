@@ -9848,6 +9848,14 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     }
     .history-ledger-mark[data-ver4-hero-emblem] > i { color: var(--history-red) !important; }
     .history-ledger-mark[data-ver4-hero-emblem] > span { color: var(--history-muted) !important; }
+    /* 参拝証は色だけを深紅系に保ち、社務所だよりと同じ外周・内側7px円環・紙面余白へ揃える。 */
+    .auth-passport-mark[data-ver4-hero-emblem] {
+        border: 1px solid color-mix(in srgb, var(--accent-red) 54%, transparent) !important;
+        background: color-mix(in srgb, var(--card-bg) 86%, #fff 14%) !important;
+        box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--accent-red) 8%, transparent) !important;
+    }
+    .auth-passport-mark[data-ver4-hero-emblem] > i { color: var(--accent-red) !important; }
+    .auth-passport-mark[data-ver4-hero-emblem] > span { color: var(--text-sub) !important; }
     .developer-study-portrait-zone { min-width: 128px !important; }
     .developer-study-portrait-ring { width: 128px !important; height: 128px !important; }
 
