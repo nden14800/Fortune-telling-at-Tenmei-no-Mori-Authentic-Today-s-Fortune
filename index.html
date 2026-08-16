@@ -4342,12 +4342,22 @@
 .prefecture-observatory-kicker,
 .prefecture-section-kicker,
 .prefecture-map-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
     margin: 0 0 0.55rem;
     color: #18725f;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
     font-size: 0.68rem;
     font-weight: 800;
-    letter-spacing: 0.19em;
-    line-height: 1.5;
+    letter-spacing: 0.15em;
+    line-height: 1.35;
+}
+.prefecture-observatory-kicker i,
+.prefecture-section-kicker i,
+.prefecture-map-kicker i {
+    color: #b2852b;
+    font-size: 0.82rem;
 }
 
 .prefecture-observatory-title {
@@ -11412,6 +11422,51 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             }
         }
 
+        /* Ver.4.0: 横断整合 — ヒーロー英字ラベルを社務所だより基準へ統一 */
+        :is(
+            #view-auth .auth-passport-kicker,
+            #view-developer .developer-study-eyebrow,
+            #view-about .about-codex-eyebrow,
+            #view-privacy .privacy-ledger-eyebrow,
+            #view-howto .howto-guide-eyebrow,
+            #view-news .news-bulletin-eyebrow,
+            #view-column .column-library-eyebrow,
+            #view-prefecture .prefecture-observatory-kicker,
+            #view-history .history-ledger-eyebrow,
+            #view-lab .labs-hero-kicker,
+            #view-dream .dream-oracle-kicker,
+            #view-omamori .omamori-sanctuary-kicker,
+            #view-stats .stats-record-kicker,
+            #view-zodiac .zodiac-oracle-kicker
+        ) {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.45rem !important;
+            font-family: 'Zen Kaku Gothic New', sans-serif !important;
+            font-size: 0.68rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.15em !important;
+            line-height: 1.35 !important;
+        }
+        :is(
+            #view-auth .auth-passport-kicker i,
+            #view-developer .developer-study-eyebrow i,
+            #view-about .about-codex-eyebrow i,
+            #view-privacy .privacy-ledger-eyebrow i,
+            #view-howto .howto-guide-eyebrow i,
+            #view-news .news-bulletin-eyebrow i,
+            #view-column .column-library-eyebrow i,
+            #view-prefecture .prefecture-observatory-kicker i,
+            #view-history .history-ledger-eyebrow i,
+            #view-lab .labs-hero-kicker i,
+            #view-dream .dream-oracle-kicker i,
+            #view-omamori .omamori-sanctuary-kicker i,
+            #view-stats .stats-record-kicker i,
+            #view-zodiac .zodiac-oracle-kicker i
+        ) {
+            font-size: 0.82rem !important;
+        }
+
         /* Ver.4.0: 横断整合 — 一覧・文書・案内の主要通常カードを同じ紙面リズムへ統一 */
         :is(
             #view-news .news-bulletin-search,
@@ -11578,6 +11633,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         .zodiac-oracle-mark[data-ver4-hero-emblem] > span { color: var(--zodiac-muted) !important; }
         .zodiac-oracle-content,
         .zodiac-ranking-stack { display: grid; gap: var(--ver4-card-gap); }
+        /* Tailwindの.hiddenより後段でgrid指定が勝たないよう、折りたたみ状態を明示する。 */
+        .zodiac-ranking-stack.hidden { display: none !important; }
         .zodiac-oracle-content { position: relative; }
         .zodiac-ranking-panel {
             position: relative;
@@ -13455,9 +13512,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
                     <!-- 4位以下を見るボタン -->
                     <div class="zodiac-ranking-toggle-wrap">
-                        <button onclick="showFullRanking()" class="zodiac-ranking-toggle">
+                        <button type="button" onclick="showFullRanking()" class="zodiac-ranking-toggle" aria-controls="full-ranking-list" aria-expanded="false">
                             <span id="show-ranking-text">4位以下を見る</span>
-                            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                            <i id="show-ranking-icon" class="bi bi-chevron-down" aria-hidden="true"></i>
                         </button>
                     </div>
 
@@ -13648,7 +13705,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 <section id="view-prefecture" class="view-section prefecture-observatory-layout relative">
     <header class="prefecture-observatory-hero">
         <div>
-            <p class="prefecture-observatory-kicker">REGIONAL FORTUNE OBSERVATORY</p>
+            <p class="prefecture-observatory-kicker"><i class="bi bi-map" aria-hidden="true"></i> REGIONAL FORTUNE OBSERVATORY</p>
             <h2 class="prefecture-observatory-title">全国・土地の運気</h2>
             <p class="prefecture-observatory-summary">47都道府県の「地の利」を、日ごとの巡りとして静かに読み解きます。気になる土地の位置と、その日の流れをランキングと地図からお確かめください。</p>
             <div class="prefecture-observatory-meta" aria-label="更新情報">
@@ -27308,8 +27365,14 @@ if(viewId === 'lab') {
     function showFullRanking() {
         const fullList = document.getElementById('full-ranking-list');
         const txt = document.getElementById('show-ranking-text');
-        if (fullList.classList.contains('hidden')) { fullList.classList.remove('hidden'); txt.textContent = "ランキングを閉じる"; }
-        else { fullList.classList.add('hidden'); txt.textContent = "4位以下を見る"; }
+        const button = document.querySelector('.zodiac-ranking-toggle');
+        const icon = document.getElementById('show-ranking-icon');
+        if (!fullList || !txt || !button || !icon) return;
+        const isCollapsed = fullList.classList.contains('hidden');
+        fullList.classList.toggle('hidden', !isCollapsed);
+        button.setAttribute('aria-expanded', String(isCollapsed));
+        txt.textContent = isCollapsed ? 'ランキングを閉じる' : '4位以下を見る';
+        icon.className = isCollapsed ? 'bi bi-chevron-up' : 'bi bi-chevron-down';
     }
 
     function findMyRank() {

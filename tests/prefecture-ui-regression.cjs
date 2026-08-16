@@ -26,6 +26,7 @@ console.log('全国・土地の運気 国土見晴台回帰テストを開始し
 includes('class="view-section prefecture-observatory-layout relative"', '国土見晴台のルートテンプレートが存在する');
 includes('class="prefecture-observatory-hero"', '国土見晴台のヒーローが存在する');
 includes('REGIONAL FORTUNE OBSERVATORY', 'ヒーローの英字ラベルが存在する');
+includes('<p class="prefecture-observatory-kicker"><i class="bi bi-map" aria-hidden="true"></i> REGIONAL FORTUNE OBSERVATORY</p>', 'ヒーロー英字ラベルの左アイコンが共通構造で存在する');
 includes('全国・土地の運気', '画面の正式名称が維持されている');
 includes('id="pref-date-display"', '日付表示要素が維持されている');
 includes('独自のアルゴリズムに基づく娯楽コンテンツです。', '娯楽コンテンツの注意書きが維持されている');
@@ -92,6 +93,9 @@ includes('circle.bindTooltip(`${item.name}　${item.score}`', 'マーカーの�
 includes('/* Ver.4.0: 全国・土地の運気 — 国土見晴台 */', '国土見晴台CSSブロックが存在する');
 includes('.prefecture-observatory-layout {', '新テンプレートのルートCSSが存在する');
 includes('.prefecture-observatory-hero {', '新ヒーローのCSSが存在する');
+includes(".prefecture-observatory-kicker,\n.prefecture-section-kicker,\n.prefecture-map-kicker {\n    display: flex;", '英字ラベルが共通の横並びアイコン構造である');
+includes("font-family: 'Zen Kaku Gothic New', sans-serif;", '英字ラベルが共通のゴシック書体を使用する');
+includes('.prefecture-observatory-kicker i,', '英字ラベル左アイコンの色と寸法を定義している');
 includes('.prefecture-observatory-controls {', '新コントロール面のCSSが存在する');
 includes('.prefecture-ranking-panel,', 'ランキング面のCSSが存在する');
 includes('.prefecture-map-panel {', '地図面のCSSが存在する');

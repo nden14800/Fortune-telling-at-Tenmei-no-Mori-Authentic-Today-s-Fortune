@@ -32,7 +32,8 @@ assert(zodiacSection, '最強運勢ランキング画面のセクションを抽
   'id="favorites-list" class="zodiac-ranking-stack"',
   '<h2 id="zodiac-ranking-title">本日の順位</h2>',
   'id="ranking-list" class="zodiac-ranking-stack"',
-  'onclick="showFullRanking()" class="zodiac-ranking-toggle"',
+  'onclick="showFullRanking()" class="zodiac-ranking-toggle" aria-controls="full-ranking-list" aria-expanded="false"',
+  'id="show-ranking-icon" class="bi bi-chevron-down" aria-hidden="true"',
   'id="full-ranking-list" class="hidden zodiac-ranking-stack"',
 ].forEach((text) => requireText(text, `最強運勢ランキングのVer.4.0構造または既存機能IDが不足しています: ${text}`));
 
@@ -56,6 +57,7 @@ assert.equal(zodiacSection.includes('id="zodiac-check-title"><i'), false, '最�
   '.zodiac-oracle-mark[data-ver4-hero-emblem] {',
   'box-shadow: inset 0 0 0 7px',
   '.zodiac-ranking-panel {',
+  '.zodiac-ranking-stack.hidden { display: none !important; }',
   'padding: var(--ver4-card-padding);',
   'border-radius: var(--ver4-card-radius);',
   '.zodiac-input-grid {',
@@ -99,12 +101,22 @@ assert.equal(zodiacSection.includes('id="zodiac-check-title"><i'), false, '最�
   '.dream-oracle-hero,',
   '.omamori-sanctuary-hero,',
   '.stats-record-hero',
+  '/* Ver.4.0: 横断整合 — ヒーロー英字ラベルを社務所だより基準へ統一 */',
+  '#view-auth .auth-passport-kicker,',
+  '#view-prefecture .prefecture-observatory-kicker,',
+  '#view-zodiac .zodiac-oracle-kicker',
+  "font-family: 'Zen Kaku Gothic New', sans-serif !important;",
+  'font-size: 0.68rem !important;',
+  'letter-spacing: 0.15em !important;',
 ].forEach((text) => requireText(text, `横断統一の共通トークンまたは対象セレクタが不足しています: ${text}`));
 
 [
   'function findMyRank()',
   'function toggleFavorite(',
   'function showFullRanking()',
+  "fullList.classList.toggle('hidden', !isCollapsed);",
+  "button.setAttribute('aria-expanded', String(isCollapsed));",
+  "icon.className = isCollapsed ? 'bi bi-chevron-up' : 'bi bi-chevron-down';",
   'function renderRanking()',
   'function createCardHTML(data)',
 ].forEach((text) => requireText(text, `最強運勢ランキングの既存操作ロジックが失われています: ${text}`));
@@ -114,6 +126,8 @@ console.log(JSON.stringify({
   zodiacVer4Hero: true,
   nativeSelectSemanticsPreserved: true,
   rankingAndFavoritesFunctionsPreserved: true,
+  collapsedRankingStatePreserved: true,
   crossScreenTokensPresent: true,
+  heroEyebrowTypographyUnified: true,
   lightDarkMobileRulesPresent: true,
 }, null, 2));
