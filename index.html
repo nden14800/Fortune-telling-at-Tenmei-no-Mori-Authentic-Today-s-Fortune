@@ -11125,6 +11125,263 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         #view-stats.stats-record-layout { width: min(100% - 32px, 960px) !important; padding: 0 0 32px !important; }
         #view-stats .stats-record-hero { gap: 20px; min-height: 0; padding: 24px 20px !important; border-radius: 24px !important; }
     }
+
+    /* =========================================================
+       Ver.4.0 横断整合: 社務所だよりを基準とする全刷新ビューの
+       コンテナ、二重線ヒーロー、印章、通常カード、操作面の最終規則
+       ========================================================= */
+    :root {
+        --ver4-content-width: 960px;
+        --ver4-hero-radius: 28px;
+        --ver4-hero-inner-radius: 20px;
+        --ver4-hero-inner-inset: 12px;
+        --ver4-hero-min-height: 258px;
+        --ver4-hero-padding: clamp(28px, 5vw, 48px);
+        --ver4-hero-gap: clamp(24px, 5vw, 52px);
+        --ver4-section-gap: 20px;
+        --ver4-card-radius: 24px;
+        --ver4-card-padding: 24px;
+        --ver4-card-gap: 16px;
+        --ver4-control-height: 48px;
+        --ver4-control-radius: 14px;
+    }
+
+    #view-auth.auth-pilgrimage-view,
+    #view-developer.developer-study-layout,
+    #view-about.about-codex-layout,
+    #view-privacy.privacy-ledger-layout,
+    #view-howto.howto-guide-layout,
+    #view-news.news-bulletin-layout,
+    #view-column.column-library-layout,
+    #view-article-detail.news-chronicle-layout,
+    .column-reader-layout,
+    #view-prefecture.prefecture-observatory-layout,
+    #view-history.history-ledger-layout,
+    #view-lab.labs-observatory-layout,
+    #view-dream.dream-oracle-layout,
+    #view-omamori.omamori-sanctuary-layout,
+    #view-stats.stats-record-layout {
+        width: min(100% - 32px, var(--ver4-content-width)) !important;
+        max-width: var(--ver4-content-width) !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+        padding: 0 0 48px !important;
+        box-sizing: border-box !important;
+    }
+
+    :is(
+        .auth-passport-hero,
+        .developer-study-hero,
+        .about-codex-hero,
+        .privacy-ledger-hero,
+        .howto-guide-hero,
+        .news-bulletin-hero,
+        .column-library-hero,
+        .news-chronicle-hero,
+        .column-reader-hero,
+        .prefecture-observatory-hero,
+        .history-ledger-hero,
+        .labs-observatory-hero,
+        .dream-oracle-hero,
+        .omamori-sanctuary-hero,
+        .stats-record-hero
+    ) {
+        min-height: var(--ver4-hero-min-height) !important;
+        margin: 0 0 var(--ver4-section-gap) !important;
+        padding: var(--ver4-hero-padding) !important;
+        border-radius: var(--ver4-hero-radius) !important;
+        box-sizing: border-box !important;
+    }
+
+    :is(
+        .auth-passport-hero,
+        .developer-study-hero,
+        .about-codex-hero,
+        .privacy-ledger-hero,
+        .howto-guide-hero,
+        .news-bulletin-hero,
+        .column-library-hero,
+        .news-chronicle-hero,
+        .column-reader-hero,
+        .prefecture-observatory-hero,
+        .history-ledger-hero,
+        .labs-observatory-hero,
+        .dream-oracle-hero,
+        .omamori-sanctuary-hero,
+        .stats-record-hero
+    )::before {
+        inset: var(--ver4-hero-inner-inset) !important;
+        border-radius: var(--ver4-hero-inner-radius) !important;
+    }
+
+    :is(
+        .auth-passport-title,
+        .developer-study-title,
+        .about-codex-hero h1,
+        .privacy-ledger-hero h1,
+        .howto-guide-hero h1,
+        .news-bulletin-hero h1,
+        .column-library-hero h1,
+        .news-chronicle-title,
+        .column-reader-title,
+        .prefecture-observatory-title,
+        .history-ledger-title,
+        .labs-observatory-title,
+        .dream-oracle-title,
+        .omamori-sanctuary-title,
+        .stats-record-title
+    ) {
+        font-size: clamp(2rem, 4.1vw, 3rem) !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.035em !important;
+        line-height: 1.2 !important;
+    }
+
+    :is(
+        #view-lab .labs-control-panel,
+        #view-lab .labs-experiment-card,
+        #view-dream .dream-oracle-panel,
+        #view-omamori .omamori-selection-panel,
+        #view-omamori .omamori-prayer-panel,
+        #view-omamori .omamori-bestowal-panel,
+        #view-omamori .wish-card,
+        #view-stats .stats-record-stat-card,
+        #view-stats .stats-record-panel,
+        #view-stats .stats-record-insight,
+        #view-history .history-control-card,
+        #view-history .history-stat-card,
+        #view-history .history-timeline-card,
+        #view-prefecture .prefecture-control-card,
+        #view-prefecture .pref-card-top,
+        #view-prefecture .pref-card-normal,
+        #view-prefecture .pref-map-legend,
+        #view-news .news-bulletin-card,
+        #view-column .column-library-card,
+        #view-howto .howto-guide-setting-card,
+        #view-about .about-codex-card,
+        #view-developer .developer-study-pane,
+        #view-privacy .privacy-ledger-card,
+        #view-auth .auth-stage-card
+    ) {
+        border-radius: var(--ver4-card-radius) !important;
+        padding: var(--ver4-card-padding) !important;
+    }
+
+    :is(
+        #view-lab .labs-content-stack,
+        #view-dream .dream-oracle-stack,
+        #view-omamori .omamori-sanctuary-content,
+        #view-stats .stats-record-content,
+        #view-history .history-ledger-content,
+        #view-prefecture .prefecture-observatory-content,
+        #view-news .news-bulletin-stack,
+        #view-column .column-library-stack
+    ) { gap: var(--ver4-card-gap) !important; }
+
+    :is(
+        #view-lab button,
+        #view-dream button,
+        #view-omamori button,
+        #view-stats button,
+        #view-history button,
+        #view-prefecture button,
+        #view-news button,
+        #view-column button,
+        #view-howto button,
+        #view-about button,
+        #view-developer button,
+        #view-privacy button,
+        #view-auth button
+    ):not(.footer-v4-social-link):not(.nav-btn):not(.toggle-switch):not(.theme-select-btn):not(.lab-switch-wrapper > button) {
+        min-height: var(--ver4-control-height);
+        border-radius: var(--ver4-control-radius);
+    }
+
+    @media (max-width: 768px) {
+        #view-auth.auth-pilgrimage-view,
+        #view-developer.developer-study-layout,
+        #view-about.about-codex-layout,
+        #view-privacy.privacy-ledger-layout,
+        #view-howto.howto-guide-layout,
+        #view-news.news-bulletin-layout,
+        #view-column.column-library-layout,
+        #view-article-detail.news-chronicle-layout,
+        .column-reader-layout,
+        #view-prefecture.prefecture-observatory-layout,
+        #view-history.history-ledger-layout,
+        #view-lab.labs-observatory-layout,
+        #view-dream.dream-oracle-layout,
+        #view-omamori.omamori-sanctuary-layout,
+        #view-stats.stats-record-layout { padding-bottom: 32px !important; }
+
+        :is(
+            .auth-passport-hero,
+            .developer-study-hero,
+            .about-codex-hero,
+            .privacy-ledger-hero,
+            .howto-guide-hero,
+            .news-bulletin-hero,
+            .column-library-hero,
+            .news-chronicle-hero,
+            .column-reader-hero,
+            .prefecture-observatory-hero,
+            .history-ledger-hero,
+            .labs-observatory-hero,
+            .dream-oracle-hero,
+            .omamori-sanctuary-hero,
+            .stats-record-hero
+        ) {
+            gap: 20px !important;
+            min-height: 0 !important;
+            padding: 24px 20px !important;
+            border-radius: 24px !important;
+        }
+
+        :is(
+            .auth-passport-hero,
+            .developer-study-hero,
+            .about-codex-hero,
+            .privacy-ledger-hero,
+            .howto-guide-hero,
+            .news-bulletin-hero,
+            .column-library-hero,
+            .news-chronicle-hero,
+            .column-reader-hero,
+            .prefecture-observatory-hero,
+            .history-ledger-hero,
+            .labs-observatory-hero,
+            .dream-oracle-hero,
+            .omamori-sanctuary-hero,
+            .stats-record-hero
+        )::before { inset: 10px !important; border-radius: 16px !important; }
+
+        :is(
+            #view-lab .labs-control-panel,
+            #view-lab .labs-experiment-card,
+            #view-dream .dream-oracle-panel,
+            #view-omamori .omamori-selection-panel,
+            #view-omamori .omamori-prayer-panel,
+            #view-omamori .omamori-bestowal-panel,
+            #view-omamori .wish-card,
+            #view-stats .stats-record-stat-card,
+            #view-stats .stats-record-panel,
+            #view-stats .stats-record-insight,
+            #view-history .history-control-card,
+            #view-history .history-stat-card,
+            #view-history .history-timeline-card,
+            #view-prefecture .prefecture-control-card,
+            #view-prefecture .pref-card-top,
+            #view-prefecture .pref-card-normal,
+            #view-prefecture .pref-map-legend,
+            #view-news .news-bulletin-card,
+            #view-column .column-library-card,
+            #view-howto .howto-guide-setting-card,
+            #view-about .about-codex-card,
+            #view-developer .developer-study-pane,
+            #view-privacy .privacy-ledger-card,
+            #view-auth .auth-stage-card
+        ) { padding: 18px !important; border-radius: 20px !important; }
+    }
     </style>
 
 
@@ -11135,6 +11392,402 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
            それをファイル冒頭でlink読み込みに変えたことで優先順位が逆転し、
            ライトモードでも一部カードが黒背景のまま固定される不具合が発生していたため、元の順序に復元。 -->
     <link rel="stylesheet" href="output.css">
+    <style id="zodiac-ver4-ui-style">
+        /* Ver.4.0: 横断整合 — 旧来の920px・サイドバー位置補正を960px共通幅へ上書き */
+        @media (min-width: 761px) {
+            #main-content #view-howto.howto-guide-layout,
+            body.sidebar-collapsed #main-content #view-howto.howto-guide-layout,
+            #main-content #view-news.news-bulletin-layout,
+            body.sidebar-collapsed #main-content #view-news.news-bulletin-layout,
+            #main-content #view-column.column-library-layout,
+            body.sidebar-collapsed #main-content #view-column.column-library-layout,
+            #main-content #view-article-detail.news-chronicle-layout,
+            body.sidebar-collapsed #main-content #view-article-detail.news-chronicle-layout,
+            #main-content #view-article-detail.column-reader-layout,
+            body.sidebar-collapsed #main-content #view-article-detail.column-reader-layout {
+                width: min(100% - 32px, var(--ver4-content-width)) !important;
+                max-width: var(--ver4-content-width) !important;
+                margin-right: auto !important;
+                margin-left: auto !important;
+            }
+        }
+
+        /* Ver.4.0: 横断整合 — 一覧・文書・案内の主要通常カードを同じ紙面リズムへ統一 */
+        :is(
+            #view-news .news-bulletin-search,
+            #view-news .news-bulletin-records,
+            #view-news .news-bulletin-card,
+            #view-column .column-library-search,
+            #view-column .column-library-shelf,
+            #view-column .column-library-card,
+            #view-howto .howto-guide-overview,
+            #view-howto .howto-guide-toc,
+            #view-howto .howto-guide-entry,
+            #view-howto .howto-guide-setting-card,
+            #view-about .about-codex-prologue,
+            #view-about .about-codex-toc,
+            #view-about .about-codex-chapter,
+            #view-privacy .privacy-ledger-prologue,
+            #view-privacy .privacy-ledger-toc,
+            #view-privacy .privacy-ledger-article,
+            #view-developer .developer-study-pane,
+            #view-developer .developer-study-glance,
+            #view-prefecture .prefecture-control-panel,
+            #view-history .history-control-card,
+            #view-history .history-timeline-card,
+            #view-auth .auth-stage-card
+        ) {
+            border-radius: var(--ver4-card-radius) !important;
+            padding: var(--ver4-card-padding) !important;
+        }
+        @media (max-width: 768px) {
+            :is(
+                #view-news .news-bulletin-search,
+                #view-news .news-bulletin-records,
+                #view-news .news-bulletin-card,
+                #view-column .column-library-search,
+                #view-column .column-library-shelf,
+                #view-column .column-library-card,
+                #view-howto .howto-guide-overview,
+                #view-howto .howto-guide-toc,
+                #view-howto .howto-guide-entry,
+                #view-howto .howto-guide-setting-card,
+                #view-about .about-codex-prologue,
+                #view-about .about-codex-toc,
+                #view-about .about-codex-chapter,
+                #view-privacy .privacy-ledger-prologue,
+                #view-privacy .privacy-ledger-toc,
+                #view-privacy .privacy-ledger-article,
+                #view-developer .developer-study-pane,
+                #view-developer .developer-study-glance,
+                #view-prefecture .prefecture-control-panel,
+                #view-history .history-control-card,
+                #view-history .history-timeline-card,
+                #view-auth .auth-stage-card
+            ) {
+                border-radius: 20px !important;
+                padding: 18px !important;
+            }
+        }
+
+        /* Ver.4.0: 最強運勢ランキング — 社務所だより基準の紙面・印章・通常カードへ統一 */
+        #view-zodiac.zodiac-oracle-layout {
+            width: min(100% - 32px, var(--ver4-content-width)) !important;
+            max-width: var(--ver4-content-width) !important;
+            margin: 0 auto !important;
+            padding: 0 0 48px !important;
+            --zodiac-paper-soft: #fff8eb;
+            --zodiac-ink: #3a2d18;
+            --zodiac-muted: #786849;
+            --zodiac-accent: #a97919;
+            --zodiac-gold: #c9912f;
+            --zodiac-line: rgba(169, 121, 25, 0.24);
+            --zodiac-inner-line: rgba(169, 121, 25, 0.16);
+        }
+        .zodiac-oracle-hero {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: var(--ver4-hero-gap);
+            min-height: var(--ver4-hero-min-height);
+            margin: 0 0 var(--ver4-section-gap);
+            padding: var(--ver4-hero-padding);
+            overflow: hidden;
+            border: 1px solid var(--zodiac-line);
+            border-radius: var(--ver4-hero-radius);
+            background: radial-gradient(circle at 91% 16%, rgba(201, 145, 47, 0.16), transparent 25%), radial-gradient(circle at 7% 100%, rgba(170, 69, 44, 0.10), transparent 33%), linear-gradient(135deg, #fffdf8 0%, #fff7e8 58%, #fffaf2 100%);
+            box-shadow: 0 20px 46px rgba(90, 61, 20, 0.09);
+            box-sizing: border-box;
+        }
+        .zodiac-oracle-hero::before {
+            position: absolute;
+            inset: var(--ver4-hero-inner-inset);
+            border: 1px solid var(--zodiac-inner-line);
+            border-radius: var(--ver4-hero-inner-radius);
+            content: '';
+            pointer-events: none;
+        }
+        .zodiac-oracle-hero::after {
+            position: absolute;
+            top: -102px;
+            right: -78px;
+            width: 252px;
+            height: 252px;
+            border: 1px solid rgba(169, 121, 25, 0.16);
+            border-radius: 50%;
+            box-shadow: 0 0 0 20px rgba(169, 121, 25, 0.055), 0 0 0 46px rgba(170, 69, 44, 0.035);
+            content: '';
+            pointer-events: none;
+        }
+        .zodiac-oracle-copy { position: relative; z-index: 1; min-width: 0; }
+        .zodiac-oracle-kicker,
+        .zodiac-panel-kicker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 8px;
+            color: var(--zodiac-accent);
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            line-height: 1.4;
+        }
+        .zodiac-oracle-title {
+            margin: 0;
+            color: var(--zodiac-ink);
+            font-family: 'Zen Old Mincho', serif;
+            font-size: clamp(2rem, 4.1vw, 3rem);
+            font-weight: 900;
+            letter-spacing: 0.035em;
+            line-height: 1.2;
+        }
+        .zodiac-oracle-date {
+            margin: 14px 0 0;
+            color: var(--zodiac-accent);
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            line-height: 1.5;
+        }
+        .zodiac-oracle-summary {
+            max-width: 43rem;
+            margin: 10px 0 0;
+            color: var(--zodiac-muted);
+            font-family: 'Shippori Mincho', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            line-height: 1.9;
+        }
+        .zodiac-oracle-disclaimer {
+            margin: 14px 0 0;
+            color: var(--zodiac-muted);
+            font-size: 0.69rem;
+            line-height: 1.6;
+        }
+        .zodiac-oracle-mark[data-ver4-hero-emblem] {
+            border: 1px solid color-mix(in srgb, var(--zodiac-accent) 44%, var(--card-border)) !important;
+            color: var(--zodiac-accent) !important;
+            background: color-mix(in srgb, var(--card-bg) 86%, #fff 14%) !important;
+            box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--zodiac-accent) 8%, transparent), 0 14px 25px rgba(90, 61, 20, 0.09) !important;
+        }
+        .zodiac-oracle-mark[data-ver4-hero-emblem] > i { color: var(--zodiac-accent) !important; }
+        .zodiac-oracle-mark[data-ver4-hero-emblem] > span { color: var(--zodiac-muted) !important; }
+        .zodiac-oracle-content,
+        .zodiac-ranking-stack { display: grid; gap: var(--ver4-card-gap); }
+        .zodiac-oracle-content { position: relative; }
+        .zodiac-ranking-panel {
+            position: relative;
+            overflow: hidden;
+            padding: var(--ver4-card-padding);
+            border: 1px solid var(--card-border);
+            border-radius: var(--ver4-card-radius);
+            background: var(--card-bg);
+            box-shadow: 0 12px 28px rgba(38, 23, 16, 0.06);
+        }
+        .zodiac-panel-heading {
+            display: block;
+            margin: 0 0 20px;
+            padding: 0 0 16px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .zodiac-panel-heading--row,
+        .zodiac-ranking-section-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .zodiac-panel-heading h2,
+        .zodiac-ranking-section-heading h2 {
+            margin: 0;
+            color: var(--text-main);
+            font-family: 'Zen Old Mincho', serif;
+            font-size: 1.15rem;
+            font-weight: 900;
+            letter-spacing: 0.045em;
+            line-height: 1.4;
+        }
+        .zodiac-panel-heading > div > p:last-child {
+            margin: 6px 0 0;
+            color: var(--text-sub);
+            font-size: 0.76rem;
+            line-height: 1.7;
+        }
+        .zodiac-input-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(132px, 3fr);
+            gap: var(--ver4-card-gap);
+            margin: 0;
+        }
+        .zodiac-input-grid > div { min-width: 0; }
+        #view-zodiac .custom-select-shell {
+            min-height: var(--ver4-control-height);
+            border-radius: var(--ver4-control-radius);
+            --select-accent: var(--zodiac-accent);
+        }
+        #view-zodiac .custom-select-native {
+            min-height: var(--ver4-control-height) !important;
+            border-radius: var(--ver4-control-radius) !important;
+            font-size: 0.95rem !important;
+        }
+        .zodiac-rank-submit {
+            width: 100%;
+            min-height: var(--ver4-control-height);
+            padding: 0 16px !important;
+            border: 1px solid color-mix(in srgb, var(--zodiac-accent) 68%, transparent) !important;
+            border-radius: var(--ver4-control-radius) !important;
+            background: linear-gradient(135deg, #bd8a2c, #8a6218) !important;
+            color: #fff !important;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.95rem !important;
+            font-weight: 800;
+            box-shadow: 0 10px 20px rgba(169, 121, 25, 0.17);
+        }
+        .zodiac-rank-submit:hover { transform: translateY(-1px); box-shadow: 0 14px 24px rgba(169, 121, 25, 0.24); }
+        .zodiac-rank-submit:active { transform: scale(0.97); }
+        .zodiac-rank-result {
+            margin: 20px 0 0;
+            padding: 18px;
+            border-top: 1px solid var(--card-border) !important;
+        }
+        .zodiac-favorite-status {
+            display: inline-flex;
+            min-height: 28px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            background: var(--input-bg);
+            color: var(--text-sub);
+            font-size: 0.68rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        .zodiac-ranking-section { display: grid; gap: var(--ver4-card-gap); }
+        .zodiac-ranking-section-heading {
+            margin: 0;
+            padding: 0 0 16px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .zodiac-ranking-section-heading > p {
+            margin: 0;
+            color: var(--zodiac-accent);
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            line-height: 1.5;
+            white-space: nowrap;
+        }
+        .zodiac-ranking-toggle-wrap { display: flex; justify-content: center; padding: 4px 0; }
+        .zodiac-ranking-toggle {
+            display: inline-flex;
+            min-height: var(--ver4-control-height);
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 16px;
+            border: 1px solid color-mix(in srgb, var(--zodiac-accent) 34%, var(--card-border));
+            border-radius: var(--ver4-control-radius);
+            background: var(--input-bg);
+            color: var(--zodiac-accent);
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 800;
+            transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .zodiac-ranking-toggle:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--zodiac-accent) 60%, var(--card-border)); background: color-mix(in srgb, var(--zodiac-accent) 8%, var(--input-bg)); }
+        .zodiac-ranking-toggle:active { transform: scale(0.97); }
+        #view-zodiac .zodiac-card-box {
+            position: relative;
+            overflow: hidden;
+            margin: 0;
+            border: 1px solid var(--card-border) !important;
+            border-left: 1px solid var(--card-border) !important;
+            border-radius: var(--ver4-card-radius) !important;
+            background: var(--card-bg) !important;
+            box-shadow: 0 12px 28px rgba(38, 23, 16, 0.06) !important;
+            color: var(--text-main);
+            transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        #view-zodiac .zodiac-card-box::before {
+            position: absolute;
+            top: 0;
+            right: 24px;
+            left: 24px;
+            height: 2px;
+            background: var(--zodiac-card-accent, var(--zodiac-accent));
+            content: '';
+        }
+        #view-zodiac .zodiac-card-box.card-rank-1 { --zodiac-card-accent: #c9912f; }
+        #view-zodiac .zodiac-card-box.card-rank-2 { --zodiac-card-accent: #8b929a; }
+        #view-zodiac .zodiac-card-box.card-rank-3 { --zodiac-card-accent: #b77942; }
+        #view-zodiac .zodiac-card-box.card-rank-normal { --zodiac-card-accent: color-mix(in srgb, var(--zodiac-accent) 42%, var(--card-border)); }
+        #view-zodiac .zodiac-card-box:hover {
+            transform: translateY(-2px) !important;
+            border-color: color-mix(in srgb, var(--zodiac-card-accent, var(--zodiac-accent)) 42%, var(--card-border)) !important;
+            box-shadow: 0 16px 30px rgba(90, 61, 20, 0.12) !important;
+        }
+        #view-zodiac .zodiac-card-body {
+            gap: 18px;
+            padding: var(--ver4-card-padding);
+        }
+        #view-zodiac .zodiac-large-calendar {
+            margin: 0 24px 24px;
+            padding: 16px 0 0;
+            border-top: 1px solid var(--card-border);
+        }
+        #view-zodiac .zodiac-large-calendar h4 {
+            margin: 0 0 12px;
+            color: var(--text-main);
+            font-family: 'Zen Old Mincho', serif;
+            font-size: 1rem;
+            font-weight: 900;
+            line-height: 1.4;
+        }
+        #view-zodiac .zodiac-large-calendar h4 i { color: var(--zodiac-accent); }
+        #view-zodiac .fav-star-btn:focus-visible,
+        #view-zodiac .lucky-icon-btn:focus-visible,
+        #view-zodiac .zodiac-ranking-toggle:focus-visible,
+        #view-zodiac .zodiac-rank-submit:focus-visible { outline: 3px solid color-mix(in srgb, var(--zodiac-accent) 34%, transparent); outline-offset: 2px; }
+        html.dark #view-zodiac.zodiac-oracle-layout {
+            --zodiac-paper-soft: #2b2417;
+            --zodiac-ink: #fff5db;
+            --zodiac-muted: #e1cfab;
+            --zodiac-accent: #efc56e;
+            --zodiac-gold: #f1c76e;
+            --zodiac-line: rgba(239, 197, 110, 0.26);
+            --zodiac-inner-line: rgba(239, 197, 110, 0.18);
+        }
+        html.dark .zodiac-oracle-hero { background: radial-gradient(circle at 91% 16%, rgba(190, 139, 43, 0.24), transparent 25%), radial-gradient(circle at 7% 100%, rgba(171, 69, 42, 0.16), transparent 33%), linear-gradient(135deg, #251f14 0%, #2d2416 58%, #1c1710 100%); }
+        html.dark .zodiac-oracle-title { color: var(--zodiac-ink); }
+        html.dark .zodiac-oracle-summary,
+        html.dark .zodiac-oracle-disclaimer { color: var(--zodiac-muted); }
+        html.dark #view-zodiac .zodiac-ranking-panel,
+        html.dark #view-zodiac .zodiac-card-box { box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26) !important; }
+        @media (max-width: 768px) {
+            #view-zodiac.zodiac-oracle-layout { padding-bottom: 32px !important; }
+            .zodiac-oracle-hero { grid-template-columns: 1fr; gap: 20px; min-height: 0; padding: 24px 20px; border-radius: 24px; }
+            .zodiac-oracle-hero::before { inset: 10px; border-radius: 16px; }
+            .zodiac-oracle-mark[data-ver4-hero-emblem] { width: 96px !important; min-width: 96px !important; height: 96px !important; min-height: 96px !important; flex-basis: 96px !important; }
+            .zodiac-input-grid { grid-template-columns: 1fr; gap: 12px; }
+            .zodiac-ranking-panel { padding: 18px; border-radius: 20px; }
+            .zodiac-panel-heading--row { flex-direction: column; }
+            .zodiac-ranking-section-heading { align-items: flex-end; }
+            #view-zodiac .zodiac-card-body { padding: 18px; }
+            #view-zodiac .zodiac-large-calendar { margin: 0 18px 18px; }
+            #view-zodiac .zodiac-card-box::before { right: 18px; left: 18px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #view-zodiac .zodiac-card-box,
+            #view-zodiac .zodiac-ranking-toggle,
+            #view-zodiac .zodiac-rank-submit { transition: none !important; }
+        }
+    </style>
         <style id="omikuji-result-pdf-print-style">
             /* おみくじ結果PDFだけに適用する最終印刷規則。
                画面用の!important指定より高い親状態を用いて、紙面へアプリUIが混入しないようにする。 */
@@ -12710,122 +13363,107 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </section>
 
         
-<!-- ビュー: 12星座×血液型占い (修正版) -->
-        <section id="view-zodiac" class="view-section">
-            <div class="max-w-5xl mx-auto">
-
-                <!-- ヘッダー Hero カード -->
-                <div class="bento-card mb-6 relative overflow-hidden bg-gradient-to-br from-yellow-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
-                    <!-- 装飾グロー -->
-                    <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #fbbf24 0%, transparent 70%);"></div>
-                    <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #b91c1c 0%, transparent 70%);"></div>
-
-                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                        <div class="flex-1">
-                            <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">DAILY FORTUNE RANKING</p>
-                            <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                                <span class="text-yellow-400 text-4xl"><i class="bi bi-stars"></i></span>
-                                <span class="text-white">最強運勢ランキング</span>
-                            </h2>
-                            <p class="text-sm font-bold text-zinc-400 mb-4" id="current-date-display">---</p>
-                            <!-- 説明文 -->
-                            <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">
-                                12星座 × 4血液型、全48通りの本日の運勢をランキング形式で公開。<br>
-                                天命の導きにより毎日0時に更新されます。あなたの星座と血液型で順位を確認し、今日の運勢を読み解いてください。
-                            </p>
-                            <p class="text-[11px] mt-3 leading-relaxed text-zinc-500">※独自のアルゴリズムに基づく娯楽コンテンツです。実際の占星術・血液型診断とは異なる場合があります。</p>
-                        </div>
-                        <div class="flex-shrink-0 text-center hidden md:flex flex-col items-center gap-2">
-                            <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl" style="background: linear-gradient(135deg, #d4af37, #b8860b); box-shadow: 0 0 24px rgba(212,175,55,0.3);">
-                                <i class="bi bi-stars text-white"></i>
-                            </div>
-                            <p class="text-xs text-zinc-500 font-bold tracking-widest">12 × 4 TYPES</p>
-                        </div>
-                    </div>
+<!-- ビュー: 12星座×血液型占い（Ver.4.0 最強運勢ランキング） -->
+        <section id="view-zodiac" class="view-section zodiac-oracle-layout" aria-labelledby="zodiac-page-title">
+            <header class="zodiac-oracle-hero">
+                <div class="zodiac-oracle-copy">
+                    <p class="zodiac-oracle-kicker"><i class="bi bi-stars" aria-hidden="true"></i> DAILY FORTUNE RANKING</p>
+                    <h1 id="zodiac-page-title" class="zodiac-oracle-title">最強運勢ランキング</h1>
+                    <p class="zodiac-oracle-date" id="current-date-display">---</p>
+                    <p class="zodiac-oracle-summary">12星座と4つの血液型、全48通りの本日の運勢をランキングでお知らせします。あなたの星座と血液型から、今日の順位と巡りを確かめてください。</p>
+                    <p class="zodiac-oracle-disclaimer">※独自のアルゴリズムに基づく娯楽コンテンツです。実際の占星術・血液型診断とは異なる場合があります。</p>
                 </div>
+                <div class="zodiac-oracle-mark" data-ver4-hero-emblem aria-hidden="true">
+                    <i class="bi bi-stars"></i>
+                    <span>FORTUNE</span>
+                </div>
+            </header>
 
+            <div class="zodiac-oracle-content">
                 <!-- 判定フォームカード -->
-                <div class="bento-card mb-6" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:2px solid #ca8a04;">
-                    <div class="flex items-center gap-2 mb-4 pb-3" style="border-bottom:1px solid var(--card-border);">
-                        <i class="bi bi-search text-lg" style="color: var(--accent-gold);"></i>
-                        <h3 class="font-bold text-sm tracking-wide" style="color:var(--text-main);">あなたの順位をチェック</h3>
-                        <span class="ml-auto text-[10px] font-bold" style="color:var(--text-sub);">星座と血液型を選んで判定</span>
+                <section class="zodiac-ranking-panel" aria-labelledby="zodiac-check-title">
+                    <div class="zodiac-panel-heading">
+                        <div>
+                            <p class="zodiac-panel-kicker">PERSONAL POSITION</p>
+                            <h2 id="zodiac-check-title">あなたの順位をチェック</h2>
+                            <p>星座と血液型を選ぶと、全48通りの中での今日の順位を表示します。</p>
+                        </div>
                     </div>
                     <div class="zodiac-input-grid">
-                        <div style="grid-column: span 5;">
+                        <div class="zodiac-input-grid__sign">
                             <div class="custom-select-shell">
                                 <span class="custom-select-icon" aria-hidden="true"><i class="bi bi-stars"></i></span>
                                 <select id="user-sign" class="modern-select custom-select-native" aria-label="星座を選ぶ">
-    <option value="aries">♈ 牡羊座 (3/21-4/19)</option>
-    <option value="taurus">♉ 牡牛座 (4/20-5/20)</option>
-    <option value="gemini">♊ 双子座 (5/21-6/21)</option>
-    <option value="cancer">♋ 蟹座 (6/22-7/22)</option>
-    <option value="leo">♌ 獅子座 (7/23-8/22)</option>
-    <option value="virgo">♍ 乙女座 (8/23-9/22)</option>
-    <option value="libra">♎ 天秤座 (9/23-10/23)</option>
-    <option value="scorpio">♏ 蠍座 (10/24-11/22)</option>
-    <option value="sagittarius">♐ 射手座 (11/23-12/21)</option>
-    <option value="capricorn">♑ 山羊座 (12/22-1/19)</option>
-    <option value="aquarius">♒ 水瓶座 (1/20-2/18)</option>
-    <option value="pisces">♓ 魚座 (2/19-3/20)</option>
-</select>
+                                    <option value="aries">♈ 牡羊座 (3/21-4/19)</option>
+                                    <option value="taurus">♉ 牡牛座 (4/20-5/20)</option>
+                                    <option value="gemini">♊ 双子座 (5/21-6/21)</option>
+                                    <option value="cancer">♋ 蟹座 (6/22-7/22)</option>
+                                    <option value="leo">♌ 獅子座 (7/23-8/22)</option>
+                                    <option value="virgo">♍ 乙女座 (8/23-9/22)</option>
+                                    <option value="libra">♎ 天秤座 (9/23-10/23)</option>
+                                    <option value="scorpio">♏ 蠍座 (10/24-11/22)</option>
+                                    <option value="sagittarius">♐ 射手座 (11/23-12/21)</option>
+                                    <option value="capricorn">♑ 山羊座 (12/22-1/19)</option>
+                                    <option value="aquarius">♒ 水瓶座 (1/20-2/18)</option>
+                                    <option value="pisces">♓ 魚座 (2/19-3/20)</option>
+                                </select>
                                 <i class="bi bi-chevron-down custom-select-chevron" aria-hidden="true"></i>
                             </div>
                         </div>
-                        <div style="grid-column: span 4;">
+                        <div class="zodiac-input-grid__blood">
                             <div class="custom-select-shell">
                                 <span class="custom-select-icon" aria-hidden="true"><i class="bi bi-droplet-half"></i></span>
                                 <select id="user-blood" class="modern-select custom-select-native" aria-label="血液型を選ぶ">
-                                <option value="A">A型</option>
-                                <option value="B">B型</option>
-                                <option value="O">O型</option>
-                                <option value="AB">AB型</option>
-                            </select>
+                                    <option value="A">A型</option>
+                                    <option value="B">B型</option>
+                                    <option value="O">O型</option>
+                                    <option value="AB">AB型</option>
+                                </select>
                                 <i class="bi bi-chevron-down custom-select-chevron" aria-hidden="true"></i>
                             </div>
                         </div>
-                        <div style="grid-column: span 3;">
-                            <button onclick="findMyRank()" class="modern-search-btn w-full h-full py-3 md:py-0">判定する</button>
+                        <div class="zodiac-input-grid__action">
+                            <button onclick="findMyRank()" class="modern-search-btn zodiac-rank-submit">判定する</button>
                         </div>
                     </div>
-                    <!-- 結果表示エリア -->
-                    <div id="my-rank-result" class="hidden pt-6" style="border-top:1px solid var(--card-border);"></div>
-                </div>
+                    <div id="my-rank-result" class="hidden zodiac-rank-result"></div>
+                </section>
 
                 <!-- お気に入りセクション -->
-                <div id="favorites-section" class="hidden mb-6">
-                    <div class="bento-card" style="background:var(--card-bg);border:1px solid var(--card-border);border-top:2px solid #ca8a04;">
-                        <div class="flex items-center justify-between mb-4 pb-3" style="border-bottom:1px solid var(--card-border);">
-                            <h3 class="text-sm font-bold flex items-center gap-2" style="color:#ca8a04;">
-                                <i class="bi bi-star-fill"></i> お気に入り <span class="text-xs font-normal ml-1" style="color:var(--text-sub);">(最大5件)</span>
-                            </h3>
-                            <span id="fav-status-badge" class="text-[10px] px-2 py-1 rounded" style="background:var(--card-bg);border:1px solid var(--card-border);color:var(--text-sub);"></span>
+                <section id="favorites-section" class="zodiac-ranking-panel zodiac-favorites-panel hidden" aria-labelledby="zodiac-favorites-title">
+                    <div class="zodiac-panel-heading zodiac-panel-heading--row">
+                        <div>
+                            <p class="zodiac-panel-kicker">SAVED FORTUNES</p>
+                            <h2 id="zodiac-favorites-title">お気に入り</h2>
+                            <p>よく確かめる組み合わせを、最大5件まで記しておけます。</p>
                         </div>
-                        <div id="favorites-list" class="space-y-4"></div>
+                        <span id="fav-status-badge" class="zodiac-favorite-status" aria-live="polite"></span>
                     </div>
-                </div>
+                    <div id="favorites-list" class="zodiac-ranking-stack"></div>
+                </section>
 
                 <!-- 全ランキングリスト -->
-                <div class="flex items-center gap-3 mb-4 px-1">
-                    <i class="bi bi-trophy-fill text-yellow-500 text-xl"></i>
-                    <h3 class="font-bold text-xl" style="font-family: 'Zen Old Mincho', serif; color:var(--text-main);">本日の順位（全48通り）</h3>
-                    <div class="flex-1 h-px" style="background:var(--card-border);"></div>
-                </div>
+                <section class="zodiac-ranking-section" aria-labelledby="zodiac-ranking-title">
+                    <div class="zodiac-ranking-section-heading">
+                        <div>
+                            <p class="zodiac-panel-kicker">TODAY'S FORTUNES</p>
+                            <h2 id="zodiac-ranking-title">本日の順位</h2>
+                        </div>
+                        <p>全48通り</p>
+                    </div>
+                    <div id="ranking-list" class="zodiac-ranking-stack"></div>
 
-                <!-- TOP3表示用 -->
-                <div id="ranking-list" class="space-y-6"></div>
+                    <!-- 4位以下を見るボタン -->
+                    <div class="zodiac-ranking-toggle-wrap">
+                        <button onclick="showFullRanking()" class="zodiac-ranking-toggle">
+                            <span id="show-ranking-text">4位以下を見る</span>
+                            <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </div>
 
-                <!-- 4位以下を見るボタン -->
-                <div class="text-center mt-10 mb-6">
-                    <button onclick="showFullRanking()" class="inline-flex items-center gap-2 text-sm font-bold px-8 py-3 rounded-full bg-zinc-900 border border-zinc-700 text-zinc-300 hover:bg-yellow-600 hover:text-white hover:border-yellow-600 transition-all duration-300" style="box-shadow: 0 4px 16px rgba(0,0,0,0.3);">
-                        <span id="show-ranking-text">4位以下を見る</span>
-                        <i class="bi bi-chevron-down"></i>
-                    </button>
-                </div>
-
-                <!-- 4位以下リスト (初期は hidden) -->
-                <div id="full-ranking-list" class="hidden space-y-4"></div>
-
+                    <!-- 4位以下リスト (初期は hidden) -->
+                    <div id="full-ranking-list" class="hidden zodiac-ranking-stack"></div>
+                </section>
             </div>
         </section>
         
