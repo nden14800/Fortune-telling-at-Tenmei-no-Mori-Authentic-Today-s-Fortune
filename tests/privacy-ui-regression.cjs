@@ -121,6 +121,10 @@ assert.equal(
   '#view-privacy #privacy-pdf-btn:focus-visible,',
   '#view-privacy.printing .privacy-ledger-hero {',
   '#view-privacy.printing .privacy-ledger-article > div {',
+  '#view-privacy.printing .privacy-ledger-article > div:last-child {',
+  'break-before: page !important;',
+  'page-break-before: always !important;',
+  '#view-privacy.printing .privacy-ledger-article { overflow: visible !important; }',
   'privacy-ledger-hero h1',
 ].forEach((text) => {
   requireText(text, `プライバシーポリシー画面のテーマ・フォーカス・PDF出力契約が失われています: ${text}`);

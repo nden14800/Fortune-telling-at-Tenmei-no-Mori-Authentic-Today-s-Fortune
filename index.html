@@ -2967,6 +2967,19 @@
     #view-privacy.printing .privacy-ledger-content > * + * { margin-top: 5mm !important; }
     #view-privacy.printing .privacy-ledger-article-heading,
     #view-privacy.printing .privacy-ledger-article > div:not(.privacy-ledger-article-heading) { padding: 5.5mm 6mm !important; }
+
+    /* 最終条はカードの途中で印刷ページが終わらないよう、必ず新しい紙面から開始する。 */
+    #view-privacy.printing .privacy-ledger-article { overflow: visible !important; }
+    #view-privacy.printing .privacy-ledger-article > div:last-child {
+        break-before: page !important;
+        page-break-before: always !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+    }
+    #view-privacy.printing .privacy-ledger-article > div:last-child h3 {
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+    }
 }
 
 /* =========================================================
@@ -10529,6 +10542,421 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     }
     .dark .article-meta-readinfo { background: rgba(255,255,255,0.06); color: #a1a1aa; }
     .article-meta-readinfo .rp-sep { opacity: 0.4; }
+
+    /* =========================================================
+       Ver.4.0: 参拝の記録・フッター・ページネーション
+       社務所だよりを基準に、ヒーローは二重線、下層は通常カードで統一
+       ========================================================= */
+    .stats-record-layout {
+        --stats-accent: #a82a2f;
+        --stats-accent-deep: #761d27;
+        --stats-gold: #b98a3e;
+        --stats-ink: #352725;
+        --stats-muted: #766965;
+        --stats-line: rgba(125, 61, 50, 0.20);
+        max-width: 960px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 40px 24px !important;
+        box-sizing: border-box;
+    }
+    #view-stats .stats-record-hero {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 32px;
+        align-items: center;
+        min-height: 240px;
+        overflow: hidden;
+        margin: 0 0 24px !important;
+        padding: 36px !important;
+        border: 1px solid rgba(185, 138, 62, 0.52) !important;
+        border-radius: 28px !important;
+        background: radial-gradient(circle at 94% 15%, rgba(185, 138, 62, 0.20), transparent 25%), radial-gradient(circle at 5% 100%, rgba(168, 42, 47, 0.13), transparent 33%), linear-gradient(135deg, #fffdf9 0%, #fbf4ec 58%, #f3e9df 100%) !important;
+        box-shadow: 0 22px 50px rgba(68, 34, 28, 0.09) !important;
+        color: var(--stats-ink) !important;
+    }
+    #view-stats .stats-record-hero::before {
+        position: absolute;
+        inset: 12px;
+        border: 1px solid rgba(185, 138, 62, 0.24);
+        border-radius: 20px;
+        content: '';
+        pointer-events: none;
+    }
+    #view-stats .stats-record-hero::after {
+        position: absolute;
+        right: -66px;
+        bottom: -88px;
+        width: 250px;
+        height: 250px;
+        border: 1px solid rgba(168, 42, 47, 0.13);
+        border-radius: 50%;
+        box-shadow: 0 0 0 26px rgba(185, 138, 62, 0.06), 0 0 0 50px rgba(168, 42, 47, 0.035);
+        content: '';
+        pointer-events: none;
+    }
+    #view-stats .stats-record-copy,
+    #view-stats .stats-record-mark { position: relative; z-index: 1; }
+    #view-stats .stats-record-kicker {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 10px;
+        color: var(--stats-accent);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.70rem;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+    }
+    #view-stats .stats-record-title {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin: 0;
+        color: var(--stats-ink);
+        font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
+        font-size: clamp(1.85rem, 3.8vw, 2.55rem);
+        font-weight: 700;
+        letter-spacing: 0.045em;
+        line-height: 1.32;
+    }
+    #view-stats .stats-record-title i { color: var(--stats-accent); font-size: 0.92em; }
+    #view-stats .stats-record-summary {
+        max-width: 590px;
+        margin: 13px 0 0;
+        color: var(--stats-muted);
+        font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;
+        font-size: 0.94rem;
+        line-height: 1.85;
+    }
+    #view-stats .stats-record-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin: 14px 0 0;
+        color: var(--stats-muted);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+    }
+    #view-stats .stats-record-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 9px;
+        border: 1px solid rgba(125, 61, 50, 0.15);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.54);
+    }
+    #view-stats .stats-record-mark {
+        display: flex;
+        width: 128px;
+        height: 128px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(185, 138, 62, 0.44);
+        border-radius: 50%;
+        background: rgba(255, 253, 249, 0.70);
+        box-shadow: inset 0 0 0 7px rgba(185, 138, 62, 0.09);
+        color: var(--stats-accent);
+        text-align: center;
+    }
+    #view-stats .stats-record-mark i { font-size: 2rem; line-height: 1; }
+    #view-stats .stats-record-mark span {
+        margin-top: 8px;
+        color: var(--stats-muted);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.52rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        line-height: 1.35;
+    }
+    #view-stats .stats-record-stack { display: grid; gap: 16px; }
+    #view-stats .stats-record-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+    #view-stats .stats-record-stat-card,
+    #view-stats .stats-record-panel,
+    #view-stats .stats-record-insight {
+        border: 1px solid var(--stats-line) !important;
+        border-radius: 24px !important;
+        background: var(--card-bg) !important;
+        box-shadow: 0 8px 24px rgba(68, 34, 28, 0.055) !important;
+    }
+    #view-stats .stats-record-stat-card {
+        position: relative;
+        min-height: 138px;
+        overflow: hidden;
+        padding: 24px !important;
+    }
+    #view-stats .stats-record-stat-card::after {
+        position: absolute;
+        right: 18px;
+        bottom: 7px;
+        color: color-mix(in srgb, var(--stats-accent) 16%, transparent);
+        font-family: 'Zen Old Mincho', serif;
+        font-size: 5.3rem;
+        font-weight: 800;
+        line-height: 1;
+        content: attr(data-bg-text);
+        pointer-events: none;
+    }
+    #view-stats .stats-record-stat-card .stats-hero-label {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        color: var(--stats-muted) !important;
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+    }
+    #view-stats .stats-record-stat-card .stats-hero-value {
+        position: relative;
+        z-index: 1;
+        margin-top: 12px;
+        color: var(--stats-ink) !important;
+        font-family: 'Zen Old Mincho', serif;
+        font-size: clamp(2rem, 4vw, 2.75rem);
+        font-weight: 800;
+        line-height: 1;
+        text-shadow: none !important;
+    }
+    #view-stats .stats-record-stat-card.hero-daikichi .stats-hero-value { color: var(--stats-gold) !important; }
+    #view-stats .stats-record-insight {
+        padding: 20px 24px !important;
+        margin: 0 !important;
+    }
+    #view-stats .stats-record-insight .text-center {
+        color: var(--stats-muted) !important;
+        font-family: 'Shippori Mincho', serif;
+    }
+    #view-stats .stats-record-panel {
+        position: relative;
+        margin: 0 !important;
+        overflow: hidden;
+        padding: 24px !important;
+    }
+    #view-stats .stats-record-panel .stats-record-panel-heading {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin: 0 0 18px;
+        padding: 0 0 15px;
+        border-bottom: 1px solid var(--card-border);
+    }
+    #view-stats .stats-record-panel-icon {
+        display: grid;
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+        place-items: center;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--stats-accent) 10%, var(--card-bg));
+        color: var(--stats-accent);
+        font-size: 1.08rem;
+    }
+    #view-stats .stats-record-panel-kicker {
+        margin: 0;
+        color: var(--stats-accent);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.64rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+    }
+    #view-stats .stats-record-panel-title {
+        margin: 4px 0 0;
+        color: var(--text-main);
+        font-family: 'Zen Old Mincho', serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+    #view-stats .stats-record-panel-copy {
+        margin: 5px 0 0;
+        color: var(--text-sub);
+        font-family: 'Shippori Mincho', serif;
+        font-size: 0.76rem;
+        line-height: 1.65;
+    }
+    #view-stats .stats-record-legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 0; color: var(--text-sub); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.70rem; }
+    #view-stats .stats-record-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    #view-stats .stats-record-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--stats-accent); }
+    #view-stats .stats-record-legend span + span i { background: color-mix(in srgb, var(--text-sub) 66%, transparent); }
+    #view-stats .stats-record-panel .stats-graph-container { padding: 0 4px 4px !important; margin: 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; }
+    #view-stats .stats-record-panel .stats-graph-container > div[style*="border-bottom"] { border-bottom: 0 !important; }
+    #view-stats .stats-card-interactive { cursor: default; transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1) !important; }
+    #view-stats .stats-card-interactive:hover { transform: none !important; border-color: color-mix(in srgb, var(--stats-accent) 36%, var(--stats-line)) !important; box-shadow: 0 12px 28px rgba(68, 34, 28, 0.09) !important; }
+
+    .footer-v4 {
+        --footer-accent: var(--accent-red);
+        width: 100%;
+        margin-top: 72px;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        border-radius: 28px 28px 0 0;
+        background: linear-gradient(145deg, color-mix(in srgb, var(--footer-bg) 90%, #fff 10%), var(--footer-bg));
+        box-shadow: 0 -10px 30px rgba(68, 34, 28, 0.045);
+    }
+    .footer-v4-line { height: 2px; background: linear-gradient(90deg, transparent, var(--footer-accent) 27%, var(--accent-gold) 50%, var(--footer-accent) 73%, transparent); }
+    .footer-v4-main {
+        display: grid;
+        grid-template-columns: minmax(240px, 0.9fr) minmax(0, 2.1fr);
+        gap: 40px;
+        width: min(100%, 960px);
+        margin: 0 auto;
+        padding: 36px 24px 28px;
+        box-sizing: border-box;
+    }
+    .footer-v4-brand { display: flex; flex-direction: column; gap: 16px; }
+    .footer-v4-brand-top { display: flex; align-items: center; gap: 12px; }
+    .footer-v4-brand-mark { display: grid; width: 46px; height: 46px; place-items: center; overflow: hidden; border: 1px solid color-mix(in srgb, var(--footer-accent) 26%, var(--card-border)); border-radius: 50%; box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--footer-accent) 7%, transparent); }
+    .footer-v4-brand-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .footer-v4-brand-name { margin: 0; color: var(--footer-accent); font-family: 'Zen Old Mincho', serif; font-size: 1.05rem; font-weight: 900; letter-spacing: 0.16em; }
+    .footer-v4-brand-copy { margin: 0; color: var(--text-sub); font-family: 'Shippori Mincho', serif; font-size: 0.78rem; line-height: 1.8; }
+    .footer-v4-social { display: flex; gap: 9px; }
+    .footer-v4-social-link { display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid var(--card-border); border-radius: 50%; background: var(--card-bg); color: var(--text-main); font-size: 1.05rem; text-decoration: none; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), color 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+    .footer-v4-social-link:hover { transform: translateY(-2px); border-color: var(--footer-accent); color: var(--footer-accent); }
+    .footer-v4-social-link:focus-visible, .footer-v4-link:focus-visible, .footer-v4-nav a:focus-visible { outline: 3px solid color-mix(in srgb, var(--footer-accent) 55%, transparent); outline-offset: 3px; }
+    .footer-v4-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .footer-v4-group, .footer-v4-nav > div { min-width: 0; padding: 16px; border: 1px solid color-mix(in srgb, var(--card-border) 88%, transparent); border-radius: 18px; background: color-mix(in srgb, var(--card-bg) 82%, transparent); }
+    .footer-v4-group-title, .footer-v4-nav > div > div:first-child { margin: 0 0 12px !important; padding-bottom: 9px !important; border-bottom: 1px solid var(--card-border) !important; color: var(--text-sub) !important; font-family: 'Zen Kaku Gothic New', sans-serif !important; font-size: 0.62rem !important; font-weight: 800 !important; letter-spacing: 0.14em !important; }
+    .footer-v4-links, .footer-v4-nav > div > div:last-child { display: grid !important; gap: 7px !important; }
+    .footer-v4-link, .footer-v4-nav a { display: block; padding: 3px 0 !important; border: 0; background: transparent; color: var(--text-main) !important; cursor: pointer; font-family: 'Zen Kaku Gothic New', sans-serif !important; font-size: 0.76rem !important; line-height: 1.45; text-align: left; text-decoration: none !important; transition: color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1) !important; }
+    .footer-v4-link:hover, .footer-v4-nav a:hover { color: var(--footer-accent) !important; transform: translateX(2px); }
+    .footer-v4-bottom { display: flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 24px; border-top: 1px solid var(--card-border); color: var(--text-sub); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; letter-spacing: 0.08em; text-align: center; }
+
+    .modern-pagination.ver4-pagination {
+        display: grid;
+        grid-template-columns: auto auto;
+        align-items: center;
+        justify-content: center;
+        gap: 12px 16px;
+        width: min(100%, 640px);
+        margin: 0 auto;
+        padding: 14px;
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        background: color-mix(in srgb, var(--card-bg) 94%, var(--bg-color));
+        box-shadow: 0 7px 20px rgba(68, 34, 28, 0.05);
+    }
+    .modern-pagination.ver4-pagination .modern-pagination-controls { display: inline-flex; align-items: center; justify-content: center; gap: 7px; flex-wrap: nowrap; }
+    .modern-pagination.ver4-pagination .modern-pagination-btn { display: inline-grid; width: 48px; height: 48px; place-items: center; padding: 0; border: 1px solid var(--card-border); border-radius: 14px; background: var(--card-bg); color: var(--text-main); font-size: 1rem; box-shadow: none; }
+    .modern-pagination.ver4-pagination .modern-pagination-btn:hover:not(:disabled) { border-color: var(--accent-red); background: color-mix(in srgb, var(--accent-red) 7%, var(--card-bg)); color: var(--accent-red); transform: translateY(-1px); box-shadow: 0 5px 12px rgba(89, 30, 26, 0.10); }
+    .modern-pagination.ver4-pagination .modern-pagination-btn:focus-visible, .modern-pagination.ver4-pagination .modern-pagination-jump input:focus-visible, .modern-pagination.ver4-pagination .modern-pagination-jump-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent-red) 45%, transparent); outline-offset: 3px; }
+    .modern-pagination.ver4-pagination .modern-pagination-current { display: inline-flex; min-width: 88px; height: 48px; align-items: center; justify-content: center; gap: 5px; border-radius: 14px; background: color-mix(in srgb, var(--accent-gold) 10%, var(--card-bg)); color: var(--text-main); font-family: 'Zen Kaku Gothic New', sans-serif; }
+    .modern-pagination.ver4-pagination .modern-pagination-current-num { color: var(--accent-red); font-family: 'Zen Old Mincho', serif; font-size: 1.18rem; }
+    .modern-pagination.ver4-pagination .modern-pagination-jump { min-height: 48px; gap: 8px; padding: 0 4px 0 12px; border: 1px solid var(--card-border); border-radius: 14px; background: var(--card-bg); color: var(--text-sub); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; }
+    .modern-pagination.ver4-pagination .modern-pagination-jump input[type="number"] { width: 44px; height: 34px; border: 0; border-radius: 9px; background: color-mix(in srgb, var(--input-bg) 88%, var(--card-bg)); color: var(--text-main); font-family: inherit; }
+    .modern-pagination.ver4-pagination .modern-pagination-jump-btn { min-height: 40px; padding: 0 13px; border-radius: 11px; background: var(--accent-red); color: #fff; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; }
+    .dark .stats-record-layout { --stats-ink: #fff8f3; --stats-muted: #dfcac1; --stats-line: rgba(235, 194, 172, 0.16); }
+    .dark #view-stats .stats-record-hero { border-color: rgba(211, 171, 97, 0.30) !important; background: radial-gradient(circle at 94% 15%, rgba(211, 171, 97, 0.13), transparent 25%), radial-gradient(circle at 5% 100%, rgba(202, 63, 74, 0.18), transparent 33%), linear-gradient(135deg, #181212 0%, #211816 58%, #141010 100%) !important; box-shadow: 0 22px 50px rgba(0, 0, 0, 0.30) !important; }
+    .dark #view-stats .stats-record-hero::before { border-color: rgba(211, 171, 97, 0.15); }
+    .dark #view-stats .stats-record-mark { border-color: rgba(211, 171, 97, 0.30); background: rgba(24, 18, 18, 0.70); box-shadow: inset 0 0 0 7px rgba(211, 171, 97, 0.08); }
+    .dark #view-stats .stats-record-meta span { border-color: rgba(255, 255, 255, 0.11); background: rgba(255, 255, 255, 0.045); }
+    .dark #view-stats .stats-record-stat-card, .dark #view-stats .stats-record-panel, .dark #view-stats .stats-record-insight { background: rgba(26, 20, 19, 0.96) !important; box-shadow: 0 9px 26px rgba(0, 0, 0, 0.22) !important; }
+    .dark .footer-v4 { border-color: rgba(255,255,255,0.08); background: linear-gradient(145deg, #121010, #090808); box-shadow: 0 -10px 30px rgba(0,0,0,0.18); }
+    .dark .footer-v4-group { border-color: rgba(255,255,255,0.09); background: rgba(255,255,255,0.025); }
+    .dark .footer-v4-social-link { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.035); }
+    .dark .modern-pagination.ver4-pagination { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.025); box-shadow: 0 7px 20px rgba(0,0,0,0.20); }
+    .dark .modern-pagination.ver4-pagination .modern-pagination-btn, .dark .modern-pagination.ver4-pagination .modern-pagination-jump { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.035); }
+    .dark .modern-pagination.ver4-pagination .modern-pagination-current { background: rgba(185, 138, 62, 0.12); }
+
+    /* ネイティブselectの値・操作・アクセシビリティを保持するカスタム選択欄 */
+    .custom-select-shell {
+        --select-accent: var(--accent-red);
+        position: relative;
+        display: flex;
+        width: 100%;
+        min-height: 48px;
+        align-items: center;
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        background: var(--input-bg);
+        color: var(--text-main);
+        box-sizing: border-box;
+        transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .custom-select-shell:hover { border-color: color-mix(in srgb, var(--select-accent) 52%, var(--card-border)); }
+    .custom-select-shell:focus-within { border-color: var(--select-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--select-accent) 16%, transparent); }
+    .custom-select-icon {
+        position: absolute;
+        left: 14px;
+        z-index: 1;
+        display: grid;
+        width: 22px;
+        height: 22px;
+        place-items: center;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--select-accent) 11%, transparent);
+        color: var(--select-accent);
+        font-size: 0.72rem;
+        pointer-events: none;
+    }
+    .custom-select-chevron {
+        position: absolute;
+        right: 14px;
+        z-index: 1;
+        color: var(--text-sub);
+        font-size: 0.78rem;
+        pointer-events: none;
+        transition: color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .custom-select-shell:focus-within .custom-select-chevron { color: var(--select-accent); transform: translateY(1px); }
+    .custom-select-native,
+    #view-zodiac .custom-select-native,
+    #view-history .custom-select-native {
+        width: 100% !important;
+        min-height: 46px !important;
+        margin: 0 !important;
+        padding: 0 44px 0 48px !important;
+        border: 0 !important;
+        border-radius: 13px !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        background: transparent !important;
+        background-image: none !important;
+        color: var(--text-main) !important;
+        font-family: 'Zen Kaku Gothic New', 'Zen Old Mincho', sans-serif !important;
+        font-size: 0.88rem !important;
+        line-height: 1.2 !important;
+        cursor: pointer;
+        outline: none !important;
+    }
+    .custom-select-native::-ms-expand { display: none; }
+    .custom-select-native:focus { box-shadow: none !important; }
+    .custom-select-native option { background: var(--card-bg); color: var(--text-main); }
+    #view-zodiac .custom-select-shell { --select-accent: #b98a3e; }
+    #view-history .custom-select-shell { --select-accent: var(--history-red, #a82a2f); }
+    .dark .custom-select-shell { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.045); }
+    .dark .custom-select-native option { background: #211c1b; color: #fff8f3; }
+    @media (max-width: 768px) {
+        .stats-record-layout { padding: 24px 16px !important; }
+        #view-stats .stats-record-hero { grid-template-columns: 1fr; gap: 20px; min-height: 0; padding: 24px 20px !important; border-radius: 24px !important; }
+        #view-stats .stats-record-mark { width: 96px; height: 96px; }
+        #view-stats .stats-record-mark i { font-size: 1.55rem; }
+        #view-stats .stats-record-stat-grid { grid-template-columns: 1fr; }
+        #view-stats .stats-record-stat-card, #view-stats .stats-record-panel, #view-stats .stats-record-insight { padding: 18px !important; border-radius: 20px !important; }
+        .footer-v4 { margin-top: 48px; border-radius: 24px 24px 0 0; }
+        .footer-v4-main { grid-template-columns: 1fr; gap: 26px; padding: 28px 16px 24px; }
+        .footer-v4-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+        .footer-v4-group { padding: 14px; border-radius: 16px; }
+        .modern-pagination.ver4-pagination { grid-template-columns: 1fr; gap: 10px; padding: 12px; }
+    }
+    @media (max-width: 430px) {
+        #view-stats .stats-record-meta { display: grid; grid-template-columns: 1fr; }
+        .footer-v4-nav { grid-template-columns: 1fr !important; }
+        .modern-pagination.ver4-pagination .modern-pagination-btn { width: 42px; height: 46px; }
+        .modern-pagination.ver4-pagination .modern-pagination-current { min-width: 70px; }
+        .modern-pagination.ver4-pagination .modern-pagination-jump { justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        #view-stats .stats-card-interactive, .footer-v4-social-link, .footer-v4-link, .modern-pagination.ver4-pagination .modern-pagination-btn { transition: none !important; }
+    }
     </style>
 
 
@@ -12157,7 +12585,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     </div>
                     <div class="zodiac-input-grid">
                         <div style="grid-column: span 5;">
-                            <select id="user-sign" class="modern-select">
+                            <div class="custom-select-shell">
+                                <span class="custom-select-icon" aria-hidden="true"><i class="bi bi-stars"></i></span>
+                                <select id="user-sign" class="modern-select custom-select-native" aria-label="星座を選ぶ">
     <option value="aries">♈ 牡羊座 (3/21-4/19)</option>
     <option value="taurus">♉ 牡牛座 (4/20-5/20)</option>
     <option value="gemini">♊ 双子座 (5/21-6/21)</option>
@@ -12171,14 +12601,20 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     <option value="aquarius">♒ 水瓶座 (1/20-2/18)</option>
     <option value="pisces">♓ 魚座 (2/19-3/20)</option>
 </select>
+                                <i class="bi bi-chevron-down custom-select-chevron" aria-hidden="true"></i>
+                            </div>
                         </div>
                         <div style="grid-column: span 4;">
-                            <select id="user-blood" class="modern-select">
+                            <div class="custom-select-shell">
+                                <span class="custom-select-icon" aria-hidden="true"><i class="bi bi-droplet-half"></i></span>
+                                <select id="user-blood" class="modern-select custom-select-native" aria-label="血液型を選ぶ">
                                 <option value="A">A型</option>
                                 <option value="B">B型</option>
                                 <option value="O">O型</option>
                                 <option value="AB">AB型</option>
                             </select>
+                                <i class="bi bi-chevron-down custom-select-chevron" aria-hidden="true"></i>
+                            </div>
                         </div>
                         <div style="grid-column: span 3;">
                             <button onclick="findMyRank()" class="modern-search-btn w-full h-full py-3 md:py-0">判定する</button>
@@ -12618,87 +13054,85 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         
 
    <!-- ビュー: 参拝の記録 (統計ダッシュボード) -->
-<section id="view-stats" class="view-section max-w-4xl mx-auto relative pb-20">
+<section id="view-stats" class="view-section stats-record-layout relative" aria-labelledby="stats-record-title">
 
-    <!-- ヘッダーカード -->
-    <div class="bento-card stats-header-hero-card mb-6 relative overflow-hidden bg-gradient-to-br from-red-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
-        <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #ef4444 0%, transparent 70%);"></div>
-        <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #d4af37 0%, transparent 70%);"></div>
-        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div class="flex-1">
-                <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">PERSONAL STATISTICS</p>
-                <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                    <span class="text-4xl text-red-400"><i class="bi bi-journal-bookmark-fill"></i></span>
-                    <span class="text-white">参拝の記録</span>
-                </h2>
-                <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">
-                    おみくじを引くたびに蓄積される、あなただけの参拝データ。<br>
-                    他の参拝者との比較や運勢の傾向を確認できます。
-                </p>
-            </div>
-            <div class="flex-shrink-0 text-center flex flex-col items-center gap-2">
-                <div class="w-20 h-20 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #7f1d1d, #b91c1c); box-shadow: 0 0 24px rgba(239,68,68,0.3);">
-                    <i class="bi bi-graph-up-arrow text-4xl text-white"></i>
-                </div>
-                <p class="text-xs text-zinc-500 font-bold tracking-widest">MY RECORD</p>
+    <!-- Ver.4.0 共通二重線ヒーロー -->
+    <header class="stats-record-hero">
+        <div class="stats-record-copy">
+            <p class="stats-record-kicker"><i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i> PERSONAL STATISTICS</p>
+            <h2 id="stats-record-title" class="stats-record-title"><i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>参拝の記録</h2>
+            <p class="stats-record-summary">おみくじを引くたびに蓄積される、あなただけの参拝データ。<br>他の参拝者との比較や運勢の傾向を静かに確認できます。</p>
+            <div class="stats-record-meta" aria-label="参拝の記録で確認できる内容">
+                <span><i class="bi bi-bar-chart-line-fill" aria-hidden="true"></i> 個人統計</span>
+                <span><i class="bi bi-people-fill" aria-hidden="true"></i> 全体比較</span>
+                <span><i class="bi bi-shield-check" aria-hidden="true"></i> 参拝者名で保護</span>
             </div>
         </div>
-    </div>
+        <div class="stats-record-mark" data-ver4-hero-emblem aria-hidden="true">
+            <i class="bi bi-graph-up-arrow"></i>
+            <span>MY<br>RECORD</span>
+        </div>
+    </header>
 
     <!-- コンテンツ＋ロック画面ラッパー (position:relative でstats-lockの基準点。ヒーローカードは含めない) -->
     <div class="relative">
 
     <!-- コンテンツラッパー -->
-    <div id="stats-content-wrapper">
+    <div id="stats-content-wrapper" class="stats-record-stack">
         
         <!-- 1. ヒーローセクション -->
-        <div class="stats-hero-grid">
-            <div class="stats-hero-card hero-total stats-card-interactive" data-bg-text="参">
+        <section class="stats-record-stat-grid" aria-label="参拝数の要約">
+            <div class="stats-record-stat-card hero-total stats-card-interactive" data-bg-text="参">
                 <div class="stats-hero-label">総参拝数</div>
                 <div class="stats-hero-value" id="hero-total-val">-</div>
             </div>
-            <div class="stats-hero-card hero-daikichi stats-card-interactive" data-bg-text="吉">
+            <div class="stats-record-stat-card hero-daikichi stats-card-interactive" data-bg-text="吉">
                 <div class="stats-hero-label">大吉獲得数</div>
                 <div class="stats-hero-value" id="hero-daikichi-val">-</div>
             </div>
-        </div>
+        </section>
 
         <!-- 2. インサイト (比較分析) -->
-        <div id="stats-insight-area" class="stats-insight-box stats-card-interactive">
+        <section id="stats-insight-area" class="stats-record-insight stats-card-interactive" aria-live="polite">
             <p class="text-center text-sm" style="color:#666;">集計中...</p>
-        </div>
+        </section>
 
         <!-- 3. 総参拝数の比較グラフ -->
-        <div class="stats-graph-container stats-card-interactive mb-5">
-            <div class="px-4 pb-3 mb-2" style="border-bottom: 1px solid #2a2a2a;">
-                <h3 class="font-bold text-base flex items-center gap-2">
-                    <i class="bi bi-people-fill" style="color: var(--accent-gold, #d4af37);"></i>
-                    <span style="color:#e0e0e0;">参拝数比較</span>
-                </h3>
+        <section class="stats-record-panel stats-card-interactive" aria-labelledby="stats-total-chart-title">
+            <header class="stats-record-panel-heading">
+                <span class="stats-record-panel-icon" aria-hidden="true"><i class="bi bi-people-fill"></i></span>
+                <div>
+                    <p class="stats-record-panel-kicker">PILGRIMAGE COMPARISON</p>
+                    <h3 id="stats-total-chart-title" class="stats-record-panel-title">参拝数比較</h3>
+                    <p class="stats-record-panel-copy">あなたの参拝数と、全体の平均を見比べられます。</p>
+                </div>
+            </header>
+            <div class="stats-graph-container">
+                <!-- 目盛り線レイヤー -->
+                <div id="grid-total" class="graph-grid-overlay"></div>
+                <!-- グラフ本体 -->
+                <div id="graph-total-body" class="relative"></div>
             </div>
-            <!-- 目盛り線レイヤー -->
-            <div id="grid-total" class="graph-grid-overlay"></div>
-            <!-- グラフ本体 -->
-            <div id="graph-total-body" class="px-4 pb-4 relative"></div>
-        </div>
+        </section>
 
         <!-- 4. 運勢スペクトル (詳細グラフ) -->
-        <div class="stats-graph-container stats-card-interactive">
-            <div class="px-4 pb-3 mb-2 flex justify-between items-end" style="border-bottom: 1px solid #2a2a2a;">
-                <h3 class="font-bold text-base flex items-center gap-2">
-                    <i class="bi bi-bar-chart-steps" style="color: var(--accent-red);"></i>
-                    <span style="color:#e0e0e0;">運勢分布</span>
-                </h3>
-                <div class="flex gap-3 text-[10px] pb-1">
-                    <span class="flex items-center gap-1" style="color:#aaa;"><span class="w-3 h-3 rounded" style="background: var(--accent-red); display:inline-block;"></span>あなた</span>
-                    <span class="flex items-center gap-1" style="color:#aaa;"><span class="w-3 h-3 rounded" style="background:#444; display:inline-block;"></span>平均</span>
+        <section class="stats-record-panel stats-card-interactive" aria-labelledby="stats-spectrum-chart-title">
+            <header class="stats-record-panel-heading">
+                <span class="stats-record-panel-icon" aria-hidden="true"><i class="bi bi-bar-chart-steps"></i></span>
+                <div>
+                    <p class="stats-record-panel-kicker">FORTUNE SPECTRUM</p>
+                    <h3 id="stats-spectrum-chart-title" class="stats-record-panel-title">運勢分布</h3>
+                    <p class="stats-record-panel-copy">あなたの運勢の巡りを、全体の平均と重ねて確認できます。</p>
+                    <div class="stats-record-legend" aria-label="グラフの凡例"><span><i aria-hidden="true"></i>あなた</span><span><i aria-hidden="true"></i>平均</span></div>
                 </div>
+            </header>
+            <div class="stats-graph-container">
+                <!-- 目盛り線レイヤー -->
+                <div id="grid-spectrum" class="graph-grid-overlay"></div>
+                <!-- グラフ本体 -->
+                <div id="stats-spectrum-list" class="relative"></div>
             </div>
-            <!-- 目盛り線レイヤー -->
-            <div id="grid-spectrum" class="graph-grid-overlay"></div>
-            <!-- グラフ本体 -->
-            <div id="stats-spectrum-list" class="px-4 pb-4 relative"></div>
-        </div>
+        </section>
 
     </div>
 
@@ -12979,7 +13413,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             </header>
 
             <div class="control-group-row">
-                <select id="search-type" class="modern-filter-select flex-1" style="min-width: 120px;">
+                <div class="custom-select-shell flex-1" style="min-width: 120px;">
+                    <span class="custom-select-icon" aria-hidden="true"><i class="bi bi-funnel-fill"></i></span>
+                    <select id="search-type" class="modern-filter-select custom-select-native" aria-label="運勢で絞り込む">
                     <option value="all">全ての運勢</option>
                     <option value="大吉">大吉</option>
                     <option value="中吉">中吉</option>
@@ -12994,6 +13430,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <option value="末凶">末凶</option>
                     <option value="大凶">大凶</option>
                 </select>
+                    <i class="bi bi-chevron-down custom-select-chevron" aria-hidden="true"></i>
+                </div>
                 <input type="text" id="search-keyword" placeholder="ユーザー名で検索" class="modern-filter-input flex-[2]">
             </div>
 
@@ -14300,48 +14738,39 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 }
             }
         </style>
-        <footer id="site-footer" style="width:100%;margin-top:80px;background:var(--footer-bg);overflow:hidden;flex-shrink:0;">
+        <footer id="site-footer" class="footer-v4">
 
             <!-- 上部グラデーションライン（境界線を兼ねる。ボーダーとの二重線を避けるためこの1本のみ） -->
-            <div style="height:2px;background:linear-gradient(90deg,transparent,var(--accent-red) 30%,#c8a000 50%,var(--accent-red) 70%,transparent);opacity:0.8;"></div>
+            <div class="footer-v4-line" aria-hidden="true"></div>
 
             <!-- メインコンテンツエリア -->
-            <div id="footer-main-grid" style="max-width:960px;margin:0 auto;padding:48px 32px 32px;display:grid;grid-template-columns:1fr 2fr;gap:48px;align-items:start;">
+            <div id="footer-main-grid" class="footer-v4-main">
 
                 <!-- 左：ロゴ＋説明 -->
-                <div style="display:flex;flex-direction:column;gap:16px;">
-                    <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;border:1px solid var(--card-border);flex-shrink:0;">
-                            <img src="/favicon/apple-touch-icon.png" alt="天命乃杜" style="width:100%;height:100%;display:block;object-fit:cover;">
+                <section class="footer-v4-brand" aria-label="天命乃杜について">
+                    <div class="footer-v4-brand-top">
+                        <div class="footer-v4-brand-mark">
+                            <img src="/favicon/apple-touch-icon.png" alt="天命乃杜">
                         </div>
-                        <div style="font-size:1.05rem;font-weight:900;letter-spacing:0.2em;color:var(--accent-red);font-family:'Zen Old Mincho',serif;">運勢・天命乃杜</div>
+                        <p class="footer-v4-brand-name">運勢・天命乃杜</p>
                     </div>
-                    <p style="font-size:0.75rem;line-height:1.8;color:var(--text-sub);margin:0;">おみくじ・星座占い・御守など、日々の運勢を見守る和風参拝サイト。</p>
+                    <p class="footer-v4-brand-copy">おみくじ・星座占い・御守など、日々の運勢を見守る和風参拝サイト。</p>
                     <!-- SNSアイコン -->
-                    <div style="display:flex;gap:10px;margin-top:4px;">
-                        <a href="https://discord.gg/Ys6hpbNdcV" target="_blank" rel="noopener"
-                           style="width:36px;height:36px;border-radius:8px;background:#5865F2;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;"
-                           onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(88,101,242,0.4)'"
-                           onmouseleave="this.style.transform='';this.style.boxShadow=''">
+                    <div class="footer-v4-social">
+                        <a class="footer-v4-social-link" href="https://discord.gg/Ys6hpbNdcV" target="_blank" rel="noopener noreferrer" aria-label="公式Discord参拝所を新しいタブで開く">
                             <i class="bi bi-discord" style="color:#fff;font-size:1rem;"></i>
                         </a>
-                        <a href="https://github.com/nden14800" target="_blank" rel="noopener"
-                           style="width:36px;height:36px;border-radius:8px;background:var(--input-bg);border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;"
-                           onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)'"
-                           onmouseleave="this.style.transform='';this.style.boxShadow=''">
+                        <a class="footer-v4-social-link" href="https://github.com/nden14800" target="_blank" rel="noopener noreferrer" aria-label="nden14800のGitHubを新しいタブで開く">
                             <i class="bi bi-github" style="color:var(--text-main);font-size:1rem;"></i>
                         </a>
-                        <a href="https://www.youtube.com/@nden148-x2g" target="_blank" rel="noopener"
-                           style="width:36px;height:36px;border-radius:8px;background:#FF0000;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;"
-                           onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 12px rgba(255,0,0,0.35)'"
-                           onmouseleave="this.style.transform='';this.style.boxShadow=''">
+                        <a class="footer-v4-social-link" href="https://www.youtube.com/@nden148-x2g" target="_blank" rel="noopener noreferrer" aria-label="nden148のYouTubeを新しいタブで開く">
                             <i class="bi bi-youtube" style="color:#fff;font-size:1rem;"></i>
                         </a>
                     </div>
-                </div>
+                </section>
 
-                <!-- 右：ナビ3列 -->
-                <div id="footer-nav-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;">
+                <!-- 右：ナビ4列 -->
+                <nav id="footer-nav-grid" class="footer-v4-nav" aria-label="フッターの主要ナビゲーション">
                     <div>
                         <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.15em;color:var(--text-sub);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--card-border);">コンテンツ</div>
                         <div style="display:flex;flex-direction:column;gap:9px;">
@@ -14377,12 +14806,12 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <a onclick="showView('auth')" style="font-size:0.8rem;color:var(--text-main);text-decoration:none;cursor:pointer;transition:color 0.15s;" onmouseenter="this.style.color='var(--accent-red)'" onmouseleave="this.style.color='var(--text-main)'">参拝証の発行</a>
                         </div>
                     </div>
-                </div>
+                </nav>
             </div>
 
-            <!-- ボトムバー（上部のグラデーションラインのみで区切りとしており、ここに罫線は追加しない） -->
-            <div style="padding:14px 32px;display:flex;align-items:center;justify-content:center;">
-                <span style="font-size:0.72rem;color:var(--text-sub);letter-spacing:0.08em;">© 2026 天命乃杜 / nden148</span>
+            <!-- 著作権表記 -->
+            <div class="footer-v4-bottom">
+                <span>© 2026 天命乃杜 / nden148</span>
             </div>
         </footer>
 
@@ -20660,25 +21089,25 @@ let historyPageState = {
         const goto = (p) => gotoTemplate.replace('{P}', p);
         const jumpId = `${idPrefix}-jump-input`;
 
-        let html = '<div class="modern-pagination">';
+        let html = `<div class="modern-pagination ver4-pagination" role="navigation" aria-label="${idPrefix === 'news' ? '社務所だより' : idPrefix === 'column' ? '神籤草子' : '記録'}のページ送り">`;
         html += '<div class="modern-pagination-controls">';
 
-        html += `<button onclick="${goto(1)}" class="modern-pagination-btn" title="最初へ"
-                 ${current === 1 ? 'disabled' : ''}><i class="bi bi-chevron-bar-left"></i></button>`;
+        html += `<button type="button" onclick="${goto(1)}" class="modern-pagination-btn" title="最初へ" aria-label="最初のページへ"
+                 ${current === 1 ? 'disabled' : ''}><i class="bi bi-chevron-bar-left" aria-hidden="true"></i></button>`;
 
-        html += `<button onclick="${goto(current - 1)}" class="modern-pagination-btn" title="前へ"
-                 ${current === 1 ? 'disabled' : ''}><i class="bi bi-chevron-left"></i></button>`;
+        html += `<button type="button" onclick="${goto(current - 1)}" class="modern-pagination-btn" title="前へ" aria-label="前のページへ"
+                 ${current === 1 ? 'disabled' : ''}><i class="bi bi-chevron-left" aria-hidden="true"></i></button>`;
 
-        html += `<span class="modern-pagination-current">
+        html += `<span class="modern-pagination-current" aria-live="polite" aria-label="${current}ページ目、全${total}ページ">
                     <span class="modern-pagination-current-num">${current}</span>
                     <span class="modern-pagination-total">/ ${total}</span>
                  </span>`;
 
-        html += `<button onclick="${goto(current + 1)}" class="modern-pagination-btn" title="次へ"
-                 ${current === total ? 'disabled' : ''}><i class="bi bi-chevron-right"></i></button>`;
+        html += `<button type="button" onclick="${goto(current + 1)}" class="modern-pagination-btn" title="次へ" aria-label="次のページへ"
+                 ${current === total ? 'disabled' : ''}><i class="bi bi-chevron-right" aria-hidden="true"></i></button>`;
 
-        html += `<button onclick="${goto(total)}" class="modern-pagination-btn" title="最後へ"
-                 ${current === total ? 'disabled' : ''}><i class="bi bi-chevron-bar-right"></i></button>`;
+        html += `<button type="button" onclick="${goto(total)}" class="modern-pagination-btn" title="最後へ" aria-label="最後のページへ"
+                 ${current === total ? 'disabled' : ''}><i class="bi bi-chevron-bar-right" aria-hidden="true"></i></button>`;
 
         html += '</div>';
 
@@ -20686,9 +21115,9 @@ let historyPageState = {
         html += `
             <div class="modern-pagination-jump">
                 <span>ページ指定</span>
-                <input type="number" id="${jumpId}" min="1" max="${total}" value="${current}"
+                <input type="number" id="${jumpId}" min="1" max="${total}" value="${current}" aria-label="移動するページ番号"
                        onkeydown="if(event.key==='Enter'){ ${goto('parseInt(this.value)')} }">
-                <button onclick="${goto(`parseInt(document.getElementById('${jumpId}').value)`)}"
+                <button type="button" onclick="${goto(`parseInt(document.getElementById('${jumpId}').value)`)}"
                         class="modern-pagination-jump-btn">移動</button>
             </div>
         `;
