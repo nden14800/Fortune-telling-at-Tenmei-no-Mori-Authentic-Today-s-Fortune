@@ -481,7 +481,7 @@
     }
 
     /* Ver.4.0 Master Design System: Card & Layout Uniformity */
-    .auth-pilgrimage-layout, .developer-study-layout, .about-codex-layout, .privacy-ledger-layout, .howto-guide-layout, .news-bulletin-layout, .news-chronicle-layout, .column-library-layout, .column-reader-layout, .prefecture-observatory-layout {
+    .auth-pilgrimage-layout, .developer-study-layout, .about-codex-layout, .privacy-ledger-layout, .howto-guide-layout, .news-bulletin-layout, .news-chronicle-layout, .column-library-layout, .prefecture-observatory-layout {
         max-width: 960px !important;
         margin-left: auto !important;
         margin-right: auto !important;
@@ -489,20 +489,38 @@
         padding: 40px 24px !important;
         box-sizing: border-box !important;
     }
+    .column-reader-layout {
+        max-width: 960px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+        padding: 24px 24px !important;
+        box-sizing: border-box !important;
+    }
     @media (max-width: 768px) {
-        .auth-pilgrimage-layout, .developer-study-layout, .about-codex-layout, .privacy-ledger-layout, .howto-guide-layout, .news-bulletin-layout, .news-chronicle-layout, .column-library-layout, .column-reader-layout, .prefecture-observatory-layout {
+        .auth-pilgrimage-layout, .developer-study-layout, .about-codex-layout, .privacy-ledger-layout, .howto-guide-layout, .news-bulletin-layout, .news-chronicle-layout, .column-library-layout, .prefecture-observatory-layout {
             padding: 24px 16px !important;
         }
+        .column-reader-layout {
+            padding: 16px 16px !important;
+        }
     }
-    .auth-passport-hero, .developer-study-hero, .about-codex-hero, .privacy-ledger-hero, .howto-guide-hero, .news-bulletin-hero, .article-reader-frame, .column-library-hero, .column-reader-frame, .prefecture-observatory-hero {
+    .auth-passport-hero, .developer-study-hero, .about-codex-hero, .privacy-ledger-hero, .howto-guide-hero, .news-bulletin-hero, .column-library-hero, .prefecture-observatory-hero {
         border-radius: 30px !important;
         padding: 36px !important;
         box-sizing: border-box !important;
         width: 100% !important;
         margin-bottom: 24px !important;
     }
+    .article-reader-frame, .column-reader-frame {
+        border-radius: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        margin-bottom: 0 !important;
+    }
     @media (max-width: 768px) {
-        .auth-passport-hero, .developer-study-hero, .about-codex-hero, .privacy-ledger-hero, .howto-guide-hero, .news-bulletin-hero, .article-reader-frame, .column-library-hero, .column-reader-frame, .prefecture-observatory-hero {
+        .auth-passport-hero, .developer-study-hero, .about-codex-hero, .privacy-ledger-hero, .howto-guide-hero, .news-bulletin-hero, .column-library-hero, .prefecture-observatory-hero {
             padding: 24px 20px !important;
             border-radius: 24px !important;
         }
