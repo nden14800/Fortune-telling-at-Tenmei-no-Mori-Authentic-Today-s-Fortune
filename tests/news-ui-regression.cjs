@@ -51,6 +51,8 @@ requireDetailSectionText('id="article-detail-content"', '記事詳細の動的�
   "getPaginatedData('news', newsData)",
   "getArticleReadingMeta(item.content)",
   "openArticle('news', ${item.id})",
+  'class="news-bulletin-card-surface"',
+  'aria-label="${item.title}を読む"',
   "createPaginationHTML('news', currentPage, totalPages, \"changePage('news', {P})\")",
   "if (type === 'news') {",
   'class="news-chronicle-document"',
@@ -65,6 +67,11 @@ requireDetailSectionText('id="article-detail-content"', '記事詳細の動的�
   requireText(text, `社務所だよりの既存機能接続が失われています: ${text}`);
 });
 
+assert.equal(
+  html.includes('class="news-bulletin-card-open" onclick="openArticle(\'news\','),
+  false,
+  '社務所だよりカード内に見出しだけを操作面とする旧ボタンが残っています。'
+);
 assert.equal(
   newsSection.includes('news-hero-card'),
   false,
@@ -86,6 +93,7 @@ assert.equal(
   '.news-chronicle-layout {',
   '.news-bulletin-list {',
   '.news-bulletin-card {',
+  '.news-bulletin-card-surface:focus-visible {',
   '.news-chronicle-document {',
   '.news-chronicle-summary {',
   '.news-chronicle-body .article-content .article-toc-unified {',
@@ -111,6 +119,7 @@ console.log(JSON.stringify({
   searchContractPreserved: true,
   paginationContractPreserved: true,
   articleTransitionContractPreserved: true,
+  fullCardArticleTransitionPresent: true,
   summaryContractPreserved: true,
   tocAndReadingContractPreserved: true,
   themeRulesPresent: true,

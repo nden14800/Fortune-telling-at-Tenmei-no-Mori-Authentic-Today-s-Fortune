@@ -3320,6 +3320,7 @@
 .column-library-search-field input::placeholder { color: var(--column-muted); opacity: 0.78; }
 .column-library-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; margin-top: 1.15rem; }
 .column-library-card {
+    position: relative;
     display: grid;
     grid-template-rows: auto 1fr auto;
     min-width: 0;
@@ -3333,6 +3334,9 @@
 }
 .column-library-card:hover,
 .column-library-card:focus-within { border-color: rgba(75, 63, 164, 0.4); box-shadow: 0 14px 26px rgba(50, 40, 82, 0.1); transform: translateY(-2px); }
+.column-library-card-surface { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; padding: 0; border: 0; border-radius: inherit; background: transparent; cursor: pointer; }
+.column-library-card-surface:focus-visible { outline: 3px solid rgba(75, 63, 164, 0.76); outline-offset: -4px; }
+.column-library-card > :not(.column-library-card-surface) { position: relative; z-index: 1; pointer-events: none; }
 .column-library-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.9rem 1rem 0; }
 .column-library-category { display: inline-flex; min-height: 27px; align-items: center; gap: 0.34rem; padding: 0.3rem 0.54rem; border: 1px solid rgba(113, 84, 196, 0.18); border-radius: 999px; color: var(--column-indigo); background: rgba(255, 255, 255, 0.62); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; line-height: 1.35; }
 .column-library-category i { color: var(--column-gold); }
@@ -3344,8 +3348,8 @@
 .column-library-readinfo { display: flex; align-items: center; flex-wrap: wrap; gap: 0.28rem; min-width: 0; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; line-height: 1.5; }
 .column-library-readinfo i { color: var(--column-gold); }
 .column-library-readinfo-separator { opacity: 0.55; }
-.column-library-card-open { display: inline-flex; min-height: 34px; flex: 0 0 auto; align-items: center; gap: 0.32rem; padding: 0.35rem 0.4rem; border: 0; border-radius: 8px; color: var(--column-indigo); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; white-space: nowrap; cursor: pointer; }
-.column-library-card-open:hover { color: var(--column-violet); background: rgba(113, 84, 196, 0.08); }
+.column-library-card-open { display: inline-flex; min-height: 34px; flex: 0 0 auto; align-items: center; gap: 0.32rem; padding: 0.35rem 0.4rem; border-radius: 8px; color: var(--column-indigo); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; white-space: nowrap; }
+.column-library-card:hover .column-library-card-open { color: var(--column-violet); background: rgba(113, 84, 196, 0.08); }
 .column-library-empty { grid-column: 1 / -1; padding: 2.5rem 1rem; border: 1px dashed rgba(86, 74, 122, 0.3); border-radius: 18px; color: var(--column-muted); background: var(--column-paper-soft); text-align: center; }
 .column-library-empty i { display: block; margin-bottom: 0.7rem; color: var(--column-gold); font-size: 1.8rem; }
 .column-library-pagination { display: flex; justify-content: center; margin-top: 1.25rem; }
@@ -3627,6 +3631,7 @@
 .news-bulletin-search-field input::placeholder { color: var(--news-muted); opacity: 0.78; }
 .news-bulletin-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; margin-top: 1.15rem; }
 .news-bulletin-card {
+    position: relative;
     display: grid;
     grid-template-rows: auto 1fr auto;
     min-width: 0;
@@ -3638,13 +3643,17 @@
     box-shadow: 0 7px 18px rgba(68, 34, 28, 0.035);
     transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
-.news-bulletin-card:hover { border-color: rgba(165, 42, 50, 0.35); box-shadow: 0 14px 26px rgba(68, 34, 28, 0.09); transform: translateY(-2px); }
+.news-bulletin-card:hover,
+.news-bulletin-card:focus-within { border-color: rgba(165, 42, 50, 0.35); box-shadow: 0 14px 26px rgba(68, 34, 28, 0.09); transform: translateY(-2px); }
+.news-bulletin-card-surface { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; padding: 0; border: 0; border-radius: inherit; background: transparent; cursor: pointer; }
+.news-bulletin-card-surface:focus-visible { outline: 3px solid rgba(165, 42, 50, 0.76); outline-offset: -4px; }
+.news-bulletin-card > :not(.news-bulletin-card-surface) { position: relative; z-index: 1; pointer-events: none; }
 .news-bulletin-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.9rem 1rem 0; }
 .news-bulletin-card time { flex: 0 0 auto; color: var(--news-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em; }
 .news-bulletin-card-copy { min-width: 0; padding: 0.8rem 1rem 0.92rem; }
 .news-bulletin-card-title { margin: 0; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1.08rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.6; }
-.news-bulletin-card-open { display: block; width: 100%; padding: 0; border: 0; color: var(--news-ink); background: transparent; font: inherit; text-align: left; text-decoration: none; cursor: pointer; }
-.news-bulletin-card-open:hover { color: var(--news-red-deep); }
+.news-bulletin-card-open { color: var(--news-ink); font: inherit; text-decoration: none; }
+.news-bulletin-card:hover .news-bulletin-card-open { color: var(--news-red-deep); }
 .news-bulletin-card-desc { display: -webkit-box; margin: 0.58rem 0 0; overflow: hidden; color: var(--news-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.82rem; line-height: 1.75; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .news-bulletin-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding: 0.82rem 1rem; border-top: 1px solid rgba(131, 92, 60, 0.13); color: var(--news-muted); }
 .news-bulletin-readinfo { display: flex; align-items: center; flex-wrap: wrap; gap: 0.28rem; min-width: 0; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; line-height: 1.5; }
@@ -5500,6 +5509,92 @@ html.light .auth-passport-lede { color: #67433c; }
     .auth-choice-card:hover,
     .auth-choice-card:hover .auth-choice-action i,
     .auth-google-button:hover { transform: none; }
+}
+
+/* Ver.4.0: 参拝証の発行 — 共通紙面への統一
+   認証・発行の三段階フローは保ち、濃色ヒーローと固定サイドバーを
+   他の刷新済み画面と共通する淡い紙面・一体型カード・横方向の案内へ置換する。 */
+.auth-pilgrimage-view {
+    width: min(100%, 1000px);
+    margin: 0 auto;
+    padding-bottom: 4.5rem;
+}
+.auth-passport-hero {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-bottom: 1rem;
+    padding: clamp(1.45rem, 3.5vw, 2.45rem);
+    border: 1px solid color-mix(in srgb, var(--accent-red) 25%, var(--card-border));
+    border-radius: 26px;
+    background: linear-gradient(128deg, color-mix(in srgb, var(--card-bg) 93%, #fff 7%), color-mix(in srgb, var(--card-bg) 90%, var(--accent-red) 4%), color-mix(in srgb, var(--card-bg) 91%, var(--accent-gold) 9%));
+    box-shadow: 0 14px 30px rgba(67, 37, 28, 0.08);
+    color: var(--text-main);
+}
+.auth-passport-hero::before { inset: 11px; border-color: color-mix(in srgb, var(--accent-red) 15%, transparent); border-radius: 18px; }
+.auth-passport-hero::after { top: -108px; right: -88px; width: 260px; height: 260px; border-color: color-mix(in srgb, var(--accent-gold) 26%, transparent); box-shadow: 0 0 0 20px color-mix(in srgb, var(--accent-gold) 6%, transparent), 0 0 0 46px color-mix(in srgb, var(--accent-red) 3%, transparent); }
+.auth-passport-kicker,
+.auth-passport-title i { color: var(--accent-gold); }
+.auth-passport-title { gap: 0.7rem; color: var(--text-main); font-size: clamp(1.7rem, 4vw, 2.65rem); line-height: 1.35; }
+.auth-passport-lede { max-width: 43rem; margin-top: 0.75rem; color: var(--text-sub); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.84rem; line-height: 1.85; }
+.auth-passport-mark { position: relative; z-index: 1; display: grid; width: 104px; height: 104px; place-items: center; align-content: center; gap: 0.35rem; border: 1px solid color-mix(in srgb, var(--accent-red) 35%, var(--card-border)); border-radius: 50%; background: color-mix(in srgb, var(--card-bg) 86%, #fff 14%); box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--accent-red) 5%, transparent); color: var(--accent-red); text-align: center; }
+.auth-passport-mark i { font-size: 1.75rem; }
+.auth-passport-mark span { color: var(--text-sub); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.56rem; font-weight: 800; letter-spacing: 0.11em; }
+.auth-pilgrimage-stack { display: grid; gap: 1rem; }
+.auth-pilgrimage-layout { display: contents; }
+.auth-journey-panel,
+.auth-workbench { border: 1px solid var(--card-border); border-radius: 22px; background: var(--card-bg); box-shadow: 0 10px 24px rgba(38, 23, 16, 0.055); }
+.auth-journey-panel { position: static; display: grid; grid-template-columns: minmax(180px, 0.32fr) minmax(0, 0.68fr); column-gap: clamp(1rem, 3vw, 2rem); align-items: center; padding: clamp(1.15rem, 3vw, 1.55rem); }
+.auth-journey-intro { min-width: 0; }
+.auth-journey-kicker { margin: 0 0 0.38rem; color: var(--accent-gold); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; letter-spacing: 0.15em; }
+.auth-journey-heading { font-size: 1.1rem; line-height: 1.45; }
+.auth-journey-description { margin: 0.4rem 0 0; font-size: 0.72rem; line-height: 1.65; }
+.auth-journey-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
+.auth-journey-step { grid-template-columns: 30px minmax(0, 1fr); gap: 0.48rem; min-height: 62px; padding: 0.55rem 0.6rem; border: 1px solid transparent; border-radius: 13px; }
+.auth-journey-step::after { display: none; }
+.auth-journey-step-number { width: 30px; height: 30px; font-size: 0.72rem; }
+.auth-journey-step strong { margin: 0 0 0.14rem; font-size: 0.75rem; line-height: 1.45; }
+.auth-journey-step small { font-size: 0.6rem; line-height: 1.4; }
+.auth-journey-step.is-current { border-color: color-mix(in srgb, var(--accent-red) 24%, var(--card-border)); }
+.auth-journey-trust { grid-column: 2; margin: 0.55rem 0 0; padding: 0.55rem 0 0; font-size: 0.66rem; line-height: 1.55; }
+.auth-workbench { min-height: 0; padding: clamp(1.2rem, 3.5vw, 2rem); }
+.auth-stage-header { margin-bottom: 1.15rem; padding-bottom: 1rem; }
+.auth-choice-card { min-height: 222px; border-radius: 19px; }
+.auth-google-option { border-radius: 19px; }
+.auth-feature-summary { border-radius: 19px; }
+html.light .auth-passport-hero {
+    border-color: rgba(185, 28, 28, 0.22);
+    background: linear-gradient(128deg, #fffdf9 0%, #fff6f3 52%, #f8f1e4 100%);
+    box-shadow: 0 14px 30px rgba(89, 45, 29, 0.09);
+    color: #351b1b;
+}
+html.light .auth-passport-hero::before { border-color: rgba(185, 28, 28, 0.13); }
+html.light .auth-passport-hero::after { border-color: rgba(197, 160, 89, 0.26); box-shadow: 0 0 0 20px rgba(197, 160, 89, 0.055), 0 0 0 46px rgba(185, 28, 28, 0.028); }
+html.light .auth-passport-title { color: #351b1b; }
+html.light .auth-passport-lede { color: #67433c; }
+@media (prefers-color-scheme: light) {
+    html:not(.dark) .auth-passport-hero { border-color: rgba(185, 28, 28, 0.22); background: linear-gradient(128deg, #fffdf9 0%, #fff6f3 52%, #f8f1e4 100%); box-shadow: 0 14px 30px rgba(89, 45, 29, 0.09); color: #351b1b; }
+    html:not(.dark) .auth-passport-hero::before { border-color: rgba(185, 28, 28, 0.13); }
+    html:not(.dark) .auth-passport-hero::after { border-color: rgba(197, 160, 89, 0.26); box-shadow: 0 0 0 20px rgba(197, 160, 89, 0.055), 0 0 0 46px rgba(185, 28, 28, 0.028); }
+    html:not(.dark) .auth-passport-title { color: #351b1b; }
+    html:not(.dark) .auth-passport-lede { color: #67433c; }
+}
+@media (max-width: 760px) {
+    .auth-passport-hero { grid-template-columns: 1fr; gap: 1rem; padding: 1.35rem; border-radius: 22px; }
+    .auth-passport-mark { width: 100%; height: 62px; grid-template-columns: auto auto; gap: 0.55rem; border-radius: 15px; }
+    .auth-passport-mark span { font-size: 0.62rem; }
+    .auth-journey-panel { grid-template-columns: 1fr; row-gap: 0.9rem; padding: 1rem; }
+    .auth-journey-steps { gap: 0.38rem; }
+    .auth-journey-step { grid-template-columns: 1fr; min-height: 78px; gap: 0.28rem; padding: 0.5rem; text-align: center; }
+    .auth-journey-step-number { margin: 0 auto; }
+    .auth-journey-step small { display: none; }
+    .auth-journey-trust { grid-column: 1; margin-top: 0; padding-top: 0.7rem; }
+    .auth-workbench { padding: 1.1rem; border-radius: 20px; }
+}
+@media (max-width: 480px) {
+    .auth-passport-title { font-size: 1.55rem; }
+    .auth-journey-step strong { font-size: 0.68rem; }
+    .auth-stage-status { font-size: 0.64rem; }
+    .auth-choice-card { min-height: 196px; border-radius: 17px; }
 }
 
 /* --- おみくじ選択・結果画面：Bento UI拡張 --- */
@@ -10964,17 +11059,19 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <h2 id="auth-passport-title" class="auth-passport-title"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>参拝証の発行</h2>
                     <p class="auth-passport-lede">杜で積み重ねる記録と、お気に入り、会員限定の導きをひとつの参拝証へ。ログイン・新規登録・Googleログインから、ご自身に合う方法をお選びください。</p>
                 </div>
-                <div class="auth-passport-seal" aria-hidden="true">
+                <div class="auth-passport-mark" aria-hidden="true">
                     <i class="bi bi-patch-check-fill"></i>
                     <span>MEMBER PASS</span>
                 </div>
             </header>
 
-            <div class="auth-pilgrimage-layout">
-                <aside class="auth-journey-panel" aria-label="参拝証を発行する流れ">
-                    <p class="auth-journey-kicker"><i class="bi bi-signpost-split" aria-hidden="true"></i> THREE STEPS</p>
-                    <h3 class="auth-journey-heading">参拝証の道程</h3>
-                    <p class="auth-journey-description">今いる段階が分かるように、発行の流れを三つに分けています。</p>
+            <div class="auth-pilgrimage-stack">
+                <section class="auth-journey-panel" aria-label="参拝証を発行する流れ">
+                    <div class="auth-journey-intro">
+                        <p class="auth-journey-kicker"><i class="bi bi-signpost-split" aria-hidden="true"></i> THREE STEPS</p>
+                        <h3 class="auth-journey-heading">参拝証の道程</h3>
+                        <p class="auth-journey-description">今いる段階が分かるように、発行の流れを三つに分けています。</p>
+                    </div>
                     <ol class="auth-journey-steps">
                         <li class="auth-journey-step is-current" data-auth-stage="choice" aria-current="step">
                             <span class="auth-journey-step-number">一</span>
@@ -10990,9 +11087,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </li>
                     </ol>
                     <p class="auth-journey-trust"><i class="bi bi-shield-check" aria-hidden="true"></i><span>メールアドレスとパスワードの入力は、安全確認を完了してから送信されます。</span></p>
-                </aside>
+                </section>
 
-                <div class="auth-workbench">
+                <section class="auth-workbench" aria-label="参拝証の発行操作">
                     <!-- 1. 初期選択画面 -->
                     <div id="auth-selection" class="auth-selection-stage" aria-label="ログイン方法を選択">
                         <header class="auth-stage-header">
@@ -11085,7 +11182,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         <button type="button" onclick="finalizeAuth()" class="btn-primary auth-primary-action"><i class="bi bi-check-lg" aria-hidden="true"></i> 認証を完了する</button>
                         <button type="button" onclick="backToAuthStep1()" class="auth-alternative-link"><i class="bi bi-arrow-left" aria-hidden="true"></i> 入力画面に戻る</button>
                     </div>
-                </div>
+                </section>
             </div>
         </section>
         <!-- ビュー: アカウント設定 (Bento UI版) -->
@@ -19081,14 +19178,13 @@ let historyPageState = {
             const dateValue = String(item.date || '').replace(/\//g, '-');
             return `
                 <article class="news-bulletin-card" aria-labelledby="${articleTitleId}">
+                    <button type="button" class="news-bulletin-card-surface" onclick="openArticle('news', ${item.id})" aria-labelledby="${articleTitleId}" aria-label="${item.title}を読む"></button>
                     <div class="news-bulletin-card-meta">
                         <span class="news-tag ${tagClass}"><i class="bi ${iconName}" aria-hidden="true"></i> ${item.tag}</span>
                         <time datetime="${dateValue}">${item.date}</time>
                     </div>
                     <div class="news-bulletin-card-copy">
-                        <h3 id="${articleTitleId}" class="news-bulletin-card-title">
-                            <button type="button" class="news-bulletin-card-open" onclick="openArticle('news', ${item.id})" aria-label="${item.title}を読む">${item.title}</button>
-                        </h3>
+                        <h3 id="${articleTitleId}" class="news-bulletin-card-title"><span class="news-bulletin-card-open">${item.title}</span></h3>
                         <p class="news-bulletin-card-desc">${item.desc || '詳細をご覧ください。'}</p>
                     </div>
                     <div class="news-bulletin-card-footer">
@@ -19154,6 +19250,7 @@ window.renderFullColumnView = function() {
         const excerpt = sourceExcerpt.length > 88 ? `${sourceExcerpt.slice(0, 88)}…` : sourceExcerpt;
         return `
             <article class="column-library-card" aria-labelledby="${articleTitleId}">
+                <button type="button" class="column-library-card-surface" onclick="openArticle('column', ${item.id})" aria-labelledby="${articleTitleId}" aria-label="${item.title}を読む"></button>
                 <div class="column-library-card-top">
                     <span class="column-library-category"><i class="bi ${item.icon || 'bi-journal-text'}" aria-hidden="true"></i> ${item.category}</span>
                     <time datetime="${dateValue}">${item.date}</time>
@@ -19168,7 +19265,7 @@ window.renderFullColumnView = function() {
                         <span class="column-library-readinfo-separator" aria-hidden="true">・</span>
                         <span><i class="bi bi-clock-history" aria-hidden="true"></i> 約${readingMeta.readMinutes}分</span>
                     </div>
-                    <button type="button" class="column-library-card-open" onclick="openArticle('column', ${item.id})" aria-label="${item.title}を読む">本文を読む <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+                    <span class="column-library-card-open" aria-hidden="true">本文を読む <i class="bi bi-arrow-right" aria-hidden="true"></i></span>
                 </div>
             </article>`;
     }).join('');

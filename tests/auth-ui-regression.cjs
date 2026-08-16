@@ -4,6 +4,11 @@ const path = require('node:path');
 
 const htmlPath = path.resolve(__dirname, '..', 'index.html');
 const html = fs.readFileSync(htmlPath, 'utf8');
+const authSection = html.match(
+  /<section id="view-auth"[\s\S]*?<section id="view-profile"/
+)?.[0] || '';
+
+assert(authSection, '参拝証の発行画面のセクションを抽出できません。');
 
 function requireText(text, message) {
   assert(html.includes(text), message);
@@ -19,15 +24,33 @@ requireText(
 );
 requireText(
   'class="auth-passport-hero"',
-  '参拝証の発行画面に独立した参拝証ヒーローがありません。'
+  '参拝証の発行画面に共通紙面の導入ヘッダーがありません。'
 );
 requireText(
-  'class="auth-pilgrimage-layout"',
-  '参拝証の発行画面に道程と操作面を分ける新しい構造がありません。'
+  'class="auth-passport-mark"',
+  '参拝証の発行画面に共通紙面に合わせた会員印がありません。'
+);
+requireText(
+  'class="auth-pilgrimage-stack"',
+  '参拝証の発行画面に一体型の発行フロー構造がありません。'
+);
+requireText(
+  'class="auth-journey-intro"',
+  '参拝証の発行画面に横方向の道程案内見出しがありません。'
 );
 requireText(
   'class="auth-journey-panel"',
   '参拝証の発行画面に現在位置を示す道程パネルがありません。'
+);
+assert.equal(
+  authSection.includes('auth-passport-seal'),
+  false,
+  '参拝証の発行画面に独立した旧印章構造が残っています。'
+);
+assert.equal(
+  authSection.includes('<aside class="auth-journey-panel"'),
+  false,
+  '参拝証の発行画面に固定サイドバーの旧構造が残っています。'
 );
 requireText(
   'data-auth-stage="choice"',
@@ -146,6 +169,17 @@ requireText(
   'auth-flow-shell',
   '認証画面の統一サーフェス用スタイルがありません。'
 );
+[
+  '/* Ver.4.0: 参拝証の発行 — 共通紙面への統一',
+  '.auth-passport-mark {',
+  '.auth-pilgrimage-stack { display: grid; gap: 1rem; }',
+  '.auth-journey-panel { position: static; display: grid; grid-template-columns:',
+  '.auth-journey-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }',
+  '.auth-workbench { min-height: 0;',
+  '@media (max-width: 760px) {',
+].forEach((text) => {
+  requireText(text, `参拝証の共通紙面・横方向の道程・レスポンシブ契約が失われています: ${text}`);
+});
 requireText(
   'auth-google-button',
   'Googleログイン用の公式ブランド対応スタイルがありません。'
@@ -176,5 +210,7 @@ console.log(JSON.stringify({
   focusReturn: true,
   guestStorageDisclosureAligned: true,
   pilgrimageTemplate: true,
+  sharedPaperLayout: true,
+  horizontalJourneyPresent: true,
   stageSynchronization: true,
 }, null, 2));

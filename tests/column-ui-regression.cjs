@@ -52,8 +52,10 @@ requireColumnSectionText('id="column-pagination" class="column-library-paginatio
   "openArticle('column', ${item.id})",
   "createPaginationHTML('column', currentPage, totalPages, \"changePage('column', {P})\")",
   'class="column-library-card"',
+  'class="column-library-card-surface"',
   'class="column-library-card-open"',
   'aria-labelledby="${articleTitleId}"',
+  'aria-label="${item.title}を読む"',
   'container.setAttribute(\'aria-busy\', \'true\')',
   'container.setAttribute(\'aria-busy\', \'false\')',
 ].forEach((text) => {
@@ -92,6 +94,11 @@ assert.equal(
   '神籤草子一覧に置換前のBentoカード構造が残っています。'
 );
 assert.equal(
+  columnRenderer.includes('class="column-library-card-open" onclick="openArticle(\'column\','),
+  false,
+  '神籤草子カード内にフッターだけを操作面とする旧ボタンが残っています。'
+);
+assert.equal(
   columnRenderer.includes('\\${'),
   false,
   '神籤草子描画関数に文字どおりの補間エスケープが残っています。'
@@ -102,6 +109,7 @@ assert.equal(
   '.column-reader-layout {',
   '.column-library-list {',
   '.column-library-card {',
+  '.column-library-card-surface:focus-visible {',
   '.column-reader-document {',
   '.column-reader-summary {',
   '.column-reader-body .article-content .article-toc-unified {',
@@ -128,6 +136,7 @@ console.log(JSON.stringify({
   searchContractPreserved: true,
   paginationContractPreserved: true,
   articleTransitionContractPreserved: true,
+  fullCardArticleTransitionPresent: true,
   summaryContractPreserved: true,
   tocAndReadingContractPreserved: true,
   imageContractPreserved: true,
