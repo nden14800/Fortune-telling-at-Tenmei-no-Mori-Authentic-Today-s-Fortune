@@ -9859,6 +9859,83 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     .developer-study-portrait-zone { min-width: 128px !important; }
     .developer-study-portrait-ring { width: 128px !important; height: 128px !important; }
 
+    /* Ver.4.0: TENMEI Labs — ヒーローは二重線、下層は通常カードとして共通階層へ統一する。 */
+    #view-lab.labs-observatory-layout {
+        width: min(100% - 32px, 960px) !important;
+        max-width: 960px !important;
+        margin: 0 auto !important;
+        padding-bottom: 48px !important;
+        --labs-paper-soft: #f4f1ff;
+        --labs-ink: #292338;
+        --labs-muted: #716a80;
+        --labs-accent: #5d46b3;
+        --labs-line: rgba(93, 70, 179, 0.20);
+        --labs-inner-line: rgba(93, 70, 179, 0.14);
+    }
+    .labs-observatory-hero {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: clamp(24px, 5vw, 52px);
+        min-height: 258px;
+        margin: 0 0 20px;
+        padding: clamp(28px, 5vw, 48px);
+        overflow: hidden;
+        border: 1px solid var(--labs-line);
+        border-radius: 28px;
+        background: radial-gradient(circle at 91% 16%, rgba(113, 83, 194, 0.15), transparent 25%), radial-gradient(circle at 7% 100%, rgba(197, 160, 89, 0.12), transparent 33%), linear-gradient(135deg, #fcfbff 0%, #f4f0ff 58%, #f8f7ff 100%);
+        box-shadow: 0 20px 46px rgba(62, 46, 104, 0.09);
+    }
+    .labs-observatory-hero::before { position: absolute; inset: 12px; border: 1px solid var(--labs-inner-line); border-radius: 20px; content: ''; pointer-events: none; }
+    .labs-observatory-hero::after { position: absolute; top: -102px; right: -78px; width: 252px; height: 252px; border: 1px solid rgba(93, 70, 179, 0.14); border-radius: 50%; box-shadow: 0 0 0 20px rgba(93, 70, 179, 0.055), 0 0 0 46px rgba(197, 160, 89, 0.045); content: ''; pointer-events: none; }
+    .labs-hero-copy { position: relative; z-index: 1; min-width: 0; }
+    .labs-hero-kicker, .labs-panel-kicker { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; color: var(--labs-accent); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.16em; line-height: 1.4; }
+    .labs-observatory-title { margin: 0; color: var(--labs-ink); font-family: 'Zen Old Mincho', serif; font-size: clamp(2rem, 4.1vw, 3rem); font-weight: 900; letter-spacing: 0.035em; line-height: 1.2; }
+    .labs-observatory-summary { max-width: 43rem; margin: 15px 0 0; color: var(--labs-muted); font-family: 'Shippori Mincho', serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.04em; line-height: 1.9; }
+    .labs-hero-meta { display: flex; flex-wrap: wrap; gap: 10px 16px; margin: 18px 0 0; color: var(--labs-accent); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; }
+    .labs-hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+    .labs-observatory-disclaimer { margin: 14px 0 0; color: var(--labs-muted); font-size: 0.69rem; line-height: 1.6; }
+    .labs-observatory-mark[data-ver4-hero-emblem] { border: 1px solid color-mix(in srgb, var(--labs-accent) 44%, var(--card-border)) !important; color: var(--labs-accent) !important; background: color-mix(in srgb, var(--card-bg) 86%, #fff 14%) !important; box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--labs-accent) 8%, transparent), 0 14px 25px rgba(62, 46, 104, 0.09) !important; }
+    .labs-observatory-mark[data-ver4-hero-emblem] > i { color: var(--labs-accent) !important; }
+    .labs-observatory-mark[data-ver4-hero-emblem] > span { color: var(--labs-muted) !important; }
+    .labs-content-stack { display: grid; gap: 16px; }
+    .labs-control-panel, .labs-experiment-card { position: relative; overflow: hidden; border: 1px solid var(--card-border) !important; border-radius: 24px !important; background: var(--card-bg) !important; box-shadow: 0 12px 28px rgba(38, 23, 16, 0.06) !important; }
+    .labs-control-panel { padding: clamp(20px, 3.5vw, 30px); }
+    .labs-panel-heading { display: flex; align-items: flex-start; gap: 14px; }
+    .labs-panel-icon, .labs-experiment-card .lab-icon-box { display: grid !important; width: 46px !important; min-width: 46px; height: 46px !important; place-items: center; border: 1px solid var(--card-border); border-radius: 50% !important; box-shadow: none !important; font-size: 1.1rem !important; }
+    .labs-panel-icon { color: var(--labs-accent); background: color-mix(in srgb, var(--labs-accent) 8%, var(--input-bg)); }
+    .labs-control-panel h3 { margin: 0; color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 900; letter-spacing: 0.045em; line-height: 1.35; }
+    .labs-control-panel h3 + p { margin: 6px 0 0; color: var(--text-sub); font-size: 0.76rem; line-height: 1.7; }
+    .labs-control-note { display: flex; align-items: center; gap: 7px; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--card-border); color: var(--text-sub); font-size: 0.72rem; line-height: 1.6; }
+    .labs-control-note i { color: var(--labs-accent); }
+    #view-lab .lab-grid-container { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; position: relative; z-index: 1; }
+    #view-lab .labs-experiment-card { display: flex; min-height: 224px; padding: 22px; flex: initial; flex-direction: column; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+    #view-lab .labs-experiment-card:hover { transform: translateY(-2px) !important; border-color: color-mix(in srgb, var(--labs-accent) 34%, var(--card-border)) !important; background: var(--card-bg) !important; box-shadow: 0 16px 30px rgba(62, 46, 104, 0.12) !important; }
+    #view-lab .labs-experiment-card:focus-within { border-color: color-mix(in srgb, var(--labs-accent) 46%, var(--card-border)) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--labs-accent) 13%, transparent), 0 16px 30px rgba(62, 46, 104, 0.10) !important; }
+    #view-lab .lab-card-header { align-items: center; margin: 0 0 18px; }
+    #view-lab .labs-experiment-card .lab-card-body h3 { margin: 0; color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: 1.18rem; font-weight: 900; line-height: 1.4; }
+    #view-lab .lab-card-desc { margin: 8px 0 0; color: var(--text-sub); font-size: 0.76rem; line-height: 1.7; opacity: 1; }
+    #view-lab .lab-badge { display: inline-flex; align-items: center; margin-left: 7px; padding: 3px 8px; border: 1px solid var(--card-border); border-radius: 999px; background: var(--input-bg); color: var(--labs-accent); font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em; vertical-align: middle; }
+    #view-lab .lab-card-footer { display: flex; justify-content: flex-end; gap: 6px; margin-top: auto; padding: 14px 0 0; border-top: 1px solid var(--card-border); color: var(--labs-muted) !important; font-size: 0.7rem; font-weight: 700; opacity: 1; }
+    #view-lab .labs-experiment-card:hover .lab-card-footer { color: var(--labs-accent) !important; }
+    #view-lab .labs-accent-mist .lab-icon-box { color: #5f6874; background: color-mix(in srgb, #5f6874 10%, var(--input-bg)) !important; }
+    #view-lab .labs-accent-gold .lab-icon-box { color: #a97919; background: color-mix(in srgb, #a97919 10%, var(--input-bg)) !important; }
+    #view-lab .labs-accent-newyear .lab-icon-box { color: var(--accent-red); background: color-mix(in srgb, var(--accent-red) 9%, var(--input-bg)) !important; }
+    #view-lab .labs-accent-secret .lab-icon-box { color: #7650b8; background: color-mix(in srgb, #7650b8 10%, var(--input-bg)) !important; }
+    #view-lab .labs-accent-maintenance .lab-icon-box { color: #a97a1b; background: color-mix(in srgb, #a97a1b 10%, var(--input-bg)) !important; }
+    #view-lab .labs-experiment-card .lab-switch-wrapper > button { width: 46px !important; height: 32px !important; padding: 4px !important; border: 1px solid var(--card-border); background: var(--input-bg) !important; color: var(--labs-accent) !important; }
+    #view-lab .labs-experiment-card .lab-switch-wrapper > button i { color: inherit !important; }
+    #view-lab .lab-secret-input { min-height: 40px; border: 1px solid var(--card-border) !important; border-radius: 12px !important; background: var(--input-bg) !important; color: var(--text-main) !important; font: inherit; padding: 0 12px; }
+    #view-lab .labs-accent-secret button[onclick*="_trySecretWord"] { min-height: 40px; border: 1px solid color-mix(in srgb, #7650b8 36%, var(--card-border)) !important; border-radius: 12px !important; background: color-mix(in srgb, #7650b8 10%, var(--input-bg)) !important; color: #7650b8 !important; font-size: 0.76rem !important; font-weight: 800; }
+    #view-lab .lab-lock-card { border-top: 3px solid var(--labs-accent) !important; border-color: color-mix(in srgb, var(--labs-accent) 25%, var(--card-border)) !important; border-radius: 24px !important; background: linear-gradient(145deg, color-mix(in srgb, var(--card-bg) 98%, #fff 2%), color-mix(in srgb, var(--labs-paper-soft) 72%, var(--card-bg))) !important; box-shadow: 0 24px 64px rgba(62, 46, 104, 0.20) !important; }
+    html.dark #view-lab.labs-observatory-layout { --labs-paper-soft: #251f34; --labs-ink: #f3efff; --labs-muted: #cbc2dc; --labs-accent: #b7a6ff; --labs-line: rgba(183, 166, 255, 0.25); --labs-inner-line: rgba(183, 166, 255, 0.18); }
+    html.dark .labs-observatory-hero { border-color: var(--labs-line); background: radial-gradient(circle at 91% 16%, rgba(113, 83, 194, 0.25), transparent 25%), radial-gradient(circle at 7% 100%, rgba(197, 160, 89, 0.13), transparent 33%), linear-gradient(135deg, #1b1826 0%, #221d31 58%, #17141f 100%); }
+    html.dark .labs-observatory-title { color: var(--labs-ink); }
+    html.dark .labs-observatory-summary, html.dark .labs-observatory-disclaimer { color: var(--labs-muted); }
+    html.dark #view-lab .labs-control-panel, html.dark #view-lab .labs-experiment-card { box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26) !important; }
+    html.dark #view-lab .lab-lock-card { background: linear-gradient(145deg, #211c2d, #18151f) !important; }
+
     @media (max-width: 768px) {
         .prefecture-observatory-hero,
         .history-ledger-hero { grid-template-columns: 1fr; padding: 24px 20px !important; }
@@ -11830,58 +11907,46 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     </div>
         
         <!-- ビュー: TENMEI Labs -->
-        <section id="view-lab" class="view-section max-w-4xl mx-auto relative pb-20">
+        <section id="view-lab" class="view-section labs-observatory-layout relative pb-20">
 
-            <!-- ヘッダー Hero カード -->
-            <div class="bento-card mb-6 relative overflow-hidden bg-gradient-to-br from-indigo-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
-                <!-- 装飾グロー -->
-                <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #6366f1 0%, transparent 70%);"></div>
-                <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #a855f7 0%, transparent 70%);"></div>
-
-                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div class="flex-1">
-                        <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">EXPERIMENTAL FEATURES</p>
-                        <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                            <span class="text-4xl text-indigo-400"><i class="bi bi-flask-fill"></i></span>
-                            <span class="text-white">TENMEI Labs</span>
-                        </h2>
-                        <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">
-                            開発中の実験的な機能を先行体験できる実験室です。<br>
-                            スイッチをONにして、新しい参拝の形を探求しましょう。
-                        </p>
+            <!-- Ver.4.0: TENMEI Labs 共通ヒーロー -->
+            <header class="labs-observatory-hero">
+                <div class="labs-hero-copy">
+                    <p class="labs-hero-kicker"><i class="bi bi-flask-fill" aria-hidden="true"></i> EXPERIMENTAL SANCTUARY</p>
+                    <h2 class="labs-observatory-title">TENMEI Labs</h2>
+                    <p class="labs-observatory-summary">開発中の実験的な機能を、参拝の流れを損なわない形で先行体験できる実験室です。<br>望む装いを選び、新しい参拝のかたちを静かに確かめてください。</p>
+                    <div class="labs-hero-meta" aria-label="TENMEI Labs の案内">
+                        <span><i class="bi bi-patch-check-fill" aria-hidden="true"></i> 参拝証会員限定</span>
+                        <span><i class="bi bi-sliders2" aria-hidden="true"></i> 5つの試験機能</span>
                     </div>
-                    <div class="flex-shrink-0 text-center flex flex-col items-center gap-2">
-                        <div class="w-20 h-20 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #4338ca, #6d28d9); box-shadow: 0 0 24px rgba(99,102,241,0.3);">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="52" viewBox="0 0 303.278 480.459">
-                                <g fill="white">
-                                    <path d="M137.24,18.519 C132.134,18.519 127.98,14.365 127.98,9.26 C127.98,4.154 132.134,0 137.24,0 C142.346,0 146.5,4.154 146.5,9.26 C146.5,14.365 142.346,18.519 137.24,18.519"/>
-                                    <path d="M172.638,43.444 C165.885,43.444 160.392,37.949 160.392,31.197 C160.392,24.445 165.885,18.95 172.638,18.95 C179.39,18.95 184.884,24.445 184.884,31.197 C184.884,37.949 179.39,43.444 172.638,43.444"/>
-                                    <path d="M146.763,57.931 C143.238,57.931 140.372,55.065 140.372,51.541 C140.372,48.016 143.238,45.15 146.763,45.15 C150.287,45.15 153.154,48.016 153.154,51.541 C153.154,55.065 150.287,57.931 146.763,57.931"/>
-                                    <path d="M82.492,89.847 C82.492,76.718 91.546,66.036 104.016,63.306 C106.053,62.842 108.421,62.597 110.623,62.597 L192.887,62.597 C208.53,62.597 220.783,74.566 220.783,89.847 C220.783,100.556 214.745,109.646 205.74,114.086 C204.669,114.631 203.408,115.131 202.255,115.535 C201.129,115.93 199.928,116.395 198.735,116.645 C198.192,116.776 197.644,116.895 197.089,117.001 C196.089,120.532 194.49,129.173 193.959,149.217 C193.553,164.515 194,178.615 194.005,178.773 L194.014,178.993 L194.011,179.214 C194.005,179.728 193.667,221.122 209.606,248.869 C259.301,335.374 282.775,380.992 293.758,405.595 C303.138,426.621 303.233,431.959 303.263,434.959 L303.269,435.63 C303.28,436.739 303.28,437.837 303.271,438.933 C303.269,439.155 303.266,439.404 303.263,439.626 C303.139,449.506 302.085,460.027 292.995,468.039 C283.254,476.625 265.84,480.459 236.59,480.459 L66.81,480.459 C65.74,480.459 64.563,480.453 63.526,480.442 C36.175,480.172 19.666,476.31 10.282,468.04 C1.199,460.033 0.139,449.524 0.014,439.65 C0.011,439.423 0.009,439.171 0.007,438.946 C-0.002,437.845 -0.002,436.744 0.008,435.631 L0.013,434.962 C0.043,431.959 0.136,426.614 9.547,405.529 C20.543,380.911 44.02,335.296 93.67,248.869 C109.69,220.984 109.272,179.62 109.266,179.206 L109.263,178.987 L109.269,178.766 C109.277,178.561 109.721,164.487 109.316,149.217 C108.784,129.148 107.182,120.505 106.18,116.98 C105.81,116.91 105.442,116.834 105.078,116.752 C103.855,116.521 102.622,116.071 101.469,115.688 C100.279,115.294 98.984,114.802 97.881,114.259 C88.684,109.879 82.492,100.693 82.492,89.847 z M100.785,89.847 C100.785,94.829 104.761,98.607 110.055,98.707 C113.251,98.769 116.321,100.105 118.728,102.45 C119.694,103.392 120.656,104.583 121.56,106.291 C124.374,111.652 126.786,122.128 127.548,146.838 C128.035,162.595 127.62,177.178 127.56,179.159 C127.56,179.215 127.56,179.288 127.561,179.36 C127.589,184.096 127.327,223.785 111.523,254.322 C110.862,255.601 110.17,256.87 109.45,258.125 C101.146,272.581 79.877,309.609 59.782,346.845 C58.834,348.6 57.889,350.356 56.949,352.111 C30.383,401.64 21.659,422.545 19.264,430.669 C19.186,430.926 19.112,431.2 19.045,431.431 C18.449,433.537 18.301,434.68 18.292,435.293 L18.292,435.964 C18.294,445.621 18.496,450.895 22.378,454.316 C28.285,459.523 43.125,462.157 66.579,462.166 L236.695,462.166 C260.15,462.157 274.991,459.523 280.898,454.316 C284.779,450.897 284.982,445.624 284.984,435.97 L284.984,435.292 C284.973,434.662 284.818,433.474 284.181,431.256 C284.116,431.039 284.047,430.78 283.972,430.541 C281.531,422.34 272.762,401.399 246.336,352.129 C245.31,350.213 244.278,348.297 243.244,346.382 C223.239,309.334 202.124,272.569 193.846,258.16 C192.956,256.61 192.111,255.04 191.311,253.455 C175.714,222.587 175.683,182.887 175.716,179.168 C175.715,179.112 175.713,179.036 175.71,178.96 C175.632,176.354 175.254,162.15 175.727,146.838 C176.502,121.723 178.981,111.306 181.858,106.023 C182.715,104.461 183.622,103.344 184.534,102.451 C184.628,102.358 184.723,102.267 184.82,102.178 C187.184,99.999 190.15,98.768 193.225,98.705 C198.517,98.604 202.492,94.827 202.492,89.847 C202.492,84.746 198.357,80.89 192.888,80.89 L117.397,80.89 C117.289,80.89 110.182,80.916 110.096,80.963 C104.779,81.059 100.786,84.849 100.786,89.847"/>
-                                    <path d="M168.518,102.377 C165.041,102.377 162.213,99.549 162.213,96.072 C162.213,92.595 165.041,89.767 168.518,89.767 C171.995,89.767 174.823,92.595 174.823,96.072 C174.823,99.549 171.995,102.377 168.518,102.377"/>
-                                    <path d="M142.45,125.609 C138.915,125.609 136.038,122.733 136.038,119.197 C136.038,115.661 138.915,112.785 142.45,112.785 C145.986,112.785 148.862,115.661 148.862,119.197 C148.862,122.733 145.986,125.609 142.45,125.609"/>
-                                    <path d="M159.888,162.061 C155.212,162.061 151.407,158.257 151.407,153.58 C151.407,148.904 155.212,145.1 159.888,145.1 C164.564,145.1 168.369,148.904 168.369,153.58 C168.369,158.257 164.564,162.061 159.888,162.061"/>
-                                    <path d="M146.763,220.426 C140.779,220.426 135.91,215.557 135.91,209.572 C135.91,203.587 140.779,198.718 146.763,198.718 C152.747,198.718 157.617,203.587 157.617,209.572 C157.617,215.557 152.747,220.426 146.763,220.426"/>
-                                    <path d="M168.518,260.604 C164.158,260.604 160.611,257.056 160.611,252.697 C160.611,248.337 164.158,244.789 168.518,244.789 C172.878,244.789 176.425,248.337 176.425,252.697 C176.425,257.056 172.878,260.604 168.518,260.604"/>
-                                    <path d="M133.638,297.733 C127.76,297.733 122.977,292.951 122.977,287.072 C122.977,281.194 127.76,276.412 133.638,276.412 C139.515,276.412 144.298,281.194 144.298,287.072 C144.298,292.951 139.515,297.733 133.638,297.733"/>
-                                    <path d="M85.245,318.126 C86.159,317.255 90.937,314.164 95.434,313.083 C96.488,312.83 97.547,312.697 98.557,312.721 C100.65,312.77 102.877,313.588 105.325,314.764 C109.807,316.913 115.076,320.248 121.778,322.162 C123.681,322.707 125.979,322.859 128.564,322.72 C137.558,322.242 149.929,318.235 160.398,315.152 C163.556,314.222 166.54,313.377 169.205,312.739 C170.522,312.423 171.961,312.217 173.49,312.109 C175.185,311.989 177.024,311.992 178.966,312.098 C192.834,312.871 211.335,318.808 218.499,320.941 C218.99,321.087 219.426,321.215 219.805,321.322 C262.591,398.661 274.155,426.885 276.064,434.014 C276.598,436.008 276.482,439.582 276.39,441.965 C276.381,442.155 276.376,442.34 276.37,442.52 C276.281,444.734 275.32,446.875 273.809,448.32 C273.713,448.406 273.614,448.516 273.513,448.597 C272.775,449.259 271.88,449.784 270.879,450.104 C261.414,453.136 247.077,453.661 236.588,453.661 L66.688,453.661 C56.222,453.661 41.866,453.138 32.398,450.105 C31.405,449.787 30.519,449.265 29.783,448.612 C28.088,447.106 26.994,444.789 26.912,442.461 C26.754,437.896 26.79,435.565 27.21,433.975 C29.343,426.028 36.422,405.436 85.245,318.125"/>
-                                </g>
-                            </svg>
-                        </div>
-                        <p class="text-xs text-zinc-500 font-bold tracking-widest">天命実験室</p>
-                    </div>
+                    <p class="labs-observatory-disclaimer">※ 実験機能は仕様が変更・終了となる場合があります。設定はいつでも見直せます。</p>
                 </div>
-            </div>
+                <div class="labs-observatory-mark" data-ver4-hero-emblem aria-hidden="true">
+                    <i class="bi bi-flask-fill"></i>
+                    <span>LABS<br>RECORD</span>
+                </div>
+            </header>
 
             <!-- コンテンツ＋ロック画面ラッパー (position:relative で lab-lock の基準点) -->
             <div class="relative">
 
                 <!-- ▼▼▼ ぼかし対象ラッパー ▼▼▼ -->
-                <div id="lab-content-wrapper">
+                    <div id="lab-content-wrapper" class="labs-content-stack">
+                    <section class="labs-control-panel" aria-labelledby="labs-control-heading">
+                        <div class="labs-panel-heading">
+                            <div class="labs-panel-icon" aria-hidden="true"><i class="bi bi-sliders2"></i></div>
+                            <div>
+                                <p class="labs-panel-kicker">EXPERIMENT CONTROL</p>
+                                <h3 id="labs-control-heading">実験の装いを選ぶ</h3>
+                                <p>各カードを開くと詳細設定を確認できます。右上のスイッチで、必要な機能だけを有効にできます。</p>
+                            </div>
+                        </div>
+                        <p class="labs-control-note"><i class="bi bi-info-circle" aria-hidden="true"></i> 変更はこの端末の設定として保存され、いつでも切り替えられます。</p>
+                    </section>
                     <div id="lab-container" class="lab-grid-container">
 
                         <!-- 2. 幽玄の霧 (Exp) -->
-                        <div class="lab-glass-card" onclick="TenmeiLab.openModal('mist')">
+                        <div class="lab-glass-card labs-experiment-card labs-accent-mist" onclick="TenmeiLab.openModal('mist')">
                             <div class="lab-card-header">
                                 <div class="lab-icon-box icon-bg-gray"><i class="bi bi-cloud-haze2-fill"></i></div>
                                 <div class="lab-switch-wrapper" onclick="event.stopPropagation()">
@@ -11899,7 +11964,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
 
                         <!-- 3. 黄金の神域 (Exp) -->
-                        <div class="lab-glass-card" onclick="TenmeiLab.openModal('gold')">
+                        <div class="lab-glass-card labs-experiment-card labs-accent-gold" onclick="TenmeiLab.openModal('gold')">
                             <div class="lab-card-header">
                                 <div class="lab-icon-box icon-bg-gold"><i class="bi bi-stars"></i></div>
                                 <div class="lab-switch-wrapper" onclick="event.stopPropagation()">
@@ -11917,7 +11982,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
 
                         <!-- 4. 迎春・雅モード (Exp) -->
-                        <div class="lab-glass-card" onclick="TenmeiLab.openModal('newyear')">
+                        <div class="lab-glass-card labs-experiment-card labs-accent-newyear" onclick="TenmeiLab.openModal('newyear')">
                             <div class="lab-card-header">
                                 <div class="lab-icon-box icon-bg-red"><i class="bi bi-flower1"></i></div>
                                 <div class="lab-switch-wrapper" onclick="event.stopPropagation()">
@@ -11935,7 +12000,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
 
                         <!-- 5. 合言葉入力 -->
-                        <div class="lab-glass-card" onclick="void 0" style="border-color: rgba(168, 85, 247, 0.35);">
+                        <div class="lab-glass-card labs-experiment-card labs-accent-secret" onclick="void 0">
                             <div class="lab-card-header">
                                 <div class="lab-icon-box icon-bg-purple"><i class="bi bi-key-fill"></i></div>
                                 <div class="lab-switch-wrapper">
@@ -11963,7 +12028,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         </div>
 
                         <!-- 6. メンテナンス訓練 (Dev) -->
-                        <div class="lab-glass-card" onclick="if(LabAuth.isVerified()) { checkMaintenance(true); } else { showToast('会員限定機能です', 'warning'); }" style="border-color: rgba(239, 68, 68, 0.4);">
+                        <div class="lab-glass-card labs-experiment-card labs-accent-maintenance" onclick="if(LabAuth.isVerified()) { checkMaintenance(true); } else { showToast('会員限定機能です', 'warning'); }">
                             <div class="lab-card-header">
                                 <div class="lab-icon-box bg-black text-yellow-500"><i class="bi bi-cone-striped"></i></div>
                                 <div class="lab-switch-wrapper">
