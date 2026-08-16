@@ -10058,100 +10058,239 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
     <!-- チュートリアル ウォークスルー CSS -->
     <style>
-    /* ── ウォークスルー オーバーレイ ── */
+    /* Ver.4.0: ウォークスルー — 既存の案内機能を、共通紙面・丸形印章・統一操作面へ再構成する。 */
     #tutorial-overlay {
-        position: fixed; inset: 0; z-index: 99999;
-        background: rgba(0,0,0,0.88);
-        display: flex; align-items: center; justify-content: center;
-        padding: 1rem;
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 24px;
+        overflow-y: auto;
+        background: rgba(34, 25, 22, 0.62);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.4s;
+        transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1);
     }
     #tutorial-overlay.active {
         opacity: 1;
         pointer-events: all;
     }
     .tutorial-card {
-        background: linear-gradient(145deg, #111 0%, #1a1208 100%);
-        border: 1px solid rgba(212,175,55,0.25);
-        border-top: 2px solid var(--accent-gold);
-        border-radius: 20px;
-        padding: 2.5rem 2rem 2rem;
-        max-width: 460px;
-        width: 100%;
+        --tutorial-accent: #a52d36;
+        --tutorial-gold: #a97a1b;
         position: relative;
-        text-align: center;
-        box-shadow: 0 0 60px rgba(212,175,55,0.1), 0 32px 64px rgba(0,0,0,0.8);
+        width: min(100%, 600px);
+        box-sizing: border-box;
+        overflow: hidden;
+        padding: clamp(24px, 5vw, 38px);
+        border: 1px solid var(--card-border);
+        border-radius: 28px;
+        background: linear-gradient(145deg, color-mix(in srgb, var(--card-bg) 98%, #fff 2%), color-mix(in srgb, #fff6f2 68%, var(--card-bg)));
+        color: var(--text-main);
+        box-shadow: 0 28px 72px rgba(38, 23, 16, 0.24);
+        isolation: isolate;
     }
-    .tutorial-slide { display: none; }
+    .tutorial-card::after {
+        position: absolute;
+        top: -112px;
+        right: -92px;
+        z-index: -1;
+        width: 236px;
+        height: 236px;
+        border: 1px solid color-mix(in srgb, var(--tutorial-gold) 22%, transparent);
+        border-radius: 50%;
+        box-shadow: 0 0 0 22px color-mix(in srgb, var(--tutorial-accent) 4%, transparent), 0 0 0 48px color-mix(in srgb, var(--tutorial-gold) 3%, transparent);
+        content: '';
+        pointer-events: none;
+    }
+    .tutorial-progress-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 0 0 22px;
+        padding: 0 0 16px;
+        border-bottom: 1px solid var(--card-border);
+    }
+    .tutorial-progress-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--tutorial-accent);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        line-height: 1.4;
+    }
+    .tutorial-progress-value {
+        color: var(--text-sub);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+    }
+    .tutorial-slide {
+        display: none;
+        min-height: 224px;
+        text-align: center;
+    }
     .tutorial-slide.active { display: block; }
+    .tutorial-visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
     .tutorial-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        display: block;
+        display: grid;
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 16px;
+        place-items: center;
+        border: 1px solid color-mix(in srgb, var(--tutorial-accent) 42%, var(--card-border));
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--tutorial-accent) 8%, var(--input-bg));
+        box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--tutorial-accent) 7%, transparent), 0 12px 24px rgba(104, 46, 51, 0.09);
+        color: var(--tutorial-accent);
+        font-size: 1.85rem;
+        line-height: 1;
+    }
+    .tutorial-gold-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0 0 8px;
+        color: var(--tutorial-gold);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.66rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        line-height: 1.4;
     }
     .tutorial-title {
+        margin: 0;
+        color: var(--text-main);
         font-family: 'Zen Old Mincho', serif;
-        font-size: 1.4rem;
+        font-size: clamp(1.45rem, 3.6vw, 1.9rem);
         font-weight: 900;
-        margin-bottom: 0.75rem;
-        color: #fff;
+        letter-spacing: 0.045em;
+        line-height: 1.4;
     }
     .tutorial-desc {
-        font-size: 0.9rem;
-        line-height: 1.7;
-        color: rgba(255,255,255,0.7);
-        margin-bottom: 1.5rem;
+        max-width: 29rem;
+        margin: 14px auto 0;
+        color: var(--text-sub);
+        font-size: 0.92rem;
+        line-height: 1.8;
     }
     .tutorial-dots {
-        display: flex; justify-content: center; gap: 6px;
-        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 22px 0;
     }
     .tutorial-dot {
-        width: 8px; height: 8px; border-radius: 50%;
-        background: rgba(255,255,255,0.2);
-        transition: all 0.3s;
+        width: 12px;
+        height: 12px;
+        padding: 0;
+        border: 1px solid var(--card-border);
+        border-radius: 50%;
+        background: var(--input-bg);
         cursor: pointer;
+        transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1);
     }
+    .tutorial-dot:hover { transform: scale(1.12); border-color: color-mix(in srgb, var(--tutorial-accent) 48%, var(--card-border)); }
     .tutorial-dot.active {
-        width: 24px; border-radius: 4px;
-        background: var(--accent-gold);
+        width: 28px;
+        border-radius: 999px;
+        border-color: color-mix(in srgb, var(--tutorial-accent) 56%, transparent);
+        background: var(--tutorial-accent);
     }
     .tutorial-btn-row {
-        display: flex; gap: 10px; justify-content: center;
+        display: grid;
+        grid-template-columns: auto auto minmax(0, 1fr);
+        gap: 10px;
+        align-items: center;
+    }
+    .tutorial-btn-previous,
+    .tutorial-btn-skip,
+    .tutorial-btn-next {
+        display: inline-flex;
+        min-height: 48px;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 16px;
+        border-radius: 14px;
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.88rem;
+        font-weight: 800;
+        line-height: 1;
+        transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .tutorial-btn-previous {
+        border: 1px solid var(--card-border);
+        background: var(--input-bg);
+        color: var(--text-main);
     }
     .tutorial-btn-skip {
-        background: none; border: none;
-        color: rgba(255,255,255,0.4);
-        font-size: 0.8rem; cursor: pointer;
-        padding: 10px 16px;
-        transition: color 0.2s;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text-sub);
     }
-    .tutorial-btn-skip:hover { color: rgba(255,255,255,0.7); }
     .tutorial-btn-next {
-        background: linear-gradient(135deg, #b91c1c, #7f1d1d);
-        border: 1px solid rgba(212,175,55,0.3);
+        border: 1px solid color-mix(in srgb, var(--tutorial-accent) 68%, transparent);
+        background: linear-gradient(135deg, #b7353e, #8e222c);
         color: #fff;
-        font-weight: 900;
-        font-size: 0.9rem;
-        padding: 12px 32px;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.2s;
-        box-shadow: 0 4px 16px rgba(185,28,28,0.3);
+        box-shadow: 0 10px 20px rgba(165, 45, 54, 0.16);
     }
-    .tutorial-btn-next:hover { transform: translateY(-1px); filter: brightness(1.1); }
-    .tutorial-gold-label {
-        display: inline-block;
-        color: var(--accent-gold);
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        margin-bottom: 0.5rem;
+    .tutorial-btn-previous:hover:not(:disabled),
+    .tutorial-btn-skip:hover { background: color-mix(in srgb, var(--tutorial-accent) 7%, var(--input-bg)); color: var(--tutorial-accent); }
+    .tutorial-btn-next:hover { transform: translateY(-1px); box-shadow: 0 14px 24px rgba(165, 45, 54, 0.22); }
+    .tutorial-btn-previous:active:not(:disabled),
+    .tutorial-btn-skip:active,
+    .tutorial-btn-next:active { transform: scale(0.97); }
+    .tutorial-btn-previous:disabled { cursor: not-allowed; opacity: 0.42; }
+    #tutorial-overlay button:focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--tutorial-accent) 42%, #fff);
+        outline-offset: 3px;
+    }
+    html.dark #tutorial-overlay { background: rgba(4, 4, 5, 0.74); }
+    html.dark .tutorial-card {
+        --tutorial-accent: #ffadb8;
+        --tutorial-gold: #e4ba64;
+        background: linear-gradient(145deg, #25191d, #171215);
+        box-shadow: 0 28px 72px rgba(0, 0, 0, 0.46);
+    }
+    html.dark .tutorial-icon { background: color-mix(in srgb, var(--tutorial-accent) 11%, var(--input-bg)); }
+    @media (max-width: 560px) {
+        #tutorial-overlay { align-items: flex-start; padding: 16px; }
+        .tutorial-card { margin: auto 0; padding: 24px 20px; border-radius: 24px; }
+        .tutorial-progress-row { margin-bottom: 18px; padding-bottom: 14px; }
+        .tutorial-slide { min-height: 238px; }
+        .tutorial-icon { width: 64px; height: 64px; font-size: 1.6rem; }
+        .tutorial-desc { font-size: 0.86rem; }
+        .tutorial-btn-row { grid-template-columns: 1fr 1fr; }
+        .tutorial-btn-next { grid-column: 1 / -1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        #tutorial-overlay,
+        .tutorial-dot,
+        .tutorial-btn-previous,
+        .tutorial-btn-skip,
+        .tutorial-btn-next { transition: none !important; }
     }
 
     /* ==========================================
@@ -29343,80 +29482,82 @@ window.applyTheme = function() {
 })();
 </script>
 
-<!-- ── チュートリアル ウォークスルー ── -->
-<div id="tutorial-overlay">
-    <div class="tutorial-card">
+<!-- ── チュートリアル ウォークスルー（Ver.4.0 参拝案内帳） ── -->
+<div id="tutorial-overlay" role="dialog" aria-modal="true" aria-label="天命乃杜の簡単な案内" aria-hidden="true">
+    <section class="tutorial-card" role="document">
+        <div class="tutorial-progress-row">
+            <p class="tutorial-progress-kicker"><i class="bi bi-compass" aria-hidden="true"></i> PILGRIMAGE GUIDE</p>
+            <p id="tutorial-progress-value" class="tutorial-progress-value" aria-live="polite">01 / 05</p>
+        </div>
 
         <!-- スライド 1: ようこそ -->
-        <div class="tutorial-slide active">
-            <span class="tutorial-icon">⛩️</span>
-            <span class="tutorial-gold-label">Welcome</span>
+        <section id="tutorial-slide-0" class="tutorial-slide active" role="tabpanel" aria-labelledby="tutorial-dot-0" data-tutorial-slide="0">
+            <div class="tutorial-icon" aria-hidden="true"><i class="bi bi-compass"></i></div>
+            <p class="tutorial-gold-label"><i class="bi bi-bookmark-star" aria-hidden="true"></i> WELCOME</p>
             <h2 class="tutorial-title">天命乃杜へようこそ</h2>
             <p class="tutorial-desc">
                 天命乃杜は、毎日おみくじを引いて<br>今日の天命を授かる占いサイトです。<br>
                 サイドバーからさまざまな機能へアクセスできます。
             </p>
-        </div>
+        </section>
 
         <!-- スライド 2: おみくじ -->
-        <div class="tutorial-slide">
-            <span class="tutorial-icon">🎴</span>
-            <span class="tutorial-gold-label">Fortune</span>
+        <section id="tutorial-slide-1" class="tutorial-slide" role="tabpanel" aria-labelledby="tutorial-dot-1" data-tutorial-slide="1" aria-hidden="true">
+            <div class="tutorial-icon" aria-hidden="true"><i class="bi bi-ticket-perforated"></i></div>
+            <p class="tutorial-gold-label"><i class="bi bi-stars" aria-hidden="true"></i> FORTUNE</p>
             <h2 class="tutorial-title">おみくじを引く</h2>
             <p class="tutorial-desc">
                 ホーム画面の「おみくじを引く」ボタンで<br>今日の運勢を占えます。<br>
                 大吉・吉・凶など12段階の結果と<br>神託の言葉が授かれます。
             </p>
-        </div>
+        </section>
 
         <!-- スライド 3: 12星座 -->
-        <div class="tutorial-slide">
-            <span class="tutorial-icon">✨</span>
-            <span class="tutorial-gold-label">Zodiac</span>
+        <section id="tutorial-slide-2" class="tutorial-slide" role="tabpanel" aria-labelledby="tutorial-dot-2" data-tutorial-slide="2" aria-hidden="true">
+            <div class="tutorial-icon" aria-hidden="true"><i class="bi bi-stars"></i></div>
+            <p class="tutorial-gold-label"><i class="bi bi-sun" aria-hidden="true"></i> ZODIAC</p>
             <h2 class="tutorial-title">12星座占い</h2>
             <p class="tutorial-desc">
                 毎日更新される星座占いでは<br>恋愛・仕事・金運など<br>各分野の運勢とラッキーアイテムが<br>日替わりで確認できます。
             </p>
-        </div>
+        </section>
 
         <!-- スライド 4: コミュニティ -->
-        <div class="tutorial-slide">
-            <span class="tutorial-icon">🏯</span>
-            <span class="tutorial-gold-label">Community</span>
+        <section id="tutorial-slide-3" class="tutorial-slide" role="tabpanel" aria-labelledby="tutorial-dot-3" data-tutorial-slide="3" aria-hidden="true">
+            <div class="tutorial-icon" aria-hidden="true"><i class="bi bi-people"></i></div>
+            <p class="tutorial-gold-label"><i class="bi bi-chat-square-heart" aria-hidden="true"></i> COMMUNITY</p>
             <h2 class="tutorial-title">公式Discordサーバー</h2>
             <p class="tutorial-desc">
                 おみくじ結果の共有や参拝者同士の交流は<br>公式Discordサーバーへ。<br>
                 ホーム画面のボタンから参拝所に入れます。
             </p>
-        </div>
+        </section>
 
         <!-- スライド 5: その他機能 -->
-        <div class="tutorial-slide">
-            <span class="tutorial-icon">🗺️</span>
-            <span class="tutorial-gold-label">Features</span>
+        <section id="tutorial-slide-4" class="tutorial-slide" role="tabpanel" aria-labelledby="tutorial-dot-4" data-tutorial-slide="4" aria-hidden="true">
+            <div class="tutorial-icon" aria-hidden="true"><i class="bi bi-grid-3x3-gap"></i></div>
+            <p class="tutorial-gold-label"><i class="bi bi-compass" aria-hidden="true"></i> FEATURES</p>
             <h2 class="tutorial-title">その他の機能</h2>
             <p class="tutorial-desc">
                 全国の運気ランキング・御守生成・<br>社務所だより・神籤草子（コラム）など<br>たくさんの機能が揃っています。<br>
                 サイドバーを探索してみてください。
             </p>
+        </section>
+
+        <div class="tutorial-dots" id="tutorial-dots" role="tablist" aria-label="ウォークスルーのステップ">
+            <button type="button" id="tutorial-dot-0" class="tutorial-dot active" role="tab" aria-controls="tutorial-slide-0" aria-selected="true" tabindex="0" onclick="goTutorialSlide(0)"><span class="tutorial-visually-hidden">ステップ1: 天命乃杜へようこそ</span></button>
+            <button type="button" id="tutorial-dot-1" class="tutorial-dot" role="tab" aria-controls="tutorial-slide-1" aria-selected="false" tabindex="-1" onclick="goTutorialSlide(1)"><span class="tutorial-visually-hidden">ステップ2: おみくじを引く</span></button>
+            <button type="button" id="tutorial-dot-2" class="tutorial-dot" role="tab" aria-controls="tutorial-slide-2" aria-selected="false" tabindex="-1" onclick="goTutorialSlide(2)"><span class="tutorial-visually-hidden">ステップ3: 12星座占い</span></button>
+            <button type="button" id="tutorial-dot-3" class="tutorial-dot" role="tab" aria-controls="tutorial-slide-3" aria-selected="false" tabindex="-1" onclick="goTutorialSlide(3)"><span class="tutorial-visually-hidden">ステップ4: 公式Discordサーバー</span></button>
+            <button type="button" id="tutorial-dot-4" class="tutorial-dot" role="tab" aria-controls="tutorial-slide-4" aria-selected="false" tabindex="-1" onclick="goTutorialSlide(4)"><span class="tutorial-visually-hidden">ステップ5: その他の機能</span></button>
         </div>
 
-        <!-- ドット -->
-        <div class="tutorial-dots" id="tutorial-dots">
-            <div class="tutorial-dot active" onclick="goTutorialSlide(0)"></div>
-            <div class="tutorial-dot" onclick="goTutorialSlide(1)"></div>
-            <div class="tutorial-dot" onclick="goTutorialSlide(2)"></div>
-            <div class="tutorial-dot" onclick="goTutorialSlide(3)"></div>
-            <div class="tutorial-dot" onclick="goTutorialSlide(4)"></div>
-        </div>
-
-        <!-- ボタン -->
         <div class="tutorial-btn-row">
-            <button class="tutorial-btn-skip" onclick="closeTutorial()">スキップ</button>
-            <button class="tutorial-btn-next" id="tutorial-next-btn" onclick="nextTutorialSlide()">次へ &rarr;</button>
+            <button type="button" class="tutorial-btn-previous" id="tutorial-prev-btn" onclick="previousTutorialSlide()" aria-label="前のステップへ" disabled><i class="bi bi-arrow-left" aria-hidden="true"></i><span>戻る</span></button>
+            <button type="button" class="tutorial-btn-skip" id="tutorial-skip-btn" onclick="closeTutorial()">スキップ</button>
+            <button type="button" class="tutorial-btn-next" id="tutorial-next-btn" onclick="nextTutorialSlide()"><span id="tutorial-next-label">次へ</span><i id="tutorial-next-icon" class="bi bi-arrow-right" aria-hidden="true"></i></button>
         </div>
-
-    </div>
+    </section>
 </div>
 
 <!-- ── 隠しコマンド演出用オーバーレイ（コナミコマンド） ── -->
@@ -29429,33 +29570,55 @@ window.applyTheme = function() {
 (function() {
     var TOTAL = 5;
     var current = 0;
+    var lastTrigger = null;
 
-    function showTutorial() {
-        var overlay = document.getElementById('tutorial-overlay');
-        if (overlay) overlay.classList.add('active');
+    function getOverlay() {
+        return document.getElementById('tutorial-overlay');
     }
+
+    function showTutorial(trigger) {
+        var overlay = getOverlay();
+        if (!overlay || overlay.classList.contains('active')) return;
+        lastTrigger = trigger || (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+        updateTutorialUI();
+        overlay.setAttribute('aria-hidden', 'false');
+        overlay.classList.add('active');
+        window.setTimeout(function() {
+            var nextButton = document.getElementById('tutorial-next-btn');
+            if (nextButton) nextButton.focus();
+        }, 0);
+    }
+
     window.openTutorial = function() {
         try { localStorage.removeItem('tenmei_tutorial_shown'); } catch(e) {}
-        showTutorial();
+        showTutorial(document.activeElement instanceof HTMLElement ? document.activeElement : null);
     };
 
     window.closeTutorial = function() {
-        var overlay = document.getElementById('tutorial-overlay');
+        var overlay = getOverlay();
         if (overlay) {
-            // class を外すだけにする（base CSSの opacity:0/pointer-events:none と
-            // transition で自動的にフェードアウトする）。
-            // ここで inline style に直接 opacity/pointer-events を書き込むと、
-            // 次回 openTutorial() で .active クラスを付け直しても
-            // inline style がクラスのスタイルを上書きしたまま残ってしまい、
-            // 2回目以降オーバーレイが表示されない不具合の原因になっていた。
+            // クラスを外すことで、再表示時にinline styleが残る既存不具合を防ぐ。
             overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
         }
         try { localStorage.setItem('tenmei_tutorial_shown', '1'); } catch(e) {}
+        if (lastTrigger && document.contains(lastTrigger) && typeof lastTrigger.focus === 'function') {
+            window.setTimeout(function() { lastTrigger.focus(); }, 0);
+        }
     };
 
     window.goTutorialSlide = function(idx) {
-        current = idx;
+        var requested = Number(idx);
+        if (!Number.isInteger(requested)) return;
+        current = Math.max(0, Math.min(TOTAL - 1, requested));
         updateTutorialUI();
+    };
+
+    window.previousTutorialSlide = function() {
+        if (current > 0) {
+            current--;
+            updateTutorialUI();
+        }
     };
 
     window.nextTutorialSlide = function() {
@@ -29470,17 +29633,53 @@ window.applyTheme = function() {
     function updateTutorialUI() {
         var slides = document.querySelectorAll('.tutorial-slide');
         var dots = document.querySelectorAll('.tutorial-dot');
-        var btn = document.getElementById('tutorial-next-btn');
-        slides.forEach(function(s, i) {
-            s.classList.toggle('active', i === current);
+        var nextButton = document.getElementById('tutorial-next-btn');
+        var previousButton = document.getElementById('tutorial-prev-btn');
+        var nextLabel = document.getElementById('tutorial-next-label');
+        var nextIcon = document.getElementById('tutorial-next-icon');
+        var progress = document.getElementById('tutorial-progress-value');
+        var isLast = current === TOTAL - 1;
+
+        slides.forEach(function(slide, index) {
+            var isActive = index === current;
+            slide.classList.toggle('active', isActive);
+            slide.setAttribute('aria-hidden', String(!isActive));
         });
-        dots.forEach(function(d, i) {
-            d.classList.toggle('active', i === current);
+        dots.forEach(function(dot, index) {
+            var isActive = index === current;
+            dot.classList.toggle('active', isActive);
+            dot.setAttribute('aria-selected', String(isActive));
+            dot.setAttribute('tabindex', isActive ? '0' : '-1');
         });
-        if (btn) {
-            btn.innerHTML = current === TOTAL - 1 ? '始める &nbsp;⛩️' : '次へ &rarr;';
-        }
+        if (previousButton) previousButton.disabled = current === 0;
+        if (nextButton) nextButton.setAttribute('aria-label', isLast ? '案内を閉じて始める' : '次のステップへ');
+        if (nextLabel) nextLabel.textContent = isLast ? '始める' : '次へ';
+        if (nextIcon) nextIcon.className = isLast ? 'bi bi-check2' : 'bi bi-arrow-right';
+        if (progress) progress.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
     }
+
+    document.addEventListener('keydown', function(event) {
+        var overlay = getOverlay();
+        if (!overlay || !overlay.classList.contains('active')) return;
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            closeTutorial();
+        } else if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            nextTutorialSlide();
+        } else if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            previousTutorialSlide();
+        } else if (event.key === 'Home') {
+            event.preventDefault();
+            goTutorialSlide(0);
+        } else if (event.key === 'End') {
+            event.preventDefault();
+            goTutorialSlide(TOTAL - 1);
+        }
+    });
+
+    updateTutorialUI();
 
     // 初回訪問時のみ表示
     try {
