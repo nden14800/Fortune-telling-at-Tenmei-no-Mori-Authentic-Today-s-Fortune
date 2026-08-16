@@ -42,6 +42,16 @@ assert.equal(
   false,
   '参拝の記録に置換前のstats-header-hero-cardが残っています。'
 );
+assert.equal(
+  statsSection.includes('class="stats-record-title"><i'),
+  false,
+  '参拝の記録のヒーロータイトル左にアイコンが残っています。'
+);
+assert.equal(
+  statsSection.includes('stats-record-panel-icon'),
+  false,
+  '参拝の記録の通常カード見出し左にアイコンが残っています。'
+);
 
 [
   '.stats-record-layout {',
@@ -52,6 +62,10 @@ assert.equal(
   'box-shadow: inset 0 0 0 7px',
   '.dark #view-stats .stats-record-hero {',
   '@media (max-width: 768px) {',
+  '#view-stats.stats-record-layout {',
+  'width: min(100% - 32px, 960px) !important;',
+  'padding: 0 0 48px !important;',
+  'font-size: clamp(2rem, 4.1vw, 3rem);',
 ].forEach((text) => requireText(text, `参拝の記録の共通意匠・テーマ・レスポンシブ規則が不足しています: ${text}`));
 
 [
@@ -65,9 +79,17 @@ assert.equal(
   '.footer-v4 {',
   '.footer-v4-social-link {',
   '.footer-v4-nav {',
+  'border-radius: 0;',
+  'grid-template-columns: minmax(240px, 0.78fr) minmax(0, 2.22fr);',
+  '.footer-v4-social-link.footer-v4-social-discord',
+  '.footer-v4-social-link.footer-v4-social-github',
+  '.footer-v4-social-link.footer-v4-social-youtube',
 ].forEach((text) => requireText(text, `フッターのVer.4.0構造またはテーマ規則が不足しています: ${text}`));
 
-requireCount(/class="footer-v4-social-link"/g, 3, 'フッターの外部SNS導線が3件保持されていません。');
+const footerSection = html.match(/<footer id="site-footer"[\s\S]*?<\/footer>/)?.[0] || '';
+assert(footerSection, 'サイトフッターを抽出できません。');
+assert.equal(footerSection.includes('class="footer-v4-group"'), false, 'フッターのリンク群が個別カードとして再導入されています。');
+requireCount(/class="footer-v4-social-link footer-v4-social-(discord|github|youtube)"/g, 3, 'フッターのブランド色付きSNS導線が3件保持されていません。');
 requireCount(/showView\('/g, 15, '既存の内部画面遷移導線が不足しています。');
 
 [

@@ -10957,6 +10957,174 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     @media (prefers-reduced-motion: reduce) {
         #view-stats .stats-card-interactive, .footer-v4-social-link, .footer-v4-link, .modern-pagination.ver4-pagination .modern-pagination-btn { transition: none !important; }
     }
+
+    /* =========================================================
+       Ver.4.0 整合修正: 参拝の記録・標準フッター
+       下層カードのタイトルは文字だけで始め、フッターはリンク群を
+       個別カード化しない標準的なブランド列＋ナビゲーションへ統一
+       ========================================================= */
+    #view-stats .stats-record-title { gap: 0; }
+    #view-stats .stats-record-title > i { display: none; }
+    #view-stats .stats-record-panel .stats-record-panel-heading {
+        display: block;
+        margin: 0 0 18px;
+        padding: 0 0 15px;
+        border-bottom: 1px solid var(--card-border);
+    }
+    #view-stats .stats-record-panel-icon { display: none; }
+    #view-stats .stats-record-panel-kicker { margin: 0; }
+    #view-stats .stats-record-panel-title {
+        margin: 5px 0 0;
+        font-size: 1.18rem;
+        line-height: 1.4;
+    }
+    #view-stats .stats-record-panel-copy { margin: 6px 0 0; }
+
+    .footer-v4 {
+        width: 100%;
+        margin-top: 72px;
+        overflow: visible;
+        border: 0;
+        border-top: 1px solid var(--card-border);
+        border-radius: 0;
+        background: var(--footer-bg);
+        box-shadow: none;
+    }
+    .footer-v4-line { height: 2px; background: linear-gradient(90deg, transparent, var(--footer-accent) 30%, var(--accent-gold) 50%, var(--footer-accent) 70%, transparent); }
+    .footer-v4-main {
+        grid-template-columns: minmax(240px, 0.78fr) minmax(0, 2.22fr);
+        gap: 56px;
+        width: min(100%, 1120px);
+        padding: 44px 32px 38px;
+    }
+    .footer-v4-brand { max-width: 292px; gap: 15px; }
+    .footer-v4-brand-top { gap: 12px; }
+    .footer-v4-brand-mark { width: 44px; height: 44px; }
+    .footer-v4-brand-copy { max-width: 280px; font-size: 0.80rem; line-height: 1.85; }
+    .footer-v4-social { gap: 10px; }
+    .footer-v4-social-link {
+        width: 40px;
+        height: 40px;
+        border: 1px solid transparent;
+        background: var(--text-main);
+        color: #fff !important;
+        font-size: 1rem;
+        box-shadow: none;
+    }
+    .footer-v4-social-link i { color: inherit !important; }
+    .footer-v4-social-link.footer-v4-social-discord { border-color: #5865f2; background: #5865f2; }
+    .footer-v4-social-link.footer-v4-social-github { border-color: #24292f; background: #24292f; }
+    .footer-v4-social-link.footer-v4-social-youtube { border-color: #ff0000; background: #ff0000; }
+    .footer-v4-social-link:hover {
+        transform: translateY(-2px);
+        border-color: transparent;
+        color: #fff !important;
+        filter: brightness(1.08);
+    }
+    .footer-v4-nav {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 28px;
+        align-items: start;
+    }
+    .footer-v4-group,
+    .footer-v4-nav > div {
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+    }
+    .footer-v4-group-title,
+    .footer-v4-nav > div > div:first-child {
+        margin: 0 0 13px !important;
+        padding: 0 0 10px !important;
+        border-bottom: 1px solid var(--card-border) !important;
+        color: var(--text-main) !important;
+        font-size: 0.68rem !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.10em !important;
+    }
+    .footer-v4-links,
+    .footer-v4-nav > div > div:last-child { gap: 8px !important; }
+    .footer-v4-link,
+    .footer-v4-nav a {
+        display: inline-flex;
+        width: fit-content;
+        min-height: 28px;
+        align-items: center;
+        padding: 0 !important;
+        color: var(--text-sub) !important;
+        font-size: 0.78rem !important;
+        line-height: 1.55;
+    }
+    .footer-v4-link:hover,
+    .footer-v4-nav a:hover { color: var(--footer-accent) !important; transform: translateX(2px); }
+    .footer-v4-bottom {
+        min-height: 56px;
+        border-top: 1px solid var(--card-border);
+        background: color-mix(in srgb, var(--footer-bg) 88%, var(--card-bg));
+        font-size: 0.70rem;
+    }
+    .dark .footer-v4 { border-top-color: rgba(255,255,255,0.10); background: #0d0c0c; box-shadow: none; }
+    .dark .footer-v4-group,
+    .dark .footer-v4-nav > div { border-color: transparent; background: transparent; }
+    .dark .footer-v4-bottom { border-top-color: rgba(255,255,255,0.10); background: #090808; }
+    @media (max-width: 900px) {
+        .footer-v4-main { grid-template-columns: 1fr; gap: 32px; padding: 36px 24px 30px; }
+        .footer-v4-brand { max-width: none; }
+        .footer-v4-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 24px; }
+    }
+    @media (max-width: 500px) {
+        .footer-v4 { margin-top: 48px; }
+        .footer-v4-main { padding: 30px 18px 26px; }
+        .footer-v4-nav { grid-template-columns: 1fr !important; gap: 22px; }
+        .footer-v4-bottom { min-height: 52px; padding: 0 18px; }
+    }
+
+    /* 参拝の記録をAI夢占い・社務所だよりと同一の寸法階層へ統一 */
+    #view-stats.stats-record-layout {
+        width: min(100% - 32px, 960px) !important;
+        max-width: 960px !important;
+        margin: 0 auto !important;
+        padding: 0 0 48px !important;
+    }
+    #view-stats .stats-record-hero {
+        gap: clamp(24px, 5vw, 52px);
+        min-height: 258px;
+        margin: 0 0 20px !important;
+        padding: clamp(28px, 5vw, 48px) !important;
+    }
+    #view-stats .stats-record-title {
+        font-size: clamp(2rem, 4.1vw, 3rem);
+        font-weight: 900;
+        letter-spacing: 0.035em;
+        line-height: 1.2;
+    }
+    #view-stats .stats-record-summary {
+        max-width: 43rem;
+        margin: 15px 0 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        line-height: 1.9;
+    }
+    #view-stats .stats-record-meta {
+        gap: 10px 16px;
+        margin: 18px 0 0;
+        color: var(--stats-accent);
+        font-size: 0.72rem;
+    }
+    #view-stats .stats-record-meta span {
+        gap: 6px;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+    }
+    @media (max-width: 768px) {
+        #view-stats.stats-record-layout { width: min(100% - 32px, 960px) !important; padding: 0 0 32px !important; }
+        #view-stats .stats-record-hero { gap: 20px; min-height: 0; padding: 24px 20px !important; border-radius: 24px !important; }
+    }
     </style>
 
 
@@ -13060,7 +13228,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     <header class="stats-record-hero">
         <div class="stats-record-copy">
             <p class="stats-record-kicker"><i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i> PERSONAL STATISTICS</p>
-            <h2 id="stats-record-title" class="stats-record-title"><i class="bi bi-journal-bookmark-fill" aria-hidden="true"></i>参拝の記録</h2>
+            <h2 id="stats-record-title" class="stats-record-title">参拝の記録</h2>
             <p class="stats-record-summary">おみくじを引くたびに蓄積される、あなただけの参拝データ。<br>他の参拝者との比較や運勢の傾向を静かに確認できます。</p>
             <div class="stats-record-meta" aria-label="参拝の記録で確認できる内容">
                 <span><i class="bi bi-bar-chart-line-fill" aria-hidden="true"></i> 個人統計</span>
@@ -13100,7 +13268,6 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         <!-- 3. 総参拝数の比較グラフ -->
         <section class="stats-record-panel stats-card-interactive" aria-labelledby="stats-total-chart-title">
             <header class="stats-record-panel-heading">
-                <span class="stats-record-panel-icon" aria-hidden="true"><i class="bi bi-people-fill"></i></span>
                 <div>
                     <p class="stats-record-panel-kicker">PILGRIMAGE COMPARISON</p>
                     <h3 id="stats-total-chart-title" class="stats-record-panel-title">参拝数比較</h3>
@@ -13118,7 +13285,6 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         <!-- 4. 運勢スペクトル (詳細グラフ) -->
         <section class="stats-record-panel stats-card-interactive" aria-labelledby="stats-spectrum-chart-title">
             <header class="stats-record-panel-heading">
-                <span class="stats-record-panel-icon" aria-hidden="true"><i class="bi bi-bar-chart-steps"></i></span>
                 <div>
                     <p class="stats-record-panel-kicker">FORTUNE SPECTRUM</p>
                     <h3 id="stats-spectrum-chart-title" class="stats-record-panel-title">運勢分布</h3>
@@ -14757,13 +14923,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <p class="footer-v4-brand-copy">おみくじ・星座占い・御守など、日々の運勢を見守る和風参拝サイト。</p>
                     <!-- SNSアイコン -->
                     <div class="footer-v4-social">
-                        <a class="footer-v4-social-link" href="https://discord.gg/Ys6hpbNdcV" target="_blank" rel="noopener noreferrer" aria-label="公式Discord参拝所を新しいタブで開く">
+                        <a class="footer-v4-social-link footer-v4-social-discord" href="https://discord.gg/Ys6hpbNdcV" target="_blank" rel="noopener noreferrer" aria-label="公式Discord参拝所を新しいタブで開く">
                             <i class="bi bi-discord" style="color:#fff;font-size:1rem;"></i>
                         </a>
-                        <a class="footer-v4-social-link" href="https://github.com/nden14800" target="_blank" rel="noopener noreferrer" aria-label="nden14800のGitHubを新しいタブで開く">
+                        <a class="footer-v4-social-link footer-v4-social-github" href="https://github.com/nden14800" target="_blank" rel="noopener noreferrer" aria-label="nden14800のGitHubを新しいタブで開く">
                             <i class="bi bi-github" style="color:var(--text-main);font-size:1rem;"></i>
                         </a>
-                        <a class="footer-v4-social-link" href="https://www.youtube.com/@nden148-x2g" target="_blank" rel="noopener noreferrer" aria-label="nden148のYouTubeを新しいタブで開く">
+                        <a class="footer-v4-social-link footer-v4-social-youtube" href="https://www.youtube.com/@nden148-x2g" target="_blank" rel="noopener noreferrer" aria-label="nden148のYouTubeを新しいタブで開く">
                             <i class="bi bi-youtube" style="color:#fff;font-size:1rem;"></i>
                         </a>
                     </div>
