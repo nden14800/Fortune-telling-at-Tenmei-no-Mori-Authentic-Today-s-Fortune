@@ -480,6 +480,53 @@
         background: rgba(37, 99, 235, 0.15) !important;
     }
 
+    /* Ver.4.0 Master Design System: Card & Layout Uniformity */
+    .auth-pilgrimage-layout, .developer-study-layout, .about-codex-layout, .privacy-ledger-layout, .howto-guide-layout, .news-bulletin-layout, .news-chronicle-layout, .column-library-layout, .column-reader-layout, .prefecture-observatory-layout {
+        max-width: 960px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+        padding: 40px 24px !important;
+        box-sizing: border-box !important;
+    }
+    @media (max-width: 768px) {
+        .auth-pilgrimage-layout, .developer-study-layout, .about-codex-layout, .privacy-ledger-layout, .howto-guide-layout, .news-bulletin-layout, .news-chronicle-layout, .column-library-layout, .column-reader-layout, .prefecture-observatory-layout {
+            padding: 24px 16px !important;
+        }
+    }
+    .auth-passport-hero, .developer-study-hero, .about-codex-hero, .privacy-ledger-hero, .howto-guide-hero, .news-bulletin-hero, .article-reader-frame, .column-library-hero, .column-reader-frame, .prefecture-observatory-hero {
+        border-radius: 30px !important;
+        padding: 36px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        margin-bottom: 24px !important;
+    }
+    @media (max-width: 768px) {
+        .auth-passport-hero, .developer-study-hero, .about-codex-hero, .privacy-ledger-hero, .howto-guide-hero, .news-bulletin-hero, .article-reader-frame, .column-library-hero, .column-reader-frame, .prefecture-observatory-hero {
+            padding: 24px 20px !important;
+            border-radius: 24px !important;
+        }
+    }
+    .auth-choice-card, .developer-profile-card, .about-codex-card, .privacy-ledger-card, .howto-guide-card, .news-bulletin-card, .column-library-card, .prefecture-ranking-card, .auth-journey-panel, .auth-workbench, .prefecture-observatory-controls, .prefecture-ranking-panel, .prefecture-map-panel {
+        border-radius: 22px !important;
+        padding: 24px !important;
+        box-sizing: border-box !important;
+        margin-bottom: 16px !important;
+    }
+    @media (max-width: 768px) {
+        .auth-choice-card, .developer-profile-card, .about-codex-card, .privacy-ledger-card, .howto-guide-card, .news-bulletin-card, .column-library-card, .prefecture-ranking-card, .auth-journey-panel, .auth-workbench, .prefecture-observatory-controls, .prefecture-ranking-panel, .prefecture-map-panel {
+            padding: 18px !important;
+            border-radius: 18px !important;
+        }
+    }
+    /* Controls / Inputs Uniformity */
+    .news-search-input, #column-search-input, .auth-input, .themed-input {
+        height: 48px !important;
+        border-radius: 14px !important;
+        padding: 0 16px !important;
+        font-size: 0.95rem !important;
+        box-sizing: border-box !important;
+    }
     /* PC ホバー展開 */
     @media (min-width: 1025px) and (hover: hover) {#sidebar:hover {
             width: 240px;
