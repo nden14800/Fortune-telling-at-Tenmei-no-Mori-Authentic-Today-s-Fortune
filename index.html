@@ -10011,12 +10011,112 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     html.dark #view-dream .dream-oracle-panel { box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26) !important; }
     html.dark #dream-login-overlay .login-lock-card { background: linear-gradient(145deg, #291a1f, #1c1417) !important; }
 
+    /* Ver.4.0: デジタル御守授与所 — 二重線ヒーローと通常カードで授与体験を再構成する。 */
+    #view-omamori.omamori-sanctuary-layout {
+        width: min(100% - 32px, 960px) !important;
+        max-width: 960px !important;
+        margin: 0 auto !important;
+        padding-bottom: 48px !important;
+        --omamori-paper-soft: #fff5f1;
+        --omamori-ink: #342427;
+        --omamori-muted: #786468;
+        --omamori-accent: #a52d36;
+        --omamori-gold: #a97a1b;
+        --omamori-line: rgba(165, 45, 54, 0.22);
+        --omamori-inner-line: rgba(165, 45, 54, 0.14);
+    }
+    .omamori-sanctuary-hero {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: clamp(24px, 5vw, 52px);
+        min-height: 258px;
+        margin: 0 0 20px;
+        padding: clamp(28px, 5vw, 48px);
+        overflow: hidden;
+        border: 1px solid var(--omamori-line);
+        border-radius: 28px;
+        background: radial-gradient(circle at 91% 16%, rgba(165, 45, 54, 0.15), transparent 25%), radial-gradient(circle at 7% 100%, rgba(197, 160, 89, 0.12), transparent 33%), linear-gradient(135deg, #fffafa 0%, #fff1f0 58%, #fff9f4 100%);
+        box-shadow: 0 20px 46px rgba(104, 46, 51, 0.09);
+    }
+    .omamori-sanctuary-hero::before { position: absolute; inset: 12px; border: 1px solid var(--omamori-inner-line); border-radius: 20px; content: ''; pointer-events: none; }
+    .omamori-sanctuary-hero::after { position: absolute; top: -102px; right: -78px; width: 252px; height: 252px; border: 1px solid rgba(165, 45, 54, 0.14); border-radius: 50%; box-shadow: 0 0 0 20px rgba(165, 45, 54, 0.055), 0 0 0 46px rgba(197, 160, 89, 0.045); content: ''; pointer-events: none; }
+    .omamori-sanctuary-copy { position: relative; z-index: 1; min-width: 0; }
+    .omamori-sanctuary-kicker, .omamori-panel-kicker { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; color: var(--omamori-accent); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.16em; line-height: 1.4; }
+    .omamori-sanctuary-title { margin: 0; color: var(--omamori-ink); font-family: 'Zen Old Mincho', serif; font-size: clamp(2rem, 4.1vw, 3rem); font-weight: 900; letter-spacing: 0.035em; line-height: 1.2; }
+    .omamori-sanctuary-summary { max-width: 43rem; margin: 15px 0 0; color: var(--omamori-muted); font-family: 'Shippori Mincho', serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.04em; line-height: 1.9; }
+    .omamori-sanctuary-meta { display: flex; flex-wrap: wrap; gap: 10px 16px; margin: 18px 0 0; color: var(--omamori-accent); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; }
+    .omamori-sanctuary-meta span { display: inline-flex; align-items: center; gap: 6px; }
+    .omamori-sanctuary-disclaimer { margin: 14px 0 0; color: var(--omamori-muted); font-size: 0.69rem; line-height: 1.6; }
+    .omamori-sanctuary-mark[data-ver4-hero-emblem] { border: 1px solid color-mix(in srgb, var(--omamori-accent) 44%, var(--card-border)) !important; color: var(--omamori-accent) !important; background: color-mix(in srgb, var(--card-bg) 86%, #fff 14%) !important; box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--omamori-accent) 8%, transparent), 0 14px 25px rgba(104, 46, 51, 0.09) !important; }
+    .omamori-sanctuary-mark[data-ver4-hero-emblem] > i { color: var(--omamori-accent) !important; }
+    .omamori-sanctuary-mark[data-ver4-hero-emblem] > span { color: var(--omamori-muted) !important; }
+    .omamori-sanctuary-content { display: grid; gap: 16px; }
+    .omamori-selection-panel, .omamori-prayer-panel, .omamori-bestowal-panel { position: relative; overflow: hidden; padding: 24px; border: 1px solid var(--card-border) !important; border-radius: 24px !important; background: var(--card-bg) !important; box-shadow: 0 12px 28px rgba(38, 23, 16, 0.06) !important; }
+    .omamori-panel-heading { display: flex; align-items: flex-start; gap: 14px; margin: 0 0 20px; padding: 0 0 16px; border-bottom: 1px solid var(--card-border); }
+    .omamori-panel-icon { display: grid; width: 46px; min-width: 46px; height: 46px; place-items: center; border: 1px solid var(--card-border); border-radius: 50%; color: var(--omamori-accent); background: color-mix(in srgb, var(--omamori-accent) 8%, var(--input-bg)); font-size: 1.1rem; }
+    .omamori-selection-panel h3, .omamori-prayer-panel h3, .omamori-bestowal-panel h3 { margin: 0; color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: clamp(1.25rem, 2.5vw, 1.55rem); font-weight: 900; letter-spacing: 0.045em; line-height: 1.35; }
+    .omamori-panel-copy { margin: 6px 0 0; color: var(--text-sub); font-size: 0.76rem; line-height: 1.7; }
+    #view-omamori .omamori-grid-container { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0; }
+    #view-omamori .wish-card { --omamori-wish-accent: var(--omamori-accent); position: relative; display: flex; min-height: 188px; padding: 22px; align-items: flex-start; justify-content: flex-start; overflow: hidden; border: 1px solid var(--card-border) !important; border-left: 1px solid var(--card-border) !important; border-radius: 24px !important; background: var(--card-bg) !important; color: var(--text-main) !important; box-shadow: none !important; font: inherit; text-align: left; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+    #view-omamori .wish-card::before { position: absolute; top: 0; right: 22px; left: 22px; height: 2px; background: var(--omamori-wish-accent); content: ''; }
+    #view-omamori .wish-card:hover { transform: translateY(-2px) !important; border-color: color-mix(in srgb, var(--omamori-wish-accent) 42%, var(--card-border)) !important; background: var(--card-bg) !important; box-shadow: 0 16px 30px color-mix(in srgb, var(--omamori-wish-accent) 12%, transparent) !important; }
+    #view-omamori .wish-card:active { transform: scale(0.97) !important; }
+    #view-omamori .wish-card:focus-visible { z-index: 1; outline: none; border-color: color-mix(in srgb, var(--omamori-wish-accent) 58%, var(--card-border)) !important; box-shadow: 0 0 0 3px color-mix(in srgb, var(--omamori-wish-accent) 15%, transparent) !important; }
+    #view-omamori .wish-icon-box { display: grid; width: 46px; height: 46px; margin: 0 0 16px; place-items: center; border: 1px solid color-mix(in srgb, var(--omamori-wish-accent) 24%, var(--card-border)); border-radius: 50%; background: color-mix(in srgb, var(--omamori-wish-accent) 9%, var(--input-bg)); color: var(--omamori-wish-accent); font-size: 1.1rem; }
+    #view-omamori .wish-title { margin: 0 0 6px; color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: 1.15rem; font-weight: 900; letter-spacing: 0.05em; line-height: 1.4; }
+    #view-omamori .wish-desc { margin: 0; color: var(--text-sub); font-size: 0.76rem; line-height: 1.7; }
+    #view-omamori .wish-safety { --omamori-wish-accent: #31945d; }
+    #view-omamori .wish-health { --omamori-wish-accent: #16877d; }
+    #view-omamori .wish-love { --omamori-wish-accent: #cf5c80; }
+    #view-omamori .wish-money { --omamori-wish-accent: #ae7a14; }
+    #view-omamori .wish-study { --omamori-wish-accent: #3c70c6; }
+    #view-omamori .wish-victory { --omamori-wish-accent: #c74142; }
+    #view-omamori .wish-protect { --omamori-wish-accent: #66717f; }
+    #view-omamori .wish-success { --omamori-wish-accent: #8454b8; }
+    .omamori-prayer-panel { display: grid; min-height: 376px; place-items: center; text-align: center; }
+    .omamori-prayer-seal { position: relative; display: grid; width: 92px; height: 92px; margin: 0 0 20px; place-items: center; border: 1px solid color-mix(in srgb, var(--omamori-gold) 42%, var(--card-border)); border-radius: 50%; background: color-mix(in srgb, var(--omamori-gold) 8%, var(--input-bg)); color: var(--omamori-gold); box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--omamori-gold) 7%, transparent); font-size: 1.7rem; }
+    .omamori-prayer-seal .prayer-light { position: absolute; inset: -12px; width: auto; height: auto; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--omamori-gold) 32%, transparent), transparent 68%); animation: omamoriPrayerPulse 1.8s ease-in-out infinite; }
+    @keyframes omamoriPrayerPulse { 0%, 100% { opacity: 0.36; transform: scale(0.82); } 50% { opacity: 0.9; transform: scale(1.08); } }
+    .omamori-prayer-panel h3 { margin-bottom: 8px; }
+    .omamori-prayer-panel > p { margin: 0; color: var(--text-sub); font-size: 0.88rem; line-height: 1.7; }
+    .omamori-bestowal-panel { display: grid; gap: 20px; }
+    .omamori-bestowal-panel .omamori-panel-heading { margin-bottom: 0; }
+    #view-omamori .omamori-stage { min-height: 452px; margin: 0; padding: 26px 20px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--omamori-gold) 25%, var(--card-border)) !important; border-top: 1px solid color-mix(in srgb, var(--omamori-gold) 25%, var(--card-border)) !important; border-radius: 18px !important; background: color-mix(in srgb, var(--omamori-gold) 5%, var(--input-bg)) !important; box-shadow: none !important; }
+    #view-omamori .omamori-stage::before { width: 240px; height: 240px; background: radial-gradient(circle, color-mix(in srgb, var(--omamori-gold) 18%, transparent) 0%, transparent 72%); opacity: 1; }
+    #view-omamori #omamori-message-panel { padding: 18px !important; border: 1px solid var(--card-border) !important; border-radius: 18px !important; background: var(--input-bg) !important; }
+    .omamori-save-note { display: flex; align-items: flex-start; gap: 10px; margin: 0; padding: 16px; border: 1px solid color-mix(in srgb, var(--omamori-gold) 22%, var(--card-border)); border-radius: 18px; background: color-mix(in srgb, var(--omamori-gold) 5%, var(--input-bg)); color: var(--text-sub); font-size: 0.78rem; line-height: 1.7; }
+    .omamori-save-note i { margin-top: 2px; color: var(--omamori-gold); }
+    .omamori-action-group { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; }
+    .omamori-save-action, .omamori-reset-action { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 8px; padding: 0 16px !important; border-radius: 14px !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.95rem !important; font-weight: 800 !important; }
+    .omamori-save-action { border: 1px solid color-mix(in srgb, var(--omamori-accent) 68%, transparent) !important; background: linear-gradient(135deg, #b7353e, #8e222c) !important; color: #fff !important; box-shadow: 0 10px 20px rgba(165, 45, 54, 0.16); }
+    .omamori-save-action:hover { transform: translateY(-1px); box-shadow: 0 14px 24px rgba(165, 45, 54, 0.22); }
+    .omamori-save-action:active, .omamori-reset-action:active { transform: scale(0.97); }
+    .omamori-reset-action { border: 1px solid var(--card-border) !important; background: var(--input-bg) !important; color: var(--text-main) !important; }
+    .omamori-reset-action:hover { border-color: color-mix(in srgb, var(--omamori-accent) 32%, var(--card-border)) !important; color: var(--omamori-accent) !important; }
+    html.dark #view-omamori.omamori-sanctuary-layout { --omamori-paper-soft: #2b1d21; --omamori-ink: #fff1f2; --omamori-muted: #e2c6cb; --omamori-accent: #ffadb8; --omamori-gold: #e4ba64; --omamori-line: rgba(255, 173, 184, 0.25); --omamori-inner-line: rgba(255, 173, 184, 0.18); }
+    html.dark .omamori-sanctuary-hero { border-color: var(--omamori-line); background: radial-gradient(circle at 91% 16%, rgba(165, 45, 54, 0.27), transparent 25%), radial-gradient(circle at 7% 100%, rgba(197, 160, 89, 0.13), transparent 33%), linear-gradient(135deg, #28171b 0%, #301b20 58%, #1e1417 100%); }
+    html.dark .omamori-sanctuary-title { color: var(--omamori-ink); }
+    html.dark .omamori-sanctuary-summary, html.dark .omamori-sanctuary-disclaimer { color: var(--omamori-muted); }
+    html.dark #view-omamori .omamori-selection-panel, html.dark #view-omamori .omamori-prayer-panel, html.dark #view-omamori .omamori-bestowal-panel { box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26) !important; }
+    @media (prefers-reduced-motion: reduce) { .omamori-prayer-seal .prayer-light { animation: none !important; } }
+
     @media (max-width: 768px) {
         .dream-oracle-hero { grid-template-columns: 1fr; padding: 24px 20px !important; }
         .dream-oracle-panel { padding: 18px !important; border-radius: 18px !important; }
         .dream-panel-heading { flex-direction: column; gap: 12px; }
         .dream-form-actions { align-items: stretch; flex-direction: column; }
         .dream-submit-action { width: 100%; }
+        .omamori-sanctuary-hero { grid-template-columns: 1fr; padding: 24px 20px !important; }
+        .omamori-selection-panel, .omamori-prayer-panel, .omamori-bestowal-panel { padding: 18px !important; border-radius: 18px !important; }
+        .omamori-panel-heading { flex-direction: column; gap: 12px; }
+        #view-omamori .omamori-grid-container { grid-template-columns: 1fr; }
+        #view-omamori .wish-card { min-height: 0; padding: 18px; }
+        .omamori-prayer-panel { min-height: 320px; }
+        #view-omamori .omamori-stage { min-height: 408px; }
+        .omamori-action-group { grid-template-columns: 1fr; }
+        .omamori-reset-action { width: 100%; }
     }
 
     @media (max-width: 768px) {
@@ -12398,127 +12498,121 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 </section>
 
         <!-- ビュー: 御守授与所 -->
-<section id="view-omamori" class="view-section max-w-4xl mx-auto relative pb-20">
-    <div class="bento-card mb-6 relative overflow-hidden bg-gradient-to-br from-red-950 via-zinc-900 to-black border border-zinc-800 text-white" style="padding: 2rem;">
-        <!-- 装飾グロー -->
-        <div class="absolute top-0 right-0 w-72 h-72 opacity-15 pointer-events-none" style="background: radial-gradient(circle, #b91c1c 0%, transparent 70%);"></div>
-        <div class="absolute bottom-0 left-0 w-48 h-48 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #c5a059 0%, transparent 70%);"></div>
-
-        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div class="flex-1">
-                <p class="text-xs font-bold tracking-[0.3em] uppercase mb-2" style="color: var(--accent-gold);">DIGITAL AMULET</p>
-                <h2 class="text-3xl md:text-4xl font-black mb-3 flex items-center gap-3" style="font-family: 'Zen Old Mincho', serif;">
-                    <span class="text-4xl" style="color: var(--accent-gold);"><i class="bi bi-shield-shaded"></i></span>
-                    <span class="text-white">デジタル御守授与所</span>
-                </h2>
-                <p class="text-sm text-zinc-300 leading-relaxed max-w-xl" style="font-family: 'Shippori Mincho', serif;">
-                    あなたの願い事を選んで、名前を刻んだ<br>
-                    「デジタル御守」を授与いたします。
-                </p>
+<section id="view-omamori" class="view-section omamori-sanctuary-layout">
+    <header class="omamori-sanctuary-hero">
+        <div class="omamori-sanctuary-copy">
+            <p class="omamori-sanctuary-kicker"><i class="bi bi-gem" aria-hidden="true"></i> DIGITAL AMULET</p>
+            <h2 class="omamori-sanctuary-title">デジタル御守授与所</h2>
+            <p class="omamori-sanctuary-summary">八つの願いから今の想いを選び、名前を刻んだ御守をお授けします。受け取った御守は、いつでも端末へ保存できます。</p>
+            <div class="omamori-sanctuary-meta" aria-label="御守授与所の案内">
+                <span><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i> 8つの願意</span>
+                <span><i class="bi bi-download" aria-hidden="true"></i> 画像保存対応</span>
             </div>
-            <div class="flex-shrink-0 text-center hidden md:flex flex-col items-center gap-2">
-                <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl" style="background: linear-gradient(135deg, #b91c1c, #7f1d1d); box-shadow: 0 0 24px rgba(185,28,28,0.3);">
-                    <i class="bi bi-shield-fill-check text-white"></i>
+            <p class="omamori-sanctuary-disclaimer"><i class="bi bi-info-circle" aria-hidden="true"></i> 願意ごとに定めた色と御言葉をもつ、名前入りのデジタル御守です。</p>
+        </div>
+        <div class="omamori-sanctuary-mark" data-ver4-hero-emblem aria-hidden="true">
+            <i class="bi bi-gem"></i>
+            <span>AMULET</span>
+        </div>
+    </header>
+
+    <div class="omamori-sanctuary-content">
+        <!-- ステップ1: 願い事選択 -->
+        <section id="omamori-step-1" class="omamori-selection-panel" aria-labelledby="omamori-selection-title">
+            <header class="omamori-panel-heading">
+                <div class="omamori-panel-icon" aria-hidden="true"><i class="bi bi-compass"></i></div>
+                <div>
+                    <p class="omamori-panel-kicker">WISH SELECTION</p>
+                    <h3 id="omamori-selection-title">願い事を選ぶ</h3>
+                    <p class="omamori-panel-copy">今の願いにもっとも近い御守を一つ選んでください。選択後、祈祷を経て御守をお授けします。</p>
                 </div>
-                <p class="text-xs text-zinc-500 font-bold tracking-widest">8 WISHES</p>
-            </div>
-        </div>
-    </div>
+            </header>
 
-    <!-- ステップ1: 願い事選択 -->
-    <div id="omamori-step-1">
-        <div class="flex items-center justify-center gap-2 mb-6">
-            <div class="h-px w-8" style="background: var(--card-border);"></div>
-            <span class="text-sm font-bold" style="color: var(--text-sub);">願い事をお選びください</span>
-            <div class="h-px w-8" style="background: var(--card-border);"></div>
-        </div>
+            <div class="omamori-grid-container" role="list" aria-label="御守の願い事を選ぶ">
+                <button type="button" class="wish-card wish-safety" role="listitem" onclick="OmamoriSystem.startPrayer('safety')">
+                    <span class="wish-icon-box" aria-hidden="true"><i class="bi bi-car-front-fill"></i></span>
+                    <span class="wish-title">交通安全</span>
+                    <span class="wish-desc">道中の無事を祈る</span>
+                </button>
+                <button type="button" class="wish-card wish-health" role="listitem" onclick="OmamoriSystem.startPrayer('health')">
+                    <span class="wish-icon-box" aria-hidden="true"><i class="bi bi-bandaid-fill"></i></span>
+                    <span class="wish-title">健康長寿</span>
+                    <span class="wish-desc">健やかな毎日を</span>
+                </button>
+                <button type="button" class="wish-card wish-love" role="listitem" onclick="OmamoriSystem.startPrayer('love')">
+                    <span class="wish-icon-box" aria-hidden="true"><i class="bi bi-heart-fill"></i></span>
+                    <span class="wish-title">良縁成就</span>
+                    <span class="wish-desc">素敵な出会いを</span>
+                </button>
+                <button type="button" class="wish-card wish-money" role="listitem" onclick="OmamoriSystem.startPrayer('money')">
+                    <span class="wish-icon-box" aria-hidden="true"><i class="bi bi-currency-yen"></i></span>
+                    <span class="wish-title">金運上昇</span>
+                    <span class="wish-desc">豊かさを招く</span>
+                </button>
+                <button type="button" class="wish-card wish-study" role="listitem" onclick="OmamoriSystem.startPrayer('study')">
+                    <span class="wish-icon-box" aria-hidden="true"><i class="bi bi-pen-fill"></i></span>
+                    <span class="wish-title">学業成就</span>
+                    <span class="wish-desc">合格・スキル向上</span>
+                </button>
+                <button type="button" class="wish-card wish-victory" role="listitem" onclick="OmamoriSystem.startPrayer('victory')">
+                    <span class="wish-icon-box" aria-hidden="true"><i class="bi bi-trophy-fill"></i></span>
+                    <span class="wish-title">必勝祈願</span>
+                    <span class="wish-desc">勝負に打ち勝つ</span>
+                </button>
+                <button type="button" class="wish-card wish-protect" role="listitem" onclick="OmamoriSystem.startPrayer('protect')">
+                    <span class="wish-icon-box" aria-hidden="true"><i class="bi bi-shield-lock-fill"></i></span>
+                    <span class="wish-title">厄除け</span>
+                    <span class="wish-desc">災いを遠ざける</span>
+                </button>
+                <button type="button" class="wish-card wish-success" role="listitem" onclick="OmamoriSystem.startPrayer('success')">
+                    <span class="wish-icon-box" aria-hidden="true"><i class="bi bi-stars"></i></span>
+                    <span class="wish-title">大願成就</span>
+                    <span class="wish-desc">大きな夢を叶える</span>
+                </button>
+            </div>
+        </section>
 
-        <div class="omamori-grid-container">
-            <!-- 交通安全 -->
-            <div class="wish-card wish-safety" onclick="OmamoriSystem.startPrayer('safety')">
-                <div class="wish-icon-box"><i class="bi bi-car-front-fill"></i></div>
-                <div class="wish-title">交通安全</div>
-                <div class="wish-desc">道中の無事を祈る</div>
+        <!-- ステップ2: 祈祷中アニメーション -->
+        <section id="omamori-step-2" class="omamori-prayer-panel hidden" aria-live="polite" aria-labelledby="omamori-prayer-title">
+            <div>
+                <div class="omamori-prayer-seal" aria-hidden="true">
+                    <div class="prayer-light"></div>
+                    <i class="bi bi-stars"></i>
+                </div>
+                <p class="omamori-panel-kicker" style="justify-content:center;">BLESSING IN PROGRESS</p>
+                <h3 id="omamori-prayer-title">祈祷中</h3>
+                <p>願いを込めて、御守を織り上げております。</p>
             </div>
-            <!-- 健康長寿 -->
-            <div class="wish-card wish-health" onclick="OmamoriSystem.startPrayer('health')">
-                <div class="wish-icon-box"><i class="bi bi-bandaid-fill"></i></div>
-                <div class="wish-title">健康長寿</div>
-                <div class="wish-desc">健やかな毎日を</div>
-            </div>
-            <!-- 良縁成就 -->
-            <div class="wish-card wish-love" onclick="OmamoriSystem.startPrayer('love')">
-                <div class="wish-icon-box"><i class="bi bi-heart-fill"></i></div>
-                <div class="wish-title">良縁成就</div>
-                <div class="wish-desc">素敵な出会いを</div>
-            </div>
-            <!-- 金運上昇 -->
-            <div class="wish-card wish-money" onclick="OmamoriSystem.startPrayer('money')">
-                <div class="wish-icon-box"><i class="bi bi-currency-yen"></i></div>
-                <div class="wish-title">金運上昇</div>
-                <div class="wish-desc">豊かさを招く</div>
-            </div>
-            <!-- 学業成就 -->
-            <div class="wish-card wish-study" onclick="OmamoriSystem.startPrayer('study')">
-                <div class="wish-icon-box"><i class="bi bi-pen-fill"></i></div>
-                <div class="wish-title">学業成就</div>
-                <div class="wish-desc">合格・スキル向上</div>
-            </div>
-            <!-- 必勝祈願 -->
-            <div class="wish-card wish-victory" onclick="OmamoriSystem.startPrayer('victory')">
-                <div class="wish-icon-box"><i class="bi bi-trophy-fill"></i></div>
-                <div class="wish-title">必勝祈願</div>
-                <div class="wish-desc">勝負に打ち勝つ</div>
-            </div>
-            <!-- 厄除け -->
-            <div class="wish-card wish-protect" onclick="OmamoriSystem.startPrayer('protect')">
-                <div class="wish-icon-box"><i class="bi bi-shield-lock-fill"></i></div>
-                <div class="wish-title">厄除け</div>
-                <div class="wish-desc">災いを遠ざける</div>
-            </div>
-            <!-- 大願成就 -->
-            <div class="wish-card wish-success" onclick="OmamoriSystem.startPrayer('success')">
-                <div class="wish-icon-box"><i class="bi bi-stars"></i></div>
-                <div class="wish-title">大願成就</div>
-                <div class="wish-desc">大きな夢を叶える</div>
-            </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- ステップ2: 祈祷中アニメーション -->
-    <div id="omamori-step-2" class="hidden h-96 flex flex-col items-center justify-center">
-        <div class="relative">
-            <div class="prayer-light mb-8"></div>
-            <div class="absolute top-0 left-0 w-full h-full animate-ping opacity-20 bg-yellow-200 rounded-full"></div>
-        </div>
-        <p class="text-2xl font-black animate-pulse tracking-widest mb-2" style="font-family: 'Zen Old Mincho'; color: var(--text-main);">祈祷中</p>
-        <p class="text-sm themed-text-sub">願いを込めて織り上げております...</p>
-    </div>
+        <!-- ステップ3: 授与（結果） -->
+        <section id="omamori-step-3" class="omamori-bestowal-panel hidden" aria-labelledby="omamori-bestowal-title">
+            <header class="omamori-panel-heading">
+                <div class="omamori-panel-icon" aria-hidden="true"><i class="bi bi-gift"></i></div>
+                <div>
+                    <p class="omamori-panel-kicker">BESTOWAL</p>
+                    <h3 id="omamori-bestowal-title">御守をお授けします</h3>
+                    <p class="omamori-panel-copy">御言葉と今日の一歩を添えてお渡しします。画像として端末へ保存できます。</p>
+                </div>
+            </header>
 
-    <!-- ステップ3: 授与（結果） -->
-    <div id="omamori-step-3" class="hidden">
-        <p class="mb-6 font-bold text-lg border-b inline-block px-8 pb-1" style="border-color: var(--accent-red); color: var(--text-main);">授与</p>
-        
-        <!-- 授与ステージ（画像化対象） -->
-        <div class="omamori-stage" id="omamori-capture-area">
-            <div id="omamori-display"></div>
-        </div>
-
-        <div class="max-w-md mx-auto space-y-4">
-            <div id="omamori-message-panel" class="p-5 rounded-xl text-sm text-left" style="background: var(--card-bg); border: 1px solid var(--card-border);"></div>
-
-            <div class="p-4 rounded text-sm text-left" style="background: var(--input-bg); border: 1px solid var(--card-border); color: var(--text-sub);">
-                <i class="bi bi-info-circle mr-1"></i>
-                この御守は画像として保存できます。スマートフォンの壁紙（待ち受け）に設定し、日々の守り神としてお持ち歩きください。
+            <div class="omamori-stage" id="omamori-capture-area">
+                <div id="omamori-display"></div>
             </div>
 
-            <button onclick="OmamoriSystem.saveImage()" class="btn-primary w-full justify-center py-4 text-lg shadow-lg">
-                <i class="bi bi-download"></i> 御守を授かる（保存）
-            </button>
-            <button onclick="OmamoriSystem.reset()" class="btn-outline w-full">
-                <i class="bi bi-arrow-counterclockwise"></i> 別の願いを選ぶ
-            </button>
-        </div>
+            <div id="omamori-message-panel" aria-live="polite"></div>
+
+            <p class="omamori-save-note"><i class="bi bi-info-circle" aria-hidden="true"></i><span>この御守は画像として保存できます。スマートフォンの壁紙（待ち受け）に設定し、日々の守り神としてお持ち歩きください。</span></p>
+
+            <div class="omamori-action-group">
+                <button type="button" onclick="OmamoriSystem.saveImage()" class="omamori-save-action">
+                    <i class="bi bi-download" aria-hidden="true"></i> 御守を授かる（保存）
+                </button>
+                <button type="button" onclick="OmamoriSystem.reset()" class="omamori-reset-action">
+                    <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> 別の願いを選ぶ
+                </button>
+            </div>
+        </section>
     </div>
 </section>
         
