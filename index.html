@@ -9799,10 +9799,75 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     html.dark .pref-card-normal,
     html.dark .pref-map-legend { background: color-mix(in srgb, var(--card-bg) 94%, #fff 6%) !important; }
 
+    /* Ver.4.0 共通ヒーロー印章: 社務所だよりの円環・印面・ラベル比率を全刷新ビューの基準とする。 */
+    [data-ver4-hero-emblem] {
+        position: relative !important;
+        z-index: 1 !important;
+        display: grid !important;
+        width: 128px !important;
+        min-width: 128px !important;
+        height: 128px !important;
+        min-height: 128px !important;
+        place-items: center !important;
+        align-content: center !important;
+        gap: 0.45rem !important;
+        flex: 0 0 128px !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        text-align: center !important;
+    }
+    [data-ver4-hero-emblem] > i {
+        display: block;
+        font-size: 2.05rem !important;
+        line-height: 1 !important;
+    }
+    [data-ver4-hero-emblem] > span {
+        display: block !important;
+        margin: 0 !important;
+        font-family: 'Zen Kaku Gothic New', sans-serif !important;
+        font-size: 0.62rem !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.13em !important;
+        line-height: 1.35 !important;
+        text-align: center !important;
+    }
+    .prefecture-observatory-mark[data-ver4-hero-emblem] {
+        border: 1px solid color-mix(in srgb, var(--pref-accent) 44%, var(--card-border)) !important;
+        color: var(--pref-accent) !important;
+        background: color-mix(in srgb, var(--card-bg) 86%, #fff 14%) !important;
+        box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--pref-accent) 8%, transparent), 0 14px 25px rgba(15, 92, 77, 0.09) !important;
+    }
+    .prefecture-observatory-mark[data-ver4-hero-emblem] > i { color: var(--pref-accent) !important; }
+    .prefecture-observatory-mark[data-ver4-hero-emblem] > span { color: var(--pref-muted) !important; }
+    .history-ledger-mark[data-ver4-hero-emblem] {
+        border: 1px solid color-mix(in srgb, var(--history-gold) 44%, var(--card-border)) !important;
+        color: var(--history-red) !important;
+        background: color-mix(in srgb, var(--card-bg) 86%, #fff 14%) !important;
+        box-shadow: inset 0 0 0 7px color-mix(in srgb, var(--history-gold) 8%, transparent), 0 14px 25px rgba(68, 34, 28, 0.09) !important;
+    }
+    .history-ledger-mark[data-ver4-hero-emblem] > i { color: var(--history-red) !important; }
+    .history-ledger-mark[data-ver4-hero-emblem] > span { color: var(--history-muted) !important; }
+    .developer-study-portrait-zone { min-width: 128px !important; }
+    .developer-study-portrait-ring { width: 128px !important; height: 128px !important; }
+
     @media (max-width: 768px) {
         .prefecture-observatory-hero,
         .history-ledger-hero { grid-template-columns: 1fr; padding: 24px 20px !important; }
-        .history-ledger-mark { display: none; }
+        [data-ver4-hero-emblem] {
+            display: grid !important;
+            width: 96px !important;
+            min-width: 96px !important;
+            height: 96px !important;
+            min-height: 96px !important;
+            flex-basis: 96px !important;
+            grid-template-columns: none !important;
+            border-radius: 50% !important;
+        }
+        [data-ver4-hero-emblem] > span { display: block !important; }
+        .developer-study-portrait-zone { min-width: 96px !important; }
+        .developer-study-portrait-ring { width: 96px !important; height: 96px !important; }
+        .developer-study-portrait { width: 72px !important; height: 72px !important; }
         .prefecture-observatory-controls { grid-template-columns: 1fr; gap: 16px; padding: 18px !important; }
         .prefecture-section-header { grid-column: auto; }
         .pref-tab-switcher { justify-self: stretch; width: 100%; }
@@ -11956,8 +12021,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             </div>
             <p class="prefecture-observatory-disclaimer">※独自のアルゴリズムに基づく娯楽コンテンツです。実際の気象情報・地質学的データとは無関係です。</p>
         </div>
-        <div class="prefecture-observatory-mark" aria-hidden="true">
-            <span class="prefecture-observatory-mark-icon"><i class="bi bi-map-fill"></i></span>
+        <div class="prefecture-observatory-mark" data-ver4-hero-emblem aria-hidden="true">
+            <i class="bi bi-map-fill"></i>
             <span>LAND<br>FORTUNE</span>
         </div>
     </header>
@@ -12281,7 +12346,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <h2 id="auth-passport-title" class="auth-passport-title">参拝証の発行</h2>
                     <p class="auth-passport-lede">杜で積み重ねる記録と、お気に入り、会員限定の導きをひとつの参拝証へ。ログイン・新規登録・Googleログインから、ご自身に合う方法をお選びください。</p>
                 </div>
-                <div class="auth-passport-mark" aria-hidden="true">
+                <div class="auth-passport-mark" data-ver4-hero-emblem aria-hidden="true">
                     <i class="bi bi-patch-check-fill"></i>
                     <span>MEMBER PASS</span>
                 </div>
@@ -12451,8 +12516,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             </div>
             <p class="history-ledger-disclaimer">※過去の参拝データや全国の参拝集計を時系列で確認できる公式記録です。</p>
         </div>
-        <div class="history-ledger-mark" aria-hidden="true">
-            <span class="history-ledger-mark-icon"><i class="bi bi-clock-history"></i></span>
+        <div class="history-ledger-mark" data-ver4-hero-emblem aria-hidden="true">
+            <i class="bi bi-clock-history"></i>
             <span>DESTINY<br>LOG</span>
         </div>
     </header>
@@ -12714,7 +12779,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             <p class="news-bulletin-lead">杜の更新、重要なお知らせ、技術的なご報告を、時系列で静かに記録する公式の掲示録です。</p>
             <p id="news-results-summary" class="news-bulletin-summary" aria-live="polite">掲載記録を読み込み中です。</p>
         </div>
-        <div class="news-bulletin-seal" aria-hidden="true">
+        <div class="news-bulletin-seal" data-ver4-hero-emblem aria-hidden="true">
             <i class="bi bi-newspaper"></i>
             <span>OFFICIAL<br>RECORD</span>
         </div>
@@ -12763,7 +12828,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             <p class="column-library-lead">おみくじ・神社・暦・作法を、日々の暮らしにつながる言葉として綴る、杜の読み物の書架です。</p>
             <p id="column-library-summary" class="column-library-summary"><i class="bi bi-journal-bookmark" aria-hidden="true"></i> 気になる題から、ひとつずつお読みいただけます。</p>
         </div>
-        <div class="column-library-seal" aria-hidden="true">
+        <div class="column-library-seal" data-ver4-hero-emblem aria-hidden="true">
             <i class="bi bi-book-half"></i>
             <span>SACRED<br>ESSAYS</span>
         </div>
@@ -12826,7 +12891,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <p class="howto-guide-lead">おみくじから日々の設定まで、天命乃杜でできることを順にたどれる参拝案内所です。気になる項目からお読みいただけます。</p>
                     <p class="howto-guide-summary"><i class="bi bi-journal-check" aria-hidden="true"></i> 12の機能案内と、環境・読書設定をご用意しています。</p>
                 </div>
-                <div class="howto-guide-hero-seal" aria-hidden="true">
+                <div class="howto-guide-hero-seal" data-ver4-hero-emblem aria-hidden="true">
                     <i class="bi bi-compass"></i>
                     <span>HOW<br>TO USE</span>
                 </div>
@@ -13120,7 +13185,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         <p>スマートフォン・タブレットでは、共有メニュー経由で印刷画面が開きます（プレビューは「印刷」選択後に表示されます）。</p>
                     </div>
                 </div>
-                <div class="about-codex-hero-seal" aria-hidden="true">
+                <div class="about-codex-hero-seal" data-ver4-hero-emblem aria-hidden="true">
                     <i class="bi bi-journal-text"></i>
                     <span>SITE<br>POLICY</span>
                 </div>
@@ -13541,7 +13606,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         <p>スマートフォン・タブレットでは、共有メニュー経由で印刷画面が開きます（プレビューは「印刷」選択後に表示されます）。</p>
                     </div>
                 </div>
-                <div class="privacy-ledger-hero-seal" aria-hidden="true">
+                <div class="privacy-ledger-hero-seal" data-ver4-hero-emblem aria-hidden="true">
                     <i class="bi bi-shield-lock"></i>
                     <span>DATA<br>CARE</span>
                 </div>
