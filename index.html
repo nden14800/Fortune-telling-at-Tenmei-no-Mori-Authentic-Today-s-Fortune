@@ -11410,10 +11410,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             <p class="prefecture-control-copy">一覧で全国の巡りを見渡すか、地図で場所を選んで確かめられます。</p>
         </div>
         <div class="pref-tab-switcher" role="tablist" aria-label="土地の運気の表示方法">
-            <button class="pref-tab-btn active" id="pref-tab-text" type="button" role="tab" aria-controls="pref-text-content" aria-selected="true" tabindex="0" onclick="switchPrefTab('text')" onkeydown="handlePrefTabKeydown(event)">
+            <button class="pref-tab-btn active" id="pref-tab-text" type="button" role="tab" aria-controls="pref-text-content" aria-selected="true" tabindex="0" onclick="window._prefCurrentTab='text';switchPrefTab('text')" onkeydown="handlePrefTabKeydown(event)">
                 <i class="bi bi-list-ol" aria-hidden="true"></i> ランキング
             </button>
-            <button class="pref-tab-btn" id="pref-tab-map" type="button" role="tab" aria-controls="pref-map-content" aria-selected="false" tabindex="-1" onclick="switchPrefTab('map')" onkeydown="handlePrefTabKeydown(event)">
+            <button class="pref-tab-btn" id="pref-tab-map" type="button" role="tab" aria-controls="pref-map-content" aria-selected="false" tabindex="-1" onclick="window._prefCurrentTab='map';switchPrefTab('map')" onkeydown="handlePrefTabKeydown(event)">
                 <i class="bi bi-map" aria-hidden="true"></i> 地図
             </button>
         </div>
@@ -20355,6 +20355,7 @@ window.handlePrefTabKeydown = function(event) {
     if (nextIndex !== null) {
         event.preventDefault();
         const nextTab = tabs[nextIndex];
+        window._prefCurrentTab = nextTab;
         switchPrefTab(nextTab);
         document.getElementById('pref-tab-' + nextTab)?.focus();
         return;
