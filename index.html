@@ -20363,9 +20363,42 @@ window.handlePrefTabKeydown = function(event) {
 
     if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        switchPrefTab(event.currentTarget.id === 'pref-tab-map' ? 'map' : 'text');
+        const targetId = event.currentTarget && event.currentTarget.id ? event.currentTarget.id : ('pref-tab-' + window._prefCurrentTab);
+        switchPrefTab(targetId.includes('map') ? 'map' : 'text');
     }
 };
+
+// タブレットや非フォーカス時でも「全国・土地の運気」画面表示中であればキーボードショートカットで切り替え可能にするグローバルリスナー
+document.addEventListener('keydown', function(event) {
+    const prefView = document.getElementById('view-prefecture');
+    if (!prefView || prefView.classList.contains('hidden') || prefView.style.display === 'none') return;
+    
+    // 入力欄等にフォーカスがある場合は無視
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+
+    const tabs = ['text', 'map'];
+    const currentIndex = tabs.indexOf(window._prefCurrentTab);
+    let nextIndex = null;
+
+    if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabs.length;
+    if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    if (event.key === 'Home') nextIndex = 0;
+    if (event.key === 'End') nextIndex = tabs.length - 1;
+
+    if (nextIndex !== null) {
+        event.preventDefault();
+        const nextTab = tabs[nextIndex];
+        window._prefCurrentTab = nextTab;
+        switchPrefTab(nextTab);
+        document.getElementById('pref-tab-' + nextTab)?.focus();
+    } else if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        const opposite = window._prefCurrentTab === 'text' ? 'map' : 'text';
+        window._prefCurrentTab = opposite;
+        switchPrefTab(opposite);
+        document.getElementById('pref-tab-' + opposite)?.focus();
+    }
+});
 
 window.switchPrefTab = function(tab) {
     if (tab !== 'text' && tab !== 'map') return;
