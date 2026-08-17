@@ -33825,6 +33825,17 @@ try {
     }
     .sidebar-v4-skip-link:focus-visible { transform: translateY(0); outline: 3px solid #f1d796; outline-offset: 3px; }
 
+    /* 本文をスキップリンク等でフォーカスしても、Safariの標準水色外形を画面高全体へ残さない。 */
+    #main-content:focus { outline: none; }
+    #main-content:focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--accent-gold) 84%, #fff);
+        outline-offset: 4px;
+        border-radius: 18px;
+    }
+    html.dark #main-content:focus-visible {
+        outline-color: color-mix(in srgb, var(--accent-gold) 74%, #fff);
+    }
+
     #sidebar.sidebar-v4 {
         --sidebar-v4-accent: #a52a32;
         --sidebar-v4-gold: #b88b39;

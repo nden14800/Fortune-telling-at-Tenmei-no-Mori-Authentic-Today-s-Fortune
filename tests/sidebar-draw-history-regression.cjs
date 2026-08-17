@@ -34,6 +34,10 @@ assert(finalStyle, 'サイドバー・追加札導線・更新の軌跡の最終
 
 [
   '.sidebar-v4-skip-link {',
+  '#main-content:focus { outline: none; }',
+  '#main-content:focus-visible {',
+  'outline: 3px solid color-mix(in srgb, var(--accent-gold) 84%, #fff);',
+  'html.dark #main-content:focus-visible {',
   '#sidebar.sidebar-v4 {',
   'border-radius: 24px;',
   '#sidebar.sidebar-v4 .sidebar-v4-scroll-area {',
@@ -68,6 +72,7 @@ console.log(JSON.stringify({
   sidebarSemanticNavigation: true,
   sidebarKeyboardAndFocusSupport: true,
   sidebarThemeAndResponsiveRules: true,
+  mainFocusOutlineControlled: true,
   drawExploreResponsiveLayout: true,
   historySourceTooltipDarkTheme: true,
 }, null, 2));
