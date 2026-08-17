@@ -11844,6 +11844,199 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             #view-zodiac .zodiac-ranking-toggle,
             #view-zodiac .zodiac-rank-submit { transition: none !important; }
         }
+
+        /* Ver.4.0: ホーム — 静謐な即応の入口 */
+        #view-home.view-section {
+            width: min(100% - 32px, var(--ver4-content-width)) !important;
+            max-width: var(--ver4-content-width) !important;
+            margin: 0 auto !important;
+            padding: 0 0 48px !important;
+            box-sizing: border-box;
+            --home-paper: #fffdfa;
+            --home-paper-soft: #fbf5ef;
+            --home-ink: #302522;
+            --home-muted: #756560;
+            --home-line: rgba(131, 92, 60, 0.2);
+            --home-red: #a52a32;
+            --home-red-deep: #762028;
+            --home-gold: #b88b39;
+            --home-green: #287761;
+            --home-blue: #386aa0;
+        }
+        #view-home .home-v4-shell { display: grid; gap: var(--ver4-section-gap); }
+        #view-home .home-v4-hero {
+            position: relative;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 28px clamp(24px, 5vw, 52px);
+            min-height: var(--ver4-hero-min-height);
+            overflow: hidden;
+            padding: var(--ver4-hero-padding);
+            border: 1px solid var(--home-line);
+            border-radius: var(--ver4-hero-radius);
+            background: radial-gradient(circle at 91% 16%, rgba(184, 139, 57, 0.18), transparent 25%), radial-gradient(circle at 6% 100%, rgba(165, 42, 50, 0.11), transparent 33%), linear-gradient(135deg, #fffdfa 0%, #fbf4ec 58%, #f3e7dc 100%);
+            box-shadow: 0 15px 34px rgba(68, 34, 28, 0.06);
+            box-sizing: border-box;
+        }
+        #view-home .home-v4-hero::before { position: absolute; inset: var(--ver4-hero-inner-inset); border: 1px solid rgba(184, 139, 57, 0.23); border-radius: var(--ver4-hero-inner-radius); content: ''; pointer-events: none; }
+        #view-home .home-v4-hero > * { position: relative; z-index: 1; }
+        #view-home .home-v4-animation { position: absolute; top: -4px; right: -8px; width: 285px; height: 285px; opacity: 0.1; pointer-events: none; }
+        #view-home #home-anim-container { width: 100%; height: 100%; border: 0 !important; transform: scale(0.9); }
+        #view-home .home-v4-hero-copy { min-width: 0; }
+        #view-home .home-v4-greeting-row { display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--home-line); }
+        #view-home .home-v4-date { margin: 0 0 4px; color: var(--home-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; line-height: 1.4; }
+        #view-home .home-v4-greeting { margin: 0; color: var(--home-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.35rem, 2.6vw, 1.7rem); font-weight: 700; line-height: 1.3; }
+        #view-home .home-v4-welcome { margin: 3px 0 0; color: var(--home-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.78rem; line-height: 1.5; }
+        #view-home .home-v4-kicker,
+        #view-home .home-v4-section-kicker { display: flex; align-items: center; gap: 0.45rem; margin: 0; color: var(--home-red); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.15em; line-height: 1.35; }
+        #view-home .home-v4-kicker i,
+        #view-home .home-v4-section-kicker i { color: var(--home-gold); font-size: 0.82rem; }
+        #view-home .home-v4-title { margin: 0.55rem 0 0; color: var(--home-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(2rem, 4.1vw, 3rem); font-weight: 900; letter-spacing: 0.035em; line-height: 1.2; }
+        #view-home .home-v4-lead { max-width: 620px; margin: 0.85rem 0 0; color: var(--home-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: clamp(0.9rem, 1.7vw, 1.02rem); line-height: 1.9; }
+        #view-home .home-v4-catchphrase { display: inline-flex; margin: 0.85rem 0 0; padding: 0.4rem 0.72rem; border: 1px solid rgba(184, 139, 57, 0.25); border-radius: 999px; color: var(--home-red-deep); background: rgba(255, 255, 255, 0.58); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 0.82rem; font-weight: 700; line-height: 1.45; }
+        #view-home .home-v4-origin { margin-top: 1rem; }
+        #view-home .home-v4-origin-toggle { display: inline-flex; min-height: 38px; align-items: center; gap: 0.42rem; padding: 0.42rem 0.68rem; border: 1px solid rgba(131, 92, 60, 0.2); border-radius: 11px; color: var(--home-muted); background: rgba(255, 255, 255, 0.48); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; cursor: pointer; transition: color 160ms ease, background 160ms ease, transform 160ms ease; }
+        #view-home .home-v4-origin-toggle:hover { color: var(--home-red-deep); background: var(--home-paper); transform: translateY(-1px); }
+        #view-home .home-v4-origin-copy { max-width: 680px; margin: 0.7rem 0 0; padding: 0.75rem 0 0.75rem 0.9rem; border-left: 2px solid var(--home-red); color: var(--home-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.82rem; line-height: 1.9; }
+        #view-home .home-v4-seal[data-ver4-hero-emblem] { display: grid; width: 128px; min-width: 128px; height: 128px; place-items: center; align-content: center; gap: 0.45rem; border: 1px solid rgba(184, 139, 57, 0.54); border-radius: 50%; color: var(--home-red); background: rgba(255, 253, 249, 0.72); box-shadow: inset 0 0 0 7px rgba(184, 139, 57, 0.08); }
+        #view-home .home-v4-seal i { color: var(--home-gold); font-size: 2.05rem; }
+        #view-home .home-v4-seal span { font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.13em; line-height: 1.35; text-align: center; }
+        #view-home .home-v4-side { display: grid; grid-column: 2; grid-template-columns: minmax(250px, 308px); align-content: center; justify-items: center; gap: 18px; }
+        #view-home .home-v4-actions { display: grid; width: 100%; grid-template-columns: 1fr; gap: 12px; }
+        #view-home .home-v4-primary-action,
+        #view-home .home-v4-discord-action { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; min-height: 72px; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; border-radius: 16px; color: #fff; font-family: 'Zen Kaku Gothic New', sans-serif; text-align: left; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms ease, background 160ms ease; }
+        #view-home .home-v4-primary-action { border: 1px solid var(--home-red); background: linear-gradient(135deg, var(--home-red), var(--home-red-deep)); box-shadow: 0 10px 18px rgba(118, 32, 40, 0.18); }
+        #view-home .home-v4-discord-action { border: 1px solid rgba(88, 101, 242, 0.72); background: linear-gradient(135deg, #5865f2, #3b45b8); box-shadow: 0 10px 18px rgba(59, 69, 184, 0.18); }
+        #view-home .home-v4-primary-action:hover,
+        #view-home .home-v4-discord-action:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 14px 26px rgba(68, 34, 28, 0.18); }
+        #view-home .home-v4-primary-action > i:first-child,
+        #view-home .home-v4-discord-action > i:first-child { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 50%; color: inherit; background: rgba(255, 255, 255, 0.16); font-size: 1.1rem; }
+        #view-home .home-v4-primary-action span,
+        #view-home .home-v4-discord-action span { min-width: 0; }
+        #view-home .home-v4-primary-action strong,
+        #view-home .home-v4-discord-action strong { display: block; color: inherit; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1rem; font-weight: 700; line-height: 1.35; }
+        #view-home .home-v4-primary-action small,
+        #view-home .home-v4-discord-action small { display: block; margin-top: 2px; color: rgba(255, 255, 255, 0.84); font-size: 0.68rem; font-weight: 600; line-height: 1.45; }
+        #view-home .home-v4-counter-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+        #view-home .home-v4-counter,
+        #view-home .home-v4-anniv,
+        #view-home .home-v4-section-card { border: 1px solid var(--home-line); border-radius: var(--ver4-card-radius); background: var(--home-paper); box-shadow: 0 10px 24px rgba(68, 34, 28, 0.045); }
+        #view-home .home-v4-counter { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.8rem 0.95rem; padding: var(--ver4-card-padding); }
+        #view-home .home-v4-counter-icon { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 50%; color: #fff; font-size: 1.2rem; }
+        #view-home .home-v4-counter--worshippers .home-v4-counter-icon { background: var(--home-red); }
+        #view-home .home-v4-counter--draws .home-v4-counter-icon { background: var(--home-gold); }
+        #view-home .home-v4-counter-copy p { margin: 0; color: var(--home-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; line-height: 1.4; }
+        #view-home .home-v4-counter-copy strong { display: block; margin-top: 0.12rem; color: var(--home-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1.7rem; font-weight: 700; line-height: 1.15; }
+        #view-home .home-v4-counter-meta { display: flex; grid-column: 1 / -1; flex-wrap: wrap; justify-content: space-between; gap: 0.35rem 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--home-line); color: var(--home-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; font-weight: 600; line-height: 1.5; }
+        #view-home .home-v4-counter-meta span { display: inline-flex; align-items: center; gap: 0.28rem; }
+        #view-home .home-v4-counter-meta .bi-circle-fill { color: #46a97d; font-size: 0.38rem; }
+        #view-home .home-v4-anniv,
+        #view-home .home-v4-section-card { padding: var(--ver4-card-padding); }
+        #view-home .home-v4-section-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--home-line); }
+        #view-home .home-v4-section-head--compact { align-items: center; padding-bottom: 0.8rem; }
+        #view-home .home-v4-section-head h2 { margin: 0.42rem 0 0; color: var(--home-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: clamp(1.25rem, 2.6vw, 1.68rem); font-weight: 700; letter-spacing: 0.055em; line-height: 1.45; }
+        #view-home .home-v4-section-note { margin: 0 0 0.12rem; color: var(--home-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 600; line-height: 1.55; text-align: right; }
+        #view-home .home-v4-anniv-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.9rem; }
+        #view-home .home-v4-anniv-list > span { color: var(--home-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.86rem; line-height: 1.7; }
+        #view-home .today-anniv-pill { display: inline-flex; align-items: center; gap: 0.32rem; padding: 0.38rem 0.62rem; border: 1px solid rgba(184, 139, 57, 0.25); border-radius: 999px; color: var(--home-red-deep); background: var(--home-paper-soft); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 700; line-height: 1.4; }
+        #view-home .today-anniv-pill i { color: var(--home-gold); }
+        #view-home .home-v4-source { margin: 0.55rem 0 0; color: var(--home-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.61rem; text-align: right; }
+        #view-home .home-v4-source a { color: inherit; text-underline-offset: 0.15em; }
+        #view-home .home-v4-shortcuts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 1rem; }
+        #view-home .home-v4-shortcut { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; min-height: 92px; align-items: center; gap: 0.75rem; padding: 0.85rem; border: 1px solid var(--home-line); border-radius: 18px; color: var(--home-ink); background: var(--home-paper-soft); text-align: left; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms ease, box-shadow 160ms ease; }
+        #view-home .home-v4-shortcut:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--home-shortcut-accent) 45%, var(--home-line)); box-shadow: 0 12px 22px rgba(68, 34, 28, 0.08); }
+        #view-home .home-v4-shortcut--gold { --home-shortcut-accent: var(--home-gold); }
+        #view-home .home-v4-shortcut--green { --home-shortcut-accent: var(--home-green); }
+        #view-home .home-v4-shortcut--blue { --home-shortcut-accent: var(--home-blue); }
+        #view-home .home-v4-shortcut-icon { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 50%; color: #fff; background: var(--home-shortcut-accent); font-size: 1.1rem; }
+        #view-home .home-v4-shortcut strong { display: block; color: var(--home-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 0.98rem; font-weight: 700; line-height: 1.4; }
+        #view-home .home-v4-shortcut small { display: block; margin-top: 0.14rem; color: var(--home-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.65rem; font-weight: 600; line-height: 1.45; }
+        #view-home .home-v4-shortcut > i:last-child { color: var(--home-shortcut-accent); font-size: 0.85rem; }
+        #view-home .home-v4-all-link { display: inline-flex; min-height: 38px; align-items: center; gap: 0.38rem; padding: 0.4rem 0.1rem 0.4rem 0.6rem; border: 0; color: var(--home-red); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.74rem; font-weight: 800; cursor: pointer; }
+        #view-home .home-v4-all-link:hover { color: var(--home-red-deep); }
+        #view-home .home-v4-tabs { display: inline-flex; gap: 0.35rem; margin-top: 1rem; padding: 0.3rem; border: 1px solid var(--home-line); border-radius: 14px; background: var(--home-paper-soft); }
+        #view-home .home-v4-tabs button { display: inline-flex; min-height: 38px; align-items: center; gap: 0.35rem; padding: 0.42rem 0.7rem; border: 1px solid transparent; border-radius: 10px; color: var(--home-muted); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.72rem; font-weight: 800; cursor: pointer; transition: color 160ms ease, background 160ms ease, box-shadow 160ms ease; }
+        #view-home .home-v4-tabs button[aria-selected="true"] { border-color: rgba(165, 42, 50, 0.28); color: #fff; background: var(--home-red); box-shadow: 0 4px 10px rgba(118, 32, 40, 0.15); }
+        #view-home .home-v4-article-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 1rem 0 0; padding: 0; list-style: none; }
+        #view-home .home-v4-article-list li { min-width: 0; }
+        #view-home .home-v4-article-entry { display: grid; width: 100%; min-height: 132px; grid-template-rows: auto 1fr auto; gap: 0.55rem; padding: 0.9rem; border: 1px solid var(--home-line); border-radius: 18px; color: var(--home-ink); background: var(--home-paper-soft); text-align: left; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms ease, box-shadow 160ms ease; }
+        #view-home .home-v4-article-entry:hover { transform: translateY(-2px); border-color: rgba(165, 42, 50, 0.38); box-shadow: 0 12px 22px rgba(68, 34, 28, 0.08); }
+        #view-home .home-v4-article-entry-top,
+        #view-home .home-v4-article-entry-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.55rem; }
+        #view-home .home-v4-article-tag { display: inline-flex; min-width: 0; max-width: 70%; align-items: center; gap: 0.3rem; padding: 0.26rem 0.46rem; border: 1px solid rgba(184, 139, 57, 0.22); border-radius: 999px; color: var(--home-red-deep); background: rgba(255, 255, 255, 0.58); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.61rem; font-weight: 800; line-height: 1.35; }
+        #view-home .home-v4-article-date,
+        #view-home .home-v4-article-meta { color: var(--home-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; font-weight: 700; line-height: 1.4; white-space: nowrap; }
+        #view-home .home-v4-article-title { display: -webkit-box; overflow: hidden; margin: 0; color: var(--home-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 0.91rem; font-weight: 700; letter-spacing: 0.025em; line-height: 1.55; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+        #view-home .home-v4-article-open { display: inline-flex; align-items: center; gap: 0.32rem; color: var(--home-red); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.66rem; font-weight: 800; white-space: nowrap; }
+        #view-home .home-v4-release { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.35rem 0.55rem; padding: 0.15rem 0; color: var(--home-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; line-height: 1.5; text-align: center; }
+        #view-home .home-v4-release strong { color: var(--home-ink); }
+        #view-home .home-v4-release-status { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.18rem 0.42rem; border: 1px solid rgba(52, 135, 89, 0.26); border-radius: 999px; color: #22744c; background: rgba(77, 163, 109, 0.08); font-size: 0.61rem; font-weight: 800; }
+        #view-home .home-v4-release button { display: inline-flex; min-height: 32px; align-items: center; gap: 0.32rem; padding: 0.25rem 0.45rem; border: 0; border-bottom: 1px solid transparent; color: var(--home-red); background: transparent; font: inherit; font-weight: 800; cursor: pointer; }
+        #view-home .home-v4-release button:hover { border-bottom-color: currentColor; }
+        #view-home button:focus-visible { outline: 3px solid rgba(184, 139, 57, 0.9); outline-offset: 3px; }
+        html.dark #view-home.view-section { --home-paper: #181414; --home-paper-soft: #221a18; --home-ink: #f6e8df; --home-muted: #c3b0a7; --home-line: rgba(238, 215, 195, 0.15); --home-red: #d66a72; --home-red-deep: #ef969b; --home-gold: #d5b36a; }
+        html.dark #view-home .home-v4-hero { border-color: rgba(213, 179, 106, 0.3); background: radial-gradient(circle at 92% 16%, rgba(213, 179, 106, 0.14), transparent 25%), radial-gradient(circle at 6% 100%, rgba(165, 42, 50, 0.2), transparent 33%), linear-gradient(135deg, #181313 0%, #211918 58%, #151212 100%); }
+        html.dark #view-home .home-v4-hero::before { border-color: rgba(213, 179, 106, 0.18); }
+        html.dark #view-home .home-v4-seal[data-ver4-hero-emblem],
+        html.dark #view-home .home-v4-catchphrase,
+        html.dark #view-home .home-v4-origin-toggle,
+        html.dark #view-home .home-v4-article-tag { background: rgba(28, 23, 22, 0.78); }
+        html.dark #view-home .home-v4-release-status { color: #8cdda6; background: rgba(74, 181, 114, 0.14); }
+        @media (max-width: 768px) {
+            #view-home.view-section { width: min(100% - 32px, var(--ver4-content-width)) !important; padding-bottom: 32px !important; }
+            #view-home .home-v4-hero { grid-template-columns: 1fr; gap: 20px; min-height: 0; padding: 24px 20px; border-radius: 24px; }
+            #view-home .home-v4-hero::before { inset: 10px; border-radius: 16px; }
+            #view-home .home-v4-animation { width: 190px; height: 190px; opacity: 0.07; }
+            #view-home .home-v4-seal[data-ver4-hero-emblem] { width: 96px; min-width: 96px; height: 96px; }
+            #view-home .home-v4-side { grid-column: 1; width: 100%; grid-template-columns: 1fr; }
+            #view-home .home-v4-actions,
+            #view-home .home-v4-counter-grid,
+            #view-home .home-v4-shortcuts,
+            #view-home .home-v4-article-list { grid-template-columns: 1fr; }
+            #view-home .home-v4-primary-action,
+            #view-home .home-v4-discord-action { min-height: 66px; }
+            #view-home .home-v4-anniv,
+            #view-home .home-v4-section-card,
+            #view-home .home-v4-counter { padding: 18px; border-radius: 20px; }
+            #view-home .home-v4-section-head { align-items: flex-start; flex-direction: column; }
+            #view-home .home-v4-section-note { text-align: left; }
+            #view-home .home-v4-article-entry { min-height: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #view-home *, #view-home *::before, #view-home *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+        }
+
+        /* Ver.4.0: 読み物レイアウト — 一覧密度と本文ヒーローの最終整合 */
+        #view-news .news-bulletin-list,
+        #view-column .column-library-list { align-items: start; gap: var(--ver4-card-gap); }
+        #view-news .news-bulletin-card,
+        #view-column .column-library-card { min-height: 0 !important; padding: 0 !important; }
+        #view-news .news-bulletin-card-meta,
+        #view-column .column-library-card-top { padding: 0.9rem 1rem 0; }
+        #view-news .news-bulletin-card-copy,
+        #view-column .column-library-card-copy { padding: 0.8rem 1rem 0.92rem; }
+        #view-news .news-bulletin-card-footer,
+        #view-column .column-library-card-footer { padding: 0.82rem 1rem; }
+        #view-article-detail.news-chronicle-layout .news-chronicle-frame,
+        #view-article-detail.column-reader-layout .column-reader-frame { width: 100%; }
+        #view-article-detail.news-chronicle-layout .news-chronicle-document,
+        #view-article-detail.column-reader-layout .column-reader-document { border: 1px solid var(--news-line, var(--column-line)); border-radius: var(--ver4-card-radius); box-shadow: 0 15px 34px rgba(68, 34, 28, 0.06); }
+        #view-article-detail.news-chronicle-layout .news-chronicle-header,
+        #view-article-detail.column-reader-layout .column-reader-header { padding: clamp(1.35rem, 3vw, 2.25rem); }
+        #view-article-detail.news-chronicle-layout .news-chronicle-title,
+        #view-article-detail.column-reader-layout .column-reader-title { max-width: 760px; font-size: clamp(1.5rem, 2.5vw, 2.25rem) !important; font-weight: 700 !important; letter-spacing: 0.045em !important; line-height: 1.5 !important; }
+        #view-article-detail.news-chronicle-layout .news-chronicle-body,
+        #view-article-detail.column-reader-layout .column-reader-body { padding: clamp(1.35rem, 3.3vw, 2.5rem); }
+        @media (max-width: 768px) {
+            #view-news .news-bulletin-card,
+            #view-column .column-library-card { padding: 0 !important; border-radius: 20px !important; }
+            #view-article-detail.news-chronicle-layout .news-chronicle-document,
+            #view-article-detail.column-reader-layout .column-reader-document { border-radius: 20px; }
+            #view-article-detail.news-chronicle-layout .news-chronicle-header,
+            #view-article-detail.column-reader-layout .column-reader-header { padding: 1.25rem 1rem; }
+            #view-article-detail.news-chronicle-layout .news-chronicle-title,
+            #view-article-detail.column-reader-layout .column-reader-title { font-size: clamp(1.32rem, 6vw, 1.7rem) !important; line-height: 1.55 !important; }
+        }
     </style>
         <style id="omikuji-result-pdf-print-style">
             /* おみくじ結果PDFだけに適用する最終印刷規則。
@@ -12986,212 +13179,95 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
             </style>
             
-            <div class="bento-grid">
-                
-                <!-- 1. 新統合Heroカード (span 12) -->
-                <div class="bento-card relative flex flex-col justify-between overflow-hidden p-8 bg-gradient-to-br from-red-950 via-zinc-900 to-black text-white border border-zinc-800" style="grid-column: span 12;">
-                    <!-- 背景の和風サークル装飾 (不透明度を25%に引き上げて存在感を向上) -->
-                    <div class="absolute top-0 right-0 w-80 h-80 opacity-25 pointer-events-none overflow-hidden">
-                        <div class="home-circle-container" id="home-anim-container" style="transform: scale(0.9); border:none; width:100%; height:100%; margin: 0;"></div>
-                    </div>
-                    
-                    <div class="z-10 w-full">
-                        <!-- 挨拶と日付 -->
-                        <div class="flex justify-between items-start flex-wrap gap-2 mb-4 border-b border-zinc-800 pb-4">
+            <div class="home-v4-shell">
+                <header class="home-v4-hero" aria-labelledby="home-page-title">
+                    <div class="home-v4-animation" aria-hidden="true"><div id="home-anim-container" class="home-circle-container"></div></div>
+                    <div class="home-v4-hero-copy">
+                        <div class="home-v4-greeting-row">
                             <div>
-                                <p class="text-xs font-bold text-zinc-400 mb-1" id="welcome-date">---</p>
-                                <h2 class="text-2xl md:text-3xl font-black tracking-wide" style="font-family: 'Zen Old Mincho', serif;">
-                                    <span id="welcome-username" class="text-white">ゲスト</span> さん
-                                </h2>
-                                <p class="text-sm text-zinc-300 font-medium mt-1">ようこそ、天命乃杜へ</p>
-                            </div>
-                            <div class="opacity-40">
-                                <div style="width:3rem;height:3rem;background-color:var(--accent-red);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Zen Old Mincho',serif;font-size:1.8rem;font-weight:700;color:var(--accent-gold);line-height:1;margin:0 auto;box-shadow:0 0 10px rgba(185,28,28,0.4);">天</div>
+                                <p id="welcome-date" class="home-v4-date">---</p>
+                                <p class="home-v4-greeting"><span id="welcome-username">ゲスト</span> さん</p>
+                                <p class="home-v4-welcome">ようこそ、天命乃杜へ</p>
                             </div>
                         </div>
-
-                        <!-- タイトルエリア -->
-                        <div class="my-6 text-center md:text-left">
-                            <p class="text-xs font-serif tracking-[0.3em] uppercase text-zinc-400 mb-1">FORTUNE TELLING</p>
-                            <h1 class="text-3xl md:text-4xl font-black tracking-widest text-white" style="font-family: 'Zen Old Mincho'">運勢・天命乃杜</h1>
-                            <!-- 金色 (var(--accent-gold)) で調和させたサブコピー -->
-                            <p class="home-catchphrase text-lg font-bold tracking-wider mt-2" style="font-family: 'Zen Old Mincho';">今日も、天命は、あなたを待っている。</p>
-                        </div>
-
-                        <!-- アコーディオン由緒（折りたたみ説明文） -->
-                        <div class="mb-8 max-w-2xl text-left">
-                            <button onclick="toggleHomeDescription()" class="text-xs font-bold text-zinc-300 hover:text-white transition flex items-center gap-1 bg-zinc-800/80 px-3 py-1.5 rounded-full border border-zinc-700 shadow-sm">
-                                <i id="desc-arrow-icon" class="bi bi-chevron-down"></i>
-                                <span>天命乃杜の由緒を読む</span>
+                        <p class="home-v4-kicker"><i class="bi bi-stars" aria-hidden="true"></i> DAILY PILGRIMAGE</p>
+                        <h1 id="home-page-title" class="home-v4-title">運勢・天命乃杜</h1>
+                        <p class="home-v4-lead">今日の巡りを確かめ、心を静めて、天命からのことばを受け取るための入口です。</p>
+                        <p class="home-v4-catchphrase">今日も、天命は、あなたを待っている。</p>
+                        <div class="home-v4-origin">
+                            <button type="button" onclick="toggleHomeDescription()" class="home-v4-origin-toggle" aria-controls="home-description-area" aria-expanded="false">
+                                <i id="desc-arrow-icon" class="bi bi-chevron-down" aria-hidden="true"></i><span>天命乃杜の由緒を読む</span>
                             </button>
-                            <div id="home-description-area" class="hidden mt-3 text-xs md:text-sm font-serif text-zinc-300 leading-loose pl-3 border-l-2 border-red-800 transition-all duration-300">
-                                道に迷うとき、立ち止まりたいとき、あなたの内なる声に耳を傾けてみてください。<br><br>
-                                おみくじは、答えを与えるものではありません。今この瞬間の自分と静かに向き合い、歩み出すための、天命からの問いかけ。<br><br>
-                                今日も、いつでも、どこにいても、天命乃杜はあなたのそばにあります。
+                            <div id="home-description-area" class="hidden home-v4-origin-copy">
+                                道に迷うとき、立ち止まりたいとき、あなたの内なる声に耳を傾けてみてください。おみくじは答えを与えるものではなく、今この瞬間の自分と静かに向き合い、歩み出すための天命からの問いかけです。今日も、いつでも、どこにいても、天命乃杜はあなたのそばにあります。
                             </div>
                         </div>
                     </div>
-
-                    <!-- おみくじ・公式Discord アクションエリア -->
-                    <div class="z-10 w-full flex flex-col items-center gap-3 py-2">
-                        <div class="kira-wrap omikuji-wrap w-full max-w-lg">
-                        <button onclick="startOmikuji()" class="group btn-shine-effect flex items-center justify-center gap-4 bg-[var(--accent-red)] text-white hover:bg-[#a01818] transition-all duration-300 py-5 px-10 rounded-2xl w-full transform hover:-translate-y-1" style="border: 2px solid var(--accent-gold); box-shadow: 0 0 15px rgba(197, 160, 89, 0.45);">
-                            <i class="bi bi-box-seam-fill text-3xl group-hover:scale-110 transition-transform duration-300"></i>
-                            <div class="text-left">
-                                <h3 class="font-black text-lg md:text-xl tracking-wider m-0 leading-tight" style="font-family: 'Zen Old Mincho', serif;">おみくじを引く</h3>
-                                <p class="text-[10px] opacity-80 mt-0.5 leading-none">心を静め、天命を問う</p>
-                            </div>
-                        </button>
-                        </div>
-
-                        <div class="kira-wrap discord-wrap w-full max-w-lg">
-                        <button onclick="openDiscordInvite()" class="group flex items-center justify-center gap-3 text-white transition-all duration-300 py-4 px-8 rounded-2xl w-full transform hover:-translate-y-1" style="background: linear-gradient(135deg, #5865F2, #3b45b8); border: 1px solid rgba(255,255,255,0.25); box-shadow: 0 0 18px rgba(88,101,242,0.35); color: #ffffff !important;">
-                            <i class="bi bi-discord text-2xl group-hover:scale-110 transition-transform duration-300" style="color: #ffffff !important;"></i>
-                            <div class="text-left" style="color: #ffffff !important;">
-                                <h3 class="font-black text-base md:text-lg tracking-wider m-0 leading-tight" style="font-family: 'Zen Old Mincho', serif; color: #ffffff !important;">公式Discord参拝所へ</h3>
-                                <p class="text-[10px] opacity-85 mt-0.5 leading-none" style="color: #ffffff !important;">毎朝の天命・おみくじ・御守を受け取る</p>
-                            </div>
-                        </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. カウンター (ミニカード) - モダン刷新版：ライブ更新時刻・最終リセット日表示付き -->
-                <div class="bento-card bento-mini bg-gradient-to-br from-zinc-950 to-black text-white border-l-4 border-red-600 border-t-0 border-r-0 border-b-0" style="grid-column: span 6;">
-                    <div class="counter-mini-top">
-                        <div class="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center text-white shadow-sm flex-shrink-0">
-                            <i class="bi bi-people-fill text-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-zinc-400 font-bold">累計参拝者数</p>
-                            <p class="text-2xl font-black text-white" id="worshipper-counter">---</p>
-                        </div>
-                    </div>
-                    <div class="counter-meta-footer">
-                        <span><span class="counter-live-dot"></span>更新：<span class="counter-update-time">--:--:--</span></span>
-                        <span><i class="bi bi-arrow-counterclockwise"></i>最終リセット：2026/1/25</span>
-                    </div>
-                </div>
-
-                <div class="bento-card bento-mini bg-gradient-to-br from-zinc-950 to-black text-white border-l-4 border-yellow-600 border-t-0 border-r-0 border-b-0" style="grid-column: span 6;">
-                    <div class="counter-mini-top">
-                        <div class="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center text-white shadow-sm flex-shrink-0">
-                            <i class="bi bi-layers-fill text-2xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-zinc-400 font-bold">おみくじ発行総数</p>
-                            <p class="text-2xl font-black text-white" id="live-counter">---</p>
-                        </div>
-                    </div>
-                    <div class="counter-meta-footer">
-                        <span><span class="counter-live-dot"></span>更新：<span class="counter-update-time">--:--:--</span></span>
-                        <span><i class="bi bi-arrow-counterclockwise"></i>最終リセット：2026/1/25</span>
-                    </div>
-                </div>
-
-                <!-- 2.5 新設: 今日は何の日カード (span 12) -->
-                <div class="bento-card p-5 bg-zinc-950 border border-zinc-800 border-t-2" style="grid-column: span 12; border-top-color: var(--accent-gold);" id="today-anniv-card">
-                    <div class="flex items-center gap-2 mb-2">
-                        <i class="bi bi-calendar-heart-fill" style="color: var(--accent-gold);"></i>
-                        <h3 class="font-bold text-sm text-zinc-200">今日は何の日</h3>
-                        <span id="today-anniv-date" class="text-xs text-zinc-500 ml-auto"></span>
-                    </div>
-                    <div id="today-anniv-body" class="flex flex-wrap gap-2">
-                        <span class="text-xs text-zinc-500">読み込み中...</span>
-                    </div>
-                    <p class="text-[10px] text-zinc-600 mt-2 text-right">
-                        <a href="https://www.whatistoday.cyou/" target="_blank" rel="noopener" class="hover:underline">powered by 今日は何の日API</a>
-                    </p>
-                </div>
-
-                <!-- 3. 新設: クイックアクセスカード (span 12) - 個別独立カードデザイン＆ホバー時リッチ浮上 -->
-                <div class="bento-card flex flex-col p-6 bg-zinc-950 border border-zinc-800 border-t-2 border-t-red-700" style="grid-column: span 12;">
-                    <div class="flex items-center gap-2 mb-4 border-b border-zinc-800 pb-2">
-                        <i class="bi bi-rocket-takeoff-fill text-lg" style="color: var(--accent-gold);"></i>
-                        <h3 class="font-bold text-sm tracking-wide text-zinc-200">クイックアクセス</h3>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button onclick="showView('zodiac')" class="stats-card-interactive flex items-center gap-4 p-4 rounded-xl border border-zinc-700 border-l-4 border-l-yellow-500 text-left bg-zinc-900 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:border-yellow-500">
-                            <div class="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center text-lg flex-shrink-0 shadow-sm"><i class="bi bi-stars"></i></div>
-                            <div>
-                                <span class="font-black text-sm block text-zinc-100" style="font-family: 'Zen Old Mincho', serif;">12星座占い</span>
-                                <span class="text-[10px] text-zinc-500">本日の最強運勢ランキング</span>
-                            </div>
-                        </button>
-                        <button onclick="showView('prefecture')" class="stats-card-interactive flex items-center gap-4 p-4 rounded-xl border border-zinc-700 border-l-4 border-l-red-600 text-left bg-zinc-900 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:border-red-600">
-                            <div class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center text-lg flex-shrink-0 shadow-sm"><i class="bi bi-map"></i></div>
-                            <div>
-                                <span class="font-black text-sm block text-zinc-100" style="font-family: 'Zen Old Mincho', serif;">全国の運気</span>
-                                <span class="text-[10px] text-zinc-500">47都道府県の土地のパワー</span>
-                            </div>
-                        </button>
-                        <button onclick="showView('history')" class="stats-card-interactive flex items-center gap-4 p-4 rounded-xl border border-zinc-700 border-l-4 border-l-blue-500 text-left bg-zinc-900 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg hover:border-blue-500">
-                            <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg flex-shrink-0 shadow-sm"><i class="bi bi-clock-history"></i></div>
-                            <div>
-                                <span class="font-black text-sm block text-zinc-100" style="font-family: 'Zen Old Mincho', serif;">おみくじの轍</span>
-                                <span class="text-[10px] text-zinc-500">過去の参拝履歴と全体の傾向</span>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 4. 新統合: お知らせ ＆ コラム タブカード (span 12) -->
-                <div class="bento-card flex flex-col p-6 bg-zinc-950 border border-zinc-800 border-t-2 border-t-red-700" style="grid-column: span 12;">
-                    <!-- カード名 -->
-                    <div class="flex items-center gap-2 mb-3">
-                        <i class="bi bi-bell-fill text-lg" style="color: var(--accent-gold);"></i>
-                        <h3 class="font-bold text-sm tracking-wide text-zinc-200">お知らせ</h3>
-                    </div>
-                    <!-- タブ切り替えヘッダー -->
-                    <div class="flex items-center justify-between mb-4 border-b border-zinc-800 pb-3 flex-wrap gap-2">
-                        <div class="flex gap-2">
-                            <button id="home-tab-news-btn" onclick="switchHomeTab('news')" class="px-4 py-1.5 rounded-full text-xs font-black tracking-wider transition-all duration-200 bg-red-600 text-white shadow-sm border border-red-600">
-                                <i class="bi bi-bell-fill mr-1"></i>社務所だより
+                    <div class="home-v4-side">
+                        <div class="home-v4-seal" data-ver4-hero-emblem aria-hidden="true"><i class="bi bi-torii"></i><span>TENMEI<br>SHRINE</span></div>
+                        <div class="home-v4-actions" aria-label="主な操作">
+                            <button type="button" onclick="startOmikuji()" class="home-v4-primary-action">
+                                <i class="bi bi-box-seam-fill" aria-hidden="true"></i><span><strong>おみくじを引く</strong><small>心を静め、天命を問う</small></span><i class="bi bi-arrow-right" aria-hidden="true"></i>
                             </button>
-                            <button id="home-tab-column-btn" onclick="switchHomeTab('column')" class="px-4 py-1.5 rounded-full text-xs font-black tracking-wider transition-all duration-200 bg-transparent text-zinc-400 hover:text-white border border-transparent hover:border-zinc-600">
-                                <i class="bi bi-book-half mr-1"></i>神籤草子
-                            </button>
-                        </div>
-                        <div class="flex items-center">
-                            <button id="home-tab-more-btn" onclick="showView('news')" class="text-xs hover:text-yellow-300 hover:underline flex items-center gap-1 font-bold bg-transparent border-none cursor-pointer" style="color: var(--accent-gold);">
-                                <span>一覧へ</span><i class="bi bi-chevron-right"></i>
+                            <button type="button" onclick="openDiscordInvite()" class="home-v4-discord-action">
+                                <i class="bi bi-discord" aria-hidden="true"></i><span><strong>公式Discord参拝所へ</strong><small>毎朝の天命・おみくじ・御守を受け取る</small></span><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
-                    
-                    <!-- ニュースコンテンツエリア -->
-                    <div id="home-tab-news-content" class="block">
-                        <ul class="text-sm space-y-0 divide-y divide-zinc-800" id="home-news-list">
-                            <!-- JSで自動挿入 -->
-                        </ul>
-                    </div>
+                </header>
 
-                    <!-- コラムコンテンツエリア -->
-                    <div id="home-tab-column-content" class="hidden">
-                        <ul class="text-sm space-y-0 divide-y divide-zinc-800" id="home-column-list">
-                            <!-- JSで自動挿入 -->
-                        </ul>
-                    </div>
-                </div>
+                <section class="home-v4-counter-grid" aria-label="参拝の記録">
+                    <article class="home-v4-counter home-v4-counter--worshippers">
+                        <div class="home-v4-counter-icon"><i class="bi bi-people-fill" aria-hidden="true"></i></div>
+                        <div class="home-v4-counter-copy"><p>累計参拝者数</p><strong id="worshipper-counter">---</strong></div>
+                        <div class="home-v4-counter-meta"><span><i class="bi bi-circle-fill" aria-hidden="true"></i>更新：<span class="counter-update-time">--:--:--</span></span><span><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>最終リセット：2026/1/25</span></div>
+                    </article>
+                    <article class="home-v4-counter home-v4-counter--draws">
+                        <div class="home-v4-counter-icon"><i class="bi bi-layers-fill" aria-hidden="true"></i></div>
+                        <div class="home-v4-counter-copy"><p>おみくじ発行総数</p><strong id="live-counter">---</strong></div>
+                        <div class="home-v4-counter-meta"><span><i class="bi bi-circle-fill" aria-hidden="true"></i>更新：<span class="counter-update-time">--:--:--</span></span><span><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>最終リセット：2026/1/25</span></div>
+                    </article>
+                </section>
 
+                <section id="today-anniv-card" class="home-v4-anniv" aria-labelledby="today-anniv-title">
+                    <div class="home-v4-section-head home-v4-section-head--compact">
+                        <div><p class="home-v4-section-kicker"><i class="bi bi-calendar-heart" aria-hidden="true"></i> TODAY IN THE SHRINE</p><h2 id="today-anniv-title">今日は何の日</h2></div>
+                        <span id="today-anniv-date" class="home-v4-section-note"></span>
+                    </div>
+                    <div id="today-anniv-body" class="home-v4-anniv-list"><span>読み込み中...</span></div>
+                    <p class="home-v4-source"><a href="https://www.whatistoday.cyou/" target="_blank" rel="noopener">powered by 今日は何の日API</a></p>
+                </section>
+
+                <section class="home-v4-section-card" aria-labelledby="home-shortcuts-title">
+                    <div class="home-v4-section-head">
+                        <div><p class="home-v4-section-kicker"><i class="bi bi-compass" aria-hidden="true"></i> QUICK ACCESS</p><h2 id="home-shortcuts-title">今日の道しるべ</h2></div>
+                        <p class="home-v4-section-note">気になる巡りから、お入りください。</p>
+                    </div>
+                    <div class="home-v4-shortcuts">
+                        <button type="button" onclick="showView('zodiac')" class="home-v4-shortcut home-v4-shortcut--gold"><span class="home-v4-shortcut-icon"><i class="bi bi-stars" aria-hidden="true"></i></span><span><strong>12星座占い</strong><small>本日の最強運勢ランキング</small></span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+                        <button type="button" onclick="showView('prefecture')" class="home-v4-shortcut home-v4-shortcut--green"><span class="home-v4-shortcut-icon"><i class="bi bi-map" aria-hidden="true"></i></span><span><strong>全国の運気</strong><small>47都道府県の土地のパワー</small></span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+                        <button type="button" onclick="showView('history')" class="home-v4-shortcut home-v4-shortcut--blue"><span class="home-v4-shortcut-icon"><i class="bi bi-clock-history" aria-hidden="true"></i></span><span><strong>おみくじの轍</strong><small>過去の参拝履歴と全体の傾向</small></span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+                    </div>
+                </section>
+
+                <section class="home-v4-section-card home-v4-letter-card" aria-labelledby="home-letter-title">
+                    <div class="home-v4-section-head">
+                        <div><p class="home-v4-section-kicker"><i class="bi bi-journal-text" aria-hidden="true"></i> FROM THE FOREST</p><h2 id="home-letter-title">杜の便り</h2></div>
+                        <button id="home-tab-more-btn" type="button" onclick="showView('news')" class="home-v4-all-link"><span>一覧へ</span><i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="home-v4-tabs" role="tablist" aria-label="杜の便りの種類">
+                        <button id="home-tab-news-btn" type="button" onclick="switchHomeTab('news')" role="tab" aria-selected="true" aria-controls="home-tab-news-content"><i class="bi bi-bell" aria-hidden="true"></i>社務所だより</button>
+                        <button id="home-tab-column-btn" type="button" onclick="switchHomeTab('column')" role="tab" aria-selected="false" aria-controls="home-tab-column-content"><i class="bi bi-book-half" aria-hidden="true"></i>神籤草子</button>
+                    </div>
+                    <div id="home-tab-news-content" role="tabpanel"><ul id="home-news-list" class="home-v4-article-list"></ul></div>
+                    <div id="home-tab-column-content" class="hidden" role="tabpanel"><ul id="home-column-list" class="home-v4-article-list"></ul></div>
+                </section>
+
+                <footer class="home-v4-release" aria-label="現在のバージョン情報">
+                    <span>運勢・天命乃杜 <strong>Ver. 3.6</strong></span><span aria-hidden="true">・</span><span>2026年8月12日リリース</span><span class="home-v4-release-status"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>最新版</span>
+                    <button type="button" onclick="openVerHistory()"><i class="bi bi-clock-history" aria-hidden="true"></i>更新の軌跡</button>
+                </footer>
             </div>
-            
-            <!-- Ver. 3.6 システムフッター -->
-            <div class="mt-12 mb-4 text-center border-t border-zinc-800 pt-6">
-                <div class="flex flex-col items-center justify-center gap-2 text-xs text-zinc-500 font-mono">
-                    <div class="flex items-center gap-2 flex-wrap justify-center">
-                        <span>運勢・天命乃杜 Ver. 3.6</span>
-                        <span>|</span>
-                        <span>リリース日: 2026/08/12</span>
-                        <span>|</span>
-                        <span class="inline-flex items-center gap-1 text-[10px] bg-green-950/50 text-green-400 border border-green-800 px-1.5 py-0.5 rounded font-bold"><i class="bi bi-patch-check-fill"></i>最新版</span>
-                    </div>
-                    <button onclick="openVerHistory()" class="ver-history-btn" style="margin-top: 4px;">
-                        <i class="bi bi-clock-history"></i> 更新の軌跡
-                    </button>
-                </div>
-            </div>
-
         </section>
 
         <!-- ビュー: おみくじ選択 (案内文更新版) -->
@@ -22031,44 +22107,33 @@ let historyPageState = {
 
     // 1. ホーム画面のリスト (隙間修正・コンパクト版)
     window.renderHomeLists = function() {
-        // 社務所だより（最新4件）
+        const renderEntry = (kind, item, label) => {
+            const readingMeta = getArticleReadingMeta(item.content);
+            return `
+                <li>
+                    <button type="button" class="home-v4-article-entry" onclick="openArticle('${kind}', ${item.id})" aria-label="${item.title}を読む">
+                        <span class="home-v4-article-entry-top">
+                            <span class="home-v4-article-tag"><i class="bi ${kind === 'news' ? 'bi-megaphone' : 'bi-bookmark-star'}" aria-hidden="true"></i>${label}</span>
+                            <time class="home-v4-article-date" datetime="${item.date.replaceAll('/', '-')}">${item.date}</time>
+                        </span>
+                        <span class="home-v4-article-title">${item.title}</span>
+                        <span class="home-v4-article-entry-foot">
+                            <span class="home-v4-article-meta"><i class="bi bi-file-earmark-text" aria-hidden="true"></i>${readingMeta.charCount.toLocaleString()}字・約${readingMeta.readMinutes}分</span>
+                            <span class="home-v4-article-open">本文を読む<i class="bi bi-arrow-right" aria-hidden="true"></i></span>
+                        </span>
+                    </button>
+                </li>
+            `;
+        };
+
         const newsListEl = document.getElementById('home-news-list');
         if (newsListEl) {
-            newsListEl.innerHTML = newsData.slice(0, 5).map(item => {
-                const readingMeta = getArticleReadingMeta(item.content);
-                return `
-                    <li class="flex justify-between items-center cursor-pointer hover:bg-zinc-900 py-2 px-1 transition group" onclick="openArticle('news', ${item.id})">
-                        <div class="flex items-center min-w-0 mr-2">
-                            <span class="flex-shrink-0 bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] mr-2 ${item.tagColor || 'text-zinc-300'} font-bold border border-zinc-700">${item.tag}</span>
-                            <span class="truncate group-hover:text-[var(--accent-gold)] transition-colors text-sm font-medium">${item.title}</span>
-                        </div>
-                        <div class="text-right flex-shrink-0 leading-tight">
-                            <span class="block text-[10px] text-zinc-500 font-mono">${item.date}</span>
-                            <span class="block text-[9px] text-zinc-500 mt-0.5">${readingMeta.charCount.toLocaleString()}字・約${readingMeta.readMinutes}分</span>
-                        </div>
-                    </li>
-                `;
-            }).join('');
+            newsListEl.innerHTML = newsData.slice(0, 4).map(item => renderEntry('news', item, item.tag)).join('');
         }
 
-        // 神籤草子（最新5件）
         const columnListEl = document.getElementById('home-column-list');
         if (columnListEl) {
-            columnListEl.innerHTML = columnData.slice(0, 5).map(item => {
-                const readingMeta = getArticleReadingMeta(item.content);
-                return `
-                    <li class="flex justify-between items-center cursor-pointer hover:bg-zinc-900 py-2 px-1 transition group" onclick="openArticle('column', ${item.id})">
-                        <div class="flex items-center min-w-0 mr-2">
-                            <span class="flex-shrink-0 bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] mr-2 text-zinc-300 font-bold border border-zinc-700">${item.category}</span>
-                            <span class="truncate group-hover:text-[var(--accent-gold)] transition-colors text-sm font-medium">${item.title}</span>
-                        </div>
-                        <div class="text-right flex-shrink-0 leading-tight">
-                            <span class="block text-[10px] text-zinc-500 font-mono">${item.date}</span>
-                            <span class="block text-[9px] text-zinc-500 mt-0.5">${readingMeta.charCount.toLocaleString()}字・約${readingMeta.readMinutes}分</span>
-                        </div>
-                    </li>
-                `;
-            }).join('');
+            columnListEl.innerHTML = columnData.slice(0, 4).map(item => renderEntry('column', item, item.category)).join('');
         }
     };
 
@@ -23334,16 +23399,13 @@ const LabAuth = (function() {
         window.toggleHomeDescription = function() {
             const descArea = document.getElementById('home-description-area');
             const arrowIcon = document.getElementById('desc-arrow-icon');
+            const toggle = document.querySelector('.home-v4-origin-toggle');
             if (!descArea || !arrowIcon) return;
 
             const isHidden = descArea.classList.contains('hidden');
-            if (isHidden) {
-                descArea.classList.remove('hidden');
-                arrowIcon.className = 'bi bi-chevron-up';
-            } else {
-                descArea.classList.add('hidden');
-                arrowIcon.className = 'bi bi-chevron-down';
-            }
+            descArea.classList.toggle('hidden', !isHidden);
+            arrowIcon.className = isHidden ? 'bi bi-chevron-up' : 'bi bi-chevron-down';
+            if (toggle) toggle.setAttribute('aria-expanded', String(isHidden));
         };
 
         window.switchHomeTab = function(tab) {
@@ -23355,30 +23417,12 @@ const LabAuth = (function() {
 
             if (!newsBtn || !colBtn || !newsContent || !colContent || !moreBtn) return;
 
-            if (tab === 'news') {
-                // タブボタンのアクティブクラス付け替え
-                newsBtn.className = "px-4 py-1.5 rounded-full text-xs font-black tracking-wider transition-all duration-200 bg-red-600 text-white shadow-sm border border-red-600";
-                colBtn.className = "px-4 py-1.5 rounded-full text-xs font-black tracking-wider transition-all duration-200 bg-transparent text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 border border-transparent hover:border-gray-200 dark:hover:border-zinc-700";
-                
-                // コンテンツの表示/非表示切り替え
-                newsContent.classList.remove('hidden');
-                newsContent.classList.add('block');
-                colContent.classList.remove('block');
-                colContent.classList.add('hidden');
-
-                // 一覧へ遷移ボタンの振る舞い変更
-                moreBtn.setAttribute('onclick', "showView('news')");
-            } else {
-                colBtn.className = "px-4 py-1.5 rounded-full text-xs font-black tracking-wider transition-all duration-200 bg-red-600 text-white shadow-sm border border-red-600";
-                newsBtn.className = "px-4 py-1.5 rounded-full text-xs font-black tracking-wider transition-all duration-200 bg-transparent text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 border border-transparent hover:border-gray-200 dark:hover:border-zinc-700";
-
-                colContent.classList.remove('hidden');
-                colContent.classList.add('block');
-                newsContent.classList.remove('block');
-                newsContent.classList.add('hidden');
-
-                moreBtn.setAttribute('onclick', "showView('column')");
-            }
+            const isNews = tab === 'news';
+            newsBtn.setAttribute('aria-selected', String(isNews));
+            colBtn.setAttribute('aria-selected', String(!isNews));
+            newsContent.classList.toggle('hidden', !isNews);
+            colContent.classList.toggle('hidden', isNews);
+            moreBtn.setAttribute('onclick', isNews ? "showView('news')" : "showView('column')");
         };
 
         
