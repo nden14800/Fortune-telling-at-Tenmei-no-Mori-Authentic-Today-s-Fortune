@@ -7749,7 +7749,85 @@ html.reduce-motion .member-login-dialog-close { animation: none !important; tran
         }
 
         @keyframes blinkCursor {0%, 100% { opacity: 1; }50% { opacity: 0; } }
-        @keyframes fadeInTerminal {from { opacity: 0; }to { opacity: 1; } }/* --- TENMEI Labs: 追加機能スタイル --- */
+        @keyframes fadeInTerminal {from { opacity: 0; }to { opacity: 1; } }
+
+        /* Ver.4.0: サーバーメンテナンス画面 — サイト本体と同じ余白・印章・二重線カードで、
+           状態、実施時間、影響範囲、確認先を一画面で明確に伝える。 */
+        .maintenance-screen {
+            --maintenance-paper: #fffdf9;
+            --maintenance-paper-soft: #f7efe3;
+            --maintenance-ink: #332823;
+            --maintenance-muted: #71645c;
+            --maintenance-line: rgba(126, 86, 55, 0.20);
+            --maintenance-line-strong: rgba(171, 120, 57, 0.44);
+            --maintenance-accent: #a52b31;
+            --maintenance-gold: #aa7624;
+            position: fixed;
+            inset: 0;
+            z-index: 2147483647;
+            display: grid;
+            min-height: 100dvh;
+            overflow-y: auto;
+            box-sizing: border-box;
+            padding: clamp(20px, 5vw, 68px) clamp(16px, 4vw, 48px);
+            background:
+                radial-gradient(circle at 92% 8%, rgba(196, 151, 74, 0.18), transparent 27%),
+                radial-gradient(circle at 8% 94%, rgba(165, 43, 49, 0.11), transparent 31%),
+                linear-gradient(135deg, #f5eee4 0%, #fffdf9 48%, #f4ebdf 100%);
+            color: var(--maintenance-ink);
+            font-family: 'Noto Serif JP', 'Zen Old Mincho', serif;
+            isolation: isolate;
+        }
+        .maintenance-screen::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.58;
+            background-image: radial-gradient(rgba(120, 80, 47, 0.16) 0.65px, transparent 0.7px);
+            background-size: 8px 8px;
+            mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+        }
+        .maintenance-shell { width: min(100%, 760px); margin: auto; }
+        .maintenance-brand { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 20px 6px; color: var(--maintenance-muted); font-family: 'Noto Sans JP', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em; }
+        .maintenance-brand-mark { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid var(--maintenance-line-strong); border-radius: 50%; color: var(--maintenance-accent); font-family: 'Zen Old Mincho', serif; font-size: 0.9rem; }
+        .maintenance-panel { position: relative; overflow: hidden; border: 1px solid var(--maintenance-line-strong); border-radius: 28px; background: linear-gradient(145deg, color-mix(in srgb, var(--maintenance-paper) 95%, #fff 5%), var(--maintenance-paper-soft)); box-shadow: 0 28px 72px rgba(76, 49, 31, 0.15), inset 0 1px 0 rgba(255,255,255,0.9); }
+        .maintenance-panel::before { content: ''; position: absolute; inset: 8px; border: 1px solid var(--maintenance-line); border-radius: 22px; pointer-events: none; }
+        .maintenance-panel-inner { position: relative; padding: clamp(28px, 6vw, 56px); }
+        .maintenance-status { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 12px; border: 1px solid color-mix(in srgb, var(--maintenance-accent) 34%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--maintenance-accent) 8%, transparent); color: var(--maintenance-accent); font-family: 'Noto Sans JP', sans-serif; font-size: 0.73rem; font-weight: 800; letter-spacing: 0.08em; }
+        .maintenance-status i { font-size: 0.86rem; }
+        .maintenance-eyebrow { margin: 26px 0 10px; color: var(--maintenance-gold); font-family: 'Noto Sans JP', sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.16em; }
+        .maintenance-title { max-width: 14em; margin: 0; color: var(--maintenance-ink); font-family: 'Zen Old Mincho', serif; font-size: clamp(1.75rem, 5.5vw, 2.75rem); font-weight: 800; line-height: 1.34; letter-spacing: 0.07em; }
+        .maintenance-lead { max-width: 41rem; margin: 18px 0 0; color: var(--maintenance-muted); font-family: 'Noto Sans JP', sans-serif; font-size: clamp(0.9rem, 2.1vw, 1rem); line-height: 1.95; }
+        .maintenance-preview-note { display: flex; align-items: flex-start; gap: 9px; margin: 22px 0 0; padding: 13px 14px; border: 1px solid rgba(170, 118, 36, 0.34); border-radius: 14px; background: rgba(170, 118, 36, 0.08); color: #79551f; font-family: 'Noto Sans JP', sans-serif; font-size: 0.78rem; line-height: 1.7; }
+        .maintenance-preview-note i { margin-top: 0.18em; color: var(--maintenance-gold); }
+        .maintenance-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 30px 0 0; }
+        .maintenance-detail { min-height: 138px; padding: 18px; border: 1px solid var(--maintenance-line); border-radius: 18px; background: color-mix(in srgb, #fff 66%, var(--maintenance-paper-soft)); box-sizing: border-box; }
+        .maintenance-detail-label { display: flex; align-items: center; gap: 8px; color: var(--maintenance-gold); font-family: 'Noto Sans JP', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; }
+        .maintenance-detail-label i { font-size: 0.88rem; }
+        .maintenance-detail strong { display: block; margin-top: 12px; color: var(--maintenance-ink); font-family: 'Noto Sans JP', sans-serif; font-size: 0.91rem; line-height: 1.7; }
+        .maintenance-detail p { margin: 7px 0 0; color: var(--maintenance-muted); font-family: 'Noto Sans JP', sans-serif; font-size: 0.75rem; line-height: 1.65; }
+        .maintenance-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 30px 0 0; }
+        .maintenance-reload, .maintenance-community { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 9px; border-radius: 14px; box-sizing: border-box; font-family: 'Noto Sans JP', sans-serif; font-size: 0.84rem; font-weight: 800; text-decoration: none; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+        .maintenance-reload { padding: 0 20px; border: 1px solid transparent; background: var(--maintenance-accent); color: #fff; box-shadow: 0 12px 22px rgba(165, 43, 49, 0.22); cursor: pointer; }
+        .maintenance-community { padding: 0 18px; border: 1px solid var(--maintenance-line-strong); background: rgba(255,255,255,0.5); color: var(--maintenance-ink); }
+        .maintenance-reload:hover, .maintenance-community:hover { transform: translateY(-1px); }
+        .maintenance-reload:hover { background: #8d1f27; box-shadow: 0 15px 27px rgba(165, 43, 49, 0.28); }
+        .maintenance-community:hover { background: #fff; }
+        .maintenance-reload:active, .maintenance-community:active { transform: scale(0.98); }
+        .maintenance-reload:focus-visible, .maintenance-community:focus-visible { outline: 0; box-shadow: 0 0 0 4px rgba(165, 43, 49, 0.18); }
+        .maintenance-footer { margin: 24px 4px 0; color: var(--maintenance-muted); font-family: 'Noto Sans JP', sans-serif; font-size: 0.72rem; line-height: 1.7; }
+        html.dark .maintenance-screen { --maintenance-paper: #1d1917; --maintenance-paper-soft: #281f1b; --maintenance-ink: #f2eae2; --maintenance-muted: #c9bdb3; --maintenance-line: rgba(229, 204, 173, 0.17); --maintenance-line-strong: rgba(205, 157, 89, 0.36); --maintenance-accent: #df666a; --maintenance-gold: #e2b364; background: radial-gradient(circle at 92% 8%, rgba(198, 145, 65, 0.17), transparent 27%), radial-gradient(circle at 8% 94%, rgba(204, 68, 75, 0.16), transparent 31%), linear-gradient(135deg, #151211 0%, #1e1816 52%, #161211 100%); }
+        html.dark .maintenance-panel { background: linear-gradient(145deg, color-mix(in srgb, var(--maintenance-paper) 94%, #fff 6%), var(--maintenance-paper-soft)); box-shadow: 0 28px 72px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04); }
+        html.dark .maintenance-detail { background: rgba(255,255,255,0.035); }
+        html.dark .maintenance-community { background: rgba(255,255,255,0.04); color: var(--maintenance-ink); }
+        html.dark .maintenance-community:hover { background: rgba(255,255,255,0.09); }
+        html.dark .maintenance-preview-note { color: #efd3a0; }
+        @media (max-width: 560px) { .maintenance-screen { padding: 18px 12px; } .maintenance-brand { margin-left: 4px; } .maintenance-panel { border-radius: 24px; } .maintenance-panel::before { inset: 6px; border-radius: 18px; } .maintenance-panel-inner { padding: 30px 24px; } .maintenance-details { grid-template-columns: 1fr; } .maintenance-detail { min-height: 0; } .maintenance-actions { align-items: stretch; flex-direction: column; } .maintenance-reload, .maintenance-community { width: 100%; } }
+        @media (prefers-reduced-motion: reduce) { .maintenance-reload, .maintenance-community { transition: none !important; } }
+
+        /* --- TENMEI Labs: 追加機能スタイル --- */
 
         /* --- 幽玄の霧 (超はっきり・高密度版) --- */
         #mist-container {
@@ -18021,62 +18099,55 @@ function escapeHtml(str) {
             }
             
             // --- 画面描画 ---
+            // 通常メンテナンスと訓練表示は同じ案内面を使い、訓練時だけ状態を明確に区別する。
+            const maintenanceState = force ? '表示確認モード' : '整備中';
+            const maintenanceEyebrow = force ? 'MAINTENANCE PREVIEW' : 'MAINTENANCE NOTICE';
+            const maintenanceLead = force
+                ? 'これはメンテナンス画面の表示確認です。通常のサービス状態、設定、データには変更を加えていません。'
+                : 'より安定してお参りいただける環境を整えるため、ただいま一時的に整備を行っています。';
             document.body.innerHTML = `
-                <div style="
-                    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                    background: #1a1a1a; color: #f0f0f0;
-                    display: flex; flex-direction: column; 
-                    z-index: 2147483647; font-family: 'Zen Old Mincho', serif;
-                    overflow-y: auto;
-                    padding: 20px; box-sizing: border-box;
-                ">
-                    <div style="
-                        max-width: 600px; width: 100%; margin: auto;
-                        display: flex; flex-direction: column; align-items: center;
-                        text-align: center; padding-top: 40px; padding-bottom: 40px;
-                    ">
-                        <div style="font-size: 3rem; margin-bottom: 20px; color: #d4af37;">
-                            <i class="bi bi-cone-striped"></i>
+                <main class="maintenance-screen" aria-labelledby="maintenance-title">
+                    <div class="maintenance-shell">
+                        <div class="maintenance-brand" aria-label="運勢・天命乃杜">
+                            <span class="maintenance-brand-mark" aria-hidden="true">天</span>
+                            <span>運勢・天命乃杜</span>
                         </div>
-                        
-                        <h1 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 30px; letter-spacing: 0.1em;">
-                            ${maintenanceConfig.title}
-                        </h1>
-                        
-                        <div style="text-align: left; width: 100%; font-size: 0.95rem; line-height: 1.8;">
-                            <p style="margin-bottom: 20px;">下記の日程にて、メンテナンスを実施しております。</p>
-                            
-                            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                                <div style="font-weight: bold; margin-bottom: 5px;">
-                                    【日時】${dateDisplayStr}
+                        <section class="maintenance-panel" aria-describedby="maintenance-lead">
+                            <div class="maintenance-panel-inner">
+                                <div class="maintenance-status" role="status" aria-live="polite">
+                                    <i class="bi bi-cone-striped" aria-hidden="true"></i>
+                                    <span>${maintenanceState}</span>
                                 </div>
-                                <div style="font-size: 0.85rem; color: #ffadad;">
-                                    ※メンテナンス時間は、延長される可能性がございます
+                                <p class="maintenance-eyebrow">${maintenanceEyebrow}</p>
+                                <h1 id="maintenance-title" class="maintenance-title">${maintenanceConfig.title}</h1>
+                                <p id="maintenance-lead" class="maintenance-lead">${maintenanceLead}</p>
+                                ${force ? '<div class="maintenance-preview-note"><i class="bi bi-flask" aria-hidden="true"></i><span>テスト表示です。再読み込みすると、直前の画面へ戻ります。</span></div>' : ''}
+                                <div class="maintenance-details">
+                                    <article class="maintenance-detail">
+                                        <div class="maintenance-detail-label"><i class="bi bi-clock-history" aria-hidden="true"></i><span>実施時間</span></div>
+                                        <strong>${dateDisplayStr}</strong>
+                                        <p>作業状況により、終了時刻を調整する場合があります。</p>
+                                    </article>
+                                    <article class="maintenance-detail">
+                                        <div class="maintenance-detail-label"><i class="bi bi-shield-check" aria-hidden="true"></i><span>影響範囲</span></div>
+                                        <strong>天命乃杜の各サービス</strong>
+                                        <p>整備中はサイト内の機能をご利用いただけません。</p>
+                                    </article>
+                                </div>
+                                <div class="maintenance-actions">
+                                    <button type="button" class="maintenance-reload" data-maintenance-primary onclick="location.reload()"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i><span>再読み込みする</span></button>
+                                    <a class="maintenance-community" href="https://discord.gg/Ys6hpbNdcV" target="_blank" rel="noopener noreferrer"><i class="bi bi-discord" aria-hidden="true"></i><span>公式Discord参拝所</span><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a>
                                 </div>
                             </div>
-
-                            <p style="margin-bottom: 10px;">
-                                メンテナンス中は、運勢・天命乃杜をご利用いただけません。<br>
-                                ご不便をおかけいたしますが、ご理解のほどよろしくお願いいたします。
-                            </p>
-                            
-                            ${force ? '<p style="color:#d4af37; font-size:0.8rem; text-align:center; margin-top:20px;">※これはテスト表示です</p>' : ''}
-                        </div>
-
-                        <button onclick="location.reload()" style="
-                            margin-top: 40px; padding: 10px 40px; 
-                            background: #b91c1c; color: white; border: none; border-radius: 4px; 
-                            cursor: pointer; font-weight: bold; font-size: 0.9rem;
-                            transition: opacity 0.2s;
-                        " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                            <i class="bi bi-arrow-clockwise"></i> 再読み込み
-                        </button>
+                        </section>
+                        <p class="maintenance-footer">ご不便をおかけいたします。整備の完了後、あらためてお参りください。</p>
                     </div>
-                </div>
+                </main>
             `;
-            
+
             // 強制モードのときはエラーを投げずにスクロールだけ止める（コンソールエラー回避）
             document.body.style.overflow = 'hidden';
+            window.requestAnimationFrame(() => document.querySelector('[data-maintenance-primary]')?.focus());
             if(!force) {
                 throw new Error("Maintenance Mode Active");
             }
@@ -33478,6 +33549,9 @@ try {
     try {
         var typedBuffer = '';
         var SAKURA_WORD = 'tenmei';
+        // 通常時にメンテナンス画面の見た目だけを確認するためのテスト用合言葉。
+        // maintenanceConfigや期間判定を変更せず、force=trueで既存の安全な表示関数だけを呼ぶ。
+        var MAINTENANCE_TEST_WORD = 'maintenance';
         function spawnSakura() {
             try {
                 var count = 24;
@@ -33526,6 +33600,27 @@ try {
             } catch(e6) {}
         }
         document.addEventListener('keydown', handleTypedWord, false);
+    } catch(e) {}
+
+    // ---------- ③-2 合言葉「maintenance」でメンテナンス画面のテスト表示 ----------
+    try {
+        var maintenanceBuffer = '';
+        function handleMaintenanceTestWord(e) {
+            try {
+                var tag = (e.target && e.target.tagName) || '';
+                if (tag === 'INPUT' || tag === 'TEXTAREA' || e.ctrlKey || e.metaKey || e.altKey) return;
+                if (!e.key || e.key.length !== 1) return;
+                maintenanceBuffer += e.key.toLowerCase();
+                if (maintenanceBuffer.length > MAINTENANCE_TEST_WORD.length) {
+                    maintenanceBuffer = maintenanceBuffer.slice(-MAINTENANCE_TEST_WORD.length);
+                }
+                if (maintenanceBuffer === MAINTENANCE_TEST_WORD) {
+                    maintenanceBuffer = '';
+                    if (typeof checkMaintenance === 'function') checkMaintenance(true);
+                }
+            } catch(eMaintenance) {}
+        }
+        document.addEventListener('keydown', handleMaintenanceTestWord, false);
     } catch(e) {}
 
     // ---------- ④ 季節の日のささやかな挨拶（1日1回まで） ----------
@@ -33701,6 +33796,8 @@ try {
                     if (typeof window.showToast === 'function') {
                         window.showToast('こちらこそ、参拝いただきありがとうございます。', 'success', '🙏');
                     }
+                } else if (w.toLowerCase() === MAINTENANCE_TEST_WORD) {
+                    if (typeof checkMaintenance === 'function') checkMaintenance(true);
                 } else {
                     if (typeof window.showToast === 'function') {
                         window.showToast('その合言葉には反応がありません。サイト各所に手がかりが…', 'info', '🔍');
