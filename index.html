@@ -11752,6 +11752,14 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         .zodiac-ranking-panel {
             position: relative;
             overflow: hidden;
+        }
+        /* 共有選択欄の展開面はカード内の層だけでは下層ランキングを越えられないため、
+           開いている間だけ判定カード自体を前面化し、ポップオーバーのクリッピングを解除する。 */
+        #view-zodiac .zodiac-ranking-panel.is-control-expanded {
+            z-index: 160;
+            overflow: visible;
+        }
+        .zodiac-ranking-panel {
             padding: var(--ver4-card-padding);
             border: 1px solid var(--card-border);
             border-radius: var(--ver4-card-radius);
@@ -15923,7 +15931,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             <h2 id="history-page-title" class="history-ledger-title">おみくじの轍</h2>
             <p class="history-ledger-summary">杜に刻まれた参拝の記録。あなたと、すべての参拝者が歩んだ天命の軌跡を辿ります。</p>
             <div class="history-ledger-meta" aria-label="更新情報">
-                <time datetime="2026-08-16">更新: 2026年8月16日</time>
+                <time datetime="2026-08-17">更新: 2026年8月17日</time>
                 <span class="history-ledger-meta-separator" aria-hidden="true"></span>
                 <span>参拝履歴・統計記録</span>
             </div>
@@ -27055,7 +27063,7 @@ function resetSearch() {
                 const popover = root.querySelector('.tenmei-choice__popover, .tenmei-date__popover');
                 if (trigger) trigger.setAttribute('aria-expanded', 'false');
                 if (popover) popover.hidden = true;
-                root.closest('.history-control-bar')?.classList.remove('is-control-expanded');
+                root.closest('.history-control-bar, .zodiac-ranking-panel')?.classList.remove('is-control-expanded');
                 activeRoot = null;
                 if (returnFocus) trigger?.focus();
             };
@@ -27098,7 +27106,7 @@ function resetSearch() {
                 if (activeRoot && activeRoot !== state.root) closeActive(false);
                 activeRoot = state.root;
                 state.root.dataset.open = 'true';
-                state.root.closest('.history-control-bar')?.classList.add('is-control-expanded');
+                state.root.closest('.history-control-bar, .zodiac-ranking-panel')?.classList.add('is-control-expanded');
                 state.popover.hidden = false;
                 state.trigger.setAttribute('aria-expanded', 'true');
                 const selectedIndex = Math.max(0, state.options.findIndex((option) => option.value === state.input.value));
@@ -27213,7 +27221,7 @@ function resetSearch() {
                 state.view = new Date(base.getFullYear(), base.getMonth(), 1);
                 activeRoot = state.root;
                 state.root.dataset.open = 'true';
-                state.root.closest('.history-control-bar')?.classList.add('is-control-expanded');
+                state.root.closest('.history-control-bar, .zodiac-ranking-panel')?.classList.add('is-control-expanded');
                 state.popover.hidden = false;
                 state.trigger.setAttribute('aria-expanded', 'true');
                 renderDate(state);
@@ -33930,21 +33938,40 @@ try {
         body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-btn,
         body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-btn { padding: 0 8px !important; }
     }
+    /* iPad・スマホの開閉はwidthをアニメーションしない。幅の連続補間はメニュー全体、
+       backdrop-filter、影を各フレームで再レイアウトするため、固定レイヤーをclip-pathで開閉する。 */
     @media (max-width: 1366px) {
-        #sidebar.sidebar-v4 { width: 68px !important; top: 8px !important; bottom: 8px !important; left: 8px !important; }
-        body.sidebar-pinned #sidebar.sidebar-v4 { width: min(264px, calc(100vw - 32px)) !important; }
-        body.sidebar-pinned #sidebar.sidebar-v4 .nav-text { display: block !important; opacity: 1 !important; }
-        body.sidebar-pinned #sidebar.sidebar-v4 .nav-group-title { display: block !important; height: 17px !important; max-height: 17px !important; margin: 9px 5px 5px !important; opacity: 0.75 !important; overflow: visible !important; }
-        body.sidebar-pinned #sidebar.sidebar-v4 .nav-icon-box { width: 48px !important; }
-        body.sidebar-pinned #sidebar.sidebar-v4 .nav-btn { justify-content: flex-start !important; padding: 0 8px !important; }
+        #sidebar.sidebar-v4 {
+            width: min(264px, calc(100vw - 32px)) !important;
+            top: 8px !important;
+            bottom: 8px !important;
+            left: 8px !important;
+            contain: layout paint style;
+            transform: translateZ(0);
+            will-change: clip-path;
+            clip-path: inset(0 calc(100% - 68px) 0 0 round 24px);
+            transition: clip-path 180ms cubic-bezier(0.23, 1, 0.32, 1) !important;
+        }
+        body.sidebar-pinned #sidebar.sidebar-v4 { clip-path: inset(0 0 0 0 round 24px); }
+        #sidebar.sidebar-v4 .nav-text { display: block !important; opacity: 1 !important; }
+        #sidebar.sidebar-v4 .nav-group-title { display: block !important; height: 17px !important; max-height: 17px !important; margin: 9px 5px 5px !important; opacity: 0.75 !important; overflow: visible !important; }
+        #sidebar.sidebar-v4 .nav-icon-box { width: 48px !important; }
+        #sidebar.sidebar-v4 .nav-btn { justify-content: flex-start !important; padding: 0 8px !important; }
         body.sidebar-pinned #main-content { margin-left: 84px !important; width: calc(100% - 84px) !important; }
     }
     @media (max-width: 560px) {
-        #sidebar.sidebar-v4 { width: 62px !important; left: 6px !important; top: 6px !important; bottom: 6px !important; border-radius: 20px; }
+        #sidebar.sidebar-v4 {
+            width: min(264px, calc(100vw - 24px)) !important;
+            left: 6px !important;
+            top: 6px !important;
+            bottom: 6px !important;
+            border-radius: 20px;
+            clip-path: inset(0 calc(100% - 62px) 0 0 round 20px);
+        }
+        body.sidebar-pinned #sidebar.sidebar-v4 { clip-path: inset(0 0 0 0 round 20px); }
         #sidebar.sidebar-v4 .nav-group { padding: 0 6px; }
         #sidebar.sidebar-v4 .nav-icon-box { width: 50px !important; }
         #sidebar.sidebar-v4 .nav-btn { min-height: 46px !important; height: 46px !important; max-height: 46px !important; }
-        body.sidebar-pinned #sidebar.sidebar-v4 { width: min(264px, calc(100vw - 24px)) !important; }
         body.sidebar-pinned #main-content { margin-left: 74px !important; width: calc(100% - 74px) !important; }
 
         /* スマホでは小型サイドバーを残しつつ、本文に十分な幅を返す。 */

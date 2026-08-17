@@ -44,8 +44,13 @@ assert(finalStyle, 'サイドバー・追加札導線・更新の軌跡の最終
   '#sidebar.sidebar-v4 .nav-btn:focus-visible {',
   '#sidebar.sidebar-v4 .nav-btn.active .nav-icon-box::before {',
   '@media (max-width: 1366px) {',
-  'body.sidebar-pinned #sidebar.sidebar-v4 { width: min(264px, calc(100vw - 32px)) !important; }',
+  '#sidebar.sidebar-v4 {\n            width: min(264px, calc(100vw - 32px)) !important;',
   'body.sidebar-pinned #main-content { margin-left: 84px !important; width: calc(100% - 84px) !important; }',
+  'contain: layout paint style;',
+  'will-change: clip-path;',
+  'clip-path: inset(0 calc(100% - 68px) 0 0 round 24px);',
+  'transition: clip-path 180ms cubic-bezier(0.23, 1, 0.32, 1) !important;',
+  'body.sidebar-pinned #sidebar.sidebar-v4 { clip-path: inset(0 0 0 0 round 24px); }',
   '@media (prefers-reduced-motion: reduce) {',
 ].forEach((text) => requireStyle(text, `サイドバーのテーマ・フォーカス・レスポンシブ規則が不足しています: ${text}`));
 
@@ -72,6 +77,7 @@ console.log(JSON.stringify({
   sidebarSemanticNavigation: true,
   sidebarKeyboardAndFocusSupport: true,
   sidebarThemeAndResponsiveRules: true,
+  sidebarCompositeOpenClosePreserved: true,
   mainFocusOutlineControlled: true,
   drawExploreResponsiveLayout: true,
   historySourceTooltipDarkTheme: true,
