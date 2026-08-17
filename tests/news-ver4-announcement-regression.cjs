@@ -20,7 +20,12 @@ assert(article, 'Ver.4.0完了記事（id:87）を抽出できません。');
   'おみくじの体験を、心構えから結果の次の行動まで再設計',
   'サイドバーを最後の共通操作面として刷新',
   'クリック、Enter、Spaceのいずれでも一枚を選べる操作',
-  '現在サイト内に表示しているサービスのバージョン表記は、引き続き<strong>Ver.3.6</strong>のままとしています。',
+  '今回の更新をもって、サービスのバージョン表記を<strong>Ver.4.0</strong>へ更新しました。',
+  '記事・保存・安全性に関する更新',
+  'お盆に神社へお参りしてもいい？——先祖を想う夏、神道の答え',
+  '文字数と読了目安を記事詳細を開く前にも確認できるようにしました。',
+  'おみくじ結果に、PDFとして保存する操作を追加しました。',
+  'DOM XSS対策とセキュリティヘッダーを追加し、Google連携時に認証トークンがURLへ露出しないよう修正しました。',
   '通知・確認モーダルを含む既存の重要な操作は、今回の刷新対象から外して維持しています。',
   '以上、今回の変更内容のご報告でした。引き続き「運勢・天命乃杜」をよろしくお願いいたします。',
 ].forEach((text) => {
@@ -37,6 +42,7 @@ console.log(JSON.stringify({
   latestNewsArticle: true,
   publishedAt: '2026/08/17 12:37',
   ver4ScopeDocumented: true,
-  ver36LabelMaintained: true,
+  ver40ServiceReleaseDocumented: true,
+  preVer4UnrecordedUpdatesDocumented: true,
   existingModalExceptionDocumented: true,
 }, null, 2));

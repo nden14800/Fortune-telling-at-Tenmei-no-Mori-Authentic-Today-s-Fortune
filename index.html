@@ -14836,7 +14836,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 </section>
 
                 <footer class="home-v4-release" aria-label="現在のバージョン情報">
-                    <span>運勢・天命乃杜 <strong>Ver. 3.6</strong></span><span aria-hidden="true">・</span><span>2026年8月12日リリース</span><span class="home-v4-release-status"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>最新版</span>
+                    <span>運勢・天命乃杜 <strong>Ver. 4.0</strong></span><span aria-hidden="true">・</span><span>2026年8月17日リリース</span><span class="home-v4-release-status"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>最新版</span>
                     <button type="button" onclick="openVerHistory()"><i class="bi bi-clock-history" aria-hidden="true"></i>更新の軌跡</button>
                 </footer>
             </div>
@@ -18013,7 +18013,7 @@ function escapeHtml(str) {
     tag: "新機能・改善",
     tagColor: "text-indigo-600",
     borderColor: "border-indigo-500",
-    desc: "Ver.4.0のキーワード「静謐な即応」のもと、社務所だよりを基準に、全画面のヒーロー、カード、操作面、サイドバーを段階的に再設計しました。ライト・ダークテーマ、キーボード操作、既存機能を保ちながら、日々の参拝で迷わず使える表示と導線へ統一しています。",
+    desc: "Ver.4.0「静謐な即応」として、全画面のヒーロー、カード、操作面、サイドバーを社務所だより基準へ再設計しました。あわせて、神籤草子の新記事・視覚資料、記事一覧の文字数と読了目安、おみくじ結果のPDF保存、安全性・認証・公開文書の整合も改善しています。",
     content: `
         <div class="article-content">
             <p>いつも「運勢・天命乃杜」をご利用いただき、誠にありがとうございます。運営者のnden148です。</p>
@@ -18021,9 +18021,19 @@ function escapeHtml(str) {
 
             <h3>1. Ver.4.0「静謐な即応」について</h3>
             <p>今回のUI/UX刷新のキーワードは、<strong>「静謐な即応」</strong>です。天命乃杜らしい落ち着きや余白を保ちながら、初めて開く画面でも「何を確認できるか」「次に何をすればよいか」がすぐ伝わることを目指しました。</p>
-            <p>なお、Ver.4.0は今回の意匠・体験刷新を指す呼称です。現在サイト内に表示しているサービスのバージョン表記は、引き続き<strong>Ver.3.6</strong>のままとしています。</p>
+            <p>今回の更新をもって、サービスのバージョン表記を<strong>Ver.4.0</strong>へ更新しました。Ver.4.0は、意匠だけではなく、日々の参拝で必要な情報へ迷わず辿り着ける体験まで整えるための大規模刷新です。</p>
 
-            <h3>2. 社務所だよりを基準に、全画面の共通意匠を整備</h3>
+            <h3>2. 記事・保存・安全性に関する更新</h3>
+            <p>今回の記事範囲には、Ver.4.0の刷新を始める前に行った機能追加・安全性向上・記事コンテンツの整備も含まれます。直前のお知らせに未収録だった内容を、あわせてご報告いたします。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>神籤草子に「お盆に神社へお参りしてもいい？——先祖を想う夏、神道の答え」を追加しました。あわせて、社務所だより・神籤草子の記事一覧で、文字数と読了目安を記事詳細を開く前にも確認できるようにしました。</li>
+                <li>神籤草子の全記事へ、内容に合わせた図解、画面資料、AI生成画像を追加しました。実在の場所や実写と誤認されないよう、AI生成画像であることを明示し、縦長の画面資料は記事内で全体を確認できる表示へ整えています。</li>
+                <li>おみくじ結果に、PDFとして保存する操作を追加しました。既存の画像保存・共有と用途を分け、保存後の確認や読み返しに使いやすい導線へ整理しています。</li>
+                <li>履歴表示の安全性を見直してDOM XSS対策とセキュリティヘッダーを追加し、Google連携時に認証トークンがURLへ露出しないよう修正しました。公開文書についても、当サイトについて・プライバシーポリシー・天命乃杜の使い方の記載と実装を照合し、食い違いを修正しています。</li>
+                <li>会員限定機能のログイン要求、参拝者名の案内、背景ぼかしの案内カード、主ボタンの表示を全画面で統一しました。</li>
+            </ul>
+
+            <h3>3. 社務所だよりを基準に、全画面の共通意匠を整備</h3>
             <p>画面ごとにカードの幅、余白、文字の大きさ、見出し階層、アイコンの形が少しずつ異なっていた状態を見直し、共通のデザイン規則へ統一しました。</p>
             <ul class="list-disc ml-5 mb-4">
                 <li>各画面の最上部だけを二重線のHeroカードとし、内側の細枠、28pxの角丸、共通の円形印章を用いて、画面の入口を明確にしました。</li>
@@ -18033,12 +18043,12 @@ function escapeHtml(str) {
             </ul>
             <p>参拝証の発行、開発者について、当サイトについて、プライバシーポリシー、天命乃杜の使い方、社務所だより、神籤草子、全国・土地の運気、おみくじの轍、TENMEI Labs、AI夢占い、デジタル御守授与所、参拝の記録、最強運勢ランキング、ホーム画面、更新の軌跡、アカウント設定、サイドバーまで、対象となる画面を順に見直しています。</p>
 
-            <h3>3. 記事・案内・記録を読むための画面を再構成</h3>
+            <h3>4. 記事・案内・記録を読むための画面を再構成</h3>
             <p>社務所だよりと神籤草子は、一覧と記事詳細のどちらも、文章へ落ち着いて入れる構成へ整えました。検索、記事の件数、カテゴリ、本文を読む導線、目次、読書設定が互いに競合しないよう、表示領域と余白を見直しています。</p>
             <p>「当サイトについて」「プライバシーポリシー」「天命乃杜の使い方」では、長い文章を読む際の見出し階層と補助導線を整理しました。プライバシーポリシーのPDF出力についても、最終条だけが不自然に分かれる表示を修正し、文書として読み進めやすい状態に整えています。</p>
             <p>ホーム画面と更新の軌跡では、日々の入口と過去の記録を分かりやすく扱えるよう、それぞれの情報量に合わせて構成を見直しました。更新の軌跡は、詳細・参照記事・年表を確認しやすいアーカイブ型の操作面へ移行しています。</p>
 
-            <h3>4. 日々の参拝・占い・記録の導線を統一</h3>
+            <h3>5. 日々の参拝・占い・記録の導線を統一</h3>
             <p>最強運勢ランキング、全国・土地の運気、おみくじの轍、参拝の記録では、確認・絞り込み・記録の操作面を通常カードとして整理しました。ランキングの展開、選択欄、ページネーション、都道府県表示のキーボード操作も、見た目だけでなく既存の使い方を保つ形で調整しています。</p>
             <ul class="list-disc ml-5 mb-4">
                 <li>ブラウザ標準の選択欄に依存していた箇所は、キーボード操作と元の選択機能を保ったまま、サイト全体の意匠に合う選択面へ統一しました。</li>
@@ -18046,7 +18056,7 @@ function escapeHtml(str) {
                 <li>参拝の記録、神籤草子のカテゴリ表示、記事詳細の本文幅など、テーマや読書設定によって生じていた表示の差も見直しています。</li>
             </ul>
 
-            <h3>5. おみくじの体験を、心構えから結果の次の行動まで再設計</h3>
+            <h3>6. おみくじの体験を、心構えから結果の次の行動まで再設計</h3>
             <p>おみくじを引く前の心構え、天命の授与所、結果を待つ時間、おみくじ結果の札以外の情報面、アカウント設定を、それぞれ独立した役割を持つ画面として組み直しました。</p>
             <ul class="list-disc ml-5 mb-4">
                 <li>心構えでは、参拝の流れ、四つの所作、スキップ設定を分け、準備が整ったことを確認してから授与所へ進めるようにしました。</li>
@@ -18056,7 +18066,7 @@ function escapeHtml(str) {
             </ul>
             <p>天命の授与所にある「さらに札を探す」面についても、本文とボタンが狭い幅で切れないよう、内側余白と並び方を再調整しました。</p>
 
-            <h3>6. サイドバーを最後の共通操作面として刷新</h3>
+            <h3>7. サイドバーを最後の共通操作面として刷新</h3>
             <p>最後に、どの画面からでも利用するサイドバーを共通意匠へ合わせました。折りたたんだ状態では必要な導線をコンパクトに保ち、開いた状態ではメイン機能、コンテンツ、システム設定の区分が分かる構成にしています。</p>
             <ul class="list-disc ml-5 mb-4">
                 <li>現在開いている画面が分かる円形の印と、グループごとの区切りを整えました。</li>
@@ -18064,7 +18074,7 @@ function escapeHtml(str) {
                 <li>タブレット幅でも、サイドバーを開いたことによって本文の配置が崩れないよう調整しました。</li>
             </ul>
 
-            <h3>7. 実表示をもとに細部を確認</h3>
+            <h3>8. 実表示をもとに細部を確認</h3>
             <p>刷新後は、実際のライト・ダークテーマ、タブレット幅、キーボード操作、各画面の既存導線を確認しながら、見つかった表示上の不具合を順に修正しました。更新の軌跡では、ダークテーマ時の「参照：社務所だより」の表示面を専用の配色へ調整し、神籤草子ではライトテーマ時のカテゴリ色を見直しています。</p>
             <p>通知・確認モーダルを含む既存の重要な操作は、今回の刷新対象から外して維持しています。スイッチ、モーダル、会員限定表示、保存・共有、キーボード操作なども、画面ごとに既存の機能を保てていることを確認しています。</p>
 
@@ -31163,6 +31173,50 @@ window.applyTheme = function() {
 
         // ===== 更新の軌跡パネル =====
     const verDetailData = {
+        v40: {
+            ver: 'Ver. 4.0',
+            name: '「静謐な即応」全画面UI/UX大規模刷新',
+            date: '2026年8月17日',
+            sections: [
+                {
+                    icon: 'bi-grid-1x2', title: '共通意匠と操作面を再設計',
+                    changes: [
+                        { type: 'change', text: '社務所だよりを基準に、各画面の最上部を二重線Hero・共通円形印章・統一した見出し階層で構成。下層は通常カードへ整理し、コンテナ幅、余白、丸形アイコン、48px操作面、ライト・ダークテーマを横断して統一。ブラウザ標準の選択欄と記事一覧のページネーションも、既存機能を保った共通操作面へ刷新。', sourceIds: [87] }
+                    ]
+                },
+                {
+                    icon: 'bi-journal-richtext', title: '記事・文書・視覚資料を充実',
+                    changes: [
+                        { type: 'new', text: '神籤草子に「お盆に神社へお参りしてもいい？——先祖を想う夏、神道の答え」を追加。記事一覧へ文字数と読了目安を追加し、神籤草子の全記事へ内容に応じた図解・画面資料・AI生成画像を配置。AI生成であることも明示し、縦長の画面資料は全体を読める表示へ修正。', sourceIds: [87] }
+                    ]
+                },
+                {
+                    icon: 'bi-save2', title: '保存・読書・文書出力を改善',
+                    changes: [
+                        { type: 'new', text: 'おみくじ結果をPDFとして保存する操作を追加。画像保存・PDF保存・共有の導線を用途別に整理し、保存ボタン内のアイコンと文字の重なりも修正。公開文書のPDFでは最終条の改ページを含む出力の乱れを調整し、記事詳細の読書幅・目次・テーマ表示も見直した。', sourceIds: [87] }
+                    ]
+                },
+                {
+                    icon: 'bi-shield-check', title: '安全性・ログイン導線・公開文書を点検',
+                    changes: [
+                        { type: 'fix', text: '履歴表示のDOM XSS対策とセキュリティヘッダーを追加し、Google連携時に認証トークンがURLへ露出しないよう修正。会員限定のログイン要求・参拝者名案内・背景ぼかしカード・主ボタンの表示を全画面で統一し、当サイトについて・プライバシーポリシー・使い方の記載と実装の不整合も修正。', sourceIds: [87] }
+                    ]
+                },
+                {
+                    icon: 'bi-compass', title: '参拝・占い・記録の体験を深化',
+                    changes: [
+                        { type: 'change', text: '参拝証の発行、全国・土地の運気、おみくじの轍、最強運勢ランキング、TENMEI Labs、AI夢占い、デジタル御守授与所、参拝の記録、ホーム、更新の軌跡、アカウント設定までを共通意匠へ刷新。心構え・天命の授与所・結果待機・結果画面は、既存の札意匠を保ちながら、作法・進行・相談・保存・次の行動が分かる導線へ再構成した。', sourceIds: [87] },
+                        { type: 'fix', text: '全国・土地の運気の左右矢印、Home、End、Enter、Spaceによる切替、天命の授与所のクリック・Enter・Spaceによる札選択、最強運勢ランキングの30日吉日予報、神籤草子のテーマ別カテゴリ色など、実表示で確認した操作・表示の不具合を修正。', sourceIds: [87] }
+                    ]
+                },
+                {
+                    icon: 'bi-layout-sidebar-inset', title: 'サイドバーを最後の共通操作面として刷新',
+                    changes: [
+                        { type: 'change', text: 'サイドバーを24px角丸の共通面、機能グループ、現在地の円形印、展開時264px・折りたたみ時68pxの状態へ再設計。本文へ移動するスキップリンク、開閉状態の通知、Escによる閉鎖とフォーカス復帰を追加し、タブレット幅・ライト／ダークテーマにも対応。', sourceIds: [87] }
+                    ]
+                }
+            ]
+        },
         v36: {
             ver: 'Ver. 3.6',
             name: '読みやすさ・表示安定性・PDF出力の改善',
@@ -32266,7 +32320,7 @@ window.applyTheme = function() {
                 <p class="ver-panel-eyebrow"><i class="bi bi-clock-history" aria-hidden="true"></i> UPDATE ARCHIVE</p>
                 <h2 class="ver-panel-title">更新の軌跡</h2>
                 <p class="ver-panel-summary">天命乃杜の歩みを、公開順に静かに辿ります。</p>
-                <p class="ver-panel-meta"><i class="bi bi-journal-bookmark" aria-hidden="true"></i> 全19件の更新記録</p>
+                <p class="ver-panel-meta"><i class="bi bi-journal-bookmark" aria-hidden="true"></i> 全20件の更新記録</p>
             </div>
             <div class="ver-panel-emblem" data-ver4-hero-emblem aria-hidden="true">
                 <i class="bi bi-clock-history"></i>
@@ -32281,12 +32335,33 @@ window.applyTheme = function() {
         <div class="ver-panel-scroll">
             <div class="ver-timeline">
 
-                <!-- Ver 3.6（現在） -->
-                <div class="ver-timeline-item is-current" onclick="openVerDetail('v36')">
+                <!-- Ver 4.0（現在） -->
+                <div class="ver-timeline-item is-current" onclick="openVerDetail('v40')">
+                    <div class="ver-item-card">
+                        <div class="ver-item-top">
+                            <span class="ver-item-ver">Ver. 4.0</span>
+                            <span class="ver-item-badge ver-badge-current"><i class="bi bi-patch-check-fill"></i>最新版</span>
+                        </div>
+                        <div class="ver-item-date">2026年8月17日リリース</div>
+                        <div class="ver-item-name">「静謐な即応」全画面UI/UX大規模刷新</div>
+                        <div class="ver-item-desc">全画面の意匠・情報階層・操作面を社務所だより基準へ統一。記事・保存・安全性・おみくじ導線・サイドバーまでを見直し、既存機能を保ちながら日々の参拝体験を整えました。</div>
+                        <div class="ver-item-tags">
+                            <span class="ver-item-tag">静謐な即応</span>
+                            <span class="ver-item-tag">全画面刷新</span>
+                            <span class="ver-item-tag">記事・保存改善</span>
+                            <span class="ver-item-tag">安全性強化</span>
+                            <span class="ver-item-tag">アクセシビリティ</span>
+                        </div>
+                        <div class="ver-item-more"><i class="bi bi-chevron-right"></i>詳細を見る</div>
+                    </div>
+                </div>
+
+                <!-- Ver 3.6 -->
+                <div class="ver-timeline-item" onclick="openVerDetail('v36')">
                     <div class="ver-item-card">
                         <div class="ver-item-top">
                             <span class="ver-item-ver">Ver. 3.6</span>
-                            <span class="ver-item-badge ver-badge-current"><i class="bi bi-patch-check-fill"></i>最新版</span>
+                            <span class="ver-item-badge ver-badge-stable"><i class="bi bi-patch-check-fill"></i>機能改善</span>
                         </div>
                         <div class="ver-item-date">2026年8月12日リリース</div>
                         <div class="ver-item-name">読みやすさ・表示安定性・PDF出力の改善</div>

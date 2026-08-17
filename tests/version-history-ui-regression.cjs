@@ -24,10 +24,19 @@ assert(historyHtml, '更新の軌跡のパネルHTMLを抽出できません。'
   'id="ver-detail-content"',
 ].forEach((text) => requireText(text, `更新の軌跡のVer.4.0構造が失われています: ${text}`));
 
+[
+  '運勢・天命乃杜 <strong>Ver. 4.0</strong>',
+  '2026年8月17日リリース',
+  "v40: {",
+  "ver: 'Ver. 4.0'",
+  '「静謐な即応」全画面UI/UX大規模刷新',
+].forEach((text) => requireText(text, `Ver.4.0の正式リリース表記または詳細データが失われています: ${text}`));
+
 const historyItems = (historyHtml.match(/class="ver-timeline-item/g) || []).length;
-assert.equal(historyItems, 19, `更新の軌跡の履歴件数が変わっています（期待値: 19、実際: ${historyItems}）。`);
+assert.equal(historyItems, 20, `更新の軌跡の履歴件数が変わっています（期待値: 20、実際: ${historyItems}）。`);
 
 [
+  "openVerDetail('v40')",
   "openVerDetail('v36')",
   "openVerDetail('v35')",
   "openVerDetail('v30')",
@@ -77,7 +86,9 @@ assert.equal(historyItems, 19, `更新の軌跡の履歴件数が変わってい
 console.log('更新の軌跡Ver.4.0 UI回帰テストに合格しました。');
 console.log(JSON.stringify({
   archiveHeroContract: true,
-  nineteenHistoryItemsPreserved: true,
+  twentyHistoryItemsPreserved: true,
+  ver40LatestReleasePresent: true,
+  homeVersionLabelUpdated: true,
   detailAndSourceLinkContractsPreserved: true,
   keyboardAndFocusContractsPresent: true,
   normalCardHierarchyPresent: true,
