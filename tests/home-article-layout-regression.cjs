@@ -83,6 +83,17 @@ function requireHomeText(text, message) {
   '#view-article-detail.column-reader-layout .column-reader-title { max-width: 760px; font-size: clamp(1.5rem, 2.5vw, 2.25rem) !important;',
   '#view-article-detail.news-chronicle-layout .news-chronicle-body,',
   '#view-article-detail.column-reader-layout .column-reader-body { padding: clamp(1.35rem, 3.3vw, 2.5rem); }',
+  '--article-max-width: 820px;',
+  '--article-support-max-width: 820px;',
+  "const widthMap = { standard: '820px', wide: '100%' };",
+  "const supportWidthMap = { standard: '820px', wide: '100%' };",
+  "root.style.setProperty('--article-support-max-width', supportWidthMap[settings.contentWidth] || supportWidthMap.standard);",
+  "toc.style.maxWidth = 'var(--article-support-max-width, 820px)';",
+  '.news-chronicle-body .article-content .article-toc-unified { width: 100% !important; max-width: var(--article-support-max-width, 820px) !important;',
+  '.column-reader-body .article-content .article-toc-unified { width: 100% !important; max-width: var(--article-support-max-width, 820px) !important;',
+  '.dark #view-column .column-library-category,',
+  'html:not(.light) #view-column .column-library-category {',
+  'background: rgba(24, 21, 36, 0.78);',
 ].forEach((text) => requireText(text, `記事一覧・詳細の幅または文字階層の修正規則が失われています: ${text}`));
 
 console.log('ホーム画面・記事表示のVer.4.0回帰テストに合格しました。');
@@ -94,4 +105,6 @@ console.log(JSON.stringify({
   articleCardPaddingConflictFixed: true,
   articleReaderFrameUnified: true,
   articleTitleScaleBounded: true,
+  darkColumnCategoryThemed: true,
+  standardReadingSupportBalanced: true,
 }, null, 2));

@@ -61,6 +61,10 @@ assert.equal(
   'height: 128px;',
   'box-shadow: inset 0 0 0 7px',
   '.dark #view-stats .stats-record-hero {',
+  '.dark #view-stats .stats-record-meta span,',
+  'html:not(.light) #view-stats .stats-record-meta span {',
+  'border: 0 !important;',
+  'background: transparent !important;',
   '@media (max-width: 768px) {',
   '#view-stats.stats-record-layout {',
   'width: min(100% - 32px, 960px) !important;',
@@ -124,4 +128,5 @@ console.log(JSON.stringify({
   articlePaginationAccessible: true,
   nativeSelectSemanticsPreserved: true,
   lightDarkResponsiveRulesPresent: true,
+  darkHeroMetaUnboxed: true,
 }, null, 2));

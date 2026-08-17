@@ -165,7 +165,8 @@
             --article-font-size: 1rem;
             --article-line-height: 1.9;
             --article-font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;
-            --article-max-width: 720px;
+            --article-max-width: 820px;
+            --article-support-max-width: 820px;
         }
 
         /* --- ダークモード変数定義 (システム検知) --- */
@@ -3586,7 +3587,7 @@
 .column-reader-summary-button:hover { background: var(--column-violet); transform: translateY(-1px); }
 .column-reader-body { padding: clamp(1.4rem, 4vw, 3.1rem); }
 .column-reader-body .article-content { max-width: var(--article-max-width, 100%); margin-right: auto; margin-left: auto; color: var(--column-ink); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: var(--article-font-size, 1rem); line-height: var(--article-line-height, 2); text-align: left; }
-.column-reader-body .article-content .article-toc-unified { width: 100% !important; max-width: none !important; margin: 0 0 1.4rem !important; }
+.column-reader-body .article-content .article-toc-unified { width: 100% !important; max-width: var(--article-support-max-width, 820px) !important; margin: 0 auto 1.4rem !important; }
 .column-reader-body .article-content .article-toc-unified > div { padding: 1rem !important; border: 1px solid var(--column-line) !important; border-radius: 16px !important; background: var(--column-paper-soft) !important; }
 .column-reader-body .article-content .article-toc-unified p { color: var(--column-indigo) !important; font-family: 'Zen Kaku Gothic New', sans-serif; }
 .column-reader-body .article-content .article-toc-unified a { color: var(--column-ink); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.78rem; line-height: 1.55; }
@@ -3895,7 +3896,7 @@
 .news-chronicle-summary-button:hover { background: var(--news-red-deep); transform: translateY(-1px); }
 .news-chronicle-body { padding: clamp(1.4rem, 4vw, 3.1rem); }
 .news-chronicle-body .article-content { max-width: var(--article-max-width, 100%); margin-right: auto; margin-left: auto; color: var(--news-ink); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: var(--article-font-size, 1rem); line-height: var(--article-line-height, 2); text-align: left; }
-.news-chronicle-body .article-content .article-toc-unified { width: 100% !important; max-width: none !important; margin: 0 0 1.4rem !important; }
+.news-chronicle-body .article-content .article-toc-unified { width: 100% !important; max-width: var(--article-support-max-width, 820px) !important; margin: 0 auto 1.4rem !important; }
 .news-chronicle-body .article-content .article-toc-unified > div { padding: 1rem !important; border: 1px solid var(--news-line) !important; border-radius: 16px !important; background: var(--news-paper-soft) !important; }
 .news-chronicle-body .article-content .article-toc-unified p { color: var(--news-red) !important; font-family: 'Zen Kaku Gothic New', sans-serif; }
 .news-chronicle-body .article-content .article-toc-unified a { color: var(--news-ink); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.78rem; line-height: 1.55; }
@@ -12037,6 +12038,23 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             #view-article-detail.news-chronicle-layout .news-chronicle-title,
             #view-article-detail.column-reader-layout .column-reader-title { font-size: clamp(1.32rem, 6vw, 1.7rem) !important; line-height: 1.55 !important; }
         }
+
+        /* Ver.4.0 整合修正: ダークテーマの補助ラベルと読書面の均衡 */
+        .dark #view-stats .stats-record-meta span,
+        html:not(.light) #view-stats .stats-record-meta span {
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+        }
+        .dark #view-column .column-library-category,
+        html:not(.light) #view-column .column-library-category {
+            border-color: rgba(197, 177, 255, 0.28);
+            color: #e1d5ff;
+            background: rgba(24, 21, 36, 0.78);
+        }
+        .dark #view-column .column-library-category i,
+        html:not(.light) #view-column .column-library-category i { color: #d5b25f; }
     </style>
     <style id="version-history-v4-style">
 
@@ -29330,8 +29348,10 @@ const LiveChart = {
                 });
             }
             if (settings.contentWidth !== undefined) {
-                const widthMap = { standard: '720px', wide: '100%' };
+                const widthMap = { standard: '820px', wide: '100%' };
+                const supportWidthMap = { standard: '820px', wide: '100%' };
                 root.style.setProperty('--article-max-width', widthMap[settings.contentWidth] || widthMap.standard);
+                root.style.setProperty('--article-support-max-width', supportWidthMap[settings.contentWidth] || supportWidthMap.standard);
                 document.querySelectorAll('.opt-select-group[data-setting="contentWidth"]').forEach(group => {
                     group.dataset.value = settings.contentWidth;
                     group.querySelectorAll('.theme-select-btn').forEach(btn => {
@@ -31859,11 +31879,12 @@ try {
             var toc = document.createElement('nav');
             // article-toc-unified-title: 見出しを敢えてh3にしない（.article-content h3 { border-left:赤; font-size:1.4rem; ... }
             // というグローバルルールを誤って拾い、目次見出しだけ赤ボーダー付きの大きな文字になってしまっていたため、pタグに変更）
-            // article-toc-unified: 読書設定の本文幅（--article-max-width）による制約を受けず、当サイトについて等と
-            // 同じくカード幅いっぱいに表示されるよう、インラインでwidth:100%; max-width:none;を明示指定
+            // article-toc-unified: 本文より少し広い補助幅を用い、標準設定でも目次と本文の重心が離れすぎないようにする。
+            // 広め設定では補助幅も100%へ追従する。
             toc.className = 'article-toc-unified mb-6';
             toc.style.width = '100%';
-            toc.style.maxWidth = 'none';
+            toc.style.maxWidth = 'var(--article-support-max-width, 820px)';
+            toc.style.margin = '0 auto 1.4rem';
             toc.innerHTML =
                 '<div class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur p-6 rounded-2xl border border-gray-200 dark:border-gray-700">' +
                     '<p class="font-bold text-sm text-gray-500 mb-3 uppercase tracking-wider"><i class="bi bi-list-ul mr-2"></i>目次</p>' +
