@@ -131,13 +131,25 @@ requireCount(/showView\('/g, 15, '既存の内部画面遷移導線が不足し�
   'html body:not(.sidebar-pinned) #main-content {',
   '#view-history .history-stats-grid {',
   '#view-history .history-control-bar > .control-group-row:nth-of-type(2) > .tenmei-date { grid-column: 1 / -1; }',
+  'const choicePointerMoveTolerance = 10;',
   "listbox.addEventListener('pointerdown', (event) => {",
+  "listbox.addEventListener('pointermove', (event) => {",
+  'const movedDistance = Math.hypot(event.clientX - pending.startX, event.clientY - pending.startY);',
+  'if (movedDistance <= choicePointerMoveTolerance) return;',
+  "listbox.addEventListener('pointerup', (event) => {",
+  'if (!pending || pending.moved) return;',
+  "listbox.addEventListener('pointercancel', (event) => {",
+  'if (performance.now() < state.ignoreClickUntil) {',
   'suppressSyntheticTapUntil = performance.now() + 700;',
   "document.addEventListener('click', (event) => {",
   'event.stopImmediatePropagation();',
   '.dark .tenmei-choice__popover,',
   '@media (prefers-reduced-motion: reduce) {',
 ].forEach((text) => requireText(text, `カスタム選択欄・日付選択のUIまたはアクセシビリティ契約が不足しています: ${text}`));
+
+const choicePointerDownHandler = html.match(/listbox\.addEventListener\('pointerdown', \(event\) => \{[\s\S]*?\n\s*}\);/);
+assert(choicePointerDownHandler, '選択欄のpointerdown処理を抽出できません。');
+assert.equal(choicePointerDownHandler[0].includes('selectChoice'), false, 'pointerdown時に選択を確定しており、スクロール操作が誤選択になります。');
 
 assert.equal(html.includes('<select'), false, 'OS標準のselect要素が残っています。');
 assert.equal(/<input[^>]+type=["']date["']/gi.test(html), false, 'OS標準の日付入力が残っています。');
@@ -154,6 +166,7 @@ console.log(JSON.stringify({
   historyUpdatedDateCorrected: true,
   mobileHistoryLayoutPreserved: true,
   choiceTapThroughGuardPreserved: true,
+  choiceScrollGestureGuardPreserved: true,
   lightDarkResponsiveRulesPresent: true,
   darkHeroMetaUnboxed: true,
 }, null, 2));

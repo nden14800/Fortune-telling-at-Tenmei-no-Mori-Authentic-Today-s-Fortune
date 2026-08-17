@@ -27035,6 +27035,7 @@ function resetSearch() {
             let typeaheadBuffer = '';
             let typeaheadTimer = null;
             let suppressSyntheticTapUntil = 0;
+            const choicePointerMoveTolerance = 10;
 
             const escapeHTML = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
             const isoDate = (date) => {
@@ -27123,7 +27124,7 @@ function resetSearch() {
                 try { options = JSON.parse(root.dataset.options || '[]'); } catch (error) { console.error('選択欄データの読み込みに失敗しました。', error); }
                 const valueNode = trigger.querySelector('.tenmei-choice__value');
                 listbox.innerHTML = options.map((option, index) => `<button type="button" class="tenmei-choice__option" id="${id}-option-${index}" role="option" aria-selected="false" data-option-index="${index}"><span class="tenmei-choice__option-label">${escapeHTML(option.symbol ? `${option.symbol} ` : '')}${escapeHTML(option.label)}</span><span class="tenmei-choice__option-detail">${escapeHTML(option.detail || '')}</span><i class="bi bi-check2 tenmei-choice__option-check" aria-hidden="true" hidden></i></button>`).join('');
-                const state = { root, input, trigger, popover, listbox, valueNode, options, optionNodes: [...listbox.querySelectorAll('.tenmei-choice__option')], activeIndex: 0 };
+                const state = { root, input, trigger, popover, listbox, valueNode, options, optionNodes: [...listbox.querySelectorAll('.tenmei-choice__option')], activeIndex: 0, pendingPointer: null, ignoreClickUntil: 0 };
                 choiceStates.set(id, state);
                 syncChoice(state);
                 trigger.addEventListener('click', () => root.dataset.open === 'true' ? closeActive(true) : openChoice(state));
@@ -27135,20 +27136,58 @@ function resetSearch() {
                     }
                     if (event.key === 'Escape') closeActive(true);
                 });
-                // iOSではpopoverを閉じた直後の合成clickが同じ座標の下層へ届くことがあるため、
-                // pointerdownで確定し、直後のclickはキャプチャ段階で一度だけ吸収する。
+                // 指を動かした操作はスクロールとして扱う。移動量を確認せずpointerdownで確定すると、
+                // 指で選択肢リストを送ろうとした最初の接触まで選択操作になってしまう。
+                const clearPendingPointer = (pointerId) => {
+                    if (!state.pendingPointer || state.pendingPointer.id !== pointerId) return null;
+                    const pending = state.pendingPointer;
+                    state.pendingPointer = null;
+                    if (listbox.hasPointerCapture?.(pointerId)) listbox.releasePointerCapture(pointerId);
+                    return pending;
+                };
                 listbox.addEventListener('pointerdown', (event) => {
                     if (event.button !== 0) return;
                     const optionNode = event.target.closest('.tenmei-choice__option');
                     if (!optionNode) return;
+                    state.pendingPointer = {
+                        id: event.pointerId,
+                        optionIndex: Number(optionNode.dataset.optionIndex),
+                        startX: event.clientX,
+                        startY: event.clientY,
+                        moved: false,
+                    };
+                    listbox.setPointerCapture?.(event.pointerId);
+                });
+                listbox.addEventListener('pointermove', (event) => {
+                    const pending = state.pendingPointer;
+                    if (!pending || pending.id !== event.pointerId || pending.moved) return;
+                    const movedDistance = Math.hypot(event.clientX - pending.startX, event.clientY - pending.startY);
+                    if (movedDistance <= choicePointerMoveTolerance) return;
+                    pending.moved = true;
+                    // ブラウザがpointerup後にclickを生成しても、スクロール直後の誤選択を防ぐ。
+                    state.ignoreClickUntil = performance.now() + 500;
+                });
+                listbox.addEventListener('pointerup', (event) => {
+                    const pending = clearPendingPointer(event.pointerId);
+                    if (!pending || pending.moved) return;
+                    // iOSではpopoverを閉じた直後の合成clickが同じ座標の下層へ届くことがあるため、
+                    // タップ確定時だけ直後のclickをキャプチャ段階で一度だけ吸収する。
                     event.preventDefault();
                     event.stopPropagation();
                     suppressSyntheticTapUntil = performance.now() + 700;
-                    selectChoice(state, Number(optionNode.dataset.optionIndex));
+                    selectChoice(state, pending.optionIndex);
+                });
+                listbox.addEventListener('pointercancel', (event) => {
+                    clearPendingPointer(event.pointerId);
                 });
                 listbox.addEventListener('click', (event) => {
                     const optionNode = event.target.closest('.tenmei-choice__option');
                     if (!optionNode) return;
+                    if (performance.now() < state.ignoreClickUntil) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
                     selectChoice(state, Number(optionNode.dataset.optionIndex));
                 });
                 listbox.addEventListener('keydown', (event) => {
