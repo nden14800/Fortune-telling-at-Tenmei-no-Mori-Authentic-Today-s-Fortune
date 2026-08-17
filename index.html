@@ -13941,6 +13941,741 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         .profile-bento-grid .profile-card-identity { align-items: flex-start; }
                     }
 
+                    /* ================================================================
+                       Ver.4.0 深度再刷新：おみくじ前・授与所・結果待機
+                       カードの置換ではなく、導線・進行・操作の情報設計を再構成
+                       ================================================================ */
+                    .omikuji-v4-panel-heading {
+                        display: flex;
+                        align-items: end;
+                        justify-content: space-between;
+                        gap: 20px;
+                        margin-bottom: 22px;
+                    }
+                    .omikuji-v4-panel-heading h2,
+                    .omikuji-mindset-v4-ready h2,
+                    .omikuji-draw-v4-explore h2 {
+                        margin: 0;
+                        color: var(--text-main);
+                        font-family: 'Zen Old Mincho', serif;
+                        font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+                        font-weight: 800;
+                        letter-spacing: 0.04em;
+                        line-height: 1.35;
+                    }
+                    .omikuji-v4-panel-heading > p {
+                        max-width: 21rem;
+                        margin: 0;
+                        color: var(--text-sub);
+                        font-family: 'Shippori Mincho', serif;
+                        font-size: 0.84rem;
+                        line-height: 1.75;
+                        text-align: right;
+                    }
+                    .omikuji-v4-panel-eyebrow,
+                    .omikuji-v4-step-kicker {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.4rem;
+                        margin: 0 0 7px;
+                        color: var(--accent-red);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.64rem;
+                        font-weight: 800;
+                        letter-spacing: 0.14em;
+                        line-height: 1.25;
+                    }
+                    .omikuji-mindset-v4-hero,
+                    .omikuji-draw-v4-hero { min-height: 314px; }
+                    .omikuji-mindset-v4-hero-meta,
+                    .omikuji-draw-v4-hero-meta {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 8px;
+                        margin-top: 18px;
+                    }
+                    .omikuji-mindset-v4-hero-meta span,
+                    .omikuji-draw-v4-hero-meta span {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.4rem;
+                        padding: 7px 10px;
+                        border: 1px solid rgba(241, 215, 150, 0.24);
+                        border-radius: 999px;
+                        color: rgba(255, 250, 240, 0.82);
+                        background: rgba(20, 11, 10, 0.18);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.7rem;
+                        font-weight: 700;
+                    }
+                    .omikuji-mindset-v4-progress {
+                        margin: 0 0 20px;
+                        padding: 18px 22px;
+                        border: 1px solid var(--card-border);
+                        border-radius: 24px;
+                        background: var(--card-bg);
+                        box-shadow: 0 8px 22px rgba(57, 37, 28, 0.05);
+                    }
+                    .omikuji-mindset-v4-progress ol {
+                        display: grid;
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                        gap: 12px;
+                        margin: 0;
+                        padding: 0;
+                        list-style: none;
+                    }
+                    .omikuji-mindset-v4-progress li {
+                        position: relative;
+                        display: grid;
+                        grid-template-columns: 32px minmax(0, 1fr);
+                        grid-template-rows: auto auto;
+                        column-gap: 10px;
+                        align-items: center;
+                        min-width: 0;
+                        color: var(--text-sub);
+                    }
+                    .omikuji-mindset-v4-progress li:not(:last-child)::after {
+                        content: '';
+                        position: absolute;
+                        top: 16px;
+                        right: -6px;
+                        width: 12px;
+                        height: 1px;
+                        background: var(--card-border);
+                    }
+                    .omikuji-mindset-v4-progress li > span {
+                        grid-row: 1 / 3;
+                        display: grid;
+                        width: 32px;
+                        height: 32px;
+                        place-items: center;
+                        border: 1px solid var(--card-border);
+                        border-radius: 50%;
+                        background: var(--input-bg);
+                        color: var(--text-sub);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.68rem;
+                        font-weight: 800;
+                    }
+                    .omikuji-mindset-v4-progress strong {
+                        overflow: hidden;
+                        color: var(--text-main);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.78rem;
+                        font-weight: 800;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .omikuji-mindset-v4-progress small {
+                        overflow: hidden;
+                        color: var(--text-sub);
+                        font-size: 0.66rem;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .omikuji-mindset-v4-progress .is-current > span {
+                        border-color: rgba(196, 160, 89, 0.72);
+                        background: linear-gradient(135deg, #b72a34, #871d25);
+                        color: #fffaf0;
+                        box-shadow: 0 6px 14px rgba(155, 20, 28, 0.2);
+                    }
+                    .omikuji-mindset-v4-progress .is-current strong { color: var(--accent-red); }
+                    .omikuji-mindset-v4-ritual,
+                    .omikuji-mindset-v4-ready,
+                    .omikuji-draw-v4-guidance,
+                    .omikuji-draw-v4-pool-panel,
+                    .omikuji-draw-v4-explore {
+                        margin: 0 0 20px;
+                        padding: clamp(22px, 3.5vw, 34px);
+                        border: 1px solid var(--card-border);
+                        border-radius: 24px;
+                        background: var(--card-bg);
+                        box-shadow: 0 8px 22px rgba(57, 37, 28, 0.05);
+                    }
+                    .omikuji-mindset-v4-steps {
+                        display: grid;
+                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                        gap: 14px;
+                        margin: 0;
+                        padding: 0;
+                        list-style: none;
+                    }
+                    .omikuji-mindset-v4-steps li {
+                        display: grid;
+                        grid-template-columns: 46px minmax(0, 1fr);
+                        gap: 14px;
+                        min-height: 164px;
+                        padding: 20px;
+                        border: 1px solid var(--card-border);
+                        border-radius: 18px;
+                        background: color-mix(in srgb, var(--card-bg) 93%, var(--input-bg));
+                    }
+                    .omikuji-mindset-v4-step-number {
+                        display: grid;
+                        width: 46px;
+                        height: 46px;
+                        place-items: center;
+                        border: 1px solid rgba(196, 160, 89, 0.48);
+                        border-radius: 50%;
+                        color: #fffaf0;
+                        background: linear-gradient(145deg, #b72a34, #861820);
+                        box-shadow: 0 7px 16px rgba(160, 24, 35, 0.18);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.74rem;
+                        font-weight: 800;
+                    }
+                    .omikuji-mindset-v4-steps h3 {
+                        margin: 0 0 7px;
+                        color: var(--text-main);
+                        font-family: 'Zen Old Mincho', serif;
+                        font-size: 1.08rem;
+                        line-height: 1.45;
+                    }
+                    .omikuji-mindset-v4-steps li > div > p:last-child {
+                        margin: 0;
+                        color: var(--text-sub);
+                        font-family: 'Shippori Mincho', serif;
+                        font-size: 0.83rem;
+                        line-height: 1.8;
+                    }
+                    .omikuji-mindset-v4-ready {
+                        display: grid;
+                        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.86fr);
+                        gap: clamp(20px, 4vw, 44px);
+                        align-items: center;
+                        margin-bottom: 0;
+                        background: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 92%, rgba(196, 160, 89, 0.12)), var(--card-bg));
+                    }
+                    .omikuji-v4-ready-copy > p:last-child {
+                        max-width: 37rem;
+                        margin: 10px 0 0;
+                        color: var(--text-sub);
+                        font-family: 'Shippori Mincho', serif;
+                        font-size: 0.88rem;
+                        line-height: 1.85;
+                    }
+                    .omikuji-mindset-v4-ready-actions { display: grid; gap: 12px; }
+                    .omikuji-mindset-v4-proceed {
+                        display: grid;
+                        grid-template-columns: 34px minmax(0, 1fr) 20px;
+                        align-items: center;
+                        gap: 12px;
+                        width: 100%;
+                        min-height: 74px;
+                        padding: 13px 17px;
+                        border: 1px solid rgba(255, 225, 150, 0.7) !important;
+                        border-radius: 18px !important;
+                        color: #fffaf0;
+                        background: linear-gradient(135deg, #ba2d37, #811820);
+                        box-shadow: 0 12px 25px rgba(155, 20, 28, 0.22);
+                        text-align: left;
+                        transition: transform 160ms var(--ease-out, ease-out), box-shadow 160ms var(--ease-out, ease-out);
+                    }
+                    .omikuji-mindset-v4-proceed:hover { transform: translateY(-2px); box-shadow: 0 17px 28px rgba(155, 20, 28, 0.28); }
+                    .omikuji-mindset-v4-proceed:active { transform: scale(0.98); }
+                    .omikuji-mindset-v4-proceed > i:first-child {
+                        display: grid;
+                        width: 34px;
+                        height: 34px;
+                        place-items: center;
+                        border: 1px solid rgba(255,255,255,0.32);
+                        border-radius: 50%;
+                        background: rgba(255,255,255,0.12);
+                    }
+                    .omikuji-mindset-v4-proceed > span { display: grid; gap: 3px; }
+                    .omikuji-mindset-v4-proceed strong { font-family: 'Zen Old Mincho', serif; font-size: 0.96rem; letter-spacing: 0.04em; }
+                    .omikuji-mindset-v4-proceed small { color: rgba(255,250,240,0.76); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.66rem; }
+                    .omikuji-mindset-v4-skip {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        padding: 12px 4px;
+                        color: var(--text-sub);
+                        cursor: pointer;
+                    }
+                    .omikuji-mindset-v4-skip input { width: 18px; height: 18px; margin: 0; accent-color: var(--accent-red); }
+                    .omikuji-mindset-v4-skip span { display: grid; gap: 2px; }
+                    .omikuji-mindset-v4-skip strong { color: var(--text-main); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.75rem; }
+                    .omikuji-mindset-v4-skip small { color: var(--text-sub); font-size: 0.67rem; }
+                    .omikuji-draw-v4-guidance-list {
+                        display: grid;
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                        gap: 14px;
+                        margin: 0;
+                        padding: 0;
+                        list-style: none;
+                    }
+                    .omikuji-draw-v4-guidance-list li {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        min-height: 78px;
+                        padding: 14px;
+                        border-left: 2px solid rgba(196, 160, 89, 0.52);
+                        background: color-mix(in srgb, var(--card-bg) 94%, var(--input-bg));
+                    }
+                    .omikuji-draw-v4-guidance-list li > span {
+                        color: var(--accent-red);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.72rem;
+                        font-weight: 800;
+                    }
+                    .omikuji-draw-v4-guidance-list li > div { display: grid; gap: 4px; min-width: 0; }
+                    .omikuji-draw-v4-guidance-list strong { color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: 0.95rem; }
+                    .omikuji-draw-v4-guidance-list small { color: var(--text-sub); font-size: 0.71rem; line-height: 1.5; }
+                    .omikuji-draw-v4-pool-panel { padding-bottom: 18px; }
+                    .omikuji-draw-v4-pool-head {
+                        display: flex;
+                        align-items: end;
+                        justify-content: space-between;
+                        gap: 20px;
+                        margin-bottom: 14px;
+                    }
+                    .omikuji-draw-v4-pool-head h2 {
+                        margin: 0;
+                        color: var(--text-main);
+                        font-family: 'Zen Old Mincho', serif;
+                        font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+                        font-weight: 800;
+                    }
+                    .omikuji-draw-v4-pool-head > p {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.4rem;
+                        margin: 0;
+                        color: var(--text-sub);
+                        font-size: 0.72rem;
+                        line-height: 1.5;
+                    }
+                    .omikuji-draw-v4 #omikuji-pool {
+                        min-height: 360px;
+                        margin: 0;
+                        padding: clamp(18px, 3vw, 30px) 0 14px !important;
+                        border: 0 !important;
+                        border-top: 1px solid var(--card-border) !important;
+                        border-radius: 0 !important;
+                        background: transparent !important;
+                        box-shadow: none !important;
+                    }
+                    .omikuji-draw-v4 .omikuji-stick { outline-offset: 4px; }
+                    .omikuji-draw-v4 .omikuji-stick:focus-visible { outline: 3px solid rgba(196, 160, 89, 0.88); }
+                    .omikuji-draw-v4-explore {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 24px;
+                        margin-bottom: 0;
+                        background: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 92%, rgba(196, 160, 89, 0.1)), var(--card-bg));
+                    }
+                    .omikuji-draw-v4-explore > div > p:last-child { max-width: 34rem; margin: 8px 0 0; color: var(--text-sub); font-family: 'Shippori Mincho', serif; font-size: 0.84rem; line-height: 1.75; }
+                    .omikuji-v4-more-btn {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        min-height: 54px;
+                        min-width: 190px;
+                        padding: 0.75rem 1.1rem !important;
+                        border-radius: 16px !important;
+                        box-shadow: 0 10px 22px rgba(155, 20, 28, 0.22) !important;
+                    }
+                    .omikuji-v4-more-btn span { font-weight: 800; }
+                    .omikuji-v4-more-btn:active { transform: scale(0.97); }
+                    #countdown-inner.omikuji-countdown-v4-surface {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        min-height: 505px;
+                        text-align: center;
+                    }
+                    .omikuji-countdown-v4-stage {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: min(100%, 420px);
+                        margin-bottom: 17px;
+                        padding-bottom: 11px;
+                        border-bottom: 1px solid rgba(241, 215, 150, 0.22);
+                        color: rgba(255,250,240,0.76);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.67rem;
+                        font-weight: 800;
+                        letter-spacing: 0.06em;
+                    }
+                    .omikuji-countdown-v4-stage span:first-child { display: inline-flex; align-items: center; gap: 0.38rem; color: #f0d488; }
+                    #countdown-inner .omikuji-v4-mark { margin: 2px 0 16px; }
+                    #countdown-inner .cd-title { font-size: clamp(1.7rem, 4vw, 2.35rem); letter-spacing: 0.06em; }
+                    #countdown-inner .cd-sub { max-width: 28rem; margin-bottom: 0; font-family: 'Shippori Mincho', serif; line-height: 1.85; }
+                    .omikuji-countdown-v4-ring {
+                        position: relative;
+                        display: grid;
+                        width: 142px;
+                        height: 142px;
+                        place-items: center;
+                        margin: 20px 0 14px;
+                    }
+                    .omikuji-countdown-v4-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+                    .omikuji-countdown-v4-ring circle { fill: none; stroke-width: 5; }
+                    .omikuji-countdown-v4-ring-track { stroke: rgba(241, 215, 150, 0.18); }
+                    .omikuji-countdown-v4-ring-progress {
+                        stroke: #f2c25b;
+                        stroke-linecap: round;
+                        stroke-dasharray: 326.73;
+                        stroke-dashoffset: 0;
+                        filter: drop-shadow(0 0 5px rgba(242, 194, 91, 0.48));
+                        animation: omikuji-countdown-v4-progress 5s linear forwards;
+                    }
+                    .omikuji-countdown-v4-ring .cd-number-row { margin: 0; }
+                    .omikuji-countdown-v4-ring #countdown-number { font-size: 3.35rem; line-height: 1; }
+                    .omikuji-countdown-v4-note {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.45rem;
+                        max-width: 29rem;
+                        margin: 0;
+                        color: rgba(255,250,240,0.62);
+                        font-size: 0.68rem;
+                        line-height: 1.6;
+                    }
+                    @keyframes omikuji-countdown-v4-progress { to { stroke-dashoffset: 326.73; } }
+                    html:not(.dark) .omikuji-mindset-v4-hero-meta span,
+                    html:not(.dark) .omikuji-draw-v4-hero-meta span { border-color: rgba(168, 42, 47, 0.18); color: var(--text-sub); background: rgba(255,255,255,0.5); }
+                    html:not(.dark) .omikuji-countdown-v4-stage { border-color: rgba(168,42,47,0.16); color: var(--text-sub); }
+                    html:not(.dark) .omikuji-countdown-v4-stage span:first-child { color: var(--accent-red); }
+                    html:not(.dark) .omikuji-countdown-v4-note { color: var(--text-sub); }
+                    @media (max-width: 700px) {
+                        .omikuji-v4-panel-heading,
+                        .omikuji-draw-v4-pool-head { align-items: start; flex-direction: column; gap: 10px; }
+                        .omikuji-v4-panel-heading > p { max-width: none; text-align: left; }
+                        .omikuji-mindset-v4-hero,
+                        .omikuji-draw-v4-hero { min-height: auto; }
+                        .omikuji-mindset-v4-progress { padding: 16px; border-radius: 20px; }
+                        .omikuji-mindset-v4-progress ol { grid-template-columns: 1fr; gap: 12px; }
+                        .omikuji-mindset-v4-progress li:not(:last-child)::after { top: auto; right: auto; bottom: -7px; left: 16px; width: 1px; height: 7px; }
+                        .omikuji-mindset-v4-ritual,
+                        .omikuji-mindset-v4-ready,
+                        .omikuji-draw-v4-guidance,
+                        .omikuji-draw-v4-pool-panel,
+                        .omikuji-draw-v4-explore { padding: 20px; border-radius: 20px; }
+                        .omikuji-mindset-v4-steps,
+                        .omikuji-draw-v4-guidance-list { grid-template-columns: 1fr; }
+                        .omikuji-mindset-v4-steps li { min-height: 0; padding: 18px; }
+                        .omikuji-mindset-v4-ready { grid-template-columns: 1fr; }
+                        .omikuji-draw-v4-explore { align-items: stretch; flex-direction: column; }
+                        .omikuji-v4-more-btn { width: 100%; }
+                        .omikuji-draw-v4 #omikuji-pool { min-height: 250px; padding-top: 22px !important; }
+                        #countdown-inner.omikuji-countdown-v4-surface { min-height: 0; padding: 28px 24px; }
+                        .omikuji-countdown-v4-stage { width: 100%; }
+                    }
+                    @media (prefers-reduced-motion: reduce) {
+                        .omikuji-countdown-v4-ring-progress { animation: none; stroke-dashoffset: 112; }
+                        .omikuji-mindset-v4 *, .omikuji-draw-v4 *, #countdown-overlay * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+                    }
+
+                    /* ================================================================
+                       Ver.4.0 深度再刷新：結果周辺・アカウント設定
+                       札の意匠を保護し、受け取り・保存・設定の行動を段階化
+                       ================================================================ */
+                    .omikuji-result-v4-hero { min-height: 314px; }
+                    .omikuji-result-v4-hero-meta,
+                    .profile-v4-hero-meta {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 8px;
+                        margin-top: 18px;
+                    }
+                    .omikuji-result-v4-hero-meta span,
+                    .profile-v4-hero-meta span {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.4rem;
+                        padding: 7px 10px;
+                        border: 1px solid rgba(241, 215, 150, 0.24);
+                        border-radius: 999px;
+                        color: rgba(255, 250, 240, 0.82);
+                        background: rgba(20, 11, 10, 0.18);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.7rem;
+                        font-weight: 700;
+                    }
+                    .result-v4-reading-guide,
+                    .profile-v4-context {
+                        margin: 0 0 20px;
+                        padding: clamp(22px, 3.5vw, 34px);
+                        border: 1px solid var(--card-border);
+                        border-radius: 24px;
+                        background: var(--card-bg);
+                        box-shadow: 0 8px 22px rgba(57, 37, 28, 0.05);
+                    }
+                    .result-v4-reading-guide-list,
+                    .profile-v4-context-list {
+                        display: grid;
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                        gap: 14px;
+                        margin: 0;
+                        padding: 0;
+                        list-style: none;
+                    }
+                    .result-v4-reading-guide-list li {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        min-height: 78px;
+                        padding: 14px;
+                        border-left: 2px solid rgba(196, 160, 89, 0.52);
+                        background: color-mix(in srgb, var(--card-bg) 94%, var(--input-bg));
+                    }
+                    .result-v4-reading-guide-list li > span {
+                        color: var(--accent-red);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.72rem;
+                        font-weight: 800;
+                    }
+                    .result-v4-reading-guide-list li > div { display: grid; gap: 4px; min-width: 0; }
+                    .result-v4-reading-guide-list strong { color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: 0.95rem; }
+                    .result-v4-reading-guide-list small { color: var(--text-sub); font-size: 0.71rem; line-height: 1.5; }
+                    .result-v4-disclaimer {
+                        max-width: 600px;
+                        margin-right: auto !important;
+                        margin-left: auto !important;
+                        padding: 12px 18px;
+                        border-top: 1px solid var(--card-border);
+                        border-bottom: 1px solid var(--card-border);
+                    }
+                    .result-v4-consult {
+                        padding: clamp(22px, 3.5vw, 30px) !important;
+                        border-radius: 24px !important;
+                        border: 1px solid var(--card-border) !important;
+                        background: var(--card-bg) !important;
+                        box-shadow: 0 8px 22px rgba(57, 37, 28, 0.05) !important;
+                    }
+                    .result-v4-consult-head {
+                        display: flex;
+                        align-items: end;
+                        justify-content: space-between;
+                        gap: 18px;
+                        margin-bottom: 18px;
+                    }
+                    .result-v4-consult-head h2 {
+                        margin: 0;
+                        color: var(--text-main);
+                        font-family: 'Zen Old Mincho', serif;
+                        font-size: 1.22rem;
+                        font-weight: 800;
+                        line-height: 1.4;
+                    }
+                    .result-v4-consult-head > p {
+                        max-width: 13rem;
+                        margin: 0;
+                        color: var(--text-sub);
+                        font-family: 'Shippori Mincho', serif;
+                        font-size: 0.74rem;
+                        line-height: 1.7;
+                        text-align: right;
+                    }
+                    .result-v4-consult #worry-input {
+                        min-height: 104px;
+                        padding: 14px !important;
+                        border-radius: 16px !important;
+                    }
+                    .result-v4-consult #worry-submit-btn {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.45rem;
+                        min-height: 42px;
+                        padding: 0.65rem 1rem !important;
+                        border-radius: 14px !important;
+                    }
+                    .result-v4-actions {
+                        max-width: 960px;
+                        margin: 0 auto !important;
+                        padding: clamp(22px, 3.5vw, 34px) !important;
+                        border: 1px solid var(--card-border);
+                        border-radius: 24px !important;
+                        background: var(--card-bg) !important;
+                        box-shadow: 0 8px 22px rgba(57, 37, 28, 0.05) !important;
+                    }
+                    .result-v4-actions-head {
+                        display: flex;
+                        align-items: end;
+                        justify-content: space-between;
+                        gap: 20px;
+                        margin-bottom: 24px;
+                        padding-bottom: 20px;
+                        border-bottom: 1px solid var(--card-border);
+                    }
+                    .result-v4-actions-head h2 {
+                        margin: 0;
+                        color: var(--text-main);
+                        font-family: 'Zen Old Mincho', serif;
+                        font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+                        font-weight: 800;
+                        letter-spacing: 0.04em;
+                        line-height: 1.35;
+                    }
+                    .result-v4-actions-head > p {
+                        max-width: 23rem;
+                        margin: 0;
+                        color: var(--text-sub);
+                        font-family: 'Shippori Mincho', serif;
+                        font-size: 0.84rem;
+                        line-height: 1.75;
+                        text-align: right;
+                    }
+                    .result-v4-action-group + .result-v4-action-group {
+                        margin-top: 22px;
+                        padding-top: 22px;
+                        border-top: 1px solid var(--card-border);
+                    }
+                    .result-v4-action-group > header {
+                        display: flex;
+                        align-items: end;
+                        justify-content: space-between;
+                        gap: 12px;
+                        margin-bottom: 14px;
+                    }
+                    .result-v4-action-group-label {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.4rem;
+                        margin: 0 0 5px;
+                        color: var(--accent-red);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.62rem;
+                        font-weight: 800;
+                        letter-spacing: 0.14em;
+                    }
+                    .result-v4-action-group h3 {
+                        margin: 0;
+                        color: var(--text-main);
+                        font-family: 'Zen Old Mincho', serif;
+                        font-size: 1.08rem;
+                        font-weight: 800;
+                    }
+                    .result-v4-action-group .unified-result-grid { gap: 12px !important; }
+                    .result-v4-action-group .action-card-btn {
+                        min-height: 92px;
+                        border-radius: 18px !important;
+                        box-shadow: none !important;
+                    }
+                    .result-v4-action-group .action-card-btn small {
+                        display: block;
+                        margin-top: 4px;
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.62rem;
+                        font-weight: 600;
+                        opacity: 0.68;
+                    }
+                    .result-v4-action-group .action-primary { box-shadow: 0 12px 25px rgba(155, 20, 28, 0.22) !important; }
+                    .profile-v4-hero { min-height: 314px; }
+                    .profile-v4-context-list li {
+                        display: grid;
+                        grid-template-columns: 46px minmax(0, 1fr);
+                        gap: 12px;
+                        align-items: center;
+                        min-height: 86px;
+                        padding: 14px;
+                        border: 1px solid var(--card-border);
+                        border-radius: 18px;
+                        background: color-mix(in srgb, var(--card-bg) 94%, var(--input-bg));
+                    }
+                    .profile-v4-context-icon {
+                        display: grid;
+                        width: 46px;
+                        height: 46px;
+                        place-items: center;
+                        border: 1px solid rgba(196, 160, 89, 0.45);
+                        border-radius: 50%;
+                        color: var(--accent-red);
+                        background: color-mix(in srgb, var(--card-bg) 82%, rgba(196, 160, 89, 0.18));
+                        font-size: 1.1rem;
+                    }
+                    .profile-v4-context-list li > div { display: grid; gap: 4px; }
+                    .profile-v4-context-list strong { color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: 0.96rem; }
+                    .profile-v4-context-list small { color: var(--text-sub); font-size: 0.7rem; line-height: 1.5; }
+                    .profile-bento-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 0 !important; }
+                    .profile-v4-dashboard-overview,
+                    .profile-v4-section-heading,
+                    .profile-bento-grid > .profile-card-identity,
+                    .profile-bento-grid > .text-center.col-span-full { grid-column: 1 / -1; }
+                    .profile-v4-dashboard-overview {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 20px;
+                        padding: 22px 24px;
+                        border: 1px solid var(--card-border);
+                        border-radius: 24px;
+                        background: linear-gradient(135deg, color-mix(in srgb, var(--card-bg) 90%, rgba(196,160,89,0.1)), var(--card-bg));
+                    }
+                    .profile-v4-dashboard-overview h2 {
+                        margin: 0;
+                        color: var(--text-main);
+                        font-family: 'Zen Old Mincho', serif;
+                        font-size: clamp(1.25rem, 2.3vw, 1.6rem);
+                        font-weight: 800;
+                    }
+                    .profile-v4-dashboard-overview div > p:last-child { margin: 7px 0 0; color: var(--text-sub); font-family: 'Shippori Mincho', serif; font-size: 0.8rem; line-height: 1.7; }
+                    .profile-v4-dashboard-overview > span {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.45rem;
+                        flex-shrink: 0;
+                        padding: 8px 10px;
+                        border: 1px solid rgba(196,160,89,0.4);
+                        border-radius: 999px;
+                        color: var(--accent-red);
+                        background: color-mix(in srgb, var(--card-bg) 84%, rgba(196,160,89,0.18));
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.68rem;
+                        font-weight: 800;
+                    }
+                    .profile-v4-section-heading {
+                        display: flex;
+                        align-items: end;
+                        justify-content: space-between;
+                        gap: 18px;
+                        margin-top: 8px;
+                        padding: 8px 2px 12px;
+                        border-bottom: 1px solid var(--card-border);
+                    }
+                    .profile-v4-section-heading p {
+                        margin: 0 0 5px;
+                        color: var(--accent-red);
+                        font-family: 'Zen Kaku Gothic New', sans-serif;
+                        font-size: 0.62rem;
+                        font-weight: 800;
+                        letter-spacing: 0.14em;
+                    }
+                    .profile-v4-section-heading h3 { margin: 0; color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: 1.18rem; font-weight: 800; }
+                    .profile-v4-section-heading > span { color: var(--text-sub); font-size: 0.69rem; text-align: right; }
+                    .profile-bento-grid > .stats-card-interactive { border-radius: 20px !important; }
+                    .profile-bento-grid > .profile-card-identity { display: flex; align-items: center; min-height: 118px; padding: 24px !important; }
+                    .profile-bento-grid > .profile-card-danger { border-width: 1px !important; }
+                    html:not(.dark) .omikuji-result-v4-hero-meta span,
+                    html:not(.dark) .profile-v4-hero-meta span { border-color: rgba(168,42,47,0.18); color: var(--text-sub); background: rgba(255,255,255,0.5); }
+                    @media (max-width: 700px) {
+                        .omikuji-result-v4-hero,
+                        .profile-v4-hero { min-height: auto; }
+                        .result-v4-reading-guide,
+                        .profile-v4-context,
+                        .result-v4-actions { padding: 20px !important; border-radius: 20px !important; }
+                        .result-v4-reading-guide-list,
+                        .profile-v4-context-list,
+                        .profile-bento-grid { grid-template-columns: 1fr; }
+                        .result-v4-actions-head,
+                        .result-v4-consult-head,
+                        .result-v4-action-group > header,
+                        .profile-v4-dashboard-overview,
+                        .profile-v4-section-heading { align-items: start; flex-direction: column; }
+                        .result-v4-actions-head > p,
+                        .result-v4-consult-head > p { max-width: none; text-align: left; }
+                        .profile-v4-section-heading > span { text-align: left; }
+                        .profile-v4-dashboard-overview > span { align-self: flex-start; }
+                        .profile-bento-grid > .profile-card-identity { grid-column: auto; min-height: 0; }
+                    }
+
                     </style>
             
             <div class="home-v4-shell">
@@ -14037,95 +14772,112 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         <!-- ビュー: おみくじ選択 (案内文更新版) -->
         <!-- ビュー: おみくじを引く前の心構え -->
         <section id="view-omikuji-mindset" class="view-section omikuji-mindset-v4" aria-labelledby="omikuji-mindset-title">
-
-            <!-- ヘッダーカード -->
             <header class="omikuji-mindset-v4-hero">
                 <div class="omikuji-v4-hero-copy">
                     <p class="omikuji-v4-eyebrow"><i class="bi bi-heart-pulse" aria-hidden="true"></i> BEFORE YOU DRAW</p>
                     <h1 id="omikuji-mindset-title" class="omikuji-v4-title">おみくじを引く前の心構え</h1>
                     <p class="omikuji-v4-lead">結果は、心の準備が整ってこそ意味を持ちます。<br>少しだけ、お時間をください。</p>
-                    <p class="omikuji-v4-note"><i class="bi bi-hourglass-split" aria-hidden="true"></i> 所要時間：約1分</p>
+                    <div class="omikuji-mindset-v4-hero-meta" aria-label="参拝前の案内">
+                        <span><i class="bi bi-signpost-split" aria-hidden="true"></i> 参拝の流れ 01 / 03</span>
+                        <span><i class="bi bi-hourglass-split" aria-hidden="true"></i> 所要時間：約1分</span>
+                    </div>
                 </div>
                 <div class="omikuji-v4-mark" data-ver4-hero-emblem aria-hidden="true"><i class="bi bi-box-seam-fill"></i><span>QUIET<br>PRAYER</span></div>
             </header>
 
-            <!-- 4ステップ -->
-            <div class="space-y-4 mb-6">
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-5 flex items-center gap-4">
-                        <span class="flex items-center justify-center w-10 h-10 rounded-full bg-red-600 text-white text-sm font-black flex-shrink-0">01</span>
-                        <div>
-                            <h3 class="font-black text-base mb-1">心を鎮める</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">一呼吸おいて、心を静かに整えましょう。ゆっくりと息を吸い、ゆっくりと吐き出してください。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-5 flex items-center gap-4">
-                        <span class="flex items-center justify-center w-10 h-10 rounded-full bg-red-600 text-white text-sm font-black flex-shrink-0">02</span>
-                        <div>
-                            <h3 class="font-black text-base mb-1">姿勢を正す</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">背筋を伸ばし、神域へ向き合う心持ちで臨みましょう。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-5 flex items-center gap-4">
-                        <span class="flex items-center justify-center w-10 h-10 rounded-full bg-red-600 text-white text-sm font-black flex-shrink-0">03</span>
-                        <div>
-                            <h3 class="font-black text-base mb-1">願いを胸に</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">占いたいことを心の中で思い浮かべてください。特に浮かばない方は「今日の私への導きをください」と念じてみましょう。</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="bento-card p-0 overflow-hidden">
-                    <div class="p-5 flex items-center gap-4">
-                        <span class="flex items-center justify-center w-10 h-10 rounded-full bg-red-600 text-white text-sm font-black flex-shrink-0">04</span>
-                        <div>
-                            <h3 class="font-black text-base mb-1">参拝の準備</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">心の準備が整いました。それでは、天命の一枚をお選びください。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <nav class="omikuji-mindset-v4-progress" aria-label="おみくじ参拝の流れ">
+                <ol>
+                    <li class="is-current"><span>01</span><strong>心を整える</strong><small>いまここ</small></li>
+                    <li><span>02</span><strong>一枚を選ぶ</strong><small>天命の授与所</small></li>
+                    <li><span>03</span><strong>言葉を受け取る</strong><small>今日の道しるべ</small></li>
+                </ol>
+            </nav>
 
-            <!-- CTA -->
-            <div class="bento-card p-6 text-center">
-                <button onclick="proceedToDraw()" class="btn-shine-effect flex items-center justify-center gap-3 bg-[var(--accent-red)] text-white hover:bg-[#a01818] transition-all duration-300 py-4 px-8 rounded-2xl w-full max-w-md mx-auto transform hover:-translate-y-1 mb-4" style="border: 2px solid var(--accent-gold); box-shadow: 0 0 15px rgba(197, 160, 89, 0.45);">
-                    <i class="bi bi-box-seam-fill text-xl"></i>
-                    <span class="font-black tracking-wider" style="font-family: 'Zen Old Mincho', serif;">心を込めて、おみくじへ進む</span>
-                </button>
-                <label class="flex items-center justify-center gap-2 text-xs text-gray-500 dark:text-gray-400 cursor-pointer select-none">
-                    <input type="checkbox" id="mindset-skip-checkbox" class="rounded">
-                    次回から、この画面を表示しない
-                </label>
-            </div>
+            <section class="omikuji-mindset-v4-ritual" aria-labelledby="omikuji-mindset-ritual-title">
+                <header class="omikuji-v4-panel-heading">
+                    <div>
+                        <p class="omikuji-v4-panel-eyebrow"><i class="bi bi-flower1" aria-hidden="true"></i> PILGRIMAGE PREPARATION</p>
+                        <h2 id="omikuji-mindset-ritual-title">心を整える、四つの所作</h2>
+                    </div>
+                    <p>一つずつ、急がずに。整ったと感じたら次へお進みください。</p>
+                </header>
+                <ol class="omikuji-mindset-v4-steps">
+                    <li>
+                        <span class="omikuji-mindset-v4-step-number">01</span>
+                        <div><p class="omikuji-v4-step-kicker">BREATH</p><h3>心を鎮める</h3><p>一呼吸おいて、心を静かに整えましょう。ゆっくりと息を吸い、ゆっくりと吐き出してください。</p></div>
+                    </li>
+                    <li>
+                        <span class="omikuji-mindset-v4-step-number">02</span>
+                        <div><p class="omikuji-v4-step-kicker">POSTURE</p><h3>姿勢を正す</h3><p>背筋を伸ばし、神域へ向き合う心持ちで臨みましょう。</p></div>
+                    </li>
+                    <li>
+                        <span class="omikuji-mindset-v4-step-number">03</span>
+                        <div><p class="omikuji-v4-step-kicker">INTENTION</p><h3>願いを胸に</h3><p>占いたいことを心の中で思い浮かべてください。浮かばない方は「今日の私への導きを」と念じてみましょう。</p></div>
+                    </li>
+                    <li>
+                        <span class="omikuji-mindset-v4-step-number">04</span>
+                        <div><p class="omikuji-v4-step-kicker">READINESS</p><h3>参拝の準備</h3><p>心の準備が整いました。それでは、天命の一枚をお選びください。</p></div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="omikuji-mindset-v4-ready" aria-labelledby="omikuji-mindset-ready-title">
+                <div class="omikuji-v4-ready-copy">
+                    <p class="omikuji-v4-panel-eyebrow"><i class="bi bi-check2-circle" aria-hidden="true"></i> PREPARATION COMPLETE</p>
+                    <h2 id="omikuji-mindset-ready-title">準備が整ったら、授与所へ</h2>
+                    <p>次の画面では、並んだ札の中から一枚を選びます。選び直しは必要ありません。今、心に留まる一枚をお選びください。</p>
+                </div>
+                <div class="omikuji-mindset-v4-ready-actions">
+                    <button type="button" onclick="proceedToDraw()" class="btn-shine-effect omikuji-mindset-v4-proceed">
+                        <i class="bi bi-box-seam-fill" aria-hidden="true"></i>
+                        <span><strong>心を込めて、おみくじへ進む</strong><small>天命の授与所を開く</small></span>
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                    </button>
+                    <label class="omikuji-mindset-v4-skip">
+                        <input type="checkbox" id="mindset-skip-checkbox">
+                        <span><strong>次回から、この案内を省略する</strong><small>すぐに天命の授与所を開きます</small></span>
+                    </label>
+                </div>
+            </section>
         </section>
 
         <section id="view-draw" class="view-section omikuji-draw-v4" aria-labelledby="omikuji-draw-title">
-            
-            <!-- 固定ヘッダーカード -->
             <div class="omikuji-draw-sticky">
                 <header class="draw-header-card omikuji-draw-v4-hero">
                     <div class="omikuji-draw-v4-copy">
                         <p class="omikuji-v4-eyebrow"><i class="bi bi-box-seam-fill" aria-hidden="true"></i> FORTUNE OFFERING</p>
                         <h1 id="omikuji-draw-title" class="omikuji-v4-title">天命の授与所</h1>
                         <p class="omikuji-v4-lead">背筋を伸ばし、深く呼吸を整えて心を静めます。<br>占いたい事柄を胸の内で唱えながら、天命の一枚をお選びください。</p>
-                        <p class="omikuji-v4-note"><i class="bi bi-info-circle" aria-hidden="true"></i> 悩みがないときは「今の私に必要な導きを」と念じてください。</p>
+                        <div class="omikuji-draw-v4-hero-meta" aria-label="授与の案内"><span><i class="bi bi-signpost-split" aria-hidden="true"></i> 参拝の流れ 02 / 03</span><span><i class="bi bi-hand-index-thumb" aria-hidden="true"></i> 一枚を選ぶ</span></div>
                     </div>
                     <div class="omikuji-v4-mark" data-ver4-hero-emblem aria-hidden="true"><i class="bi bi-box-seam-fill"></i><span>TENMEI<br>DRAW</span></div>
                 </header>
             </div>
-            
-            <!-- おみくじプール -->
-            <div id="omikuji-pool" class="omikuji-pool p-4 md:p-8"></div>
-            
-            <!-- 追加ボタン (カード一覧の直後・フッターの直前に固定表示) -->
-            <div id="further-explore-btn" class="w-full text-center pb-10">
-                <button type="button" onclick="addOmikuji()" class="btn-primary omikuji-v4-more-btn">
-                    <i class="bi bi-plus-lg"></i> さらに探す
-                </button>
-            </div>
+
+            <section class="omikuji-draw-v4-guidance" aria-labelledby="omikuji-draw-guidance-title">
+                <header class="omikuji-v4-panel-heading">
+                    <div><p class="omikuji-v4-panel-eyebrow"><i class="bi bi-hand-index-thumb" aria-hidden="true"></i> HOW TO RECEIVE</p><h2 id="omikuji-draw-guidance-title">一枚を選ぶ、その前に</h2></div>
+                    <p>心に浮かんだ札を、迷わず一枚だけお選びください。</p>
+                </header>
+                <ol class="omikuji-draw-v4-guidance-list">
+                    <li><span>01</span><div><strong>心を留める</strong><small>問いかけを胸の内で整えます</small></div></li>
+                    <li><span>02</span><div><strong>一枚を選ぶ</strong><small>今、目に留まる札を選びます</small></div></li>
+                    <li><span>03</span><div><strong>言葉を受け取る</strong><small>結果を今日の道しるべにします</small></div></li>
+                </ol>
+            </section>
+
+            <section class="omikuji-draw-v4-pool-panel" aria-labelledby="omikuji-draw-pool-title">
+                <header class="omikuji-draw-v4-pool-head">
+                    <div><p class="omikuji-v4-panel-eyebrow"><i class="bi bi-boxes" aria-hidden="true"></i> FORTUNE STICKS</p><h2 id="omikuji-draw-pool-title">天命を待つ札</h2></div>
+                    <p><i class="bi bi-info-circle" aria-hidden="true"></i> クリック、Enter、Spaceで一枚を選べます</p>
+                </header>
+                <div id="omikuji-pool" class="omikuji-pool" aria-label="おみくじの札を選ぶ場所"></div>
+            </section>
+
+            <section id="further-explore-btn" class="omikuji-draw-v4-explore" aria-labelledby="omikuji-draw-explore-title">
+                <div><p class="omikuji-v4-panel-eyebrow"><i class="bi bi-plus-circle" aria-hidden="true"></i> CONTINUE EXPLORING</p><h2 id="omikuji-draw-explore-title">札を、もう少し探す</h2><p>いま気になる一枚が見つからないときだけ、静かに札を追加できます。</p></div>
+                <button type="button" onclick="addOmikuji()" class="btn-primary omikuji-v4-more-btn"><i class="bi bi-plus-lg" aria-hidden="true"></i><span>さらに札を探す</span><i class="bi bi-arrow-down" aria-hidden="true"></i></button>
+            </section>
         </section>
 
         <!-- ビュー: おみくじ結果 (Bento Action Grid版) -->
@@ -14136,6 +14888,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         <p class="omikuji-v4-eyebrow"><i class="bi bi-stars" aria-hidden="true"></i> TODAY'S DIVINATION</p>
                         <h1 id="omikuji-result-title" class="omikuji-v4-title">おみくじの結果</h1>
                         <p class="omikuji-v4-lead">授かった言葉を静かに受け取り、今日の歩みの道しるべとしてお役立てください。</p>
+                        <div class="omikuji-result-v4-hero-meta" aria-label="結果画面の案内"><span><i class="bi bi-signpost-split" aria-hidden="true"></i> 参拝の流れ 03 / 03</span><span><i class="bi bi-bookmark-heart" aria-hidden="true"></i> 受け取る・残す・相談する</span></div>
                     </div>
                     <div class="omikuji-v4-mark" data-ver4-hero-emblem aria-hidden="true"><i class="bi bi-stars"></i><span>FATE<br>MESSAGE</span></div>
                 </header>
@@ -14145,6 +14898,18 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <span>天命乃杜　おみくじ結果記録</span>
                     <span id="result-pdf-issued-at"></span>
                 </div>
+
+                <section class="result-v4-reading-guide result-screen-only" aria-labelledby="result-v4-reading-guide-title">
+                    <header class="omikuji-v4-panel-heading">
+                        <div><p class="omikuji-v4-panel-eyebrow"><i class="bi bi-journal-text" aria-hidden="true"></i> RECEIVE THE MESSAGE</p><h2 id="result-v4-reading-guide-title">今日のことばを、静かに受け取る</h2></div>
+                        <p>良いことばも、気になることばも、一日の歩みを見つめ直すための道しるべです。</p>
+                    </header>
+                    <ol class="result-v4-reading-guide-list">
+                        <li><span>01</span><div><strong>まず、全体を読む</strong><small>今の気持ちと重なる部分を見つけます</small></div></li>
+                        <li><span>02</span><div><strong>心に残る一節を選ぶ</strong><small>今日意識したい言葉を一つに絞ります</small></div></li>
+                        <li><span>03</span><div><strong>行動へつなげる</strong><small>小さくできることを一つ決めます</small></div></li>
+                    </ol>
+                </section>
 
                 <!-- 画像化対象エリア (修正版: 画面幅に合わせて自動縮小) -->
                 <div class="w-full flex justify-center px-2 md:px-0">
@@ -14173,11 +14938,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
                 <!-- AI悩み相談（緊急追加!21） -->
                 <section id="result-ai-consult" class="bento-card result-v4-consult max-w-[600px] mx-auto mt-2 mb-8 text-left" aria-labelledby="result-ai-consult-title">
-                    <h2 id="result-ai-consult-title" class="font-black text-base mb-3 flex items-center gap-2" style="font-family:'Zen Old Mincho',serif;">
-                        <i class="bi bi-chat-heart-fill" style="color:var(--accent-gold);"></i>
-                        気になることを相談する
-                    </h2>
-                    <p class="text-xs mb-3" style="color:var(--text-sub);">今日引いたおみくじを踏まえて、AIが一言お答えします。</p>
+                    <header class="result-v4-consult-head">
+                        <div><p class="omikuji-v4-panel-eyebrow"><i class="bi bi-chat-heart-fill" aria-hidden="true"></i> DIVINATION COMPANION</p><h2 id="result-ai-consult-title">気になることを、もう少し相談する</h2></div>
+                        <p>今日引いたおみくじを踏まえて、AIが一言お答えします。</p>
+                    </header>
                     <textarea id="worry-input" class="themed-input w-full" rows="3" maxlength="300" placeholder="例：転職を考えています。今のタイミングは良いでしょうか？"></textarea>
                     <div class="flex justify-end mt-2">
                         <button id="worry-submit-btn" onclick="submitWorryConsult()" class="btn-primary text-sm py-2 px-5">
@@ -14192,70 +14956,39 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     </p>
                 </section>
 
-                <!-- アクションエリア (統合Bento Grid版) -->
-                <section class="result-actions-container result-v4-actions" aria-label="おみくじ結果の操作">
+                <section class="result-actions-container result-v4-actions" aria-labelledby="result-v4-actions-title">
+                    <header class="result-v4-actions-head">
+                        <div><p class="omikuji-v4-panel-eyebrow"><i class="bi bi-bookmark-check" aria-hidden="true"></i> KEEP TODAY'S MESSAGE</p><h2 id="result-v4-actions-title">今日のことばを、この先へ</h2></div>
+                        <p>振り返るために残す。次の一歩へ進む。誰かと分かち合う。目的に合わせてお選びください。</p>
+                    </header>
 
-                    <!-- 統合グリッド: 全てのアクションをここで整列 -->
-                    <div class="unified-result-grid">
-                        
-                        <!-- 1. メインアクション -->
-                        <!-- 画像保存（最重要：赤色・横幅いっぱい） -->
-                        <button onclick="generateResultImage()" class="action-card-btn action-primary grid-span-full" style="min-height: 80px; font-size: 1.1rem;">
-                            <i class="bi bi-download" style="font-size: 2rem;"></i>
-                            <span>画像を保存する</span>
-                        </button>
-
-                        <!-- PDF保存：印刷・手元保管向け。SNS向けの画像保存とは用途を分ける -->
-                        <button onclick="downloadResultAsPDF()" class="action-card-btn grid-span-full" aria-describedby="result-pdf-help">
-                            <i class="bi bi-file-earmark-pdf"></i>
-                            <span>PDFとして保存</span>
-                            <small id="result-pdf-help">印刷画面で「PDFに保存」を選択</small>
-                        </button>
-
-                        <!-- ホームへ -->
-                        <button onclick="showView('home')" class="action-card-btn">
-                            <i class="bi bi-house-door"></i>
-                            <span>ホームへ</span>
-                        </button>
-
-                        <!-- もう一度引く -->
-                        <button onclick="startOmikuji()" class="action-card-btn">
-                            <i class="bi bi-arrow-counterclockwise"></i>
-                            <span>もう一度引く</span>
-                        </button>
-
-                        <!-- 2. SNSシェア（区切り線） -->
-                        <div class="sns-separator">
-                            <span class="sns-separator-text">SNSでシェア</span>
-                            <div class="sns-separator-line"></div>
+                    <section class="result-v4-action-group result-v4-action-group--save" aria-labelledby="result-v4-save-title">
+                        <header><p class="result-v4-action-group-label"><i class="bi bi-archive" aria-hidden="true"></i> KEEP A RECORD</p><h3 id="result-v4-save-title">記録として残す</h3></header>
+                        <div class="unified-result-grid">
+                            <button onclick="generateResultImage()" class="action-card-btn action-primary grid-span-full" style="min-height: 80px; font-size: 1.1rem;"><i class="bi bi-download" style="font-size: 2rem;"></i><span>画像を保存する</span><small>見返しやすい画像として残す</small></button>
+                            <button onclick="downloadResultAsPDF()" class="action-card-btn grid-span-full" aria-describedby="result-pdf-help"><i class="bi bi-file-earmark-pdf"></i><span>PDFとして保存</span><small id="result-pdf-help">印刷画面で「PDFに保存」を選択</small></button>
                         </div>
+                    </section>
 
-                        <!-- SNSボタン群 -->
-                        <button onclick="shareToX()" class="action-card-btn btn-x">
-                            <i class="bi bi-twitter-x"></i>
-                            <span>X (Twitter)</span>
-                        </button>
-                        <button onclick="shareToFB()" class="action-card-btn btn-fb">
-                            <i class="bi bi-facebook"></i>
-                            <span>Facebook</span>
-                        </button>
-                        <button onclick="shareToLine()" class="action-card-btn btn-line">
-                            <i class="bi bi-line"></i>
-                            <span>LINE</span>
-                        </button>
-                        <button onclick="shareToThreads()" class="action-card-btn btn-threads">
-                            <i class="bi bi-threads" style="font-size:28px; margin-bottom:8px;"></i>
-                            <span>Threads</span>
-                        </button>
+                    <section class="result-v4-action-group result-v4-action-group--next" aria-labelledby="result-v4-next-title">
+                        <header><p class="result-v4-action-group-label"><i class="bi bi-compass" aria-hidden="true"></i> CONTINUE YOUR DAY</p><h3 id="result-v4-next-title">次の歩みを選ぶ</h3></header>
+                        <div class="unified-result-grid result-v4-next-grid">
+                            <button onclick="showView('home')" class="action-card-btn"><i class="bi bi-house-door"></i><span>ホームへ</span><small>今日の巡りを確かめる</small></button>
+                            <button onclick="startOmikuji()" class="action-card-btn"><i class="bi bi-arrow-counterclockwise"></i><span>もう一度引く</span><small>新しい問いで参拝する</small></button>
+                        </div>
+                    </section>
 
-                        <!-- Discordシェアは横長でバランスを取る -->
-                        <button onclick="shareToDiscord()" id="discord-share-btn" class="action-card-btn btn-discord grid-span-full">
-                            <i class="bi bi-discord" style="font-size:28px; margin-bottom:8px;"></i>
-                            <span>参拝記録チャンネルへ</span>
-                        </button>
-                        
-                </div>
-            </section>
+                    <section class="result-v4-action-group result-v4-action-group--share" aria-labelledby="result-v4-share-title">
+                        <header><p class="result-v4-action-group-label"><i class="bi bi-send" aria-hidden="true"></i> SHARE THE FORTUNE</p><h3 id="result-v4-share-title">ことばを分かち合う</h3></header>
+                        <div class="unified-result-grid">
+                            <button onclick="shareToX()" class="action-card-btn btn-x"><i class="bi bi-twitter-x"></i><span>X (Twitter)</span></button>
+                            <button onclick="shareToFB()" class="action-card-btn btn-fb"><i class="bi bi-facebook"></i><span>Facebook</span></button>
+                            <button onclick="shareToLine()" class="action-card-btn btn-line"><i class="bi bi-line"></i><span>LINE</span></button>
+                            <button onclick="shareToThreads()" class="action-card-btn btn-threads"><i class="bi bi-threads" style="font-size:28px; margin-bottom:8px;"></i><span>Threads</span></button>
+                            <button onclick="shareToDiscord()" id="discord-share-btn" class="action-card-btn btn-discord grid-span-full"><i class="bi bi-discord" style="font-size:28px; margin-bottom:8px;"></i><span>参拝記録チャンネルへ</span><small>Discordで分かち合う</small></button>
+                        </div>
+                    </section>
+                </section>
         </section>
 
         
@@ -15002,12 +15735,24 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <p class="profile-v4-eyebrow"><i class="bi bi-person-gear" aria-hidden="true"></i> ACCOUNT SETTINGS</p>
                     <h1 id="profile-page-title" class="profile-v4-title">アカウント設定</h1>
                     <p class="profile-v4-lead">参拝者名の編集、連携状況の確認、参拝証の管理を行うための設定画面です。</p>
-                    <p class="profile-v4-note"><i class="bi bi-shield-check" aria-hidden="true"></i> 設定はこの端末の参拝環境へすぐに反映されます。</p>
+                    <div class="profile-v4-hero-meta" aria-label="設定画面の案内"><span><i class="bi bi-shield-check" aria-hidden="true"></i> この端末へすぐに反映</span><span><i class="bi bi-sliders" aria-hidden="true"></i> 環境・読書・連携を管理</span></div>
                 </div>
                 <div class="profile-v4-mark" data-ver4-hero-emblem aria-hidden="true"><i class="bi bi-person-gear"></i><span>MY<br>SETTINGS</span></div>
             </header>
 
-            <!-- JSでここにコンテンツが注入されます -->
+            <section class="profile-v4-context" aria-labelledby="profile-v4-context-title">
+                <header class="omikuji-v4-panel-heading">
+                    <div><p class="omikuji-v4-panel-eyebrow"><i class="bi bi-grid-1x2" aria-hidden="true"></i> SETTINGS OVERVIEW</p><h2 id="profile-v4-context-title">参拝の環境を、自分らしく整える</h2></div>
+                    <p>表示や読書の好み、参拝証の連携、アカウントの安全性を、一つの場所で管理できます。</p>
+                </header>
+                <ul class="profile-v4-context-list">
+                    <li><span class="profile-v4-context-icon"><i class="bi bi-palette2" aria-hidden="true"></i></span><div><strong>環境と表示</strong><small>テーマ、演出、サイドバーの挙動</small></div></li>
+                    <li><span class="profile-v4-context-icon"><i class="bi bi-body-text" aria-hidden="true"></i></span><div><strong>読書の好み</strong><small>文字、行間、書体、本文の幅</small></div></li>
+                    <li><span class="profile-v4-context-icon"><i class="bi bi-shield-lock" aria-hidden="true"></i></span><div><strong>参拝証と安全性</strong><small>連携状況、登録情報、アカウント操作</small></div></li>
+                </ul>
+            </section>
+
+            <!-- JSでここに会員固有のコンテンツが注入されます -->
             <div id="profile-dashboard-content"></div>
         </section>
 
@@ -16507,14 +17252,16 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     <!-- カウントダウンオーバーレイ -->
     <div id="countdown-overlay" role="status" aria-live="assertive" aria-label="おみくじの結果を整えています">
         <div id="countdown-inner" class="omikuji-countdown-v4-surface">
+            <div class="omikuji-countdown-v4-stage"><span><i class="bi bi-signpost-split" aria-hidden="true"></i> 参拝の流れ 03 / 03</span><span>言葉を受け取る</span></div>
             <p class="omikuji-v4-eyebrow"><i class="bi bi-hourglass-split" aria-hidden="true"></i> DIVINATION IN PROGRESS</p>
             <div class="omikuji-v4-mark" data-ver4-hero-emblem aria-hidden="true"><i class="bi bi-stars"></i><span>FATE<br>AWAKENS</span></div>
-            <h2 class="cd-title">結果が出るまで</h2>
-            <p class="cd-sub">言葉を受け取るための、静かなひとときです。</p>
-            <div class="cd-number-row" aria-label="結果が出るまでの残り時間">
-                <span id="countdown-number">5</span>
-                <span class="cd-unit">秒</span>
+            <h2 class="cd-title">言葉を整えています</h2>
+            <p class="cd-sub">おみくじが、あなたへのことばを結んでいます。<br>深く息を整えたまま、少しだけお待ちください。</p>
+            <div class="omikuji-countdown-v4-ring" aria-label="結果が出るまでの残り時間">
+                <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="omikuji-countdown-v4-ring-track" cx="60" cy="60" r="52"></circle><circle class="omikuji-countdown-v4-ring-progress" cx="60" cy="60" r="52"></circle></svg>
+                <div class="cd-number-row"><span id="countdown-number">5</span><span class="cd-unit">秒</span></div>
             </div>
+            <p class="omikuji-countdown-v4-note"><i class="bi bi-lightning-charge" aria-hidden="true"></i> 神速の祈りを設定している場合は、この待機を省略します。</p>
         </div>
     </div>
 
@@ -25119,8 +25866,17 @@ async function fetchHistoryStats() {
                 // また、フェードインアニメーション（fadeInStickMargin）も廃止し、
                 // 即座に表示するようにした。
                 
+                stick.setAttribute('role', 'button');
+                stick.tabIndex = 0;
+                stick.setAttribute('aria-label', `おみくじの札 ${currentTotal + i + 1} を選ぶ`);
                 stick.onclick = function() {
                     drawResult(this);
+                };
+                stick.onkeydown = function(event) {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        drawResult(this);
+                    }
                 };
                 
                 pool.appendChild(stick);
@@ -25321,7 +26077,13 @@ async function fetchHistoryStats() {
         function drawResult(element) {
             const overlay = document.getElementById('countdown-overlay');
             const numEl = document.getElementById('countdown-number');
+            const progressRing = document.querySelector('.omikuji-countdown-v4-ring-progress');
             overlay.style.display = 'flex';
+            if (progressRing) {
+                progressRing.style.animation = 'none';
+                void progressRing.getBoundingClientRect();
+                progressRing.style.animation = 'omikuji-countdown-v4-progress 5s linear forwards';
+            }
 
             // Lab: 神速の祈りモードならカウントダウン省略
             if(window.labSpeedMode) {
@@ -28570,6 +29332,10 @@ async function renderSettingsDashboard() {
     // HTML生成
     container.innerHTML = `
         <div class="profile-bento-grid">
+            <section class="profile-v4-dashboard-overview" aria-label="設定ダッシュボードの概要">
+                <div><p class="omikuji-v4-panel-eyebrow"><i class="bi bi-person-check" aria-hidden="true"></i> YOUR PILGRIMAGE PROFILE</p><h2>${safeName} さんの設定</h2><p>参拝の環境とアカウント情報を、目的ごとに確認・変更できます。</p></div>
+                <span><i class="bi bi-shield-check" aria-hidden="true"></i> 保護された設定</span>
+            </section>
             
             <!-- 1. Identity Card (身分証) - フル幅 -->
             <div class="stats-card-interactive profile-card-identity p-6 rounded-2xl">
@@ -28586,6 +29352,8 @@ async function renderSettingsDashboard() {
                     <p class="text-sm text-gray-500 font-mono">${safeEmail}</p>
                 </div>
             </div>
+
+            <div class="profile-v4-section-heading profile-v4-section-heading--preferences"><div><p>DISPLAY &amp; EXPERIENCE</p><h3>環境と表示を整える</h3></div><span>テーマ・演出・操作方法</span></div>
 
             <!-- 2. 環境設定 (左) -->
             <div class="stats-card-interactive profile-card-status p-6 rounded-2xl bg-white dark:bg-zinc-900 border-l-4 border-l-indigo-500">
@@ -28672,6 +29440,8 @@ async function renderSettingsDashboard() {
                 </div>
             </div>
 
+            <div class="profile-v4-section-heading profile-v4-section-heading--account"><div><p>ACCOUNT DETAILS</p><h3>参拝証の情報を管理する</h3></div><span>お名前・認証情報</span></div>
+
             <!-- 3. 登録情報変更 (右) -->
             <div class="stats-card-interactive profile-card-edit p-6 rounded-2xl bg-white dark:bg-zinc-900">
                 <div class="flex items-center gap-2 mb-6 border-b border-gray-100 dark:border-gray-700 pb-3">
@@ -28702,6 +29472,8 @@ async function renderSettingsDashboard() {
                     </button>
                 </div>
             </div>
+
+            <div class="profile-v4-section-heading profile-v4-section-heading--reading"><div><p>READING EXPERIENCE</p><h3>読む環境を整える</h3></div><span>文字・書体・本文の幅</span></div>
 
             <!-- 2.5 読書設定 (フカヨミより移植) -->
             <div class="stats-card-interactive profile-card-secondary p-6 rounded-2xl bg-white dark:bg-zinc-900 border-l-4 rs-accent-emerald">
@@ -28776,6 +29548,8 @@ async function renderSettingsDashboard() {
                     <i class="bi bi-arrow-counterclockwise mr-1"></i>環境設定・読書設定・TENMEI Labs機能を全て初期値に戻す
                 </button>
             </div>
+
+            <div class="profile-v4-section-heading profile-v4-section-heading--connection"><div><p>CONNECTION &amp; SECURITY</p><h3>連携と安全性を確認する</h3></div><span>Google・アカウント操作</span></div>
 
             <!-- 4. Google連携 -->
             ${authMethod !== 'google' ? `

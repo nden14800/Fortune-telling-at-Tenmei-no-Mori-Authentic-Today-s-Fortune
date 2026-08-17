@@ -30,6 +30,9 @@ function requireIn(section, text, message) {
   'id="omikuji-mindset-title"',
   'data-ver4-hero-emblem',
   'onclick="proceedToDraw()"',
+  'class="omikuji-mindset-v4-progress"',
+  'class="omikuji-mindset-v4-ritual"',
+  'class="omikuji-mindset-v4-ready"',
   'id="mindset-skip-checkbox"',
 ].forEach((text) => requireIn(mindsetSection, text, `心構えの既存操作またはVer.4.0構造が失われています: ${text}`));
 
@@ -37,6 +40,9 @@ function requireIn(section, text, message) {
   'class="view-section omikuji-draw-v4"',
   'omikuji-draw-v4-hero',
   'id="omikuji-draw-title"',
+  'class="omikuji-draw-v4-guidance"',
+  'class="omikuji-draw-v4-pool-panel"',
+  'class="omikuji-draw-v4-explore"',
   'id="omikuji-pool"',
   'onclick="addOmikuji()"',
   'class="btn-primary omikuji-v4-more-btn"',
@@ -45,16 +51,26 @@ function requireIn(section, text, message) {
 [
   'id="countdown-overlay" role="status" aria-live="assertive"',
   'class="omikuji-countdown-v4-surface"',
+  'class="omikuji-countdown-v4-ring"',
+  'class="omikuji-countdown-v4-ring-progress"',
   'id="countdown-number"',
   "function drawResult(element) {",
   "async function showResultDetail(isNewDraw, dataOverride = null) {",
   "if(window.labSpeedMode) {",
+  "progressRing.style.animation = 'omikuji-countdown-v4-progress 5s linear forwards';",
+  "stick.setAttribute('role', 'button');",
+  "stick.tabIndex = 0;",
+  "event.key === 'Enter' || event.key === ' '",
 ].forEach((text) => requireText(text, `結果待機・神速の祈りの既存導線またはVer.4.0構造が失われています: ${text}`));
 
 [
   'class="view-section omikuji-result-v4"',
   'class="omikuji-result-v4-hero"',
-  'id="omikuji-result-title"',
+  'class="omikuji-result-v4-hero"',
+  'class="result-v4-reading-guide result-screen-only"',
+  'class="result-v4-action-group result-v4-action-group--save"',
+  'class="result-v4-action-group result-v4-action-group--next"',
+  'class="result-v4-action-group result-v4-action-group--share"',
   'id="result-card-outer"',
   'id="result-ai-consult"',
   'id="worry-input"',
@@ -69,6 +85,8 @@ function requireIn(section, text, message) {
 [
   'class="view-section profile-v4-layout"',
   'class="profile-v4-hero"',
+  'class="profile-v4-context"',
+  'class="profile-v4-context-list"',
   'id="profile-page-title"',
   'id="profile-dashboard-content"',
   'function renderSettingsDashboard() {',
@@ -76,11 +94,24 @@ function requireIn(section, text, message) {
   'profile-card-identity',
   'onclick="updateAccountSettings()"',
   'onclick="deleteAccount()"',
+  'class="profile-v4-dashboard-overview"',
+  'class="profile-v4-section-heading profile-v4-section-heading--preferences"',
+  'class="profile-v4-section-heading profile-v4-section-heading--account"',
+  'class="profile-v4-section-heading profile-v4-section-heading--reading"',
+  'class="profile-v4-section-heading profile-v4-section-heading--connection"',
 ].forEach((text) => requireText(text, `アカウント設定の既存機能またはVer.4.0構造が失われています: ${text}`));
 
 [
   '.omikuji-mindset-v4-hero,',
   '.omikuji-draw-v4-hero {',
+  '.omikuji-mindset-v4-progress {',
+  '.omikuji-mindset-v4-ritual,',
+  '.omikuji-draw-v4-guidance-list {',
+  '.omikuji-countdown-v4-ring {',
+  '.result-v4-reading-guide,',
+  '.result-v4-actions {',
+  '.profile-v4-context {',
+  '.profile-v4-dashboard-overview,',
   'grid-template-columns: minmax(0, 1fr) 128px;',
   'border-radius: 28px !important;',
   'inset: 12px;',
@@ -96,7 +127,9 @@ function requireIn(section, text, message) {
   '@media (max-width: 700px) {',
 ].forEach((text) => requireIn(ver4StyleBlock, text, `Ver.4.0共通意匠規則が失われています: ${text}`));
 
-assert(!ver4StyleBlock.includes('.omikuji-stick {'), 'おみくじ棒の意匠をVer.4.0最終スタイルで変更してはいけません。');
+const stickAccessibilityRule = ver4StyleBlock.match(/\.omikuji-draw-v4 \.omikuji-stick\s*\{([\s\S]*?)\}/)?.[1] || '';
+assert(stickAccessibilityRule.includes('outline-offset'), 'おみくじ棒はキーボード利用時のフォーカス表示を備える必要があります。');
+assert(!/(?:width|height|border-radius|background|transform)\s*:/.test(stickAccessibilityRule), 'おみくじ棒の視覚意匠をVer.4.0最終スタイルで変更してはいけません。');
 assert(!ver4StyleBlock.includes('#result-card-outer {'), 'おみくじ結果札の意匠をVer.4.0最終スタイルで変更してはいけません。');
 
 console.log('おみくじ導線・アカウント設定のVer.4.0回帰テストに合格しました。');
