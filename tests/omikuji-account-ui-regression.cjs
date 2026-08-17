@@ -1,0 +1,111 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const htmlPath = path.resolve(__dirname, '..', 'index.html');
+const html = fs.readFileSync(htmlPath, 'utf8');
+const mindsetSection = html.match(/<section id="view-omikuji-mindset"[\s\S]*?<section id="view-draw"/)?.[0] || '';
+const drawSection = html.match(/<section id="view-draw"[\s\S]*?<section id="view-result"/)?.[0] || '';
+const resultSection = html.match(/<section id="view-result"[\s\S]*?<section id="view-zodiac"/)?.[0] || '';
+const profileSection = html.match(/<section id="view-profile"[\s\S]*?<!-- ビュー: おみくじの轍/)?.[0] || '';
+const ver4StyleBlock = html.match(/\/\* ================================================================\n                       Ver\.4\.0 おみくじ導線[\s\S]*?<\/style>/)?.[0] || '';
+
+assert(mindsetSection, 'おみくじ前の心構えを抽出できません。');
+assert(drawSection, '天命の授与所を抽出できません。');
+assert(resultSection, 'おみくじ結果を抽出できません。');
+assert(profileSection, 'アカウント設定を抽出できません。');
+assert(ver4StyleBlock, 'おみくじ導線のVer.4.0最終スタイルを抽出できません。');
+
+function requireText(text, message) {
+  assert(html.includes(text), message);
+}
+
+function requireIn(section, text, message) {
+  assert(section.includes(text), message);
+}
+
+[
+  'class="view-section omikuji-mindset-v4"',
+  'class="omikuji-mindset-v4-hero"',
+  'id="omikuji-mindset-title"',
+  'data-ver4-hero-emblem',
+  'onclick="proceedToDraw()"',
+  'id="mindset-skip-checkbox"',
+].forEach((text) => requireIn(mindsetSection, text, `心構えの既存操作またはVer.4.0構造が失われています: ${text}`));
+
+[
+  'class="view-section omikuji-draw-v4"',
+  'omikuji-draw-v4-hero',
+  'id="omikuji-draw-title"',
+  'id="omikuji-pool"',
+  'onclick="addOmikuji()"',
+  'class="btn-primary omikuji-v4-more-btn"',
+].forEach((text) => requireIn(drawSection, text, `天命の授与所の既存操作またはVer.4.0構造が失われています: ${text}`));
+
+[
+  'id="countdown-overlay" role="status" aria-live="assertive"',
+  'class="omikuji-countdown-v4-surface"',
+  'id="countdown-number"',
+  "function drawResult(element) {",
+  "async function showResultDetail(isNewDraw, dataOverride = null) {",
+  "if(window.labSpeedMode) {",
+].forEach((text) => requireText(text, `結果待機・神速の祈りの既存導線またはVer.4.0構造が失われています: ${text}`));
+
+[
+  'class="view-section omikuji-result-v4"',
+  'class="omikuji-result-v4-hero"',
+  'id="omikuji-result-title"',
+  'id="result-card-outer"',
+  'id="result-ai-consult"',
+  'id="worry-input"',
+  'onclick="submitWorryConsult()"',
+  'class="result-actions-container result-v4-actions"',
+  'onclick="generateResultImage()"',
+  'onclick="downloadResultAsPDF()"',
+  'onclick="shareToX()"',
+  'onclick="shareToDiscord()"',
+].forEach((text) => requireIn(resultSection, text, `結果画面の既存操作またはVer.4.0構造が失われています: ${text}`));
+
+[
+  'class="view-section profile-v4-layout"',
+  'class="profile-v4-hero"',
+  'id="profile-page-title"',
+  'id="profile-dashboard-content"',
+  'function renderSettingsDashboard() {',
+  'class="profile-bento-grid"',
+  'profile-card-identity',
+  'onclick="updateAccountSettings()"',
+  'onclick="deleteAccount()"',
+].forEach((text) => requireText(text, `アカウント設定の既存機能またはVer.4.0構造が失われています: ${text}`));
+
+[
+  '.omikuji-mindset-v4-hero,',
+  '.omikuji-draw-v4-hero {',
+  'grid-template-columns: minmax(0, 1fr) 128px;',
+  'border-radius: 28px !important;',
+  'inset: 12px;',
+  '.omikuji-v4-mark[data-ver4-hero-emblem] {',
+  'width: 128px;',
+  'height: 128px;',
+  '.omikuji-result-v4-hero,',
+  '.profile-v4-hero {',
+  '.result-v4-consult,',
+  '.profile-bento-grid > .stats-card-interactive {',
+  'html:not(.dark) .omikuji-mindset-v4-hero,',
+  'html:not(.dark) .omikuji-result-v4-hero,',
+  '@media (max-width: 700px) {',
+].forEach((text) => requireIn(ver4StyleBlock, text, `Ver.4.0共通意匠規則が失われています: ${text}`));
+
+assert(!ver4StyleBlock.includes('.omikuji-stick {'), 'おみくじ棒の意匠をVer.4.0最終スタイルで変更してはいけません。');
+assert(!ver4StyleBlock.includes('#result-card-outer {'), 'おみくじ結果札の意匠をVer.4.0最終スタイルで変更してはいけません。');
+
+console.log('おみくじ導線・アカウント設定のVer.4.0回帰テストに合格しました。');
+console.log(JSON.stringify({
+  mindsetHeroAndSkipPreserved: true,
+  drawHeroAndPoolPreserved: true,
+  countdownAndSkipModePreserved: true,
+  resultActionsPreserved: true,
+  omikujiStickAndResultCardProtected: true,
+  profileDashboardOperationsPreserved: true,
+  lightDarkResponsiveRulesPresent: true,
+}, null, 2));
