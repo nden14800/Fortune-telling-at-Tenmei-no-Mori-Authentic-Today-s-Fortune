@@ -19,7 +19,7 @@ assert(secretScript, '隠しコマンドの制御スクリプトを抽出でき�
   'class="maintenance-panel" aria-describedby="maintenance-lead"',
   'class="maintenance-status" role="status" aria-live="polite"',
   'class="maintenance-eyebrow">${maintenanceEyebrow}</p>',
-  'id="maintenance-title" class="maintenance-title">${maintenanceConfig.title}</h1>',
+  'id="maintenance-title" class="maintenance-title">${maintenanceTitle}</h1>',
   'id="maintenance-lead" class="maintenance-lead">${maintenanceLead}</p>',
   'class="maintenance-details"',
   '実施時間',
@@ -46,16 +46,40 @@ assert(secretScript, '隠しコマンドの制御スクリプトを抽出でき�
 });
 
 [
-  'if (!force && !maintenanceConfig.enabled) return;',
-  'if (force || (now >= start && now < end)) {',
+  'async function checkMaintenance(force = false) {',
+  'const statusResponse = await fetch(`${API_BASE}/api/system/maintenance`, {',
+  "cache: 'no-store',",
+  "credentials: 'omit'",
+  'if (!serverMaintenance || serverMaintenance.active !== true) return;',
+  'if (force || (serverMaintenance && serverMaintenance.active === true)) {',
   "const maintenanceState = force ? '表示確認モード' : '整備中';",
   "const maintenanceEyebrow = force ? 'MAINTENANCE PREVIEW' : 'MAINTENANCE NOTICE';",
+  'const maintenanceTitle = force',
+  'serverMaintenance.scheduleLabel',
   "window.requestAnimationFrame(() => document.querySelector('[data-maintenance-primary]')?.focus());",
   'if(!force) {',
   'throw new Error("Maintenance Mode Active");',
 ].forEach((text) => {
-  assert(maintenanceScript.includes(text), `既存メンテナンス制御またはアクセシビリティ契約が不足しています: ${text}`);
+  assert(maintenanceScript.includes(text), `Worker連携済みメンテナンス制御またはアクセシビリティ契約が不足しています: ${text}`);
 });
+
+[
+  "font-family: 'Shippori Mincho', 'Zen Old Mincho', serif;",
+  "font-family: 'Zen Old Mincho', 'Shippori Mincho', serif;",
+  "font-family: 'Zen Kaku Gothic New', sans-serif;",
+].forEach((text) => {
+  assert(html.includes(text), `メンテナンス画面がサイト共通のフォントを使用していません: ${text}`);
+});
+const maintenanceStyleStart = html.indexOf('.maintenance-screen {');
+const maintenanceStyleEnd = html.indexOf('</style>', maintenanceStyleStart);
+const maintenanceStyleBlock = maintenanceStyleStart >= 0 && maintenanceStyleEnd > maintenanceStyleStart
+  ? html.slice(maintenanceStyleStart, maintenanceStyleEnd)
+  : '';
+assert(maintenanceStyleBlock, 'メンテナンス画面のスタイルブロックを抽出できません。');
+const maintenanceFontRules = (maintenanceStyleBlock.match(/(?:html\.dark\s+)?\.maintenance[^}]*\}/g) || []).join('\n');
+assert(maintenanceFontRules, 'メンテナンス画面のフォント規則を抽出できません。');
+assert(!maintenanceFontRules.includes("'Noto Serif JP'"), 'メンテナンス画面に旧Noto Serif JP指定が残っています。');
+assert(!maintenanceFontRules.includes("'Noto Sans JP'"), 'メンテナンス画面に旧Noto Sans JP指定が残っています。');
 
 [
   "onclick=\"if(LabAuth.isVerified()) { checkMaintenance(true); } else { showToast('会員限定機能です', 'warning'); }\"",
@@ -73,7 +97,8 @@ assert(secretScript, '隠しコマンドの制御スクリプトを抽出でき�
 console.log('サーバーメンテナンス画面とテスト用隠しコマンドの回帰テストに合格しました。');
 console.log(JSON.stringify({
   ver4MaintenanceInformationHierarchy: true,
-  maintenanceControlPreserved: true,
+  workerBackedMaintenanceControl: true,
+  siteFontSystemApplied: true,
   labsMemberOnlyTrainingPreserved: true,
   hiddenCommandPreviewAvailable: true,
   lightDarkResponsiveAccessible: true,
