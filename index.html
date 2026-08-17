@@ -12048,13 +12048,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             background: transparent !important;
         }
         .dark #view-column .column-library-category,
-        html:not(.light) #view-column .column-library-category {
+        html.dark #view-column .column-library-category {
             border-color: rgba(197, 177, 255, 0.28);
             color: #e1d5ff;
             background: rgba(24, 21, 36, 0.78);
         }
         .dark #view-column .column-library-category i,
-        html:not(.light) #view-column .column-library-category i { color: #d5b25f; }
+        html.dark #view-column .column-library-category i { color: #d5b25f; }
     </style>
     <style id="version-history-v4-style">
 
@@ -14674,6 +14674,72 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         .profile-v4-section-heading > span { text-align: left; }
                         .profile-v4-dashboard-overview > span { align-self: flex-start; }
                         .profile-bento-grid > .profile-card-identity { grid-column: auto; min-height: 0; }
+                    }
+
+                    /* ================================================================
+                       表示整合修正：結果保存・30日吉日・神籤草子カテゴリ
+                       ================================================================ */
+                    .result-v4-action-group .action-card-btn {
+                        display: grid !important;
+                        grid-template-rows: 30px auto auto;
+                        align-content: center;
+                        justify-items: center;
+                        row-gap: 5px;
+                        padding: 16px 14px !important;
+                    }
+                    .result-v4-action-group .action-card-btn i,
+                    .result-v4-action-group .action-card-btn svg {
+                        width: 30px;
+                        height: 30px;
+                        margin: 0 !important;
+                        line-height: 1;
+                    }
+                    .result-v4-action-group .action-card-btn > span {
+                        display: block;
+                        min-width: 0;
+                        line-height: 1.35;
+                        text-align: center;
+                    }
+                    .result-v4-action-group .action-card-btn > small {
+                        display: block;
+                        margin: 0 !important;
+                        line-height: 1.4;
+                        text-align: center;
+                    }
+                    .result-v4-action-group .action-card-btn:not(:has(small)) {
+                        grid-template-rows: 30px auto;
+                    }
+                    #view-zodiac .zodiac-large-calendar {
+                        width: auto !important;
+                        max-width: 100% !important;
+                        min-width: 0;
+                        box-sizing: border-box;
+                        overflow: visible;
+                    }
+                    #view-zodiac .zodiac-large-calendar h4 {
+                        width: 100%;
+                        min-width: 0;
+                        box-sizing: border-box;
+                        overflow-wrap: anywhere;
+                    }
+                    html:not(.dark) #view-column .column-library-category {
+                        border-color: rgba(113, 84, 196, 0.18);
+                        color: var(--column-indigo);
+                        background: rgba(255, 255, 255, 0.62);
+                    }
+                    html:not(.dark) #view-column .column-library-category i { color: var(--column-gold); }
+                    html.dark #view-column .column-library-category {
+                        border-color: rgba(197, 177, 255, 0.28);
+                        color: #e1d5ff;
+                        background: rgba(24, 21, 36, 0.78);
+                    }
+                    html.dark #view-column .column-library-category i { color: #d5b25f; }
+                    @media (max-width: 768px) {
+                        #view-zodiac .zodiac-large-calendar {
+                            margin-right: 14px !important;
+                            margin-left: 14px !important;
+                        }
+                        .result-v4-action-group .action-card-btn { min-height: 96px !important; }
                     }
 
                     </style>

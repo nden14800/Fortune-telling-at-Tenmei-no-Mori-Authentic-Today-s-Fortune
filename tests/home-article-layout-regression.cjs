@@ -91,9 +91,16 @@ function requireHomeText(text, message) {
   "toc.style.maxWidth = 'var(--article-support-max-width, 820px)';",
   '.news-chronicle-body .article-content .article-toc-unified { width: 100% !important; max-width: var(--article-support-max-width, 820px) !important;',
   '.column-reader-body .article-content .article-toc-unified { width: 100% !important; max-width: var(--article-support-max-width, 820px) !important;',
-  '.dark #view-column .column-library-category,',
-  'html:not(.light) #view-column .column-library-category {',
+  'html:not(.dark) #view-column .column-library-category {',
+  'background: rgba(255, 255, 255, 0.62);',
+  'html.dark #view-column .column-library-category {',
   'background: rgba(24, 21, 36, 0.78);',
+  '.result-v4-action-group .action-card-btn {',
+  'grid-template-rows: 30px auto auto;',
+  '.result-v4-action-group .action-card-btn i,',
+  '#view-zodiac .zodiac-large-calendar {',
+  'box-sizing: border-box;',
+  '#view-zodiac .zodiac-large-calendar h4 {',
 ].forEach((text) => requireText(text, `記事一覧・詳細の幅または文字階層の修正規則が失われています: ${text}`));
 
 console.log('ホーム画面・記事表示のVer.4.0回帰テストに合格しました。');
@@ -105,6 +112,8 @@ console.log(JSON.stringify({
   articleCardPaddingConflictFixed: true,
   articleReaderFrameUnified: true,
   articleTitleScaleBounded: true,
-  darkColumnCategoryThemed: true,
+  lightAndDarkColumnCategoryThemed: true,
+  resultActionContentSeparated: true,
+  zodiacCalendarWidthBounded: true,
   standardReadingSupportBalanced: true,
 }, null, 2));
