@@ -58,9 +58,16 @@ function requireIn(section, text, message) {
   "async function showResultDetail(isNewDraw, dataOverride = null) {",
   "if(window.labSpeedMode) {",
   "progressRing.style.animation = 'omikuji-countdown-v4-progress 5s linear forwards';",
+  "let omikujiSelectionInProgress = false;",
+  "function selectOmikujiStick(stick) {",
+  "document.createElement('button')",
+  "stick.type = 'button';",
   "stick.setAttribute('role', 'button');",
   "stick.tabIndex = 0;",
+  "stick.addEventListener('click', function(event) {",
   "event.key === 'Enter' || event.key === ' '",
+  "selectOmikujiStick(this);",
+  "if (item instanceof HTMLButtonElement) item.disabled = true;",
 ].forEach((text) => requireText(text, `結果待機・神速の祈りの既存導線またはVer.4.0構造が失われています: ${text}`));
 
 [
@@ -138,6 +145,7 @@ console.log(JSON.stringify({
   drawHeroAndPoolPreserved: true,
   countdownAndSkipModePreserved: true,
   resultActionsPreserved: true,
+  omikujiStickInteractionUnified: true,
   omikujiStickAndResultCardProtected: true,
   profileDashboardOperationsPreserved: true,
   lightDarkResponsiveRulesPresent: true,

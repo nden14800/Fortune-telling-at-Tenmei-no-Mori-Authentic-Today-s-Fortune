@@ -977,6 +977,9 @@
             user-select: none;
             transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.25s;
             transform-origin: center center;
+            border: 0;
+            appearance: none;
+            -webkit-appearance: none;
             border-radius: 0;
         }.omikuji-stick:hover {
             transform: scale(1.15) rotate(0deg) !important;
@@ -25878,8 +25881,11 @@ async function fetchHistoryStats() {
             showView('draw');
         }
 
+        let omikujiSelectionInProgress = false;
+
         function resetOmikujiPool() {
             const pool = document.getElementById('omikuji-pool');
+            omikujiSelectionInProgress = false;
             pool.innerHTML = '';
             // 最初は画面を埋めるくらい多めに生成
             addOmikujiBatch(40, true); 
@@ -25890,6 +25896,39 @@ async function fetchHistoryStats() {
             // Flexboxレイアウトなので、追加すれば自動的に下に伸びる
             // 少しだけスクロールして追加されたことを気付かせる
             window.scrollBy({ top: 200, behavior: 'smooth' });
+        }
+
+        function selectOmikujiStick(stick) {
+            if (!stick || omikujiSelectionInProgress) return;
+
+            const overlay = document.getElementById('countdown-overlay');
+            const countdownNumber = document.getElementById('countdown-number');
+            if (!overlay || !countdownNumber) {
+                console.error('おみくじの待機表示を初期化できませんでした。');
+                showToast('おみくじの準備中に問題が発生しました。もう一度お試しください。', 'warning', '天命の授与所');
+                return;
+            }
+
+            omikujiSelectionInProgress = true;
+            const pool = document.getElementById('omikuji-pool');
+            pool?.querySelectorAll('.omikuji-stick').forEach((item) => {
+                item.setAttribute('aria-disabled', 'true');
+                item.tabIndex = -1;
+                if (item instanceof HTMLButtonElement) item.disabled = true;
+            });
+
+            try {
+                drawResult(stick);
+            } catch (error) {
+                console.error('おみくじの抽選開始に失敗しました。', error);
+                omikujiSelectionInProgress = false;
+                pool?.querySelectorAll('.omikuji-stick').forEach((item) => {
+                    item.removeAttribute('aria-disabled');
+                    item.tabIndex = 0;
+                    if (item instanceof HTMLButtonElement) item.disabled = false;
+                });
+                showToast('おみくじを開始できませんでした。もう一度お試しください。', 'warning', '天命の授与所');
+            }
         }
 
         function addOmikujiBatch(count, isInitial) {
@@ -25917,7 +25956,8 @@ async function fetchHistoryStats() {
             const actualAddCount = targetTotal - currentTotal;
 
             for(let i=0; i<actualAddCount; i++) {
-                const stick = document.createElement('div');
+                const stick = document.createElement('button');
+                stick.type = 'button';
                 stick.className = 'omikuji-stick';
                 
                 // デザイン構成: 朱色の丸印（天命乃杜の紋）、メイン文字
@@ -25935,15 +25975,16 @@ async function fetchHistoryStats() {
                 stick.setAttribute('role', 'button');
                 stick.tabIndex = 0;
                 stick.setAttribute('aria-label', `おみくじの札 ${currentTotal + i + 1} を選ぶ`);
-                stick.onclick = function() {
-                    drawResult(this);
-                };
-                stick.onkeydown = function(event) {
+                stick.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    selectOmikujiStick(this);
+                });
+                stick.addEventListener('keydown', function(event) {
                     if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
-                        drawResult(this);
+                        selectOmikujiStick(this);
                     }
-                };
+                });
                 
                 pool.appendChild(stick);
             }
