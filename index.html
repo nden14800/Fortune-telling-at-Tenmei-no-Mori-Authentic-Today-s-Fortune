@@ -12038,6 +12038,266 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             #view-article-detail.column-reader-layout .column-reader-title { font-size: clamp(1.32rem, 6vw, 1.7rem) !important; line-height: 1.55 !important; }
         }
     </style>
+    <style id="version-history-v4-style">
+
+        /* Ver.4.0: 更新の軌跡 — アーカイブヒーローと年表の統一 */
+        .ver-history-panel {
+            --vh-paper: #fffdf9;
+            --vh-paper-soft: #f8f0e7;
+            --vh-ink: #382922;
+            --vh-muted: #76645a;
+            --vh-line: rgba(136, 89, 57, 0.22);
+            --vh-inner-line: rgba(176, 128, 81, 0.28);
+            --vh-red: #a52a32;
+            --vh-gold: #b88b39;
+            position: fixed;
+            top: 50%;
+            right: max(24px, calc((100vw - var(--ver4-content-width, 960px)) / 2));
+            width: min(calc(100% - 48px), var(--ver4-content-width, 960px));
+            height: min(calc(100% - 48px), 860px);
+            border: 1px solid var(--vh-line) !important;
+            border-radius: var(--ver4-hero-radius, 28px) !important;
+            background: var(--vh-paper) !important;
+            box-shadow: 0 26px 72px rgba(55, 33, 23, 0.24) !important;
+            color: var(--vh-ink);
+            transform: translateY(-50%) scale(0.97) !important;
+            opacity: 0;
+            pointer-events: none;
+            isolation: isolate;
+            transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), opacity 180ms ease !important;
+        }
+        .ver-history-panel.active { transform: translateY(-50%) scale(1) !important; opacity: 1; pointer-events: auto; }
+        .ver-history-overlay { background: rgba(43, 28, 21, 0.46); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); transition: opacity 180ms ease; }
+
+        .ver-panel-header {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto auto;
+            align-items: center;
+            gap: clamp(18px, 4vw, 44px);
+            min-height: var(--ver4-hero-min-height, 258px);
+            padding: clamp(28px, 5vw, 48px) !important;
+            border: 0 !important;
+            border-radius: var(--ver4-hero-radius, 28px) var(--ver4-hero-radius, 28px) 0 0;
+            background:
+                radial-gradient(circle at 89% 20%, rgba(184, 139, 57, 0.15), transparent 25%),
+                radial-gradient(circle at 5% 100%, rgba(165, 42, 50, 0.12), transparent 34%),
+                linear-gradient(135deg, #fffdf9 0%, #fcf5eb 56%, #f9eee1 100%) !important;
+            overflow: hidden;
+        }
+        .ver-panel-header::before {
+            content: '';
+            position: absolute;
+            inset: var(--ver4-hero-inner-inset, 12px);
+            border: 1px solid var(--vh-inner-line);
+            border-radius: var(--ver4-hero-inner-radius, 20px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .ver-panel-header::after { display: none; }
+        .ver-panel-hero-copy { min-width: 0; }
+        .ver-panel-eyebrow,
+        .ver-panel-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin: 0;
+            color: var(--vh-red);
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            line-height: 1.45;
+        }
+        .ver-panel-eyebrow i,
+        .ver-panel-meta i { color: var(--vh-gold); font-size: 0.84rem; }
+        .ver-panel-title {
+            margin: 0.72rem 0 0;
+            color: var(--vh-ink) !important;
+            font-family: 'Zen Old Mincho', 'Shippori Mincho', serif !important;
+            font-size: clamp(2rem, 4.1vw, 3rem) !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.055em !important;
+            line-height: 1.3 !important;
+        }
+        .ver-panel-summary { max-width: 590px; margin: 0.85rem 0 0; color: var(--vh-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: clamp(0.92rem, 1.35vw, 1.05rem); line-height: 1.9; }
+        .ver-panel-meta { margin-top: 1rem; padding: 0.34rem 0.62rem; border: 1px solid rgba(184, 139, 57, 0.26); border-radius: 999px; background: rgba(255, 255, 255, 0.54); letter-spacing: 0.05em; }
+        .ver-panel-emblem[data-ver4-hero-emblem] {
+            display: grid;
+            width: 128px;
+            min-width: 128px;
+            height: 128px;
+            place-items: center;
+            align-content: center;
+            gap: 0.42rem;
+            border: 1px solid var(--vh-line);
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 7px rgba(184, 139, 57, 0.1), 0 10px 24px rgba(92, 58, 36, 0.09);
+            color: var(--vh-red);
+            background: rgba(255, 255, 255, 0.78);
+        }
+        .ver-panel-emblem i { font-size: 1.62rem; color: var(--vh-red); }
+        .ver-panel-emblem span { color: var(--vh-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.56rem; font-weight: 800; letter-spacing: 0.12em; line-height: 1.4; text-align: center; }
+        .ver-panel-close,
+        .ver-detail-back {
+            display: grid;
+            width: 46px;
+            min-width: 46px;
+            height: 46px;
+            place-items: center;
+            border: 1px solid var(--vh-line) !important;
+            border-radius: 50% !important;
+            color: var(--vh-red) !important;
+            background: rgba(255, 255, 255, 0.74) !important;
+            box-shadow: none !important;
+            transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms ease, background 160ms ease !important;
+        }
+        .ver-panel-close:hover,
+        .ver-detail-back:hover { border-color: var(--vh-red) !important; color: #fff !important; background: var(--vh-red) !important; transform: translateY(-1px); }
+        .ver-panel-close:active,
+        .ver-detail-back:active { transform: scale(0.97); }
+
+        .ver-panel-scroll { padding: clamp(22px, 3vw, 32px) !important; background: var(--vh-paper); }
+        .ver-panel-scroll::-webkit-scrollbar,
+        .ver-detail-scroll::-webkit-scrollbar { width: 7px; }
+        .ver-panel-scroll::-webkit-scrollbar-thumb,
+        .ver-detail-scroll::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--vh-gold) 36%, transparent) !important; border-radius: 999px; }
+        .ver-timeline { padding-left: 36px; }
+        .ver-timeline::before { left: 13px; top: 15px; bottom: 15px; background: linear-gradient(to bottom, color-mix(in srgb, var(--vh-gold) 70%, transparent), color-mix(in srgb, var(--vh-red) 12%, transparent)) !important; }
+        .ver-timeline-item { margin-bottom: 14px; outline: none; }
+        .ver-timeline-item::before { left: -27px; top: 25px; width: 13px; height: 13px; border: 3px solid var(--vh-paper); background: var(--vh-gold); box-shadow: 0 0 0 1px var(--vh-line); }
+        .ver-timeline-item:hover::before,
+        .ver-timeline-item:focus-visible::before { background: var(--vh-red); border-color: var(--vh-paper); box-shadow: 0 0 0 2px rgba(165, 42, 50, 0.24); transform: none; }
+        .ver-timeline-item.is-current::before { background: #2d8a5b; border-color: var(--vh-paper); box-shadow: 0 0 0 2px rgba(45, 138, 91, 0.26); }
+        .ver-item-card {
+            min-height: 0;
+            padding: var(--ver4-card-padding, 24px) !important;
+            border: 1px solid var(--vh-line) !important;
+            border-radius: var(--ver4-card-radius, 24px) !important;
+            color: var(--vh-ink);
+            background: var(--vh-paper-soft) !important;
+            box-shadow: 0 9px 20px rgba(68, 34, 28, 0.04) !important;
+            transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms ease, box-shadow 160ms ease !important;
+        }
+        .ver-item-card:hover,
+        .ver-timeline-item:focus-visible .ver-item-card { border-color: rgba(165, 42, 50, 0.48) !important; background: var(--vh-paper) !important; box-shadow: 0 14px 26px rgba(68, 34, 28, 0.09) !important; transform: translateY(-2px); }
+        .ver-timeline-item.is-current .ver-item-card { border-color: rgba(45, 138, 91, 0.34) !important; background: linear-gradient(135deg, rgba(87, 166, 116, 0.11), var(--vh-paper-soft) 62%) !important; }
+        .ver-timeline-item.is-current .ver-item-card:hover { border-color: rgba(45, 138, 91, 0.62) !important; box-shadow: 0 14px 26px rgba(45, 138, 91, 0.1) !important; }
+        .ver-item-top { align-items: center; gap: 0.8rem; margin-bottom: 0.65rem; }
+        .ver-item-ver { color: var(--vh-red) !important; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif !important; font-size: 1.38rem !important; font-weight: 700 !important; letter-spacing: 0.035em; line-height: 1.2; }
+        .ver-timeline-item.is-current .ver-item-ver { color: #277a50 !important; }
+        .ver-item-badge { padding: 0.3rem 0.55rem; border-radius: 999px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.05em; }
+        .ver-badge-current { border-color: rgba(45, 138, 91, 0.28) !important; color: #277a50 !important; background: rgba(87, 166, 116, 0.12) !important; }
+        .ver-badge-stable { border-color: rgba(184, 139, 57, 0.28) !important; color: #916719 !important; background: rgba(184, 139, 57, 0.10) !important; }
+        .ver-badge-infra { border-color: rgba(165, 42, 50, 0.26) !important; color: var(--vh-red) !important; background: rgba(165, 42, 50, 0.09) !important; }
+        .ver-badge-alpha { border-color: rgba(104, 91, 83, 0.24) !important; color: var(--vh-muted) !important; background: rgba(104, 91, 83, 0.08) !important; }
+        .ver-item-date { margin-bottom: 0.48rem; color: var(--vh-muted) !important; font-family: 'Zen Kaku Gothic New', sans-serif !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; }
+        .ver-item-name { margin-bottom: 0.55rem; color: var(--vh-ink) !important; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif !important; font-size: 1rem; font-weight: 700; letter-spacing: 0.035em; line-height: 1.55; }
+        .ver-item-desc { color: var(--vh-muted) !important; font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.83rem; line-height: 1.8; }
+        .ver-item-tags { gap: 0.38rem; margin-top: 0.9rem; }
+        .ver-item-tag { padding: 0.25rem 0.48rem; border: 1px solid rgba(184, 139, 57, 0.22) !important; border-radius: 999px !important; color: var(--vh-muted) !important; background: rgba(255, 255, 255, 0.62) !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.6rem; font-weight: 700; }
+        .ver-item-more { margin-top: 0.9rem; color: var(--vh-red) !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; opacity: 1 !important; }
+
+        .ver-detail-panel { background: var(--vh-paper) !important; transform: translateX(101%) !important; transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1) !important; }
+        .ver-detail-panel.active { transform: translateX(0) !important; }
+        .ver-detail-header { min-height: 82px; padding: 18px clamp(20px, 3vw, 32px) !important; border-bottom: 1px solid var(--vh-line) !important; background: var(--vh-paper-soft) !important; }
+        .ver-detail-title { color: var(--vh-ink) !important; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif !important; font-size: clamp(1rem, 1.6vw, 1.22rem) !important; font-weight: 700; letter-spacing: 0.04em; line-height: 1.5; }
+        .ver-detail-scroll { padding: clamp(24px, 4vw, 42px) !important; background: var(--vh-paper); }
+        .ver-detail-ver { margin-bottom: 0.56rem; color: var(--vh-red) !important; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif !important; font-size: clamp(2.1rem, 5vw, 3.1rem) !important; font-weight: 700; line-height: 1.12; text-shadow: none !important; }
+        .ver-detail-dateline { margin-bottom: 1.7rem; color: var(--vh-muted) !important; font-family: 'Zen Kaku Gothic New', sans-serif !important; font-size: 0.74rem; font-weight: 700; line-height: 1.7; }
+        .ver-detail-section { margin-bottom: 1.55rem; padding: var(--ver4-card-padding, 24px); border: 1px solid var(--vh-line); border-radius: var(--ver4-card-radius, 24px); background: var(--vh-paper-soft); }
+        .ver-detail-section h4 { margin: 0 0 0.85rem; padding: 0 0 0.75rem; border-bottom: 1px solid var(--vh-line) !important; color: var(--vh-ink) !important; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif !important; font-size: 1rem; font-weight: 700; letter-spacing: 0.035em; line-height: 1.5; }
+        .ver-detail-section h4 i { color: var(--vh-red); }
+        .ver-detail-change { gap: 0.72rem; padding: 0.68rem 0; border-bottom-color: var(--vh-line) !important; color: var(--vh-muted) !important; font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.84rem; line-height: 1.82; }
+        .ver-change-dot { width: 8px; height: 8px; margin-top: 0.55rem; }
+        .ver-legend { margin-top: 1.55rem; padding: var(--ver4-card-padding, 24px); border: 1px solid var(--vh-line) !important; border-radius: var(--ver4-card-radius, 24px) !important; background: var(--vh-paper-soft) !important; }
+        .ver-legend-title { color: var(--vh-muted) !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em; }
+        .ver-legend-item { color: var(--vh-muted) !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 700; }
+        .ver-source-btn { width: 30px; height: 30px; border: 1px solid rgba(184, 139, 57, 0.3) !important; border-radius: 50% !important; color: var(--vh-red) !important; background: rgba(255, 255, 255, 0.72) !important; opacity: 1; }
+        .ver-source-btn:hover, .ver-source-btn.active { border-color: var(--vh-red) !important; color: #fff !important; background: var(--vh-red) !important; box-shadow: 0 0 0 3px rgba(165, 42, 50, 0.12) !important; }
+        .ver-source-tooltip { width: min(290px, calc(100vw - 16px)); border: 1px solid var(--vh-line) !important; border-radius: 18px !important; color: var(--vh-ink); background: var(--vh-paper) !important; box-shadow: 0 16px 36px rgba(55, 33, 23, 0.18) !important; }
+        .ver-source-tooltip-title { color: var(--vh-muted) !important; border-bottom-color: var(--vh-line) !important; font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 800; }
+        .ver-source-link-item:hover { border-color: rgba(184, 139, 57, 0.24); background: var(--vh-paper-soft); }
+        .ver-source-link-date { color: var(--vh-muted) !important; font-family: 'Zen Kaku Gothic New', sans-serif; }
+        .ver-source-link-title { color: var(--vh-ink) !important; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif !important; }
+        .ver-history-panel button:focus-visible,
+        .ver-timeline-item:focus-visible,
+        .ver-source-btn:focus-visible,
+        .ver-source-link-item:focus-visible { outline: 3px solid rgba(184, 139, 57, 0.9); outline-offset: 3px; }
+
+        html.dark .ver-history-panel {
+            --vh-paper: #191414;
+            --vh-paper-soft: #241b19;
+            --vh-ink: #f5e8df;
+            --vh-muted: #c7b2a7;
+            --vh-line: rgba(238, 215, 195, 0.16);
+            --vh-inner-line: rgba(213, 179, 106, 0.20);
+            --vh-red: #ea8a90;
+            --vh-gold: #d5b36a;
+            background: var(--vh-paper) !important;
+            box-shadow: 0 30px 76px rgba(0, 0, 0, 0.58) !important;
+        }
+        html.dark .ver-panel-header { background: radial-gradient(circle at 90% 18%, rgba(213, 179, 106, 0.15), transparent 26%), radial-gradient(circle at 5% 100%, rgba(165, 42, 50, 0.2), transparent 35%), linear-gradient(135deg, #191313 0%, #241a18 58%, #171212 100%) !important; }
+        html.dark .ver-panel-meta,
+        html.dark .ver-panel-emblem[data-ver4-hero-emblem],
+        html.dark .ver-panel-close,
+        html.dark .ver-detail-back,
+        html.dark .ver-item-tag,
+        html.dark .ver-source-btn { background: rgba(29, 22, 21, 0.78) !important; }
+        html.dark .ver-panel-scroll,
+        html.dark .ver-detail-panel,
+        html.dark .ver-detail-scroll { background: var(--vh-paper) !important; }
+        html.dark .ver-item-card,
+        html.dark .ver-detail-section,
+        html.dark .ver-legend,
+        html.dark .ver-detail-header { background: var(--vh-paper-soft) !important; }
+        html.dark .ver-source-tooltip { background: var(--vh-paper) !important; }
+        html.dark .ver-timeline-item::before { border-color: var(--vh-paper); }
+        html.dark .ver-item-card:hover,
+        html.dark .ver-timeline-item:focus-visible .ver-item-card { background: #2b201d !important; }
+        html.dark .ver-timeline-item.is-current .ver-item-card { background: linear-gradient(135deg, rgba(90, 176, 124, 0.14), var(--vh-paper-soft) 62%) !important; }
+        html.dark .ver-panel-close:hover,
+        html.dark .ver-detail-back:hover,
+        html.dark .ver-source-btn:hover,
+        html.dark .ver-source-btn.active { color: #281514 !important; background: var(--vh-red) !important; }
+
+        @media (max-width: 768px) {
+            .ver-history-panel { top: 16px; right: 16px; width: calc(100% - 32px); height: calc(100% - 32px); transform: translateY(8px) scale(0.98) !important; border-radius: 24px !important; }
+            .ver-history-panel.active { transform: translateY(0) scale(1) !important; }
+            .ver-panel-header { grid-template-columns: minmax(0, 1fr) auto; gap: 16px; min-height: 0; padding: 28px 24px !important; border-radius: 24px 24px 0 0; }
+            .ver-panel-header::before { inset: 10px; border-radius: 16px; }
+            .ver-panel-emblem[data-ver4-hero-emblem] { width: 88px; min-width: 88px; height: 88px; box-shadow: inset 0 0 0 5px rgba(184, 139, 57, 0.1), 0 8px 18px rgba(92, 58, 36, 0.08); }
+            .ver-panel-emblem i { font-size: 1.25rem; }
+            .ver-panel-emblem span { font-size: 0.48rem; }
+            .ver-panel-close { position: absolute; top: 18px; right: 18px; width: 38px; min-width: 38px; height: 38px; }
+            .ver-panel-title { font-size: clamp(1.72rem, 8vw, 2.1rem) !important; padding-right: 2.2rem; }
+            .ver-panel-summary { font-size: 0.86rem; line-height: 1.75; }
+            .ver-panel-meta { font-size: 0.59rem; }
+            .ver-panel-scroll { padding: 20px 16px 28px !important; }
+            .ver-timeline { padding-left: 28px; }
+            .ver-timeline::before { left: 10px; }
+            .ver-timeline-item::before { left: -22px; width: 11px; height: 11px; }
+            .ver-item-card { padding: 18px !important; border-radius: 20px !important; }
+            .ver-item-top { align-items: flex-start; flex-direction: column; gap: 0.45rem; }
+            .ver-item-name { font-size: 0.94rem; }
+            .ver-item-desc { font-size: 0.78rem; line-height: 1.75; }
+            .ver-detail-header { min-height: 72px; padding: 14px 18px !important; }
+            .ver-detail-back { width: 38px; min-width: 38px; height: 38px; }
+            .ver-detail-scroll { padding: 22px 16px !important; }
+            .ver-detail-section,
+            .ver-legend { padding: 18px; border-radius: 20px !important; }
+            .ver-detail-section h4 { font-size: 0.93rem; }
+            .ver-detail-change { font-size: 0.79rem; line-height: 1.76; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .ver-history-overlay,
+            .ver-history-panel,
+            .ver-detail-panel,
+            .ver-item-card,
+            .ver-panel-close,
+            .ver-detail-back,
+            .ver-source-btn { transition-duration: 0.01ms !important; }
+        }
+    </style>
         <style id="omikuji-result-pdf-print-style">
             /* おみくじ結果PDFだけに適用する最終印刷規則。
                画面用の!important指定より高い親状態を用いて、紙面へアプリUIが混入しないようにする。 */
@@ -30162,10 +30422,33 @@ window.applyTheme = function() {
         }
     };
 
+    let verHistoryReturnFocus = null;
+    let verDetailOrigin = null;
+
+    function syncVerHistoryKeyboard() {
+        document.querySelectorAll('.ver-timeline-item[onclick]').forEach(function(item) {
+            if (!item.hasAttribute('role')) item.setAttribute('role', 'button');
+            if (!item.hasAttribute('tabindex')) item.setAttribute('tabindex', '0');
+            if (item.dataset.verKeyboardReady === '1') return;
+            item.dataset.verKeyboardReady = '1';
+            item.addEventListener('keydown', function(event) {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                item.click();
+            });
+        });
+    }
+
     function openVerHistory() {
+        verHistoryReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        syncVerHistoryKeyboard();
         document.getElementById('ver-history-overlay').classList.add('active');
         document.getElementById('ver-history-panel').classList.add('active');
         document.body.style.overflow = 'hidden';
+        window.setTimeout(function() {
+            const closeButton = document.querySelector('#ver-history-panel .ver-panel-close');
+            if (closeButton) closeButton.focus();
+        }, 220);
     }
 
     function closeVerHistory() {
@@ -30174,12 +30457,17 @@ window.applyTheme = function() {
         document.getElementById('ver-history-overlay').classList.remove('active');
         document.getElementById('ver-history-panel').classList.remove('active');
         document.body.style.overflow = '';
+        if (verHistoryReturnFocus && document.contains(verHistoryReturnFocus)) {
+            window.setTimeout(function() { verHistoryReturnFocus.focus(); }, 0);
+        }
+        verHistoryReturnFocus = null;
     }
 
     function openVerDetail(key) {
         const data = verDetailData[key];
         if (!data) return;
 
+        verDetailOrigin = document.querySelector(`.ver-timeline-item[onclick*="openVerDetail('${key}')"]`);
         document.getElementById('ver-detail-title').textContent = data.ver + '　' + data.name;
 
         const dotMap = { new: 'dot-new', fix: 'dot-fix', change: 'dot-change', remove: 'dot-remove', infra: 'dot-infra' };
@@ -30252,11 +30540,33 @@ window.applyTheme = function() {
 
         document.getElementById('ver-detail-content').innerHTML = html;
         document.getElementById('ver-detail-panel').classList.add('active');
+        window.setTimeout(function() {
+            const backButton = document.querySelector('#ver-detail-panel .ver-detail-back');
+            if (backButton) backButton.focus();
+        }, 220);
     }
 
     function closeVerDetail() {
         document.getElementById('ver-detail-panel').classList.remove('active');
+        const origin = verDetailOrigin;
+        window.setTimeout(function() {
+            const fallbackCard = document.querySelector('.ver-timeline-item[role="button"]');
+            if (origin && document.contains(origin)) origin.focus();
+            else if (fallbackCard) fallbackCard.focus();
+        }, 220);
+        verDetailOrigin = null;
     }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key !== 'Escape') return;
+        const detailPanel = document.getElementById('ver-detail-panel');
+        const historyPanel = document.getElementById('ver-history-panel');
+        if (detailPanel && detailPanel.classList.contains('active')) {
+            closeVerDetail();
+        } else if (historyPanel && historyPanel.classList.contains('active')) {
+            closeVerHistory();
+        }
+    });
 
     // ソース記事へのナビゲーション（パネルを閉じてから記事を開く）
     function verGoToArticle(newsId) {
@@ -30475,12 +30785,18 @@ window.applyTheme = function() {
 
         <!-- パネルヘッダー -->
         <div class="ver-panel-header">
-            <div class="ver-panel-title">
-                <i class="bi bi-clock-history"></i>
-                <span>天命乃杜 更新の軌跡</span>
+            <div class="ver-panel-hero-copy">
+                <p class="ver-panel-eyebrow"><i class="bi bi-clock-history" aria-hidden="true"></i> UPDATE ARCHIVE</p>
+                <h2 class="ver-panel-title">更新の軌跡</h2>
+                <p class="ver-panel-summary">天命乃杜の歩みを、公開順に静かに辿ります。</p>
+                <p class="ver-panel-meta"><i class="bi bi-journal-bookmark" aria-hidden="true"></i> 全19件の更新記録</p>
             </div>
-            <button class="ver-panel-close" onclick="closeVerHistory()">
-                <i class="bi bi-x-lg"></i>
+            <div class="ver-panel-emblem" data-ver4-hero-emblem aria-hidden="true">
+                <i class="bi bi-clock-history"></i>
+                <span>UPDATE<br>ARCHIVE</span>
+            </div>
+            <button class="ver-panel-close" type="button" onclick="closeVerHistory()" aria-label="更新の軌跡を閉じる">
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
             </button>
         </div>
 
