@@ -12644,6 +12644,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     <!-- ▼▼▼ 修正: クラス "sidebar-collapsed" を追加 ▼▼▼ -->
     <body class="sidebar-collapsed">
 
+    <a class="sidebar-v4-skip-link" href="#main-content">本文へ移動</a>
+
     <!-- 記事 読書進捗バー・バッジ (社務所だより／神籤草子 共通) -->
     <div id="reading-progress-bar"><div id="reading-progress-fill"></div></div>
     <div id="reading-progress-badge">
@@ -12667,10 +12669,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </svg>
     </div>
 
-    <nav id="sidebar">
+    <nav id="sidebar" class="sidebar-v4" aria-label="天命乃杜の主要メニュー">
     <!-- サイドバートグルボタン -->
     <div class="nav-toggle-area">
-        <button class="nav-btn nav-toggle-btn" onclick="toggleSidebar()" title="サイドバーの開閉">
+        <button id="sidebar-toggle" type="button" class="nav-btn nav-toggle-btn" onclick="toggleSidebar()" title="メニューを開く" aria-controls="sidebar-navigation-list" aria-expanded="false" aria-label="メニューを開く">
             <!-- 左：天アイコン（閉じた2状態） -->
             <div class="nav-icon-box nav-icon-kanji">
                 <!-- 閉じた・ホバーなし → 天漢字 -->
@@ -12701,11 +12703,12 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </button>
     </div>
 
+    <div id="sidebar-navigation-list" class="sidebar-v4-scroll-area">
     <!-- 1. メイン機能グループ -->
     <div class="nav-group">
         <div class="nav-group-title">MAIN MENU</div>
         
-        <button class="nav-btn active" onclick="showView('home')" id="nav-home">
+        <button class="nav-btn active" onclick="showView('home')" id="nav-home" aria-current="page">
             <div class="nav-icon-box"><i class="bi bi-house-door-fill"></i></div>
             <span class="nav-text">ホーム</span>
         </button>
@@ -12806,6 +12809,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             <span class="nav-text">使い方</span>
         </button>
     </div>
+    </div>
 </nav>
 
     <!-- メインエリア -->
@@ -12813,7 +12817,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         <i class="bi bi-arrow-up"></i>
     </button>
 
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
         
         <!-- ビュー: ホーム (Bento Grid UI Ver. 3.0) -->
         <section id="view-home" class="view-section active">
@@ -17453,6 +17457,25 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
     <!-- JavaScript ロジック -->
     <script>
+    function updateSidebarA11y() {
+        const toggle = document.getElementById('sidebar-toggle');
+        if (!toggle) return;
+        const expanded = document.body.classList.contains('sidebar-pinned') || !document.body.classList.contains('sidebar-collapsed');
+        toggle.setAttribute('aria-expanded', String(expanded));
+        toggle.setAttribute('aria-label', expanded ? 'メニューを閉じる' : 'メニューを開く');
+        toggle.title = expanded ? 'メニューを閉じる' : 'メニューを開く';
+    }
+
+    function closeSidebarFromKeyboard() {
+        const wasExpanded = document.body.classList.contains('sidebar-pinned') || !document.body.classList.contains('sidebar-collapsed');
+        if (!wasExpanded) return false;
+        document.body.classList.remove('sidebar-pinned');
+        document.body.classList.add('sidebar-collapsed');
+        updateSidebarA11y();
+        document.getElementById('sidebar-toggle')?.focus();
+        return true;
+    }
+
     function toggleSidebar() {
         const isTabletOrMobile = window.innerWidth <= 1366 || (('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 1400);
         if (isTabletOrMobile || document.body.classList.contains('sidebar-button-mode')) {
@@ -17460,7 +17483,13 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         } else {
             document.body.classList.toggle('sidebar-collapsed');
         }
+        updateSidebarA11y();
     }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') closeSidebarFromKeyboard();
+    });
+    updateSidebarA11y();
         // ==========================================
         //  設定: Cloudflare WorkerのURL
         // ==========================================
@@ -29230,7 +29259,10 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         }
 
         // 1. サイドバーのアクティブ状態を更新
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+            btn.removeAttribute('aria-current');
+        });
         
         // 基本的なIDルール
         let targetBtnId = `nav-${viewId}`;
@@ -29244,6 +29276,7 @@ function renderServerPagination(currentPage, totalItems, perPage) {
         const activeBtn = document.getElementById(targetBtnId);
         if (activeBtn) {
             activeBtn.classList.add('active');
+            activeBtn.setAttribute('aria-current', 'page');
         } else {
             // 詳細画面など、サイドバーに直接ボタンがない場合の親アクティブ化処理
             if (viewId === 'article-detail') {
@@ -29252,7 +29285,10 @@ function renderServerPagination(currentPage, totalItems, perPage) {
                 //   openArticle()で記録した記事種別を見て、正しい方をアクティブにする。
                 const parentBtnId = window._currentArticleDetailType === 'column' ? 'nav-column' : 'nav-news';
                 const parentBtn = document.getElementById(parentBtnId);
-                if(parentBtn) parentBtn.classList.add('active');
+                if(parentBtn) {
+                    parentBtn.classList.add('active');
+                    parentBtn.setAttribute('aria-current', 'page');
+                }
             }
         }
 
@@ -33265,5 +33301,180 @@ try {
 })();
 </script>
 
+<style id="ver4-sidebar-final-overrides">
+    /* ================================================================
+       Ver.4.0 最終刷新：サイドバー / 追加札導線 / 更新の軌跡参照
+       ================================================================ */
+    .sidebar-v4-skip-link {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        z-index: 10002;
+        padding: 11px 16px;
+        border: 1px solid rgba(241, 215, 150, 0.76);
+        border-radius: 14px;
+        color: #fffaf0;
+        background: #7f1d1d;
+        box-shadow: 0 12px 28px rgba(79, 19, 22, 0.28);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        transform: translateY(-150%);
+        transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .sidebar-v4-skip-link:focus-visible { transform: translateY(0); outline: 3px solid #f1d796; outline-offset: 3px; }
+
+    #sidebar.sidebar-v4 {
+        --sidebar-v4-accent: #a52a32;
+        --sidebar-v4-gold: #b88b39;
+        width: 76px;
+        padding: 12px 0 10px;
+        border-color: color-mix(in srgb, var(--glass-border) 72%, rgba(184, 139, 57, 0.34));
+        border-radius: 24px;
+        background: color-mix(in srgb, var(--sidebar-bg) 94%, rgba(255, 250, 241, 0.18));
+        box-shadow: 0 14px 34px rgba(58, 34, 24, 0.1), inset 0 1px 0 rgba(255,255,255,0.52);
+        isolation: isolate;
+        transition: width 220ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 180ms ease, background 180ms ease;
+    }
+    html.dark #sidebar.sidebar-v4 {
+        --sidebar-v4-accent: #ea8a90;
+        --sidebar-v4-gold: #d5b36a;
+        background: linear-gradient(180deg, rgba(29, 22, 21, 0.97), rgba(17, 14, 14, 0.96));
+        border-color: rgba(238, 215, 195, 0.14);
+        box-shadow: 0 18px 42px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.035);
+    }
+    #sidebar.sidebar-v4::before {
+        content: '';
+        position: absolute;
+        inset: 8px;
+        z-index: -1;
+        border: 1px solid rgba(184, 139, 57, 0.13);
+        border-radius: 17px;
+        pointer-events: none;
+    }
+    #sidebar.sidebar-v4 .sidebar-v4-scroll-area {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: none;
+    }
+    #sidebar.sidebar-v4 .sidebar-v4-scroll-area::-webkit-scrollbar { display: none; }
+    #sidebar.sidebar-v4 .nav-toggle-area { margin-bottom: 8px; padding: 0 8px 10px; border-bottom: 1px solid color-mix(in srgb, var(--card-border) 72%, transparent); }
+    #sidebar.sidebar-v4 .nav-toggle-btn { min-height: 48px !important; height: 48px !important; max-height: 48px !important; border-radius: 16px; color: var(--text-main) !important; opacity: 1; }
+    #sidebar.sidebar-v4 .nav-group { gap: 4px; padding: 0 8px; }
+    #sidebar.sidebar-v4 .nav-group + .nav-group { margin-top: 10px; }
+    #sidebar.sidebar-v4 .nav-group + .nav-group::before { margin: 0 7px 9px; border-top-color: color-mix(in srgb, var(--card-border) 78%, transparent); }
+    #sidebar.sidebar-v4 .nav-group-title {
+        color: var(--sidebar-v4-gold);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.58rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+    }
+    #sidebar.sidebar-v4 .nav-btn {
+        min-height: 48px !important;
+        height: 48px !important;
+        max-height: 48px !important;
+        border-radius: 16px;
+        color: var(--text-sub);
+        transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+    #sidebar.sidebar-v4 .nav-icon-box { position: relative; width: 58px !important; height: 48px !important; color: currentColor; }
+    #sidebar.sidebar-v4 .nav-icon-box > i,
+    #sidebar.sidebar-v4 .nav-icon-box > svg,
+    #sidebar.sidebar-v4 .nav-icon-box > span { position: relative; z-index: 1; }
+    #sidebar.sidebar-v4 .nav-btn.active .nav-icon-box::before {
+        content: '';
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 1px solid color-mix(in srgb, var(--sidebar-v4-accent) 32%, transparent);
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--sidebar-v4-accent) 11%, transparent);
+        box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--sidebar-v4-accent) 5%, transparent), 0 5px 14px color-mix(in srgb, var(--sidebar-v4-accent) 12%, transparent);
+    }
+    #sidebar.sidebar-v4 .nav-btn.active { color: var(--sidebar-v4-accent) !important; background: color-mix(in srgb, var(--sidebar-v4-accent) 8%, transparent) !important; }
+    #sidebar.sidebar-v4 .nav-btn.active::before { left: 3px; top: 12px; bottom: 12px; width: 2px; border-radius: 999px; background: var(--sidebar-v4-accent); }
+    #sidebar.sidebar-v4 .nav-btn:hover { color: var(--text-main); background: color-mix(in srgb, var(--sidebar-v4-gold) 8%, transparent); transform: translateX(2px); }
+    #sidebar.sidebar-v4 .nav-btn:active { transform: scale(0.97); }
+    #sidebar.sidebar-v4 .nav-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--sidebar-v4-gold) 88%, #fff); outline-offset: 3px; }
+    #sidebar.sidebar-v4 .nav-text { color: inherit; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.025em; }
+    #sidebar.sidebar-v4 .nav-toggle-label { font-family: 'Zen Old Mincho', serif; font-size: 0.94rem; letter-spacing: 0.06em; }
+
+    @media (min-width: 1367px) and (hover: hover) {
+        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover,
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 { width: 264px; box-shadow: 0 20px 44px rgba(58, 34, 24, 0.15), inset 0 1px 0 rgba(255,255,255,0.52); }
+        html.dark body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover,
+        html.dark body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 { box-shadow: 0 22px 50px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.035); }
+        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-text,
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-text { opacity: 1 !important; }
+        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-group-title,
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-group-title { height: 17px !important; max-height: 17px !important; margin: 9px 5px 5px !important; opacity: 0.75 !important; overflow: visible !important; }
+        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-icon-box,
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-icon-box { width: 48px !important; }
+        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-btn,
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-btn { padding: 0 8px !important; }
+    }
+    @media (max-width: 1366px) {
+        #sidebar.sidebar-v4 { width: 68px !important; top: 8px !important; bottom: 8px !important; left: 8px !important; }
+        body.sidebar-pinned #sidebar.sidebar-v4 { width: min(264px, calc(100vw - 32px)) !important; }
+        body.sidebar-pinned #sidebar.sidebar-v4 .nav-text { display: block !important; opacity: 1 !important; }
+        body.sidebar-pinned #sidebar.sidebar-v4 .nav-group-title { display: block !important; height: 17px !important; max-height: 17px !important; margin: 9px 5px 5px !important; opacity: 0.75 !important; overflow: visible !important; }
+        body.sidebar-pinned #sidebar.sidebar-v4 .nav-icon-box { width: 48px !important; }
+        body.sidebar-pinned #sidebar.sidebar-v4 .nav-btn { justify-content: flex-start !important; padding: 0 8px !important; }
+        body.sidebar-pinned #main-content { margin-left: 84px !important; width: calc(100% - 84px) !important; }
+    }
+    @media (max-width: 560px) {
+        #sidebar.sidebar-v4 { width: 62px !important; left: 6px !important; top: 6px !important; bottom: 6px !important; border-radius: 20px; }
+        #sidebar.sidebar-v4 .nav-group { padding: 0 6px; }
+        #sidebar.sidebar-v4 .nav-icon-box { width: 50px !important; }
+        #sidebar.sidebar-v4 .nav-btn { min-height: 46px !important; height: 46px !important; max-height: 46px !important; }
+        body.sidebar-pinned #sidebar.sidebar-v4 { width: min(264px, calc(100vw - 24px)) !important; }
+        body.sidebar-pinned #main-content { margin-left: 74px !important; width: calc(100% - 74px) !important; }
+    }
+
+    .omikuji-draw-v4 #further-explore-btn {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: clamp(18px, 3vw, 34px);
+        min-width: 0;
+        margin-top: 0 !important;
+        padding: clamp(24px, 3.5vw, 34px) !important;
+    }
+    .omikuji-draw-v4 #further-explore-btn > div { min-width: 0; }
+    .omikuji-draw-v4 #further-explore-btn h2 { overflow-wrap: anywhere; }
+    .omikuji-draw-v4 #further-explore-btn > div > p:last-child { max-width: 42rem; }
+    .omikuji-draw-v4 .omikuji-v4-more-btn { min-width: min(100%, 216px); white-space: nowrap; }
+    @media (max-width: 1180px) {
+        .omikuji-draw-v4 #further-explore-btn { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+        .omikuji-draw-v4 .omikuji-v4-more-btn { width: 100%; }
+    }
+
+    html.dark .ver-source-tooltip {
+        --vh-paper: #191414;
+        --vh-paper-soft: #241b19;
+        --vh-ink: #f5e8df;
+        --vh-muted: #c7b2a7;
+        --vh-line: rgba(238, 215, 195, 0.16);
+        --vh-red: #ea8a90;
+        background: var(--vh-paper) !important;
+        border-color: var(--vh-line) !important;
+        color: var(--vh-ink) !important;
+        box-shadow: 0 18px 42px rgba(0,0,0,0.58) !important;
+    }
+    html.dark .ver-source-tooltip-title { color: var(--vh-muted) !important; border-bottom-color: var(--vh-line) !important; }
+    html.dark .ver-source-link-date { color: var(--vh-muted) !important; }
+    html.dark .ver-source-link-title { color: var(--vh-ink) !important; }
+    html.dark .ver-source-link-item:hover { border-color: rgba(213, 179, 106, 0.28); background: var(--vh-paper-soft); }
+    @media (prefers-reduced-motion: reduce) {
+        #sidebar.sidebar-v4, #sidebar.sidebar-v4 .nav-btn, .sidebar-v4-skip-link { transition-duration: 0.01ms !important; }
+    }
+</style>
 </body>
 </html>
