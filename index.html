@@ -27026,6 +27026,7 @@ function resetSearch() {
             let activeRoot = null;
             let typeaheadBuffer = '';
             let typeaheadTimer = null;
+            let suppressSyntheticTapUntil = 0;
 
             const escapeHTML = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
             const isoDate = (date) => {
@@ -27125,6 +27126,17 @@ function resetSearch() {
                         openChoice(state, event.key === 'ArrowUp' ? current - 1 : current);
                     }
                     if (event.key === 'Escape') closeActive(true);
+                });
+                // iOSではpopoverを閉じた直後の合成clickが同じ座標の下層へ届くことがあるため、
+                // pointerdownで確定し、直後のclickはキャプチャ段階で一度だけ吸収する。
+                listbox.addEventListener('pointerdown', (event) => {
+                    if (event.button !== 0) return;
+                    const optionNode = event.target.closest('.tenmei-choice__option');
+                    if (!optionNode) return;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    suppressSyntheticTapUntil = performance.now() + 700;
+                    selectChoice(state, Number(optionNode.dataset.optionIndex));
                 });
                 listbox.addEventListener('click', (event) => {
                     const optionNode = event.target.closest('.tenmei-choice__option');
@@ -27260,6 +27272,12 @@ function resetSearch() {
                 document.querySelectorAll('[data-control-kind="choice"]').forEach(buildChoice);
                 document.querySelectorAll('[data-control-kind="date"]').forEach(buildDate);
                 document.addEventListener('pointerdown', (event) => { if (activeRoot && !activeRoot.contains(event.target)) closeActive(false); });
+                document.addEventListener('click', (event) => {
+                    if (performance.now() >= suppressSyntheticTapUntil) return;
+                    suppressSyntheticTapUntil = 0;
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                }, true);
                 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && activeRoot) closeActive(true); });
             };
             const syncAll = () => {
@@ -33917,6 +33935,74 @@ try {
         #sidebar.sidebar-v4 .nav-btn { min-height: 46px !important; height: 46px !important; max-height: 46px !important; }
         body.sidebar-pinned #sidebar.sidebar-v4 { width: min(264px, calc(100vw - 24px)) !important; }
         body.sidebar-pinned #main-content { margin-left: 74px !important; width: calc(100% - 74px) !important; }
+
+        /* スマホでは小型サイドバーを残しつつ、本文に十分な幅を返す。 */
+        html body:not(.sidebar-pinned) #main-content {
+            margin-left: 72px !important;
+            width: calc(100% - 72px) !important;
+            padding: 12px !important;
+        }
+        #view-history.history-ledger-layout {
+            width: 100% !important;
+            max-width: none !important;
+            margin-right: auto !important;
+            margin-left: auto !important;
+            padding-bottom: 28px !important;
+        }
+        #view-history .history-ledger-hero {
+            grid-template-columns: minmax(0, 1fr) !important;
+            min-height: 0 !important;
+            gap: 16px !important;
+            padding: 20px !important;
+        }
+        #view-history .history-ledger-mark {
+            width: 82px !important;
+            min-width: 82px !important;
+            height: 82px !important;
+            min-height: 82px !important;
+            justify-self: start;
+        }
+        #view-history .history-stats-grid {
+            grid-template-columns: minmax(0, 1fr) !important;
+            gap: 12px !important;
+        }
+        #view-history .history-control-bar,
+        #view-history .history-timeline-panel,
+        #view-history .history-insight-panel {
+            padding: 16px !important;
+            border-radius: 18px !important;
+        }
+        #view-history .history-control-heading,
+        #view-history .history-timeline-heading { gap: 10px; }
+        #view-history .history-control-bar > .control-group-row {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1fr) !important;
+            gap: 10px !important;
+            width: 100%;
+        }
+        #view-history .history-control-bar > .control-group-row:nth-of-type(2) {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            align-items: stretch;
+        }
+        #view-history .history-control-bar > .control-group-row:nth-of-type(2) > span { display: none; }
+        #view-history .history-control-bar > .control-group-row:nth-of-type(2) > .tenmei-date { grid-column: 1 / -1; }
+        #view-history .history-control-bar > .control-group-row:nth-of-type(2) > button {
+            width: 100%;
+            min-width: 0;
+            padding-right: 12px !important;
+            padding-left: 12px !important;
+            justify-content: center;
+        }
+        #view-history .tenmei-choice__trigger,
+        #view-history .tenmei-date__trigger { min-height: 50px; }
+        #view-history .tenmei-choice__popover { max-height: min(320px, calc(100dvh - 136px)); }
+        #view-history .tenmei-date__popover { width: min(318px, calc(100vw - 96px)); }
+        #search-date-end-dialog { right: 0; left: auto; }
+        #view-history .history-control-bar > div:last-child {
+            gap: 8px;
+            padding-top: 10px !important;
+        }
+        #view-history #history-view-mode { min-width: 0; }
     }
 
     .omikuji-draw-v4 #further-explore-btn {

@@ -127,6 +127,13 @@ requireCount(/showView\('/g, 15, '既存の内部画面遷移導線が不足し�
   '#view-history .history-control-bar.is-control-expanded { z-index: 160; }',
   "root.closest('.history-control-bar')?.classList.add('is-control-expanded');",
   "root.closest('.history-control-bar')?.classList.remove('is-control-expanded');",
+  'html body:not(.sidebar-pinned) #main-content {',
+  '#view-history .history-stats-grid {',
+  '#view-history .history-control-bar > .control-group-row:nth-of-type(2) > .tenmei-date { grid-column: 1 / -1; }',
+  "listbox.addEventListener('pointerdown', (event) => {",
+  'suppressSyntheticTapUntil = performance.now() + 700;',
+  "document.addEventListener('click', (event) => {",
+  'event.stopImmediatePropagation();',
   '.dark .tenmei-choice__popover,',
   '@media (prefers-reduced-motion: reduce) {',
 ].forEach((text) => requireText(text, `カスタム選択欄・日付選択のUIまたはアクセシビリティ契約が不足しています: ${text}`));
@@ -143,6 +150,8 @@ console.log(JSON.stringify({
   articlePaginationAccessible: true,
   customChoiceAndDateUiPreserved: true,
   historyPopoverStackingPreserved: true,
+  mobileHistoryLayoutPreserved: true,
+  choiceTapThroughGuardPreserved: true,
   lightDarkResponsiveRulesPresent: true,
   darkHeroMetaUnboxed: true,
 }, null, 2));
