@@ -30,6 +30,7 @@ assert(historyHtml, '更新の軌跡のパネルHTMLを抽出できません。'
   "v40: {",
   "ver: 'Ver. 4.0'",
   '「静謐な即応」全画面UI/UX大規模刷新',
+  'OS標準に依存しない選択リスト・日付選択カレンダーへ移行し、キーボード操作と既存の値連携を維持。',
 ].forEach((text) => requireText(text, `Ver.4.0の正式リリース表記または詳細データが失われています: ${text}`));
 
 const historyItems = (historyHtml.match(/class="ver-timeline-item/g) || []).length;
@@ -89,6 +90,7 @@ console.log(JSON.stringify({
   twentyHistoryItemsPreserved: true,
   ver40LatestReleasePresent: true,
   homeVersionLabelUpdated: true,
+  customChoiceAndDateControlsDocumented: true,
   detailAndSourceLinkContractsPreserved: true,
   keyboardAndFocusContractsPresent: true,
   normalCardHierarchyPresent: true,

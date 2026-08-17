@@ -109,24 +109,36 @@ requireCount(/showView\('/g, 15, '既存の内部画面遷移導線が不足し�
 ].forEach((text) => requireText(text, `記事一覧ページネーションのVer.4.0操作契約が不足しています: ${text}`));
 
 [
-  '<select id="user-sign" class="modern-select custom-select-native" aria-label="星座を選ぶ">',
-  '<select id="user-blood" class="modern-select custom-select-native" aria-label="血液型を選ぶ">',
-  '<select id="search-type" class="modern-filter-select custom-select-native" aria-label="運勢で絞り込む">',
-  '.custom-select-shell {',
-  '.custom-select-native,',
-  'appearance: none !important;',
-  '.custom-select-native option {',
-].forEach((text) => requireText(text, `カスタム選択欄のネイティブ互換・アクセシビリティ契約が不足しています: ${text}`));
+  'data-control-kind="choice" data-control-id="user-sign"',
+  'data-control-kind="choice" data-control-id="user-blood"',
+  'data-control-kind="choice" data-control-id="search-type"',
+  'data-control-kind="date" data-control-id="search-date-start"',
+  'data-control-kind="date" data-control-id="search-date-end"',
+  'role="listbox"',
+  'role="dialog" aria-modal="false"',
+  'role="grid"',
+  'class="tenmei-choice__trigger"',
+  'class="tenmei-date__trigger"',
+  'const TenmeiCustomControls = (() => {',
+  'window.TenmeiCustomControls = TenmeiCustomControls;',
+  'window.TenmeiCustomControls?.syncAll();',
+  '.tenmei-choice__popover,',
+  '.tenmei-date__popover {',
+  '.dark .tenmei-choice__popover,',
+  '@media (prefers-reduced-motion: reduce) {',
+].forEach((text) => requireText(text, `カスタム選択欄・日付選択のUIまたはアクセシビリティ契約が不足しています: ${text}`));
 
-requireCount(/class="custom-select-shell/g, 3, 'カスタム選択欄のシェルが3件保持されていません。');
-requireCount(/custom-select-chevron/g, 3, 'カスタム選択欄の開閉表示が3件保持されていません。');
+assert.equal(html.includes('<select'), false, 'OS標準のselect要素が残っています。');
+assert.equal(/<input[^>]+type=["']date["']/gi.test(html), false, 'OS標準の日付入力が残っています。');
+requireCount(/data-control-kind="choice"/g, 3, 'カスタム選択欄が3件保持されていません。');
+requireCount(/data-control-kind="date"/g, 2, 'カスタム日付選択が2件保持されていません。');
 
 console.log('参拝の記録・フッター・ページネーション・カスタム選択欄の回帰テストに合格しました。');
 console.log(JSON.stringify({
   statsVer4Structure: true,
   footerVer4Structure: true,
   articlePaginationAccessible: true,
-  nativeSelectSemanticsPreserved: true,
+  customChoiceAndDateUiPreserved: true,
   lightDarkResponsiveRulesPresent: true,
   darkHeroMetaUnboxed: true,
 }, null, 2));

@@ -23,8 +23,12 @@ assert(zodiacSection, '最強運勢ランキング画面のセクションを抽
   'id="current-date-display"',
   'class="zodiac-ranking-panel" aria-labelledby="zodiac-check-title"',
   '<h2 id="zodiac-check-title">あなたの順位をチェック</h2>',
-  '<select id="user-sign" class="modern-select custom-select-native" aria-label="星座を選ぶ">',
-  '<select id="user-blood" class="modern-select custom-select-native" aria-label="血液型を選ぶ">',
+  'data-control-kind="choice" data-control-id="user-sign"',
+  'data-control-kind="choice" data-control-id="user-blood"',
+  'id="user-sign-trigger" aria-haspopup="listbox"',
+  'id="user-blood-trigger" aria-haspopup="listbox"',
+  'id="user-sign-options" role="listbox"',
+  'id="user-blood-options" role="listbox"',
   'onclick="findMyRank()" class="modern-search-btn zodiac-rank-submit"',
   'id="my-rank-result" class="hidden zodiac-rank-result"',
   '<section id="favorites-section" class="zodiac-ranking-panel zodiac-favorites-panel hidden"',
@@ -124,7 +128,7 @@ assert.equal(zodiacSection.includes('id="zodiac-check-title"><i'), false, '最�
 console.log('最強運勢ランキングとVer.4.0横断統一の回帰テストに合格しました。');
 console.log(JSON.stringify({
   zodiacVer4Hero: true,
-  nativeSelectSemanticsPreserved: true,
+  customChoiceSemanticsPreserved: true,
   rankingAndFavoritesFunctionsPreserved: true,
   collapsedRankingStatePreserved: true,
   crossScreenTokensPresent: true,

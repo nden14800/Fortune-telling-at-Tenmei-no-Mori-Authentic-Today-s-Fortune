@@ -26,6 +26,9 @@ assert(article, 'Ver.4.0完了記事（id:87）を抽出できません。');
   '文字数と読了目安を記事詳細を開く前にも確認できるようにしました。',
   'おみくじ結果に、PDFとして保存する操作を追加しました。',
   'DOM XSS対策とセキュリティヘッダーを追加し、Google連携時に認証トークンがURLへ露出しないよう修正しました。',
+  '全ての選択欄は、OS標準の選択面を表示しない独自の選択リストへ移行しました。',
+  'OS標準のカレンダーに依存しない日付選択カレンダーへ移行しました。',
+  'PageUp／PageDownによる月・年の移動を備え、検索に渡す日付値は従来どおり維持しています。',
   '通知・確認モーダルを含む既存の重要な操作は、今回の刷新対象から外して維持しています。',
   '以上、今回の変更内容のご報告でした。引き続き「運勢・天命乃杜」をよろしくお願いいたします。',
 ].forEach((text) => {
@@ -45,4 +48,5 @@ console.log(JSON.stringify({
   ver40ServiceReleaseDocumented: true,
   preVer4UnrecordedUpdatesDocumented: true,
   existingModalExceptionDocumented: true,
+  nonNativeChoiceAndDateControlsDocumented: true,
 }, null, 2));

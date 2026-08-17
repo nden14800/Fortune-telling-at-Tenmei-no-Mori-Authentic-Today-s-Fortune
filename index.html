@@ -10879,75 +10879,180 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     .dark .modern-pagination.ver4-pagination .modern-pagination-btn, .dark .modern-pagination.ver4-pagination .modern-pagination-jump { border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.035); }
     .dark .modern-pagination.ver4-pagination .modern-pagination-current { background: rgba(185, 138, 62, 0.12); }
 
-    /* ネイティブselectの値・操作・アクセシビリティを保持するカスタム選択欄 */
-    .custom-select-shell {
-        --select-accent: var(--accent-red);
+    /* Ver.4.0: OS標準に依存しない、杜の選択欄・日付選択カレンダー */
+    .tenmei-choice,
+    .tenmei-date {
+        --tenmei-control-accent: var(--accent-red);
         position: relative;
-        display: flex;
+        z-index: 1;
+        width: 100%;
+        min-width: 0;
+    }
+    .tenmei-choice:focus-within,
+    .tenmei-date:focus-within { z-index: 80; }
+    .tenmei-choice__trigger,
+    .tenmei-date__trigger {
+        display: grid;
+        grid-template-columns: 26px minmax(0, 1fr) 20px;
+        align-items: center;
         width: 100%;
         min-height: 48px;
-        align-items: center;
+        padding: 8px 13px;
         border: 1px solid var(--card-border);
         border-radius: 14px;
-        background: var(--input-bg);
+        background: color-mix(in srgb, var(--input-bg) 92%, var(--card-bg));
         color: var(--text-main);
+        font-family: 'Zen Kaku Gothic New', 'Zen Old Mincho', sans-serif;
+        font-size: 0.88rem;
+        line-height: 1.35;
+        text-align: left;
+        cursor: pointer;
         box-sizing: border-box;
-        transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1), background 160ms cubic-bezier(0.23, 1, 0.32, 1);
+        transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .custom-select-shell:hover { border-color: color-mix(in srgb, var(--select-accent) 52%, var(--card-border)); }
-    .custom-select-shell:focus-within { border-color: var(--select-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--select-accent) 16%, transparent); }
-    .custom-select-icon {
-        position: absolute;
-        left: 14px;
-        z-index: 1;
+    .tenmei-choice__trigger:hover,
+    .tenmei-date__trigger:hover { border-color: color-mix(in srgb, var(--tenmei-control-accent) 52%, var(--card-border)); }
+    .tenmei-choice__trigger:focus-visible,
+    .tenmei-date__trigger:focus-visible,
+    .tenmei-choice__option:focus-visible,
+    .tenmei-date__day:focus-visible,
+    .tenmei-date__nav:focus-visible,
+    .tenmei-date__utility:focus-visible { outline: 0; border-color: var(--tenmei-control-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--tenmei-control-accent) 20%, transparent); }
+    .tenmei-choice__trigger:active,
+    .tenmei-date__trigger:active { transform: scale(0.98); }
+    .tenmei-choice[data-open="true"] .tenmei-choice__trigger,
+    .tenmei-date[data-open="true"] .tenmei-date__trigger { border-color: var(--tenmei-control-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--tenmei-control-accent) 16%, transparent); }
+    .tenmei-choice__icon,
+    .tenmei-date__icon {
         display: grid;
         width: 22px;
         height: 22px;
         place-items: center;
         border-radius: 50%;
-        background: color-mix(in srgb, var(--select-accent) 11%, transparent);
-        color: var(--select-accent);
+        background: color-mix(in srgb, var(--tenmei-control-accent) 12%, transparent);
+        color: var(--tenmei-control-accent);
         font-size: 0.72rem;
-        pointer-events: none;
     }
-    .custom-select-chevron {
+    .tenmei-choice__value,
+    .tenmei-date__value { min-width: 0; padding: 0 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+    .tenmei-date__value.is-placeholder { color: var(--text-sub); font-weight: 500; }
+    .tenmei-choice__chevron,
+    .tenmei-date__chevron { justify-self: end; color: var(--text-sub); font-size: 0.8rem; transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+    .tenmei-choice[data-open="true"] .tenmei-choice__chevron,
+    .tenmei-date[data-open="true"] .tenmei-date__chevron { color: var(--tenmei-control-accent); transform: rotate(180deg); }
+    .tenmei-choice__popover,
+    .tenmei-date__popover {
         position: absolute;
-        right: 14px;
-        z-index: 1;
-        color: var(--text-sub);
-        font-size: 0.78rem;
-        pointer-events: none;
-        transition: color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+        top: calc(100% + 8px);
+        left: 0;
+        z-index: 120;
+        width: 100%;
+        min-width: min(100%, 296px);
+        padding: 8px;
+        border: 1px solid color-mix(in srgb, var(--tenmei-control-accent) 25%, var(--card-border));
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--card-bg) 97%, transparent);
+        box-shadow: 0 18px 36px rgba(31, 22, 18, 0.18), inset 0 1px 0 rgba(255,255,255,0.55);
+        box-sizing: border-box;
+        transform-origin: top center;
     }
-    .custom-select-shell:focus-within .custom-select-chevron { color: var(--select-accent); transform: translateY(1px); }
-    .custom-select-native,
-    #view-zodiac .custom-select-native,
-    #view-history .custom-select-native {
-        width: 100% !important;
-        min-height: 46px !important;
-        margin: 0 !important;
-        padding: 0 44px 0 48px !important;
-        border: 0 !important;
-        border-radius: 13px !important;
-        appearance: none !important;
-        -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-        background: transparent !important;
-        background-image: none !important;
-        color: var(--text-main) !important;
-        font-family: 'Zen Kaku Gothic New', 'Zen Old Mincho', sans-serif !important;
-        font-size: 0.88rem !important;
-        line-height: 1.2 !important;
+    .tenmei-choice__popover[hidden],
+    .tenmei-date__popover[hidden] { display: none !important; }
+    .tenmei-choice__options { display: grid; max-height: 268px; gap: 3px; overflow-y: auto; overscroll-behavior: contain; padding: 2px; }
+    .tenmei-choice__option {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        min-height: 42px;
+        padding: 8px 10px;
+        border: 1px solid transparent;
+        border-radius: 11px;
+        background: transparent;
+        color: var(--text-main);
+        font-family: 'Zen Kaku Gothic New', 'Zen Old Mincho', sans-serif;
+        font-size: 0.84rem;
+        line-height: 1.35;
+        text-align: left;
         cursor: pointer;
-        outline: none !important;
+        transition: background-color 140ms cubic-bezier(0.23, 1, 0.32, 1), border-color 140ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .custom-select-native::-ms-expand { display: none; }
-    .custom-select-native:focus { box-shadow: none !important; }
-    .custom-select-native option { background: var(--card-bg); color: var(--text-main); }
-    #view-zodiac .custom-select-shell { --select-accent: #b98a3e; }
-    #view-history .custom-select-shell { --select-accent: var(--history-red, #a82a2f); }
-    .dark .custom-select-shell { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.045); }
-    .dark .custom-select-native option { background: #211c1b; color: #fff8f3; }
+    .tenmei-choice__option:hover,
+    .tenmei-choice__option.is-active { border-color: color-mix(in srgb, var(--tenmei-control-accent) 24%, transparent); background: color-mix(in srgb, var(--tenmei-control-accent) 10%, transparent); }
+    .tenmei-choice__option[aria-selected="true"] { border-color: color-mix(in srgb, var(--tenmei-control-accent) 38%, transparent); background: color-mix(in srgb, var(--tenmei-control-accent) 15%, transparent); color: var(--tenmei-control-accent); font-weight: 800; }
+    .tenmei-choice__option:active { transform: scale(0.985); }
+    .tenmei-choice__option-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tenmei-choice__option-detail { color: var(--text-sub); font-size: 0.71rem; font-weight: 500; white-space: nowrap; }
+    .tenmei-choice__option-check { color: var(--tenmei-control-accent); font-size: 0.9rem; }
+    .tenmei-date__popover { width: min(318px, calc(100vw - 32px)); padding: 12px; }
+    .tenmei-date__header { display: grid; grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; gap: 6px; margin-bottom: 9px; }
+    .tenmei-date__title { margin: 0; color: var(--text-main); font-family: 'Zen Old Mincho', serif; font-size: 0.95rem; font-weight: 800; text-align: center; }
+    .tenmei-date__nav,
+    .tenmei-date__utility {
+        display: inline-grid;
+        min-height: 36px;
+        place-items: center;
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        background: color-mix(in srgb, var(--input-bg) 88%, var(--card-bg));
+        color: var(--text-main);
+        cursor: pointer;
+        transition: background-color 140ms cubic-bezier(0.23, 1, 0.32, 1), border-color 140ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .tenmei-date__nav:hover,
+    .tenmei-date__utility:hover { border-color: color-mix(in srgb, var(--tenmei-control-accent) 48%, var(--card-border)); background: color-mix(in srgb, var(--tenmei-control-accent) 9%, transparent); }
+    .tenmei-date__nav:active,
+    .tenmei-date__utility:active { transform: scale(0.96); }
+    .tenmei-date__weekdays,
+    .tenmei-date__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+    .tenmei-date__weekdays { margin-bottom: 3px; color: var(--text-sub); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; text-align: center; }
+    .tenmei-date__weekdays span:first-child { color: #b53b3b; }
+    .tenmei-date__weekdays span:last-child { color: #557ca5; }
+    .tenmei-date__day {
+        min-height: 35px;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: 9px;
+        background: transparent;
+        color: var(--text-main);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
+        font-size: 0.76rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 120ms cubic-bezier(0.23, 1, 0.32, 1), border-color 120ms cubic-bezier(0.23, 1, 0.32, 1), transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .tenmei-date__day:hover,
+    .tenmei-date__day.is-focused { border-color: color-mix(in srgb, var(--tenmei-control-accent) 35%, transparent); background: color-mix(in srgb, var(--tenmei-control-accent) 10%, transparent); }
+    .tenmei-date__day.is-today { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tenmei-control-accent) 50%, transparent); }
+    .tenmei-date__day[aria-selected="true"] { border-color: var(--tenmei-control-accent); background: var(--tenmei-control-accent); color: #fff; box-shadow: 0 5px 12px color-mix(in srgb, var(--tenmei-control-accent) 28%, transparent); }
+    .tenmei-date__day:active { transform: scale(0.94); }
+    .tenmei-date__blank { min-height: 35px; }
+    .tenmei-date__footer { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--card-border); }
+    .tenmei-date__utility { min-height: 34px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.74rem; font-weight: 800; }
+    #view-zodiac .tenmei-choice { --tenmei-control-accent: var(--zodiac-accent); }
+    #view-history .tenmei-choice,
+    #view-history .tenmei-date { --tenmei-control-accent: var(--history-red, #a82a2f); }
+    #view-zodiac .tenmei-choice__trigger { min-height: var(--ver4-control-height); border-radius: var(--ver4-control-radius); font-size: 0.95rem; }
+    .dark .tenmei-choice__trigger,
+    .dark .tenmei-date__trigger { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.045); }
+    .dark .tenmei-choice__popover,
+    .dark .tenmei-date__popover { border-color: rgba(231, 197, 163, 0.19); background: #1c1615; box-shadow: 0 20px 44px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.04); }
+    .dark .tenmei-choice__option:hover,
+    .dark .tenmei-choice__option.is-active { background: color-mix(in srgb, var(--tenmei-control-accent) 15%, transparent); }
+    .dark .tenmei-date__nav,
+    .dark .tenmei-date__utility { border-color: rgba(255,255,255,0.11); background: rgba(255,255,255,0.05); }
+    @media (prefers-reduced-motion: reduce) {
+        .tenmei-choice__trigger,
+        .tenmei-date__trigger,
+        .tenmei-choice__chevron,
+        .tenmei-date__chevron,
+        .tenmei-choice__option,
+        .tenmei-date__day,
+        .tenmei-date__nav,
+        .tenmei-date__utility { transition: none !important; }
+    }
+
     @media (max-width: 768px) {
         .stats-record-layout { padding: 24px 16px !important; }
         #view-stats .stats-record-hero { grid-template-columns: 1fr; gap: 20px; min-height: 0; padding: 24px 20px !important; border-radius: 24px !important; }
@@ -11689,11 +11794,6 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             min-height: var(--ver4-control-height);
             border-radius: var(--ver4-control-radius);
             --select-accent: var(--zodiac-accent);
-        }
-        #view-zodiac .custom-select-native {
-            min-height: var(--ver4-control-height) !important;
-            border-radius: var(--ver4-control-radius) !important;
-            font-size: 0.95rem !important;
         }
         .zodiac-rank-submit {
             width: 100%;
@@ -15093,35 +15193,17 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     </div>
                     <div class="zodiac-input-grid">
                         <div class="zodiac-input-grid__sign">
-                            <div class="custom-select-shell">
-                                <span class="custom-select-icon" aria-hidden="true"><i class="bi bi-stars"></i></span>
-                                <select id="user-sign" class="modern-select custom-select-native" aria-label="星座を選ぶ">
-                                    <option value="aries">♈ 牡羊座 (3/21-4/19)</option>
-                                    <option value="taurus">♉ 牡牛座 (4/20-5/20)</option>
-                                    <option value="gemini">♊ 双子座 (5/21-6/21)</option>
-                                    <option value="cancer">♋ 蟹座 (6/22-7/22)</option>
-                                    <option value="leo">♌ 獅子座 (7/23-8/22)</option>
-                                    <option value="virgo">♍ 乙女座 (8/23-9/22)</option>
-                                    <option value="libra">♎ 天秤座 (9/23-10/23)</option>
-                                    <option value="scorpio">♏ 蠍座 (10/24-11/22)</option>
-                                    <option value="sagittarius">♐ 射手座 (11/23-12/21)</option>
-                                    <option value="capricorn">♑ 山羊座 (12/22-1/19)</option>
-                                    <option value="aquarius">♒ 水瓶座 (1/20-2/18)</option>
-                                    <option value="pisces">♓ 魚座 (2/19-3/20)</option>
-                                </select>
-                                <i class="bi bi-chevron-down custom-select-chevron" aria-hidden="true"></i>
+                            <div class="tenmei-choice" data-control-kind="choice" data-control-id="user-sign" data-control-label="星座を選ぶ" data-options='[{"value":"aries","label":"牡羊座","detail":"3/21–4/19","symbol":"♈"},{"value":"taurus","label":"牡牛座","detail":"4/20–5/20","symbol":"♉"},{"value":"gemini","label":"双子座","detail":"5/21–6/21","symbol":"♊"},{"value":"cancer","label":"蟹座","detail":"6/22–7/22","symbol":"♋"},{"value":"leo","label":"獅子座","detail":"7/23–8/22","symbol":"♌"},{"value":"virgo","label":"乙女座","detail":"8/23–9/22","symbol":"♍"},{"value":"libra","label":"天秤座","detail":"9/23–10/23","symbol":"♎"},{"value":"scorpio","label":"蠍座","detail":"10/24–11/22","symbol":"♏"},{"value":"sagittarius","label":"射手座","detail":"11/23–12/21","symbol":"♐"},{"value":"capricorn","label":"山羊座","detail":"12/22–1/19","symbol":"♑"},{"value":"aquarius","label":"水瓶座","detail":"1/20–2/18","symbol":"♒"},{"value":"pisces","label":"魚座","detail":"2/19–3/20","symbol":"♓"}]'>
+                                <input type="hidden" id="user-sign" value="aries">
+                                <button type="button" class="tenmei-choice__trigger" id="user-sign-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="user-sign-options" aria-label="星座を選ぶ"><span class="tenmei-choice__icon" aria-hidden="true"><i class="bi bi-stars"></i></span><span class="tenmei-choice__value"></span><i class="bi bi-chevron-down tenmei-choice__chevron" aria-hidden="true"></i></button>
+                                <div class="tenmei-choice__popover" id="user-sign-popover" hidden><div class="tenmei-choice__options" id="user-sign-options" role="listbox" aria-label="星座を選ぶ"></div></div>
                             </div>
                         </div>
                         <div class="zodiac-input-grid__blood">
-                            <div class="custom-select-shell">
-                                <span class="custom-select-icon" aria-hidden="true"><i class="bi bi-droplet-half"></i></span>
-                                <select id="user-blood" class="modern-select custom-select-native" aria-label="血液型を選ぶ">
-                                    <option value="A">A型</option>
-                                    <option value="B">B型</option>
-                                    <option value="O">O型</option>
-                                    <option value="AB">AB型</option>
-                                </select>
-                                <i class="bi bi-chevron-down custom-select-chevron" aria-hidden="true"></i>
+                            <div class="tenmei-choice" data-control-kind="choice" data-control-id="user-blood" data-control-label="血液型を選ぶ" data-options='[{"value":"A","label":"A型"},{"value":"B","label":"B型"},{"value":"O","label":"O型"},{"value":"AB","label":"AB型"}]'>
+                                <input type="hidden" id="user-blood" value="A">
+                                <button type="button" class="tenmei-choice__trigger" id="user-blood-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="user-blood-options" aria-label="血液型を選ぶ"><span class="tenmei-choice__icon" aria-hidden="true"><i class="bi bi-droplet-half"></i></span><span class="tenmei-choice__value"></span><i class="bi bi-chevron-down tenmei-choice__chevron" aria-hidden="true"></i></button>
+                                <div class="tenmei-choice__popover" id="user-blood-popover" hidden><div class="tenmei-choice__options" id="user-blood-options" role="listbox" aria-label="血液型を選ぶ"></div></div>
                             </div>
                         </div>
                         <div class="zodiac-input-grid__action">
@@ -15917,32 +15999,26 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
             </header>
 
             <div class="control-group-row">
-                <div class="custom-select-shell flex-1" style="min-width: 120px;">
-                    <span class="custom-select-icon" aria-hidden="true"><i class="bi bi-funnel-fill"></i></span>
-                    <select id="search-type" class="modern-filter-select custom-select-native" aria-label="運勢で絞り込む">
-                    <option value="all">全ての運勢</option>
-                    <option value="大吉">大吉</option>
-                    <option value="中吉">中吉</option>
-                    <option value="小吉">小吉</option>
-                    <option value="吉">吉</option>
-                    <option value="半吉">半吉</option>
-                    <option value="末吉">末吉</option>
-                    <option value="末小吉">末小吉</option>
-                    <option value="凶">凶</option>
-                    <option value="小凶">小凶</option>
-                    <option value="半凶">半凶</option>
-                    <option value="末凶">末凶</option>
-                    <option value="大凶">大凶</option>
-                </select>
-                    <i class="bi bi-chevron-down custom-select-chevron" aria-hidden="true"></i>
+                <div class="tenmei-choice flex-1" style="min-width: 120px;" data-control-kind="choice" data-control-id="search-type" data-control-label="運勢で絞り込む" data-options='[{"value":"all","label":"全ての運勢"},{"value":"大吉","label":"大吉"},{"value":"中吉","label":"中吉"},{"value":"小吉","label":"小吉"},{"value":"吉","label":"吉"},{"value":"半吉","label":"半吉"},{"value":"末吉","label":"末吉"},{"value":"末小吉","label":"末小吉"},{"value":"凶","label":"凶"},{"value":"小凶","label":"小凶"},{"value":"半凶","label":"半凶"},{"value":"末凶","label":"末凶"},{"value":"大凶","label":"大凶"}]'>
+                    <input type="hidden" id="search-type" value="all">
+                    <button type="button" class="tenmei-choice__trigger" id="search-type-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="search-type-options" aria-label="運勢で絞り込む"><span class="tenmei-choice__icon" aria-hidden="true"><i class="bi bi-funnel-fill"></i></span><span class="tenmei-choice__value"></span><i class="bi bi-chevron-down tenmei-choice__chevron" aria-hidden="true"></i></button>
+                    <div class="tenmei-choice__popover" id="search-type-popover" hidden><div class="tenmei-choice__options" id="search-type-options" role="listbox" aria-label="運勢で絞り込む"></div></div>
                 </div>
                 <input type="text" id="search-keyword" placeholder="ユーザー名で検索" class="modern-filter-input flex-[2]">
             </div>
 
             <div class="control-group-row">
-                <input type="date" id="search-date-start" class="modern-filter-input flex-1">
-                <span class="self-center text-sm" style="color:var(--text-sub);">〜</span>
-                <input type="date" id="search-date-end" class="modern-filter-input flex-1">
+                <div class="tenmei-date flex-1" data-control-kind="date" data-control-id="search-date-start" data-control-label="開始日">
+                    <input type="hidden" id="search-date-start" value="">
+                    <button type="button" class="tenmei-date__trigger" id="search-date-start-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-date-start-dialog" aria-label="開始日を選ぶ"><span class="tenmei-date__icon" aria-hidden="true"><i class="bi bi-calendar3"></i></span><span class="tenmei-date__value is-placeholder">開始日</span><i class="bi bi-chevron-down tenmei-date__chevron" aria-hidden="true"></i></button>
+                    <div class="tenmei-date__popover" id="search-date-start-dialog" role="dialog" aria-modal="false" aria-label="開始日のカレンダー" hidden></div>
+                </div>
+                <span class="self-center text-sm" aria-hidden="true" style="color:var(--text-sub);">〜</span>
+                <div class="tenmei-date flex-1" data-control-kind="date" data-control-id="search-date-end" data-control-label="終了日">
+                    <input type="hidden" id="search-date-end" value="">
+                    <button type="button" class="tenmei-date__trigger" id="search-date-end-trigger" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-date-end-dialog" aria-label="終了日を選ぶ"><span class="tenmei-date__icon" aria-hidden="true"><i class="bi bi-calendar3"></i></span><span class="tenmei-date__value is-placeholder">終了日</span><i class="bi bi-chevron-down tenmei-date__chevron" aria-hidden="true"></i></button>
+                    <div class="tenmei-date__popover" id="search-date-end-dialog" role="dialog" aria-modal="false" aria-label="終了日のカレンダー" hidden></div>
+                </div>
                 <button onclick="filterHistory()" class="btn-primary py-2 px-6 text-sm flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
                     検索
@@ -18013,7 +18089,7 @@ function escapeHtml(str) {
     tag: "新機能・改善",
     tagColor: "text-indigo-600",
     borderColor: "border-indigo-500",
-    desc: "Ver.4.0「静謐な即応」として、全画面のヒーロー、カード、操作面、サイドバーを社務所だより基準へ再設計しました。あわせて、神籤草子の新記事・視覚資料、記事一覧の文字数と読了目安、おみくじ結果のPDF保存、安全性・認証・公開文書の整合も改善しています。",
+    desc: "Ver.4.0「静謐な即応」として、全画面のヒーロー、カード、操作面、サイドバーを社務所だより基準へ再設計しました。あわせて、全選択欄と日付選択のカスタムUI化、神籤草子の新記事・視覚資料、記事一覧の文字数と読了目安、おみくじ結果のPDF保存、安全性・認証・公開文書の整合も改善しています。",
     content: `
         <div class="article-content">
             <p>いつも「運勢・天命乃杜」をご利用いただき、誠にありがとうございます。運営者のnden148です。</p>
@@ -18049,9 +18125,10 @@ function escapeHtml(str) {
             <p>ホーム画面と更新の軌跡では、日々の入口と過去の記録を分かりやすく扱えるよう、それぞれの情報量に合わせて構成を見直しました。更新の軌跡は、詳細・参照記事・年表を確認しやすいアーカイブ型の操作面へ移行しています。</p>
 
             <h3>5. 日々の参拝・占い・記録の導線を統一</h3>
-            <p>最強運勢ランキング、全国・土地の運気、おみくじの轍、参拝の記録では、確認・絞り込み・記録の操作面を通常カードとして整理しました。ランキングの展開、選択欄、ページネーション、都道府県表示のキーボード操作も、見た目だけでなく既存の使い方を保つ形で調整しています。</p>
+            <p>最強運勢ランキング、全国・土地の運気、おみくじの轍、参拝の記録では、確認・絞り込み・記録の操作面を通常カードとして整理しました。ランキングの展開、選択欄、日付選択、ページネーション、都道府県表示のキーボード操作も、見た目だけでなく既存の使い方を保つ形で調整しています。</p>
             <ul class="list-disc ml-5 mb-4">
-                <li>ブラウザ標準の選択欄に依存していた箇所は、キーボード操作と元の選択機能を保ったまま、サイト全体の意匠に合う選択面へ統一しました。</li>
+                <li>全ての選択欄は、OS標準の選択面を表示しない独自の選択リストへ移行しました。現在の値、選択済みの印、候補一覧をサイトの意匠で一貫して表示し、クリックに加えてEnter、Space、上下矢印、Home、End、Esc、文字入力による候補移動に対応しています。</li>
+                <li>参拝の記録で期間を指定する開始日・終了日も、OS標準のカレンダーに依存しない日付選択カレンダーへ移行しました。月の移動、今日・クリア、日単位・週単位のキーボード移動、PageUp／PageDownによる月・年の移動を備え、検索に渡す日付値は従来どおり維持しています。</li>
                 <li>最強運勢ランキングの「30日吉日予報」は、タブレット幅でも見出しやカレンダーが親面から切れないよう調整しました。</li>
                 <li>参拝の記録、神籤草子のカテゴリ表示、記事詳細の本文幅など、テーマや読書設定によって生じていた表示の差も見直しています。</li>
             </ul>
@@ -26929,12 +27006,264 @@ function filterHistory() {
 // リセットボタン
 function resetSearch() {
     if (!hasVisitorIdentity()) return showToast("会員限定機能です", "warning");
-    document.getElementById('search-type').value = 'all'
+    document.getElementById('search-type').value = 'all';
     document.getElementById('search-keyword').value = '';
     document.getElementById('search-date-start').value = '';
     document.getElementById('search-date-end').value = '';
+    window.TenmeiCustomControls?.syncAll();
     loadHistory(1);
 }
+
+
+        // Ver.4.0: OS標準select・date入力を使わない、杜の共通選択コントロール
+        const TenmeiCustomControls = (() => {
+            const choiceStates = new Map();
+            const dateStates = new Map();
+            let activeRoot = null;
+            let typeaheadBuffer = '';
+            let typeaheadTimer = null;
+
+            const escapeHTML = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+            const isoDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+            const parseISODate = (value) => {
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return null;
+                const [year, month, day] = value.split('-').map(Number);
+                const date = new Date(year, month - 1, day);
+                return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day ? date : null;
+            };
+            const sameDate = (left, right) => left && right && isoDate(left) === isoDate(right);
+            const displayDate = (date) => date ? new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' }).format(date) : '';
+            const notifyValueChange = (input) => {
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            };
+            const closeActive = (returnFocus = false) => {
+                if (!activeRoot) return;
+                const root = activeRoot;
+                root.dataset.open = 'false';
+                const trigger = root.querySelector('.tenmei-choice__trigger, .tenmei-date__trigger');
+                const popover = root.querySelector('.tenmei-choice__popover, .tenmei-date__popover');
+                if (trigger) trigger.setAttribute('aria-expanded', 'false');
+                if (popover) popover.hidden = true;
+                activeRoot = null;
+                if (returnFocus) trigger?.focus();
+            };
+            const setControlValue = (input, value) => {
+                input.value = value;
+                notifyValueChange(input);
+            };
+
+            const syncChoice = (state) => {
+                const selectedIndex = Math.max(0, state.options.findIndex((option) => option.value === state.input.value));
+                const selected = state.options[selectedIndex];
+                state.valueNode.textContent = selected.detail ? `${selected.symbol ? `${selected.symbol} ` : ''}${selected.label} (${selected.detail})` : `${selected.symbol ? `${selected.symbol} ` : ''}${selected.label}`;
+                state.optionNodes.forEach((optionNode, index) => {
+                    const isSelected = index === selectedIndex;
+                    optionNode.setAttribute('aria-selected', String(isSelected));
+                    optionNode.classList.toggle('is-active', index === state.activeIndex && state.root.dataset.open === 'true');
+                    const check = optionNode.querySelector('.tenmei-choice__option-check');
+                    if (check) check.hidden = !isSelected;
+                });
+            };
+            const setChoiceActive = (state, nextIndex, focus = true) => {
+                const normalized = (nextIndex + state.options.length) % state.options.length;
+                state.activeIndex = normalized;
+                syncChoice(state);
+                if (focus) {
+                    const node = state.optionNodes[normalized];
+                    node?.focus({ preventScroll: true });
+                    node?.scrollIntoView({ block: 'nearest' });
+                }
+            };
+            const selectChoice = (state, index) => {
+                const option = state.options[index];
+                if (!option) return;
+                setControlValue(state.input, option.value);
+                state.activeIndex = index;
+                syncChoice(state);
+                closeActive(true);
+            };
+            const openChoice = (state, requestedIndex = null) => {
+                if (activeRoot && activeRoot !== state.root) closeActive(false);
+                activeRoot = state.root;
+                state.root.dataset.open = 'true';
+                state.popover.hidden = false;
+                state.trigger.setAttribute('aria-expanded', 'true');
+                const selectedIndex = Math.max(0, state.options.findIndex((option) => option.value === state.input.value));
+                setChoiceActive(state, requestedIndex === null ? selectedIndex : requestedIndex, true);
+            };
+            const buildChoice = (root) => {
+                const id = root.dataset.controlId;
+                const input = document.getElementById(id);
+                const trigger = document.getElementById(`${id}-trigger`);
+                const popover = document.getElementById(`${id}-popover`);
+                const listbox = document.getElementById(`${id}-options`);
+                if (!id || !input || !trigger || !popover || !listbox) return;
+                let options = [];
+                try { options = JSON.parse(root.dataset.options || '[]'); } catch (error) { console.error('選択欄データの読み込みに失敗しました。', error); }
+                const valueNode = trigger.querySelector('.tenmei-choice__value');
+                listbox.innerHTML = options.map((option, index) => `<button type="button" class="tenmei-choice__option" id="${id}-option-${index}" role="option" aria-selected="false" data-option-index="${index}"><span class="tenmei-choice__option-label">${escapeHTML(option.symbol ? `${option.symbol} ` : '')}${escapeHTML(option.label)}</span><span class="tenmei-choice__option-detail">${escapeHTML(option.detail || '')}</span><i class="bi bi-check2 tenmei-choice__option-check" aria-hidden="true" hidden></i></button>`).join('');
+                const state = { root, input, trigger, popover, listbox, valueNode, options, optionNodes: [...listbox.querySelectorAll('.tenmei-choice__option')], activeIndex: 0 };
+                choiceStates.set(id, state);
+                syncChoice(state);
+                trigger.addEventListener('click', () => root.dataset.open === 'true' ? closeActive(true) : openChoice(state));
+                trigger.addEventListener('keydown', (event) => {
+                    if (['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key)) {
+                        event.preventDefault();
+                        const current = Math.max(0, options.findIndex((option) => option.value === input.value));
+                        openChoice(state, event.key === 'ArrowUp' ? current - 1 : current);
+                    }
+                    if (event.key === 'Escape') closeActive(true);
+                });
+                listbox.addEventListener('click', (event) => {
+                    const optionNode = event.target.closest('.tenmei-choice__option');
+                    if (!optionNode) return;
+                    selectChoice(state, Number(optionNode.dataset.optionIndex));
+                });
+                listbox.addEventListener('keydown', (event) => {
+                    const current = state.activeIndex;
+                    if (event.key === 'ArrowDown') { event.preventDefault(); setChoiceActive(state, current + 1); }
+                    else if (event.key === 'ArrowUp') { event.preventDefault(); setChoiceActive(state, current - 1); }
+                    else if (event.key === 'Home') { event.preventDefault(); setChoiceActive(state, 0); }
+                    else if (event.key === 'End') { event.preventDefault(); setChoiceActive(state, options.length - 1); }
+                    else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectChoice(state, current); }
+                    else if (event.key === 'Escape') { event.preventDefault(); closeActive(true); }
+                    else if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+                        typeaheadBuffer += event.key.toLocaleLowerCase('ja-JP');
+                        window.clearTimeout(typeaheadTimer);
+                        typeaheadTimer = window.setTimeout(() => { typeaheadBuffer = ''; }, 650);
+                        const query = typeaheadBuffer;
+                        const offset = options.slice(current + 1).findIndex((option) => option.label.toLocaleLowerCase('ja-JP').startsWith(query));
+                        const fallback = options.findIndex((option) => option.label.toLocaleLowerCase('ja-JP').startsWith(query));
+                        if (offset >= 0) setChoiceActive(state, current + 1 + offset);
+                        else if (fallback >= 0) setChoiceActive(state, fallback);
+                    }
+                });
+                input.addEventListener('change', () => syncChoice(state));
+            };
+
+            const clampDay = (date, year, month) => new Date(year, month, Math.min(date.getDate(), new Date(year, month + 1, 0).getDate()));
+            const syncDate = (state) => {
+                const selected = parseISODate(state.input.value);
+                state.selected = selected;
+                state.valueNode.textContent = selected ? displayDate(selected) : state.root.dataset.controlLabel;
+                state.valueNode.classList.toggle('is-placeholder', !selected);
+                state.trigger.setAttribute('aria-label', selected ? `${state.root.dataset.controlLabel}を変更する。現在の選択は${displayDate(selected)}` : `${state.root.dataset.controlLabel}を選ぶ`);
+            };
+            const focusDate = (state, date, focus = true) => {
+                state.focus = date;
+                if (state.view.getFullYear() !== date.getFullYear() || state.view.getMonth() !== date.getMonth()) state.view = new Date(date.getFullYear(), date.getMonth(), 1);
+                renderDate(state);
+                if (focus) window.requestAnimationFrame(() => state.popover.querySelector(`[data-date="${isoDate(date)}"]`)?.focus({ preventScroll: true }));
+            };
+            const setDate = (state, date) => {
+                setControlValue(state.input, isoDate(date));
+                syncDate(state);
+                closeActive(true);
+            };
+            const renderDate = (state) => {
+                const year = state.view.getFullYear();
+                const month = state.view.getMonth();
+                const monthTitle = new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long' }).format(state.view);
+                const firstWeekday = new Date(year, month, 1).getDay();
+                const totalDays = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+                let cells = '';
+                for (let blank = 0; blank < firstWeekday; blank += 1) cells += '<span class="tenmei-date__blank" aria-hidden="true"></span>';
+                for (let day = 1; day <= totalDays; day += 1) {
+                    const date = new Date(year, month, day);
+                    const selected = sameDate(state.selected, date);
+                    const focused = sameDate(state.focus, date);
+                    const classes = ['tenmei-date__day'];
+                    if (selected) classes.push('is-selected');
+                    if (focused) classes.push('is-focused');
+                    if (sameDate(today, date)) classes.push('is-today');
+                    cells += `<button type="button" class="${classes.join(' ')}" role="gridcell" aria-selected="${selected}" tabindex="${focused ? '0' : '-1'}" data-date="${isoDate(date)}" aria-label="${displayDate(date)}${selected ? '、選択済み' : ''}">${day}</button>`;
+                }
+                state.popover.innerHTML = `<div class="tenmei-date__header"><button type="button" class="tenmei-date__nav" data-date-action="previous-month" aria-label="前の月"><i class="bi bi-chevron-left" aria-hidden="true"></i></button><h4 class="tenmei-date__title" aria-live="polite">${monthTitle}</h4><button type="button" class="tenmei-date__nav" data-date-action="next-month" aria-label="次の月"><i class="bi bi-chevron-right" aria-hidden="true"></i></button></div><div class="tenmei-date__weekdays" aria-hidden="true"><span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span></div><div class="tenmei-date__grid" role="grid" aria-label="${monthTitle}のカレンダー">${cells}</div><div class="tenmei-date__footer"><button type="button" class="tenmei-date__utility" data-date-action="today">今日</button><button type="button" class="tenmei-date__utility" data-date-action="clear">クリア</button></div>`;
+            };
+            const openDate = (state) => {
+                if (activeRoot && activeRoot !== state.root) closeActive(false);
+                syncDate(state);
+                const base = state.selected || new Date();
+                state.focus = new Date(base.getFullYear(), base.getMonth(), base.getDate());
+                state.view = new Date(base.getFullYear(), base.getMonth(), 1);
+                activeRoot = state.root;
+                state.root.dataset.open = 'true';
+                state.popover.hidden = false;
+                state.trigger.setAttribute('aria-expanded', 'true');
+                renderDate(state);
+                window.requestAnimationFrame(() => state.popover.querySelector(`[data-date="${isoDate(state.focus)}"]`)?.focus({ preventScroll: true }));
+            };
+            const buildDate = (root) => {
+                const id = root.dataset.controlId;
+                const input = document.getElementById(id);
+                const trigger = document.getElementById(`${id}-trigger`);
+                const popover = document.getElementById(`${id}-dialog`);
+                const valueNode = trigger?.querySelector('.tenmei-date__value');
+                if (!id || !input || !trigger || !popover || !valueNode) return;
+                const state = { root, input, trigger, popover, valueNode, selected: null, focus: null, view: new Date() };
+                dateStates.set(id, state);
+                syncDate(state);
+                trigger.addEventListener('click', () => root.dataset.open === 'true' ? closeActive(true) : openDate(state));
+                trigger.addEventListener('keydown', (event) => {
+                    if (['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key)) { event.preventDefault(); openDate(state); }
+                    if (event.key === 'Escape') closeActive(true);
+                });
+                popover.addEventListener('click', (event) => {
+                    const action = event.target.closest('[data-date-action]')?.dataset.dateAction;
+                    if (action === 'previous-month' || action === 'next-month') {
+                        const delta = action === 'previous-month' ? -1 : 1;
+                        state.view = new Date(state.view.getFullYear(), state.view.getMonth() + delta, 1);
+                        state.focus = clampDay(state.focus, state.view.getFullYear(), state.view.getMonth());
+                        renderDate(state);
+                        return;
+                    }
+                    if (action === 'today') { setDate(state, new Date()); return; }
+                    if (action === 'clear') { setControlValue(input, ''); syncDate(state); closeActive(true); return; }
+                    const dayButton = event.target.closest('[data-date]');
+                    if (dayButton) setDate(state, parseISODate(dayButton.dataset.date));
+                });
+                popover.addEventListener('keydown', (event) => {
+                    if (event.key === 'Escape') { event.preventDefault(); closeActive(true); return; }
+                    const target = event.target.closest('[data-date]');
+                    if (!target) return;
+                    let next = new Date(state.focus.getFullYear(), state.focus.getMonth(), state.focus.getDate());
+                    if (event.key === 'ArrowLeft') next.setDate(next.getDate() - 1);
+                    else if (event.key === 'ArrowRight') next.setDate(next.getDate() + 1);
+                    else if (event.key === 'ArrowUp') next.setDate(next.getDate() - 7);
+                    else if (event.key === 'ArrowDown') next.setDate(next.getDate() + 7);
+                    else if (event.key === 'Home') next.setDate(next.getDate() - next.getDay());
+                    else if (event.key === 'End') next.setDate(next.getDate() + (6 - next.getDay()));
+                    else if (event.key === 'PageUp') next = clampDay(next, next.getFullYear() - (event.shiftKey ? 1 : 0), next.getMonth() - (event.shiftKey ? 0 : 1));
+                    else if (event.key === 'PageDown') next = clampDay(next, next.getFullYear() + (event.shiftKey ? 1 : 0), next.getMonth() + (event.shiftKey ? 0 : 1));
+                    else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setDate(state, state.focus); return; }
+                    else return;
+                    event.preventDefault();
+                    focusDate(state, next);
+                });
+                input.addEventListener('change', () => syncDate(state));
+            };
+            const initialize = () => {
+                document.querySelectorAll('[data-control-kind="choice"]').forEach(buildChoice);
+                document.querySelectorAll('[data-control-kind="date"]').forEach(buildDate);
+                document.addEventListener('pointerdown', (event) => { if (activeRoot && !activeRoot.contains(event.target)) closeActive(false); });
+                document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && activeRoot) closeActive(true); });
+            };
+            const syncAll = () => {
+                choiceStates.forEach(syncChoice);
+                dateStates.forEach(syncDate);
+            };
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
+            else initialize();
+            return { syncAll, closeActive };
+        })();
+        window.TenmeiCustomControls = TenmeiCustomControls;
 
         // --- シェア用画像生成 (崩れ防止・完全修正版) ---
         function generateResultImage() {
@@ -31181,7 +31510,7 @@ window.applyTheme = function() {
                 {
                     icon: 'bi-grid-1x2', title: '共通意匠と操作面を再設計',
                     changes: [
-                        { type: 'change', text: '社務所だよりを基準に、各画面の最上部を二重線Hero・共通円形印章・統一した見出し階層で構成。下層は通常カードへ整理し、コンテナ幅、余白、丸形アイコン、48px操作面、ライト・ダークテーマを横断して統一。ブラウザ標準の選択欄と記事一覧のページネーションも、既存機能を保った共通操作面へ刷新。', sourceIds: [87] }
+                        { type: 'change', text: '社務所だよりを基準に、各画面の最上部を二重線Hero・共通円形印章・統一した見出し階層で構成。下層は通常カードへ整理し、コンテナ幅、余白、丸形アイコン、48px操作面、ライト・ダークテーマを横断して統一。全ての選択欄と参拝記録の開始日・終了日は、OS標準に依存しない選択リスト・日付選択カレンダーへ移行し、キーボード操作と既存の値連携を維持。記事一覧のページネーションも共通操作面へ刷新。', sourceIds: [87] }
                     ]
                 },
                 {
