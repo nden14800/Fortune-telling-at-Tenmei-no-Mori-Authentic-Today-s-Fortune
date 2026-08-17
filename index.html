@@ -9576,6 +9576,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         padding: 22px !important;
         border-radius: 22px !important;
     }
+    /* 展開面はカード内のz-indexでは外側のisolationを越えられないため、
+       開いている間だけフィルターカード自体をタイムラインより前面へ出す。 */
+    #view-history .history-control-bar { overflow: visible; }
+    #view-history .history-control-bar.is-control-expanded { z-index: 160; }
     #view-history .history-card {
         padding: 18px 20px;
         border-radius: 18px;
@@ -27050,6 +27054,7 @@ function resetSearch() {
                 const popover = root.querySelector('.tenmei-choice__popover, .tenmei-date__popover');
                 if (trigger) trigger.setAttribute('aria-expanded', 'false');
                 if (popover) popover.hidden = true;
+                root.closest('.history-control-bar')?.classList.remove('is-control-expanded');
                 activeRoot = null;
                 if (returnFocus) trigger?.focus();
             };
@@ -27092,6 +27097,7 @@ function resetSearch() {
                 if (activeRoot && activeRoot !== state.root) closeActive(false);
                 activeRoot = state.root;
                 state.root.dataset.open = 'true';
+                state.root.closest('.history-control-bar')?.classList.add('is-control-expanded');
                 state.popover.hidden = false;
                 state.trigger.setAttribute('aria-expanded', 'true');
                 const selectedIndex = Math.max(0, state.options.findIndex((option) => option.value === state.input.value));
@@ -27195,6 +27201,7 @@ function resetSearch() {
                 state.view = new Date(base.getFullYear(), base.getMonth(), 1);
                 activeRoot = state.root;
                 state.root.dataset.open = 'true';
+                state.root.closest('.history-control-bar')?.classList.add('is-control-expanded');
                 state.popover.hidden = false;
                 state.trigger.setAttribute('aria-expanded', 'true');
                 renderDate(state);

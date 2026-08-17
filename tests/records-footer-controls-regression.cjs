@@ -124,6 +124,9 @@ requireCount(/showView\('/g, 15, '既存の内部画面遷移導線が不足し�
   'window.TenmeiCustomControls?.syncAll();',
   '.tenmei-choice__popover,',
   '.tenmei-date__popover {',
+  '#view-history .history-control-bar.is-control-expanded { z-index: 160; }',
+  "root.closest('.history-control-bar')?.classList.add('is-control-expanded');",
+  "root.closest('.history-control-bar')?.classList.remove('is-control-expanded');",
   '.dark .tenmei-choice__popover,',
   '@media (prefers-reduced-motion: reduce) {',
 ].forEach((text) => requireText(text, `カスタム選択欄・日付選択のUIまたはアクセシビリティ契約が不足しています: ${text}`));
@@ -139,6 +142,7 @@ console.log(JSON.stringify({
   footerVer4Structure: true,
   articlePaginationAccessible: true,
   customChoiceAndDateUiPreserved: true,
+  historyPopoverStackingPreserved: true,
   lightDarkResponsiveRulesPresent: true,
   darkHeroMetaUnboxed: true,
 }, null, 2));
