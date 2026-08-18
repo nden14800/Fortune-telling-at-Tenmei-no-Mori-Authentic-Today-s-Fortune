@@ -672,18 +672,21 @@
         font-size: 0.95rem !important;
         box-sizing: border-box !important;
     }
-    /* PC ホバー展開 */
-    @media (min-width: 1025px) and (hover: hover) {#sidebar:hover {
+    /* PC：サイドバーを開いている時だけ補助的なホバー表現を適用する。
+       明示的に閉じた状態では、ホバーしてもカテゴリ・ナビゲーション文言を再表示しない。 */
+    @media (min-width: 1025px) and (hover: hover) {
+        body:not(.sidebar-collapsed):not(.sidebar-button-mode) #sidebar:hover {
             width: 240px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.05);
-        }.dark #sidebar:hover {
+        }
+        .dark body:not(.sidebar-collapsed):not(.sidebar-button-mode) #sidebar:hover {
             box-shadow: 0 8px 40px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.35);
-        }/* テキスト表示 — 少し遅延してふわっと */
-        #sidebar:hover .nav-text {
+        }
+        body:not(.sidebar-collapsed):not(.sidebar-button-mode) #sidebar:hover .nav-text {
             opacity: 1 !important;
             transition: opacity 0.22s 0.07s ease !important;
-        }/* グループタイトル表示 */
-        #sidebar:hover .nav-group-title {
+        }
+        body:not(.sidebar-collapsed):not(.sidebar-button-mode) #sidebar:hover .nav-group-title {
             height: 18px !important;
             max-height: 18px !important;
             opacity: 0.45 !important;
@@ -718,8 +721,10 @@
         box-shadow: none !important;
     }
 
-    /* PCホバー展開時のトグルボタン表示 */
-    @media (min-width: 1025px) and (hover: hover) {#sidebar:hover .nav-toggle-btn { opacity: 1; }#sidebar:hover .nav-toggle-label { opacity: 1 !important; transition: opacity 0.22s 0.07s ease !important; }
+    /* PC：開いている時だけホバー時のトグル補助表示を適用する。 */
+    @media (min-width: 1025px) and (hover: hover) {
+        body:not(.sidebar-collapsed):not(.sidebar-button-mode) #sidebar:hover .nav-toggle-btn { opacity: 1; }
+        body:not(.sidebar-collapsed):not(.sidebar-button-mode) #sidebar:hover .nav-toggle-label { opacity: 1 !important; transition: opacity 0.22s 0.07s ease !important; }
     }
     /* モバイルはアイコンのみ表示 */
     @media (max-width: 1024px) {.nav-toggle-area { padding: 0 0 8px; margin-bottom: 4px; }
@@ -8853,11 +8858,7 @@ body.sidebar-collapsed:not(.sidebar-pinned) #sidebar .nav-group-title {
     opacity: 0 !important;
     pointer-events: none !important;
     transform: none !important;
-}/* ホバー（展開）時は表示 */
-body.sidebar-collapsed:not(.sidebar-pinned) #sidebar:hover .nav-group-title {
-    opacity: 0.6 !important;
-    transform: none !important;
-}/* sidebar-pinned（スマホ・タブレットのタップ展開）時は、sidebar-collapsedの
+}/* 閉じた状態ではカテゴリ見出しを表示しない。sidebar-pinned（スマホ・タブレットのタップ展開）時は、sidebar-collapsedの
    透明化を確実に解除し、確保済みの585行目台のルール(opacity:0.45)を有効にする */
 body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     position: static !important;
@@ -34144,17 +34145,12 @@ try {
     #sidebar.sidebar-v4 .nav-toggle-label { font-family: 'Zen Old Mincho', serif; font-size: 0.94rem; letter-spacing: 0.06em; }
 
     @media (min-width: 1367px) and (hover: hover) {
-        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover,
+        /* 閉じた状態は明示的な操作でのみ開く。ホバーだけでカテゴリを再表示しない。 */
         body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 { width: 264px; box-shadow: 0 20px 44px rgba(58, 34, 24, 0.15), inset 0 1px 0 rgba(255,255,255,0.52); }
-        html.dark body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover,
         html.dark body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 { box-shadow: 0 22px 50px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.035); }
-        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-text,
         body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-text { opacity: 1 !important; }
-        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-group-title,
         body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-group-title { height: 17px !important; max-height: 17px !important; margin: 9px 5px 5px !important; opacity: 0.75 !important; overflow: visible !important; }
-        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-icon-box,
         body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-icon-box { width: 48px !important; }
-        body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover .nav-btn,
         body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-btn { padding: 0 8px !important; }
     }
     @media (max-width: 1366px) {

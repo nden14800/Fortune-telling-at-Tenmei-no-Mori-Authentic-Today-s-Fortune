@@ -16,6 +16,17 @@ function requireStyle(text, message) {
 
 assert(finalStyle, 'サイドバー・追加札導線・更新の軌跡の最終スタイルを抽出できません。');
 
+assert.equal(
+  html.includes('body.sidebar-collapsed:not(.sidebar-pinned) #sidebar:hover .nav-group-title'),
+  false,
+  '閉じたPCサイドバーでホバー時にカテゴリ見出しを再表示する旧規則が残っています。'
+);
+assert.equal(
+  finalStyle.includes('body:not(.sidebar-button-mode) #sidebar.sidebar-v4:hover'),
+  false,
+  '閉じたPCサイドバーをホバーだけで展開するVer.4.0規則が残っています。'
+);
+
 [
   '<a class="sidebar-v4-skip-link" href="#main-content">本文へ移動</a>',
   '<nav id="sidebar" class="sidebar-v4" aria-label="天命乃杜の主要メニュー">',
@@ -43,6 +54,8 @@ assert(finalStyle, 'サイドバー・追加札導線・更新の軌跡の最終
   '#sidebar.sidebar-v4 .sidebar-v4-scroll-area {',
   '#sidebar.sidebar-v4 .nav-btn:focus-visible {',
   '#sidebar.sidebar-v4 .nav-btn.active .nav-icon-box::before {',
+  '@media (min-width: 1367px) and (hover: hover) {',
+  'body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 { width: 264px;',
   '@media (max-width: 1366px) {',
   'body.sidebar-pinned #sidebar.sidebar-v4 { width: min(264px, calc(100vw - 32px)) !important; }',
   'body.sidebar-pinned #main-content { margin-left: 84px !important; width: calc(100% - 84px) !important; }',
@@ -72,6 +85,7 @@ console.log(JSON.stringify({
   sidebarSemanticNavigation: true,
   sidebarKeyboardAndFocusSupport: true,
   sidebarThemeAndResponsiveRules: true,
+  closedDesktopSidebarDoesNotRevealCategoriesOnHover: true,
   mainFocusOutlineControlled: true,
   drawExploreResponsiveLayout: true,
   historySourceTooltipDarkTheme: true,
