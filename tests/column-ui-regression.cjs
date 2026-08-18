@@ -56,7 +56,7 @@ assert.equal(columnEntries.length, 61, '神籤草子の全61記事に一覧専�
 const columnDescriptionLengths = [];
 for (const [, id, description] of columnEntries) {
   columnDescriptionLengths.push(description.length);
-  assert(description.length >= 70, `神籤草子記事ID ${id} の一覧専用説明が社務所だより基準として短すぎます。`);
+  assert(description.length >= 70, `神籤草子記事ID ${id} の一覧専用説明が必要な文字量を満たしていません。`);
   assert(description.length <= 105, `神籤草子記事ID ${id} の一覧専用説明が一覧カード向けの上限を超えています。`);
   assert(!/[<>\r\n]/.test(description), `神籤草子記事ID ${id} の一覧専用説明に本文HTMLまたは改行が混入しています。`);
 }

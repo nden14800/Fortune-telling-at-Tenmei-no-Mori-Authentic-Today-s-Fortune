@@ -15,7 +15,7 @@ assert(article, 'Ver.4.0完了記事（id:87）を抽出できません。');
   'time: "12:37"',
   'tag: "新機能・改善"',
   'Ver.4.0「静謐な即応」について',
-  '社務所だよりを基準に、全画面の共通意匠を整備',
+  '全画面に共通する意匠と操作面を整備',
   '日々の参拝・占い・記録の導線を統一',
   'おみくじの体験を、心構えから結果の次の行動まで再設計',
   'サイドバーを最後の共通操作面として刷新',
@@ -37,6 +37,8 @@ assert(article, 'Ver.4.0完了記事（id:87）を抽出できません。');
 
 assert.equal(article.includes('date: "2026/08/12"'), false, '新記事の日付に直前記事の日付が混入しています。');
 assert.equal(article.includes('Ver.4.0'), true, '新記事でVer.4.0刷新の完了が明示されていません。');
+assert.equal(article.includes('社務所だよりを基準'), false, 'Ver.4.0記事で社務所だよりを全画面意匠の基準と誤認させてはいけません。');
+assert.equal(article.includes('社務所だより基準'), false, 'Ver.4.0記事で社務所だよりを全画面意匠の基準と誤認させてはいけません。');
 assert.equal(article.includes('<h3>'), true, '新記事に既存形式の大見出しがありません。');
 assert.equal(article.includes('<ul class="list-disc ml-5 mb-4">'), true, '新記事に既存形式の箇条書き構造がありません。');
 

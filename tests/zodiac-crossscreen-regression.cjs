@@ -108,7 +108,7 @@ assert.equal(zodiacSection.includes('id="zodiac-check-title"><i'), false, '最�
   '.dream-oracle-hero,',
   '.omamori-sanctuary-hero,',
   '.stats-record-hero',
-  '/* Ver.4.0: 横断整合 — ヒーロー英字ラベルを社務所だより基準へ統一 */',
+  '/* Ver.4.0: 横断整合 — ヒーロー英字ラベルを共通意匠へ統一 */',
   '#view-auth .auth-passport-kicker,',
   '#view-prefecture .prefecture-observatory-kicker,',
   '#view-zodiac .zodiac-oracle-kicker',
