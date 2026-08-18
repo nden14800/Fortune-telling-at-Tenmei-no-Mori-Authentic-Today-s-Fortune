@@ -67,9 +67,8 @@ for (const [, id, description] of columnEntries) {
   'class="column-library-card"',
   'class="column-library-card-surface"',
   'class="column-library-card-open"',
-  "const dedicatedDescription = String(item.desc || '').trim();",
-  "const sourceExcerpt = (dedicatedDescription || String(item.content || ''))",
-  'const excerpt = sourceExcerpt.length > 88',
+  "const listDescription = String(item.desc || '').trim();",
+  "const excerpt = listDescription || '本文を開いて、杜の読み物をお楽しみください。';",
   'aria-labelledby="${articleTitleId}"',
   'aria-label="${item.title}を読む"',
   'container.setAttribute(\'aria-busy\', \'true\')',
@@ -113,6 +112,11 @@ assert.equal(
   columnRenderer.includes('class="column-library-card-open" onclick="openArticle(\'column\','),
   false,
   '神籤草子カード内にフッターだけを操作面とする旧ボタンが残っています。'
+);
+assert.equal(
+  columnRenderer.includes('item.content ||'),
+  false,
+  '神籤草子一覧の説明欄が本文contentへフォールバックしています。'
 );
 assert.equal(
   columnRenderer.includes('\\${'),

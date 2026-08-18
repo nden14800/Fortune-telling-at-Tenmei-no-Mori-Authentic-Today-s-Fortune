@@ -24175,13 +24175,10 @@ window.renderFullColumnView = function() {
         const readingMeta = getArticleReadingMeta(item.content);
         const articleTitleId = `column-article-title-${item.id}`;
         const dateValue = String(item.date || '').replace(/\//g, '-');
-        // 一覧は記事用に書き下ろした説明を常に最優先する。本文抜粋は、過去データに説明がない場合だけの後方互換用。
-        const dedicatedDescription = String(item.desc || '').trim();
-        const sourceExcerpt = (dedicatedDescription || String(item.content || ''))
-            .replace(/<[^>]*>/g, ' ')
-            .replace(/\s+/g, ' ')
-            .trim();
-        const excerpt = sourceExcerpt.length > 88 ? `${sourceExcerpt.slice(0, 88)}…` : sourceExcerpt;
+        // 社務所だよりと同じく、一覧には記事用に書き下ろした説明だけを表示する。
+        // 本文contentは文字数・読了目安の算出にだけ使い、カード説明へのフォールバックには使わない。
+        const listDescription = String(item.desc || '').trim();
+        const excerpt = listDescription || '本文を開いて、杜の読み物をお楽しみください。';
         return `
             <article class="column-library-card" aria-labelledby="${articleTitleId}">
                 <button type="button" class="column-library-card-surface" onclick="openArticle('column', ${item.id})" aria-labelledby="${articleTitleId}" aria-label="${item.title}を読む"></button>
@@ -24191,7 +24188,7 @@ window.renderFullColumnView = function() {
                 </div>
                 <div class="column-library-card-copy">
                     <h3 id="${articleTitleId}" class="column-library-card-title">${item.title}</h3>
-                    <p class="column-library-card-excerpt">${excerpt || '本文を開いて、杜の読み物をお楽しみください。'}</p>
+                    <p class="column-library-card-excerpt">${excerpt}</p>
                 </div>
                 <div class="column-library-card-footer">
                     <div class="column-library-readinfo" aria-label="本文${readingMeta.charCount.toLocaleString()}文字、読了目安約${readingMeta.readMinutes}分">
