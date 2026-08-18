@@ -24175,7 +24175,9 @@ window.renderFullColumnView = function() {
         const readingMeta = getArticleReadingMeta(item.content);
         const articleTitleId = `column-article-title-${item.id}`;
         const dateValue = String(item.date || '').replace(/\//g, '-');
-        const sourceExcerpt = String(item.desc || item.content || '')
+        // 一覧は記事用に書き下ろした説明を常に最優先する。本文抜粋は、過去データに説明がない場合だけの後方互換用。
+        const dedicatedDescription = String(item.desc || '').trim();
+        const sourceExcerpt = (dedicatedDescription || String(item.content || ''))
             .replace(/<[^>]*>/g, ' ')
             .replace(/\s+/g, ' ')
             .trim();
