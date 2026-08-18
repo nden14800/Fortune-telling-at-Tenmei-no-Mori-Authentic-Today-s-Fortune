@@ -10504,92 +10504,172 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     }
 
     /* ==========================================
-       記事 読書進捗（社務所だより／神籤草子 共通）
-       本文を覆わないよう、進捗率と残り時間は記事ヘッダー内、
-       スクロール中の位置だけは最上部の細いレールで示す。
+       記事 読書ナビゲーション（社務所だより／神籤草子 共通）
+       本文領域を押し下げて上部に常設し、進捗率と残り時間を
+       常時見せながら、本文へ一切重ならないようにする。
        ========================================== */
-    #reading-progress-bar {
+    body.reading-progress-active #main-content {
+        padding-top: 64px;
+        transition: padding-top 0.2s ease-out;
+    }
+    #reading-progress-badge {
+        --reading-progress: 0%;
         position: fixed;
-        inset: 0 0 auto;
-        width: 100%;
-        height: 4px;
-        z-index: 9999;
-        background: color-mix(in srgb, var(--border-color, #a18c78) 22%, transparent);
+        top: 8px;
+        left: 50%;
+        z-index: 10000;
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr) auto;
+        align-items: center;
+        column-gap: 10px;
+        width: min(660px, calc(100vw - 120px));
+        min-height: 44px;
+        box-sizing: border-box;
+        padding: 5px 13px 5px 6px;
+        border: 1px solid color-mix(in srgb, var(--accent-gold) 31%, var(--border-color, #a18c78));
+        border-radius: 16px;
+        background: linear-gradient(112deg, rgba(255,255,255,0.97), color-mix(in srgb, var(--accent-gold) 7%, #fff));
+        box-shadow: 0 10px 28px rgba(75, 45, 31, 0.14), inset 0 1px 0 rgba(255,255,255,0.78);
+        color: var(--text-primary, #3f342b);
+        font-family: 'Zen Kaku Gothic New', sans-serif;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.2s ease;
+        transform: translate(-50%, -16px);
+        transition: opacity 0.22s ease-out, transform 0.22s ease-out, background 0.2s ease-out;
     }
-    .dark #reading-progress-bar { background: rgba(255,255,255,0.1); }
+    #reading-progress-badge.active { opacity: 1; transform: translate(-50%, 0); }
+    #reading-progress-badge .rp-orbit {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: conic-gradient(from -90deg, var(--accent-red) var(--reading-progress), color-mix(in srgb, var(--accent-gold) 18%, transparent) 0);
+        box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-gold) 24%, transparent);
+    }
+    #reading-progress-badge .rp-orbit::after {
+        content: '';
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--card-bg, #fffdf8);
+    }
+    #reading-progress-badge .rp-percent {
+        position: relative;
+        z-index: 1;
+        color: var(--accent-red);
+        font-size: 0.64rem;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.02em;
+    }
+    #reading-progress-badge .rp-copy {
+        display: grid;
+        gap: 1px;
+        min-width: 0;
+    }
+    #reading-progress-badge .rp-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: color-mix(in srgb, var(--accent-red) 78%, var(--text-primary, #3f342b));
+        font-size: 0.56rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        line-height: 1.1;
+    }
+    #reading-progress-badge .rp-time {
+        overflow: hidden;
+        color: color-mix(in srgb, var(--text-primary, #3f342b) 84%, var(--accent-gold));
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        line-height: 1.25;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    #reading-progress-badge .rp-progress-readout {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding-left: 12px;
+        border-left: 1px solid color-mix(in srgb, var(--border-color, #a18c78) 56%, transparent);
+        color: var(--accent-red);
+        font-size: 0.84rem;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.02em;
+    }
+    #reading-progress-badge .rp-check { display: none; color: var(--accent-gold); }
+    #reading-progress-badge.is-complete .rp-check { display: inline; }
+    #reading-progress-badge.is-complete .rp-time,
+    #reading-progress-badge.is-complete .rp-progress-readout { color: var(--accent-gold); }
+
+    #reading-progress-bar {
+        position: fixed;
+        top: 57px;
+        left: 50%;
+        z-index: 10001;
+        width: min(660px, calc(100vw - 120px));
+        height: 3px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--border-color, #a18c78) 28%, transparent);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-50%);
+        transition: opacity 0.2s ease-out;
+    }
     #reading-progress-bar.active { opacity: 1; }
     #reading-progress-fill {
         height: 100%;
         width: 0%;
-        background: linear-gradient(90deg, var(--accent-gold), var(--accent-red));
-        box-shadow: 0 0 8px rgba(197,160,89,0.48);
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
+        box-shadow: 0 0 9px rgba(197,160,89,0.58);
         transition: width 0.16s ease-out;
     }
     #reading-progress-fill.is-complete { animation: reading-progress-complete-pulse 0.8s ease; }
     @keyframes reading-progress-complete-pulse {
-        0%   { box-shadow: 0 0 8px rgba(197,160,89,0.48); }
-        45%  { box-shadow: 0 0 16px 3px rgba(197,160,89,0.82), 0 0 24px 5px rgba(185,28,28,0.34); }
-        100% { box-shadow: 0 0 8px rgba(197,160,89,0.48); }
+        0% { box-shadow: 0 0 7px rgba(197,160,89,0.5); }
+        48% { box-shadow: 0 0 15px 3px rgba(197,160,89,0.88), 0 0 22px 4px rgba(185,28,28,0.3); }
+        100% { box-shadow: 0 0 7px rgba(197,160,89,0.5); }
     }
-
-    #reading-progress-badge {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        width: 100%;
-        box-sizing: border-box;
-        margin-top: 16px;
-        padding: 10px 13px;
-        border: 1px solid color-mix(in srgb, var(--accent-gold) 26%, var(--border-color, #a18c78));
-        border-radius: 14px;
-        background: linear-gradient(115deg, color-mix(in srgb, var(--accent-gold) 9%, #fff), color-mix(in srgb, var(--accent-red) 4%, #fff));
-        color: var(--text-primary, #3f342b);
-        font-family: 'Zen Kaku Gothic New', sans-serif;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        line-height: 1.4;
-        opacity: 0;
-        transform: translateY(-4px);
-        pointer-events: none;
-        transition: opacity 0.2s ease-out, transform 0.2s ease-out, color 0.2s ease-out;
-    }
-    #reading-progress-badge .rp-label,
-    #reading-progress-badge .rp-values {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        min-width: 0;
-    }
-    #reading-progress-badge .rp-label { color: color-mix(in srgb, var(--accent-red) 72%, var(--text-primary, #3f342b)); }
-    #reading-progress-badge .rp-values { margin-left: auto; color: color-mix(in srgb, var(--text-primary, #3f342b) 88%, var(--accent-gold)); font-variant-numeric: tabular-nums; }
-    #reading-progress-badge.active { opacity: 1; transform: translateY(0); }
-    #reading-progress-badge.is-complete { color: var(--accent-gold); }
-    #reading-progress-badge .rp-sep { opacity: 0.42; }
-    #reading-progress-badge .rp-check { display: none; color: var(--accent-gold); }
-    #reading-progress-badge.is-complete .rp-check { display: inline; }
     .dark #reading-progress-badge {
-        background: linear-gradient(115deg, rgba(197,160,89,0.12), rgba(142,30,44,0.12));
-        border-color: rgba(229,199,128,0.24);
-        color: #ebe3d8;
+        background: linear-gradient(112deg, rgba(27,22,22,0.98), rgba(70,45,31,0.92));
+        border-color: rgba(229,199,128,0.32);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.07);
+        color: #eee6da;
     }
-    .dark #reading-progress-badge .rp-label { color: #e9c879; }
-    .dark #reading-progress-badge .rp-values { color: #e7dfd4; }
+    .dark #reading-progress-badge .rp-orbit::after { background: #201919; }
+    .dark #reading-progress-badge .rp-kicker { color: #e7c873; }
+    .dark #reading-progress-badge .rp-time { color: #eee6da; }
+    .dark #reading-progress-badge .rp-progress-readout { border-left-color: rgba(255,255,255,0.18); color: #f0d68e; }
+    .dark #reading-progress-bar { background: rgba(255,255,255,0.14); }
 
     @media (max-width: 640px) {
+        body.reading-progress-active #main-content { padding-top: 60px; }
         #reading-progress-badge {
-            gap: 8px;
-            margin-top: 13px;
-            padding: 9px 10px;
-            font-size: 0.67rem;
+            top: 7px;
+            grid-template-columns: 34px minmax(0, 1fr) auto;
+            column-gap: 8px;
+            width: calc(100vw - 20px);
+            min-height: 40px;
+            padding: 4px 10px 4px 5px;
+            border-radius: 14px;
         }
-        #reading-progress-badge .rp-label { white-space: nowrap; }
+        #reading-progress-badge .rp-orbit { width: 30px; height: 30px; }
+        #reading-progress-badge .rp-orbit::after { width: 23px; height: 23px; }
+        #reading-progress-badge .rp-percent { font-size: 0.57rem; }
+        #reading-progress-badge .rp-kicker { display: none; }
+        #reading-progress-badge .rp-time { font-size: 0.68rem; }
+        #reading-progress-badge .rp-progress-readout { gap: 4px; padding-left: 8px; font-size: 0.77rem; }
+        #reading-progress-bar { top: 52px; width: calc(100vw - 20px); }
     }
     @media (prefers-reduced-motion: reduce) {
+        body.reading-progress-active #main-content,
         #reading-progress-bar,
         #reading-progress-fill,
         #reading-progress-badge { transition: none !important; animation: none !important; }
@@ -12850,7 +12930,12 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
     <a class="sidebar-v4-skip-link" href="#main-content">本文へ移動</a>
 
-    <!-- 記事 読書進捗レール（数値と残り時間は各記事ヘッダー内に描画） -->
+    <!-- 記事 読書ナビゲーション（本文と重ならない予約領域へ常時表示） -->
+    <div id="reading-progress-badge" aria-label="現在の読書進捗">
+        <span class="rp-orbit" aria-hidden="true"><span id="reading-progress-percent" class="rp-percent">0%</span></span>
+        <span class="rp-copy"><span class="rp-kicker"><i class="bi bi-compass" aria-hidden="true"></i> READING NAVIGATION</span><span id="reading-progress-time" class="rp-time">残り約0分</span></span>
+        <span class="rp-progress-readout"><i class="bi bi-check-circle-fill rp-check" aria-hidden="true"></i><span id="reading-progress-readout">0%</span></span>
+    </div>
     <div id="reading-progress-bar" role="progressbar" aria-label="記事の読書進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="reading-progress-fill"></div></div>
 
     <!-- 幽玄の霧コンテナ (高密度版) -->
@@ -24646,10 +24731,6 @@ window.renderFullColumnView = function() {
                                 <span aria-hidden="true">・</span>
                                 <i class="bi bi-clock-history" aria-hidden="true"></i><span>読了目安 約${readingMeta.readMinutes}分</span>
                             </div>
-                            <div id="reading-progress-badge" class="article-reading-progress" aria-label="現在の読書進捗">
-                                <span class="rp-label"><i class="bi bi-bookmark-heart" aria-hidden="true"></i><span>読書の進み</span></span>
-                                <span class="rp-values"><i class="bi bi-check-circle-fill rp-check" aria-hidden="true"></i><span id="reading-progress-percent">0%</span><span class="rp-sep" aria-hidden="true">・</span><span id="reading-progress-time">残り約0分</span></span>
-                            </div>
                         </header>
                         <section id="summary-section" class="news-chronicle-summary" aria-labelledby="news-summary-heading">
                             <div class="news-chronicle-summary-head">
@@ -24683,10 +24764,6 @@ window.renderFullColumnView = function() {
                                 <i class="bi bi-file-earmark-text" aria-hidden="true"></i><span>${readingMeta.charCount.toLocaleString()}文字</span>
                                 <span aria-hidden="true">・</span>
                                 <i class="bi bi-clock-history" aria-hidden="true"></i><span>読了目安 約${readingMeta.readMinutes}分</span>
-                            </div>
-                            <div id="reading-progress-badge" class="article-reading-progress" aria-label="現在の読書進捗">
-                                <span class="rp-label"><i class="bi bi-bookmark-heart" aria-hidden="true"></i><span>読書の進み</span></span>
-                                <span class="rp-values"><i class="bi bi-check-circle-fill rp-check" aria-hidden="true"></i><span id="reading-progress-percent">0%</span><span class="rp-sep" aria-hidden="true">・</span><span id="reading-progress-time">残り約0分</span></span>
                             </div>
                         </header>
                         <section id="summary-section" class="column-reader-summary" aria-labelledby="column-summary-heading">
@@ -26309,6 +26386,7 @@ function showLoading(show) {
                 bar.setAttribute('aria-valuenow', '0');
             }
             if (badge) badge.classList.add('active');
+            document.body.classList.add('reading-progress-active');
 
             window.addEventListener('scroll', onReadingProgressScroll, { passive: true });
             updateReadingProgress(); // 初期表示
@@ -26326,8 +26404,9 @@ function showLoading(show) {
                 bar.classList.remove('active');
                 bar.setAttribute('aria-valuenow', '0');
             }
-            if (badge) { badge.classList.remove('active'); badge.classList.remove('is-complete'); }
+            if (badge) { badge.classList.remove('active'); badge.classList.remove('is-complete'); badge.style.setProperty('--reading-progress', '0%'); }
             if (fill) { fill.style.width = '0%'; fill.classList.remove('is-complete'); }
+            document.body.classList.remove('reading-progress-active');
         }
 
         function onReadingProgressScroll() {
@@ -26355,16 +26434,28 @@ function showLoading(show) {
             const fill = document.getElementById('reading-progress-fill');
             const badge = document.getElementById('reading-progress-badge');
             const percentEl = document.getElementById('reading-progress-percent');
+            const readoutEl = document.getElementById('reading-progress-readout');
             const timeEl = document.getElementById('reading-progress-time');
-            if (!fill || !percentEl || !timeEl) return;
+            if (!fill || !percentEl || !readoutEl || !timeEl) return;
+
+            const roundedPercent = Math.round(percent);
+            const progressText = roundedPercent + '%';
+            const remainingMinutes = Math.max(0, Math.ceil(readingProgressState.totalMinutes * (1 - percent / 100)));
+            const remainingText = percent >= 99.5 ? '読了しました' : `残り約${Math.max(1, remainingMinutes)}分`;
 
             fill.style.width = percent + '%';
-            percentEl.textContent = Math.round(percent) + '%';
+            percentEl.textContent = progressText;
+            readoutEl.textContent = progressText;
+            timeEl.textContent = remainingText;
+            if (badge) {
+                badge.style.setProperty('--reading-progress', progressText);
+                badge.setAttribute('aria-label', `現在の読書進捗 ${progressText}、${remainingText}`);
+            }
             const bar = document.getElementById('reading-progress-bar');
-            if (bar) bar.setAttribute('aria-valuenow', String(Math.round(percent)));
-
-            const remainingMinutes = Math.max(0, Math.ceil(readingProgressState.totalMinutes * (1 - percent / 100)));
-            timeEl.textContent = percent >= 99.5 ? '読了しました' : `残り約${Math.max(1, remainingMinutes)}分`;
+            if (bar) {
+                bar.setAttribute('aria-valuenow', String(roundedPercent));
+                bar.setAttribute('aria-valuetext', `${progressText}、${remainingText}`);
+            }
 
             if (percent >= 99.5 && !readingProgressState.reachedComplete) {
                 readingProgressState.reachedComplete = true;

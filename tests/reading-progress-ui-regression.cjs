@@ -10,37 +10,44 @@ function requireText(text, message) {
 }
 
 [
+  '記事 読書ナビゲーション（社務所だより／神籤草子 共通）',
+  '本文領域を押し下げて上部に常設し、進捗率と残り時間を',
+  '常時見せながら、本文へ一切重ならないようにする。',
+  'body.reading-progress-active #main-content {',
+  'padding-top: 64px;',
+  '<div id="reading-progress-badge" aria-label="現在の読書進捗">',
+  '<span class="rp-orbit" aria-hidden="true"><span id="reading-progress-percent" class="rp-percent">0%</span></span>',
+  'READING NAVIGATION',
+  '<span id="reading-progress-time" class="rp-time">残り約0分</span>',
+  '<span id="reading-progress-readout">0%</span>',
   '<div id="reading-progress-bar" role="progressbar" aria-label="記事の読書進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="reading-progress-fill"></div></div>',
-  '記事 読書進捗（社務所だより／神籤草子 共通）',
-  '本文を覆わないよう、進捗率と残り時間は記事ヘッダー内、',
-  'スクロール中の位置だけは最上部の細いレールで示す。',
-  'height: 4px;',
-  'pointer-events: none;',
-  'id="reading-progress-badge" class="article-reading-progress" aria-label="現在の読書進捗"',
-  '<span class="rp-label"><i class="bi bi-bookmark-heart" aria-hidden="true"></i><span>読書の進み</span></span>',
-  '<span id="reading-progress-percent">0%</span>',
-  '<span id="reading-progress-time">残り約0分</span>',
-  'bar.setAttribute(\'aria-valuenow\', \'0\');',
-  "if (bar) bar.setAttribute('aria-valuenow', String(Math.round(percent)));",
-  "timeEl.textContent = percent >= 99.5 ? '読了しました' : `残り約${Math.max(1, remainingMinutes)}分`;",
+  'position: fixed;',
+  'background: conic-gradient(',
+  'document.body.classList.add(\'reading-progress-active\');',
+  'document.body.classList.remove(\'reading-progress-active\');',
+  "readoutEl.textContent = progressText;",
+  "badge.style.setProperty('--reading-progress', progressText);",
+  "bar.setAttribute('aria-valuetext', `${progressText}、${remainingText}`);",
   '@media (max-width: 640px) {',
   '@media (prefers-reduced-motion: reduce) {',
-].forEach((text) => requireText(text, `読書進捗UIの構造・表示・アクセシビリティ契約が不足しています: ${text}`));
+].forEach((text) => requireText(text, `常設読書ナビゲーションの構造・更新・テーマ契約が不足しています: ${text}`));
 
-const panelMatches = html.match(/id="reading-progress-badge" class="article-reading-progress"/g) || [];
-assert.equal(panelMatches.length, 2, '社務所だよりと神籤草子の両記事テンプレートへ読書進捗面を配置する必要があります。');
+const badgeMatches = html.match(/id="reading-progress-badge"/g) || [];
+assert.equal(badgeMatches.length, 1, '読書進捗ナビゲーションは本文を覆う重複表示を避けるため、共通の常設面を一つだけ使用する必要があります。');
+assert.equal(html.includes('article-reading-progress'), false, '記事ヘッダー内に旧来の読書進捗面を残してはいけません。');
 
 const badgeStyle = html.match(/#reading-progress-badge\s*\{([\s\S]*?)\n\s*\}/)?.[1] || '';
-assert(badgeStyle, '読書進捗面のスタイル定義がありません。');
-assert.equal(/position\s*:\s*fixed/.test(badgeStyle), false, '進捗率と残り時間の読書進捗面を固定表示して本文へ重ねてはいけません。');
-assert(/width\s*:\s*100%/.test(badgeStyle), '読書進捗面は記事ヘッダー幅に収まる必要があります。');
-assert(/margin-top\s*:\s*16px/.test(badgeStyle), '読書進捗面は記事メタ情報から適切な余白を確保する必要があります。');
+assert(badgeStyle, '常設読書ナビゲーションのスタイル定義がありません。');
+assert(/position\s*:\s*fixed/.test(badgeStyle), '進捗率と残り時間はスクロール中も常時表示する必要があります。');
+assert(/width\s*:\s*min\(660px, calc\(100vw - 120px\)\)/.test(badgeStyle), '常設読書ナビゲーションはモバイルとPCの両方で本文幅を妨げない最大幅を持つ必要があります。');
+assert(/pointer-events\s*:\s*none/.test(badgeStyle), '常設読書ナビゲーションが本文の操作を妨げてはいけません。');
 
-console.log('記事詳細の読書進捗UI回帰テストに合格しました。');
+console.log('記事詳細の常設読書ナビゲーション回帰テストに合格しました。');
 console.log(JSON.stringify({
-  headerEmbeddedProgressPanels: panelMatches.length,
-  fixedOverlayRemoved: true,
-  topRailProgressPreserved: true,
+  singlePersistentNavigation: true,
+  contentReservationPreserved: true,
+  realtimePercentAndRemainingTimePreserved: true,
+  circularProgressIndicatorPreserved: true,
   lightDarkMobileReducedMotionContracts: true,
-  ariaProgressValuePreserved: true,
+  ariaProgressValueAndTextPreserved: true,
 }, null, 2));
