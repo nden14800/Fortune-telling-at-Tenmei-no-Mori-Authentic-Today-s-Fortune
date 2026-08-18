@@ -14940,8 +14940,266 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                         .result-v4-action-group .action-card-btn { min-height: 96px !important; }
                     }
 
-                    </style>
-            
+                                        </style>
+            <style id="member-gate-v4-style">
+                /* ================================================================
+                   Ver.4.0 追加刷新：会員限定・参拝者名案内
+                   背景ぼかし上のゲートと、その先の二つのdialogを一続きの
+                   「参拝の門」として再構成。既存ID・操作関数・native dialogは維持する。
+                   ================================================================ */
+                :root {
+                    --member-gate-ink: #352a25;
+                    --member-gate-muted: #74645b;
+                    --member-gate-paper: #fffdfa;
+                    --member-gate-paper-soft: #f7efe5;
+                    --member-gate-line: rgba(126, 87, 58, 0.21);
+                    --member-gate-gold: #a87522;
+                    --member-gate-red: #a82a2f;
+                    --member-gate-red-deep: #751d28;
+                    --member-gate-shadow: 0 30px 74px rgba(40, 26, 20, 0.22), 0 8px 22px rgba(112, 74, 49, 0.12);
+                }
+                .member-login-gate-card,
+                .member-login-dialog-surface,
+                .guest-name-dialog-surface {
+                    isolation: isolate;
+                    color: var(--member-gate-ink);
+                }
+                .member-login-gate-card {
+                    position: relative;
+                    overflow: hidden;
+                    min-height: 384px;
+                    padding: 30px 30px 26px;
+                    border: 1px solid var(--member-gate-line);
+                    border-top: 0;
+                    border-radius: 26px;
+                    background:
+                        linear-gradient(90deg, transparent 18px, rgba(168, 117, 34, 0.16) 18px, rgba(168, 117, 34, 0.16) calc(100% - 18px), transparent calc(100% - 18px)) top 13px left / 100% 1px no-repeat,
+                        radial-gradient(circle at 91% 9%, rgba(197, 160, 89, 0.17), transparent 29%),
+                        radial-gradient(circle at 7% 102%, rgba(168, 42, 47, 0.08), transparent 31%),
+                        linear-gradient(146deg, var(--member-gate-paper) 0%, var(--member-gate-paper-soft) 100%);
+                    box-shadow: var(--member-gate-shadow);
+                }
+                .member-login-gate-card::before,
+                .member-login-dialog-surface::before,
+                .guest-name-dialog-surface::before {
+                    position: absolute;
+                    z-index: -1;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 4px;
+                    content: '';
+                    background: linear-gradient(90deg, var(--member-gate-red-deep), var(--member-gate-red), #d3a347, var(--member-gate-red), var(--member-gate-red-deep));
+                }
+                .member-login-gate-card::after {
+                    position: absolute;
+                    z-index: -1;
+                    top: 23px;
+                    right: 22px;
+                    width: 90px;
+                    height: 90px;
+                    content: '';
+                    border: 1px solid rgba(168, 117, 34, 0.18);
+                    border-radius: 50%;
+                    box-shadow: 0 0 0 15px rgba(168, 117, 34, 0.05), 0 0 0 30px rgba(168, 117, 34, 0.03);
+                }
+                #lab-lock .member-login-gate-card { --member-gate-red: #5940a0; --member-gate-red-deep: #372660; }
+                #dream-login-overlay .member-login-gate-card { --member-gate-red: #a23d4c; --member-gate-red-deep: #6d2631; }
+                .member-login-gate-card > * { position: relative; z-index: 1; }
+                .member-login-gate-seal,
+                .member-login-dialog-seal {
+                    position: relative;
+                    width: 58px;
+                    height: 58px;
+                    margin-bottom: 13px;
+                    border: 1px solid rgba(255, 240, 201, 0.66);
+                    border-radius: 18px;
+                    color: #fff8e9;
+                    background: linear-gradient(145deg, var(--member-gate-red), var(--member-gate-red-deep));
+                    box-shadow: inset 0 1px 0 rgba(255,255,255,0.34), 0 10px 22px color-mix(in srgb, var(--member-gate-red-deep) 30%, transparent);
+                    transform: rotate(-3deg);
+                }
+                .member-login-gate-seal::after,
+                .member-login-dialog-seal::after {
+                    position: absolute;
+                    inset: 6px;
+                    content: '';
+                    border: 1px solid rgba(255, 239, 196, 0.32);
+                    border-radius: 13px;
+                }
+                .member-login-gate-seal i,
+                .member-login-dialog-seal i { position: relative; z-index: 1; }
+                .member-login-eyebrow {
+                    margin-bottom: 8px;
+                    color: var(--member-gate-gold);
+                    font-size: 0.62rem;
+                    letter-spacing: 0.22em;
+                }
+                .member-login-gate-title {
+                    max-width: 21rem;
+                    font-size: clamp(1.18rem, 2.7vw, 1.34rem);
+                    line-height: 1.62;
+                }
+                .member-login-gate-copy {
+                    margin: 9px auto 18px;
+                    color: var(--member-gate-muted);
+                    font-size: 0.80rem;
+                    line-height: 1.9;
+                }
+                .member-login-primary {
+                    min-height: 50px;
+                    border: 1px solid rgba(255, 232, 182, 0.63);
+                    border-radius: 14px;
+                    background: linear-gradient(135deg, var(--member-gate-red) 0%, var(--member-gate-red-deep) 100%);
+                    box-shadow: 0 10px 22px color-mix(in srgb, var(--member-gate-red-deep) 30%, transparent), inset 0 1px 0 rgba(255,255,255,0.24);
+                }
+                .member-login-primary:hover {
+                    box-shadow: 0 14px 28px color-mix(in srgb, var(--member-gate-red-deep) 38%, transparent), inset 0 1px 0 rgba(255,255,255,0.26);
+                }
+                .member-login-secondary {
+                    min-height: 42px;
+                    border: 1px solid transparent;
+                    border-radius: 12px;
+                }
+                .visitor-name-gate-actions {
+                    gap: 7px;
+                    padding-top: 12px;
+                    border-top: 1px solid rgba(168, 117, 34, 0.16);
+                }
+                .member-login-dialog,
+                .guest-name-dialog {
+                    width: min(calc(100vw - 32px), 508px);
+                    max-width: 508px;
+                    border-radius: 28px;
+                }
+                .member-login-dialog::backdrop,
+                .guest-name-dialog::backdrop {
+                    background: rgba(30, 23, 20, 0.66);
+                    backdrop-filter: blur(12px) saturate(0.78);
+                    -webkit-backdrop-filter: blur(12px) saturate(0.78);
+                }
+                .member-login-dialog-surface,
+                .guest-name-dialog-surface {
+                    overflow: hidden;
+                    padding: 38px 34px 30px;
+                    border: 1px solid var(--member-gate-line);
+                    border-top: 0;
+                    border-radius: 28px;
+                    background:
+                        linear-gradient(90deg, transparent 22px, rgba(168, 117, 34, 0.17) 22px, rgba(168, 117, 34, 0.17) calc(100% - 22px), transparent calc(100% - 22px)) top 15px left / 100% 1px no-repeat,
+                        radial-gradient(circle at 92% 7%, rgba(197, 160, 89, 0.17), transparent 28%),
+                        radial-gradient(circle at 7% 102%, rgba(168, 42, 47, 0.09), transparent 33%),
+                        linear-gradient(146deg, var(--member-gate-paper) 0%, var(--member-gate-paper-soft) 100%);
+                    box-shadow: 0 32px 90px rgba(0,0,0,0.38), 0 9px 24px rgba(112, 74, 49, 0.13);
+                }
+                .member-login-dialog-pattern {
+                    top: -58px;
+                    right: -41px;
+                    width: 188px;
+                    height: 188px;
+                    border-color: rgba(168, 117, 34, 0.18);
+                }
+                .member-login-dialog-pattern::before,
+                .member-login-dialog-pattern::after { border-color: rgba(168, 117, 34, 0.14); }
+                .member-login-dialog-close {
+                    top: 18px;
+                    right: 18px;
+                    width: 36px;
+                    height: 36px;
+                    border-color: rgba(126, 87, 58, 0.18);
+                    background: rgba(255, 253, 249, 0.78);
+                }
+                .member-login-dialog-header { padding: 2px 40px 0; }
+                .member-login-dialog-seal {
+                    width: 62px;
+                    height: 62px;
+                    margin-bottom: 13px;
+                    font-size: 1.45rem;
+                }
+                .member-login-dialog-title {
+                    max-width: 25rem;
+                    font-size: clamp(1.3rem, 4.3vw, 1.62rem);
+                    line-height: 1.58;
+                }
+                .member-login-dialog-description {
+                    max-width: 26rem;
+                    margin-top: 9px;
+                    color: var(--member-gate-muted);
+                    font-size: 0.84rem;
+                    line-height: 1.9;
+                }
+                .member-login-dialog-feature {
+                    align-items: flex-start;
+                    margin: 24px 0 15px;
+                    padding: 13px 15px;
+                    border-color: rgba(168, 117, 34, 0.24);
+                    border-radius: 15px;
+                    background: rgba(168, 117, 34, 0.075);
+                }
+                .member-login-dialog-feature-label { color: var(--member-gate-gold); font-size: 0.65rem; letter-spacing: 0.08em; }
+                .member-login-dialog-feature strong { color: var(--member-gate-ink); font-size: 0.88rem; }
+                .member-login-dialog-benefits {
+                    gap: 8px;
+                    margin-bottom: 23px;
+                    padding: 13px 1px 0;
+                    border-top: 1px solid rgba(168, 117, 34, 0.15);
+                }
+                .member-login-dialog-benefits li { color: var(--member-gate-muted); }
+                .member-login-dialog-benefits i { color: var(--member-gate-gold); }
+                .guest-name-dialog-field { margin: 24px 0 15px; }
+                .guest-name-dialog-label { color: var(--member-gate-ink); }
+                .guest-name-dialog-input {
+                    min-height: 54px;
+                    border-color: rgba(168, 117, 34, 0.30);
+                    border-radius: 14px;
+                    background: rgba(255,255,255,0.66);
+                }
+                .guest-name-dialog-guidance {
+                    gap: 10px;
+                    padding: 14px 15px;
+                    border-color: rgba(168, 117, 34, 0.22);
+                    border-radius: 15px;
+                    background: rgba(168, 117, 34, 0.065);
+                }
+                .guest-name-dialog-guidance i { color: var(--member-gate-gold); }
+                html.dark {
+                    --member-gate-ink: #f3ede6;
+                    --member-gate-muted: #c9bbb2;
+                    --member-gate-paper: #211c1a;
+                    --member-gate-paper-soft: #171414;
+                    --member-gate-line: rgba(225, 188, 113, 0.24);
+                    --member-gate-gold: #e2bd68;
+                    --member-gate-red: #b83b42;
+                    --member-gate-red-deep: #7f252d;
+                    --member-gate-shadow: 0 32px 84px rgba(0, 0, 0, 0.62), 0 8px 22px rgba(0, 0, 0, 0.30);
+                }
+                html.dark .member-login-gate-card,
+                html.dark .member-login-dialog-surface,
+                html.dark .guest-name-dialog-surface {
+                    background:
+                        linear-gradient(90deg, transparent 18px, rgba(226, 189, 104, 0.20) 18px, rgba(226, 189, 104, 0.20) calc(100% - 18px), transparent calc(100% - 18px)) top 13px left / 100% 1px no-repeat,
+                        radial-gradient(circle at 91% 9%, rgba(226, 189, 104, 0.12), transparent 29%),
+                        radial-gradient(circle at 7% 102%, rgba(184, 59, 66, 0.12), transparent 31%),
+                        linear-gradient(146deg, var(--member-gate-paper) 0%, var(--member-gate-paper-soft) 100%) !important;
+                }
+                html.dark .member-login-dialog-close { color: var(--member-gate-muted); border-color: rgba(226, 189, 104, 0.19); background: rgba(36, 30, 28, 0.76); }
+                html.dark .member-login-dialog-feature,
+                html.dark .guest-name-dialog-guidance { background: rgba(226, 189, 104, 0.09); }
+                html.dark .member-login-dialog-feature strong,
+                html.dark .guest-name-dialog-label { color: var(--member-gate-ink); }
+                html.dark .guest-name-dialog-input { color: var(--member-gate-ink); background: rgba(20, 17, 16, 0.68); }
+                @media (max-width: 520px) {
+                    .member-login-gate-card { min-height: 370px; padding: 28px 20px 22px; }
+                    .member-login-dialog, .guest-name-dialog { width: min(calc(100vw - 24px), 508px); }
+                    .member-login-dialog-surface, .guest-name-dialog-surface { padding: 34px 21px 23px; border-radius: 24px; }
+                    .member-login-dialog-header { padding: 1px 31px 0; }
+                    .member-login-dialog-feature { flex-direction: column; gap: 6px; }
+                    .member-login-dialog-feature strong { text-align: left; }
+                }
+                html.reduce-motion .member-login-gate-card,
+                html.reduce-motion .member-login-dialog-surface,
+                html.reduce-motion .guest-name-dialog-surface { transition: none !important; animation: none !important; }
+            </style>
             <div class="home-v4-shell">
                 <header class="home-v4-hero" aria-labelledby="home-page-title">
                     <div class="home-v4-animation" aria-hidden="true"><div id="home-anim-container" class="home-circle-container"></div></div>
@@ -18196,7 +18454,7 @@ function escapeHtml(str) {
     tag: "新機能・改善",
     tagColor: "text-indigo-600",
     borderColor: "border-indigo-500",
-    desc: "Ver.4.0「静謐な即応」として、全画面のヒーロー、カード、操作面、サイドバーを社務所だより基準へ再設計しました。あわせて、全選択欄と日付選択のカスタムUI化、神籤草子の新記事・視覚資料、記事一覧の文字数と読了目安、おみくじ結果のPDF保存、安全性・認証・公開文書の整合も改善しています。",
+    desc: "Ver.4.0「静謐な即応」として、全画面のヒーロー、カード、操作面、サイドバーを社務所だより基準へ再設計しました。あわせて、会員限定・参拝者名必須時の案内カードと設定画面、全選択欄と日付選択のカスタムUI化、神籤草子の新記事・視覚資料、記事一覧の文字数と読了目安、おみくじ結果のPDF保存、安全性・認証・公開文書の整合も改善しています。
     content: `
         <div class="article-content">
             <p>いつも「運勢・天命乃杜」をご利用いただき、誠にありがとうございます。運営者のnden148です。</p>
@@ -18262,8 +18520,16 @@ function escapeHtml(str) {
             <p>刷新後は、実際のライト・ダークテーマ、タブレット幅、キーボード操作、各画面の既存導線を確認しながら、見つかった表示上の不具合を順に修正しました。更新の軌跡では、ダークテーマ時の「参照：社務所だより」の表示面を専用の配色へ調整し、神籤草子ではライトテーマ時のカテゴリ色を見直しています。</p>
             <p>通知・確認モーダルを含む既存の重要な操作は、今回の刷新対象から外して維持しています。スイッチ、モーダル、会員限定表示、保存・共有、キーボード操作なども、画面ごとに既存の機能を保てていることを確認しています。</p>
 
+            <h3>9. 会員限定・参拝者名設定の案内面を、共通の「参拝の門」へ追加刷新</h3>
+            <p>Ver.4.0公開後の追加調整として、会員限定機能または参拝者名が必要な画面で、条件を満たしていないときに表示する案内面をあらためて見直しました。対象は、TENMEI Labs、AI夢占い、参拝の記録、おみくじの轍の背景ぼかし上に表示するカードと、その先に開く会員ログイン要求・参拝者名設定の二つの画面です。</p>
+            <ul class="list-disc ml-5 mb-4">
+                <li>背景ぼかし上の四つの案内カードを、共通の紙面、細い罫、印章、見出し階層、操作位置で統一しました。TENMEI LabsとAI夢占いは画面固有の差し色を保ちながら、参拝者名を必要とする二画面を含めて、案内の重心と主操作の位置を揃えています。</li>
+                <li>会員限定の案内画面と参拝者名設定画面は、同じ紙面・印章・情報面・操作面から成る一続きの「参拝の門」として再構成しました。どの機能から開いても、利用しようとした機能、次にできること、戻る操作が迷わず分かる構成です。</li>
+                <li>ログイン・参拝証発行、参拝者名の入力、閉じる操作、Esc、操作元へのフォーカス復帰、ライト・ダークテーマ、モーションを抑える設定は、従来の機能をそのまま維持しています。</li>
+            </ul>
+
             <h3>今後について</h3>
-            <p>今回の更新をもって、Ver.4.0「静謐な即応」として進めてきた全画面のUI/UX刷新は、ひとつの区切りを迎えました。今後も、日々の参拝で迷わず、安心してお使いいただけるよう、内容と操作の両面から必要な見直しを続けてまいります。</p>
+            <p>今回の追加調整を含め、Ver.4.0「静謐な即応」として進めてきた全画面のUI/UX刷新は、ひとつの区切りを迎えました。今後も、日々の参拝で迷わず、安心してお使いいただけるよう、内容と操作の両面から必要な見直しを続けてまいります。</p>
             <p>以上、今回の変更内容のご報告でした。引き続き「運勢・天命乃杜」をよろしくお願いいたします。</p>
         </div>
     `
@@ -31755,7 +32021,8 @@ window.applyTheme = function() {
                 {
                     icon: 'bi-shield-check', title: '安全性・ログイン導線・公開文書を点検',
                     changes: [
-                        { type: 'fix', text: '履歴表示のDOM XSS対策とセキュリティヘッダーを追加し、Google連携時に認証トークンがURLへ露出しないよう修正。会員限定のログイン要求・参拝者名案内・背景ぼかしカード・主ボタンの表示を全画面で統一し、当サイトについて・プライバシーポリシー・使い方の記載と実装の不整合も修正。', sourceIds: [87] }
+                        { type: 'fix', text: '履歴表示のDOM XSS対策とセキュリティヘッダーを追加し、Google連携時に認証トークンがURLへ露出しないよう修正。会員限定のログイン要求・参拝者名案内・背景ぼかしカード・主ボタンの表示を全画面で統一し、当サイトについて・プライバシーポリシー・使い方の記載と実装の不整合も修正。', sourceIds: [87] },
+                        { type: 'change', text: '会員限定または参拝者名が必要なときの案内面を、背景ぼかし上の四つのゲートカードと二つの設定画面を含めて追加刷新。共通の紙面、印章、罫、情報面、主操作で一続きに整え、ログイン・参拝証発行、参拝者名入力、Esc、閉鎖後のフォーカス復帰、ライト／ダークテーマを維持した。', sourceIds: [87] }
                     ]
                 },
                 {
@@ -32900,7 +33167,7 @@ window.applyTheme = function() {
                         </div>
                         <div class="ver-item-date">2026年8月17日リリース</div>
                         <div class="ver-item-name">「静謐な即応」全画面UI/UX大規模刷新</div>
-                        <div class="ver-item-desc">全画面の意匠・情報階層・操作面を社務所だより基準へ統一。記事・保存・安全性・おみくじ導線・サイドバーまでを見直し、既存機能を保ちながら日々の参拝体験を整えました。</div>
+                        <div class="ver-item-desc">全画面の意匠・情報階層・操作面を社務所だより基準へ統一。記事・保存・安全性・おみくじ導線・サイドバーに加え、会員限定・参拝者名必須時の案内面までを見直し、既存機能を保ちながら日々の参拝体験を整えました。</div>
                         <div class="ver-item-tags">
                             <span class="ver-item-tag">静謐な即応</span>
                             <span class="ver-item-tag">全画面刷新</span>

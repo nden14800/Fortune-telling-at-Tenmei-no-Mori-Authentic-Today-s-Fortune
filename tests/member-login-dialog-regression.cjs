@@ -110,6 +110,22 @@ requireText(
   '共通ログイン要求モーダルの低モーション対応がありません。'
 );
 requireText(
+  '<style id="member-gate-v4-style">',
+  '会員限定・参拝者名案内のVer.4.0追加刷新スタイルがありません。'
+);
+requireText(
+  'Ver.4.0 追加刷新：会員限定・参拝者名案内',
+  '会員限定・参拝者名案内の追加刷新意図が失われています。'
+);
+requireText(
+  '会員限定・参拝者名設定の案内面を、共通の「参拝の門」へ追加刷新',
+  'Ver.4.0社務所だよりに会員・参拝者名案内の追加刷新記録がありません。'
+);
+requireText(
+  '背景ぼかし上の四つのゲートカードと二つの設定画面を含めて追加刷新',
+  '更新の軌跡に会員・参拝者名案内の追加刷新記録がありません。'
+);
+requireText(
   '<div id="stats-lock" class="login-lock-container hidden">\n        <section class="member-login-gate-card visitor-name-gate-card"',
   '参拝記録の参拝者名ゲートが共通の和モダンカードへ統一されていません。'
 );
