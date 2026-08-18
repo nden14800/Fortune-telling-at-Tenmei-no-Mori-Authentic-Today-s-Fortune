@@ -12,21 +12,21 @@ const generatedImages = [
 ];
 const residualSvgArticles = [2, 3, 4];
 const structuredSvgSources = [
-  '/assets/article-images/omikuji-rank-order-12.svg',
+  'assets/article-images/omikuji-rank-order-12.svg',
 ];
 const tallScreenshotSources = [
-  '/assets/article-images/atago-jinja-omikuji-full-page.webp',
-  '/assets/article-images/macchan-mikuji-full-page.webp',
-  '/assets/article-images/omikuji-do-full-page.webp',
-  '/assets/article-images/omikuji-online-full-page.webp',
-  '/assets/article-images/prism-japan-omikuji-full-page.webp',
+  'assets/article-images/atago-jinja-omikuji-full-page.webp',
+  'assets/article-images/macchan-mikuji-full-page.webp',
+  'assets/article-images/omikuji-do-full-page.webp',
+  'assets/article-images/omikuji-online-full-page.webp',
+  'assets/article-images/prism-japan-omikuji-full-page.webp',
 ];
 const failures = [];
 
 for (const { id, extension } of generatedImages) {
   const paddedId = String(id).padStart(3, '0');
-  const imageReference = `/assets/article-images/column-${paddedId}-overview.${extension}`;
-  const svgReference = `/assets/article-images/column-${paddedId}-overview.svg`;
+  const imageReference = `assets/article-images/column-${paddedId}-overview.${extension}`;
+  const svgReference = `assets/article-images/column-${paddedId}-overview.svg`;
   const assetPath = path.join(assetDirectory, `column-${paddedId}-overview.${extension}`);
   const imageTagPattern = new RegExp(`<img src="${imageReference.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}" alt="([^"]+)" loading="lazy">`);
 
@@ -52,7 +52,7 @@ if (indexHtml.includes('.article-content .article-visual img[src$=".webp"]')) {
 }
 for (const id of residualSvgArticles) {
   const paddedId = String(id).padStart(3, '0');
-  const svgReference = `/assets/article-images/column-${paddedId}-overview.svg`;
+  const svgReference = `assets/article-images/column-${paddedId}-overview.svg`;
   const svgAsset = path.join(assetDirectory, `column-${paddedId}-overview.svg`);
   if (!fs.existsSync(svgAsset) || !indexHtml.includes(svgReference)) {
     failures.push(`生成上限後に保留したSVG資料が失われています: ${svgReference}`);
@@ -60,7 +60,7 @@ for (const id of residualSvgArticles) {
 }
 
 for (const source of structuredSvgSources) {
-  const assetPath = path.join(repositoryRoot, source.replace(/^\//, ''));
+  const assetPath = path.join(repositoryRoot, source);
   if (!fs.existsSync(assetPath) || !indexHtml.includes(source)) {
     failures.push(`正確な吉凶順を示す構造化SVGが失われています: ${source}`);
   }
@@ -74,6 +74,10 @@ for (const screenshotSource of tallScreenshotSources) {
   if (imagePosition === -1 || !figureFragment.includes('article-visual--screen')) {
     failures.push(`縦長スクリーンショットの全体表示用クラスがありません: ${screenshotSource}`);
   }
+}
+
+if (/(?:src|href)=["']\/(?:assets|favicon)\//.test(indexHtml)) {
+  failures.push('RawGitHackなどのサブパス配信で欠落するルート相対アセット参照が残っています。');
 }
 
 const disclosureLabelCount = (indexHtml.match(/<strong>AI生成イメージ<\/strong>/g) || []).length;
