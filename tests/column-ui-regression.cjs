@@ -15,10 +15,16 @@ const columnRendererEnd = html.indexOf('// 4. 記事詳細表示', columnRendere
 const columnRenderer = columnRendererStart >= 0 && columnRendererEnd >= 0
   ? html.slice(columnRendererStart, columnRendererEnd)
   : '';
+const columnDataStart = html.indexOf('const columnData = [');
+const columnDataEnd = html.indexOf('\n    ];', columnDataStart);
+const columnDataSource = columnDataStart >= 0 && columnDataEnd > columnDataStart
+  ? html.slice(columnDataStart, columnDataEnd)
+  : '';
 
 assert(columnSection, '神籤草子一覧画面のセクションを抽出できません。');
 assert(detailSection, '共用記事詳細画面のセクションを抽出できません。');
 assert(columnRenderer, '神籤草子一覧の描画関数を抽出できません。');
+assert(columnDataSource, '神籤草子の記事データを抽出できません。');
 
 function requireText(text, message) {
   assert(html.includes(text), message);
@@ -45,6 +51,13 @@ requireColumnSectionText("oninput=\"handleSearch('column', this.value)\"", '神�
 requireColumnSectionText('id="view-column-list" class="column-library-list"', '神籤草子一覧の動的リストIDが失われています。');
 requireColumnSectionText('id="column-pagination" class="column-library-pagination"', '神籤草子一覧のページングIDが失われています。');
 
+const columnEntries = [...columnDataSource.matchAll(/\n\s*\{\s*\n\s*id:\s*(\d+),[\s\S]*?\n\s*desc:\s*"([^"]+)",/g)];
+assert.equal(columnEntries.length, 61, '神籤草子の全61記事に一覧専用説明が設定されていません。');
+for (const [, id, description] of columnEntries) {
+  assert(description.length >= 24, `神籤草子記事ID ${id} の一覧専用説明が短すぎます。`);
+  assert(!/[<>]/.test(description), `神籤草子記事ID ${id} の一覧専用説明に本文HTMLが混入しています。`);
+}
+
 [
   'window.renderFullColumnView = function() {',
   "getPaginatedData('column', columnData)",
@@ -54,6 +67,8 @@ requireColumnSectionText('id="column-pagination" class="column-library-paginatio
   'class="column-library-card"',
   'class="column-library-card-surface"',
   'class="column-library-card-open"',
+  "const sourceExcerpt = String(item.desc || item.content || '')",
+  'const excerpt = sourceExcerpt.length > 88',
   'aria-labelledby="${articleTitleId}"',
   'aria-label="${item.title}を読む"',
   'container.setAttribute(\'aria-busy\', \'true\')',
@@ -140,6 +155,8 @@ console.log(JSON.stringify({
   summaryContractPreserved: true,
   tocAndReadingContractPreserved: true,
   imageContractPreserved: true,
+  allArticleListDescriptionsPresent: true,
+  listDescriptionPreferredOverBodyExcerpt: true,
   themeRulesPresent: true,
   visibleFocusPresent: true,
   responsiveLayoutPresent: true,

@@ -6,8 +6,13 @@ const indexPath = path.join(repositoryRoot, 'index.html');
 const assetDirectory = path.join(repositoryRoot, 'assets', 'article-images');
 const indexHtml = fs.readFileSync(indexPath, 'utf8');
 const generatedImages = [
+  ...Array.from({ length: 20 }, (_, offset) => ({ id: 5 + offset, extension: 'webp' })),
   ...Array.from({ length: 20 }, (_, offset) => ({ id: 25 + offset, extension: 'webp' })),
   ...[45, 46, 47, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61].map((id) => ({ id, extension: 'webp' })),
+];
+const residualSvgArticles = [2, 3, 4];
+const structuredSvgSources = [
+  '/assets/article-images/omikuji-rank-order-12.svg',
 ];
 const tallScreenshotSources = [
   '/assets/article-images/atago-jinja-omikuji-full-page.webp',
@@ -45,6 +50,22 @@ if (!indexHtml.includes('.article-visual--ai-generated img') || !indexHtml.inclu
 if (indexHtml.includes('.article-content .article-visual img[src$=".webp"]')) {
   failures.push('全WebPへ固定16:9を適用する規則が残っています。');
 }
+for (const id of residualSvgArticles) {
+  const paddedId = String(id).padStart(3, '0');
+  const svgReference = `/assets/article-images/column-${paddedId}-overview.svg`;
+  const svgAsset = path.join(assetDirectory, `column-${paddedId}-overview.svg`);
+  if (!fs.existsSync(svgAsset) || !indexHtml.includes(svgReference)) {
+    failures.push(`生成上限後に保留したSVG資料が失われています: ${svgReference}`);
+  }
+}
+
+for (const source of structuredSvgSources) {
+  const assetPath = path.join(repositoryRoot, source.replace(/^\//, ''));
+  if (!fs.existsSync(assetPath) || !indexHtml.includes(source)) {
+    failures.push(`正確な吉凶順を示す構造化SVGが失われています: ${source}`);
+  }
+}
+
 for (const screenshotSource of tallScreenshotSources) {
   const imagePosition = indexHtml.indexOf(screenshotSource);
   const figureStart = indexHtml.lastIndexOf('<figure', imagePosition);
@@ -80,4 +101,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`神籤草子画像回帰テストに成功しました。AI生成画像 ${generatedImages.length} 件と縦長スクリーンショット ${tallScreenshotSources.length} 件を確認しました。`);
+console.log(`神籤草子画像回帰テストに成功しました。AI生成画像 ${generatedImages.length} 件、保留SVG ${residualSvgArticles.length} 件、構造化SVG ${structuredSvgSources.length} 件、縦長スクリーンショット ${tallScreenshotSources.length} 件を確認しました。`);
