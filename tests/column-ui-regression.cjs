@@ -98,7 +98,7 @@ assert(
   'class="column-reader-body"',
   'class="article-content prose dark:prose-invert max-w-none leading-loose text-justify"',
   'buildArticleTOC();',
-  'startReadingProgress(readingMeta.readMinutes);',
+  'startReadingProgress(readingMeta);',
 ].forEach((text) => {
   requireText(text, `神籤草子記事詳細の既存機能接続が失われています: ${text}`);
 });
