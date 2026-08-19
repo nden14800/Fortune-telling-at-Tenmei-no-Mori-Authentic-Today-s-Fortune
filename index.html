@@ -13025,10 +13025,10 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         <button id="reading-progress-details-toggle" class="rp-details-toggle" type="button" aria-expanded="false" aria-controls="reading-progress-details"><i class="bi bi-sliders2-vertical" aria-hidden="true"></i><span>計測</span></button>
     </div>
     <section id="reading-progress-details" class="rp-details" aria-label="読書ペースと残り時間の設定" hidden>
-        <div class="rp-details-head"><div><p>読書ペース</p><small>残り時間の計算方式を選べます</small></div><span id="reading-progress-details-state" class="rp-details-state">標準速度</span></div>
-        <div class="rp-mode-switch" role="group" aria-label="残り時間の計算方式"><button id="reading-progress-mode-standard" type="button" class="is-selected" aria-pressed="true"><i class="bi bi-speedometer2" aria-hidden="true"></i><span>標準</span></button><button id="reading-progress-mode-personal" type="button" aria-pressed="false"><i class="bi bi-person-walking" aria-hidden="true"></i><span>自分のペース</span></button></div>
-        <dl class="rp-pace-stats"><div><dt>標準速度</dt><dd id="reading-progress-standard-speed">500字／分</dd></div><div><dt>自分のペース</dt><dd id="reading-progress-personal-speed">計測を開始すると表示</dd></div><div><dt>現在の計算</dt><dd id="reading-progress-method">本文500字／分＋画像閲覧時間</dd></div></dl>
-        <div class="rp-details-actions"><button id="reading-progress-reset-pace" type="button"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i><span>ペースを再計測</span></button><span id="reading-progress-sample-status" class="rp-sample-status">標準速度で表示中</span></div>
+        <div class="rp-details-head"><div><p>読書ペース</p><small>残り時間の計算方式を選べます</small></div><span id="reading-progress-details-state" class="rp-details-state">計測中</span></div>
+        <div class="rp-mode-switch" role="group" aria-label="残り時間の計算方式"><button id="reading-progress-mode-standard" type="button" aria-pressed="false"><i class="bi bi-speedometer2" aria-hidden="true"></i><span>標準</span></button><button id="reading-progress-mode-personal" type="button" class="is-selected" aria-pressed="true"><i class="bi bi-person-walking" aria-hidden="true"></i><span>自分のペース</span></button></div>
+        <dl class="rp-pace-stats"><div><dt>標準速度</dt><dd id="reading-progress-standard-speed">500字／分</dd></div><div><dt>自分のペース</dt><dd id="reading-progress-personal-speed">スクロールで計測</dd></div><div><dt>現在の計算</dt><dd id="reading-progress-method">短い読書区間から計測</dd></div></dl>
+        <div class="rp-details-actions"><button id="reading-progress-reset-pace" type="button"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i><span>ペースを再計測</span></button><span id="reading-progress-sample-status" class="rp-sample-status">短い読書区間から順次計測中</span></div>
         <p class="rp-details-note"><i class="bi bi-info-circle" aria-hidden="true"></i> 自分のペースは、この記事内のスクロール進行量と経過時間から算出する参考値です。視線や理解度を測定するものではありません。</p>
     </section>
     <div id="reading-progress-bar" role="progressbar" aria-label="記事の読書進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="reading-progress-fill"></div></div>
@@ -26459,7 +26459,7 @@ function showLoading(show) {
         // ==========================================
         const STANDARD_ARTICLE_READING_SPEED = 500;
         const PERSONAL_PACE_IDLE_LIMIT_MS = 20000;
-        const PERSONAL_PACE_MIN_ACTIVE_MS = 9000;
+        const PERSONAL_PACE_MIN_ACTIVE_MS = 1500;
         const readingProgressState = {
             contentEl: null,
             totalMinutes: 1,
@@ -26467,7 +26467,7 @@ function showLoading(show) {
             imageSeconds: 0,
             ticking: false,
             reachedComplete: false,
-            timeMode: 'standard',
+            timeMode: 'personal',
             personalCharsPerMinute: null,
             activeReadMs: 0,
             lastScrollAt: 0,
@@ -26487,7 +26487,7 @@ function showLoading(show) {
             readingProgressState.charCount = Math.max(1, Number(meta.charCount) || Math.round(readingProgressState.totalMinutes * STANDARD_ARTICLE_READING_SPEED));
             readingProgressState.imageSeconds = Math.max(0, Number(meta.imageSeconds) || 0);
             readingProgressState.reachedComplete = false;
-            readingProgressState.timeMode = 'standard';
+            readingProgressState.timeMode = 'personal';
             resetPersonalReadingPace();
             setupReadingProgressControls();
             setReadingProgressDetails(false);
@@ -26528,8 +26528,8 @@ function showLoading(show) {
             if (badge) { badge.classList.remove('active'); badge.classList.remove('is-complete'); badge.style.setProperty('--reading-progress', '0%'); }
             if (fill) { fill.style.width = '0%'; fill.classList.remove('is-complete'); }
             if (ring) ring.style.strokeDashoffset = '94.248';
-            if (timeEl) timeEl.textContent = '標準：残り約0分';
-            if (modeLabel) modeLabel.textContent = '標準';
+            if (timeEl) timeEl.textContent = '自分：計測中（標準で0秒）';
+            if (modeLabel) modeLabel.textContent = '自分';
             document.body.classList.remove('reading-progress-active');
         }
 
@@ -26603,7 +26603,7 @@ function showLoading(show) {
 
             const sampledPercent = Math.max(0, readingProgressState.maxSamplePercent - readingProgressState.sampleStartPercent);
             const sampledChars = readingProgressState.charCount * (sampledPercent / 100);
-            if (readingProgressState.activeReadMs < PERSONAL_PACE_MIN_ACTIVE_MS || sampledChars < Math.max(30, readingProgressState.charCount * 0.01)) return;
+            if (readingProgressState.activeReadMs < PERSONAL_PACE_MIN_ACTIVE_MS || sampledChars < Math.max(20, readingProgressState.charCount * 0.005)) return;
 
             const instantaneous = sampledChars / (readingProgressState.activeReadMs / 60000);
             const bounded = Math.max(80, Math.min(1800, instantaneous));
@@ -26612,31 +26612,41 @@ function showLoading(show) {
                 : readingProgressState.personalCharsPerMinute * 0.72 + bounded * 0.28;
         }
 
-        function getStandardRemainingMinutes(percent) {
-            const remainingRatio = Math.max(0, 1 - percent / 100);
-            return Math.max(0, Math.ceil(readingProgressState.totalMinutes * remainingRatio));
+        function formatRemainingTime(seconds) {
+            const safeSeconds = Math.max(1, Math.ceil(seconds));
+            const minutes = Math.floor(safeSeconds / 60);
+            const remainderSeconds = safeSeconds % 60;
+            return minutes > 0 ? `${minutes}分${String(remainderSeconds).padStart(2, '0')}秒` : `${remainderSeconds}秒`;
         }
 
-        function getPersonalRemainingMinutes(percent) {
+        function getStandardRemainingSeconds(percent) {
+            const remainingRatio = Math.max(0, 1 - percent / 100);
+            const textSeconds = (readingProgressState.charCount / STANDARD_ARTICLE_READING_SPEED) * 60 * remainingRatio;
+            const imageSeconds = readingProgressState.imageSeconds * remainingRatio;
+            return Math.max(0, Math.ceil(textSeconds + imageSeconds));
+        }
+
+        function getPersonalRemainingSeconds(percent) {
             if (!readingProgressState.personalCharsPerMinute) return null;
             const remainingRatio = Math.max(0, 1 - percent / 100);
-            const textMinutes = (readingProgressState.charCount * remainingRatio) / readingProgressState.personalCharsPerMinute;
-            const imageMinutes = (readingProgressState.imageSeconds * remainingRatio) / 60;
-            return Math.max(0, Math.ceil(textMinutes + imageMinutes));
+            const textSeconds = ((readingProgressState.charCount * remainingRatio) / readingProgressState.personalCharsPerMinute) * 60;
+            const imageSeconds = readingProgressState.imageSeconds * remainingRatio;
+            return Math.max(0, Math.ceil(textSeconds + imageSeconds));
         }
 
         function getRemainingPresentation(percent) {
             if (percent >= 99.5) return { text: '読了しました', aria: '読了しました', source: '読了' };
-            const standardMinutes = Math.max(1, getStandardRemainingMinutes(percent));
+            const standardSeconds = getStandardRemainingSeconds(percent);
+            const standardTime = formatRemainingTime(standardSeconds);
             if (readingProgressState.timeMode === 'personal') {
-                const personalMinutes = getPersonalRemainingMinutes(percent);
-                if (personalMinutes !== null) {
-                    const minutes = Math.max(1, personalMinutes);
-                    return { text: `自分：残り約${minutes}分`, aria: `自分のペースで残り約${minutes}分`, source: '自分のペース' };
+                const personalSeconds = getPersonalRemainingSeconds(percent);
+                if (personalSeconds !== null) {
+                    const personalTime = formatRemainingTime(personalSeconds);
+                    return { text: `自分：残り${personalTime}`, aria: `自分のペースで残り${personalTime}`, source: '自分のペース' };
                 }
-                return { text: `自分：計測中（標準で約${standardMinutes}分）`, aria: `自分のペースを計測中。標準速度では残り約${standardMinutes}分`, source: '計測中' };
+                return { text: `自分：計測中（標準で${standardTime}）`, aria: `自分のペースを計測中。標準速度では残り${standardTime}`, source: '計測中' };
             }
-            return { text: `標準：残り約${standardMinutes}分`, aria: `標準速度で残り約${standardMinutes}分`, source: '標準速度' };
+            return { text: `標準：残り${standardTime}`, aria: `標準速度で残り${standardTime}`, source: '標準速度' };
         }
 
         function syncReadingPaceControls() {
@@ -26661,7 +26671,7 @@ function showLoading(show) {
             if (standardSpeed) standardSpeed.textContent = `${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分`;
             if (personalSpeed) personalSpeed.textContent = pace ? `${Math.round(pace).toLocaleString()}字／分` : 'スクロールで計測';
             if (method) method.textContent = isPersonal && pace ? '進行量＋経過時間＋画像' : `本文${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分＋画像閲覧時間`;
-            if (sampleStatus) sampleStatus.textContent = pace ? `${sampled}%分の進行を参考に計測中` : (isPersonal ? '読み進めると計測開始' : '標準速度で表示中');
+            if (sampleStatus) sampleStatus.textContent = pace ? `${sampled}%分の進行を参考に計測中` : (isPersonal ? '短い読書区間から順次計測中' : '標準速度で表示中');
         }
 
         function onReadingProgressScroll() {
