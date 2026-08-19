@@ -10545,16 +10545,31 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         width: 34px;
         height: 34px;
         border-radius: 50%;
-        background: conic-gradient(from -90deg, var(--accent-red) var(--reading-progress), color-mix(in srgb, var(--accent-gold) 18%, transparent) 0);
+        background: var(--card-bg, #fffdf8);
         box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-gold) 24%, transparent);
     }
-    #reading-progress-badge .rp-orbit::after {
-        content: '';
+    #reading-progress-badge .rp-ring {
         position: absolute;
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        background: var(--card-bg, #fffdf8);
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        transform: rotate(-90deg);
+    }
+    #reading-progress-badge .rp-ring-track,
+    #reading-progress-badge .rp-ring-progress {
+        fill: none;
+        stroke-width: 3;
+    }
+    #reading-progress-badge .rp-ring-track {
+        stroke: color-mix(in srgb, var(--accent-gold) 18%, transparent);
+    }
+    #reading-progress-badge .rp-ring-progress {
+        stroke: var(--accent-red);
+        stroke-linecap: round;
+        stroke-dasharray: 94.248;
+        stroke-dashoffset: 94.248;
+        transition: stroke-dashoffset 0.16s ease-out, stroke 0.2s ease-out;
     }
     #reading-progress-badge .rp-percent {
         position: relative;
@@ -10643,7 +10658,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         box-shadow: 0 12px 30px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.07);
         color: #eee6da;
     }
-    .dark #reading-progress-badge .rp-orbit::after { background: #201919; }
+    .dark #reading-progress-badge .rp-orbit { background: #201919; }
     .dark #reading-progress-badge .rp-kicker { color: #e7c873; }
     .dark #reading-progress-badge .rp-time { color: #eee6da; }
     .dark #reading-progress-badge .rp-progress-readout { border-left-color: rgba(255,255,255,0.18); color: #f0d68e; }
@@ -12932,7 +12947,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
 
     <!-- 記事 読書ナビゲーション（本文と重ならない予約領域へ常時表示） -->
     <div id="reading-progress-badge" aria-label="現在の読書進捗">
-        <span class="rp-orbit" aria-hidden="true"><span id="reading-progress-percent" class="rp-percent">0%</span></span>
+        <span class="rp-orbit" aria-hidden="true"><svg class="rp-ring" viewBox="0 0 36 36" focusable="false"><circle class="rp-ring-track" cx="18" cy="18" r="15"></circle><circle id="reading-progress-ring" class="rp-ring-progress" cx="18" cy="18" r="15"></circle></svg><span id="reading-progress-percent" class="rp-percent">0%</span></span>
         <span class="rp-copy"><span class="rp-kicker"><i class="bi bi-compass" aria-hidden="true"></i> READING NAVIGATION</span><span id="reading-progress-time" class="rp-time">残り約0分</span></span>
         <span class="rp-progress-readout"><i class="bi bi-check-circle-fill rp-check" aria-hidden="true"></i><span id="reading-progress-readout">0%</span></span>
     </div>
@@ -26433,10 +26448,11 @@ function showLoading(show) {
 
             const fill = document.getElementById('reading-progress-fill');
             const badge = document.getElementById('reading-progress-badge');
+            const ring = document.getElementById('reading-progress-ring');
             const percentEl = document.getElementById('reading-progress-percent');
             const readoutEl = document.getElementById('reading-progress-readout');
             const timeEl = document.getElementById('reading-progress-time');
-            if (!fill || !percentEl || !readoutEl || !timeEl) return;
+            if (!fill || !ring || !percentEl || !readoutEl || !timeEl) return;
 
             const roundedPercent = Math.round(percent);
             const progressText = roundedPercent + '%';
@@ -26444,6 +26460,7 @@ function showLoading(show) {
             const remainingText = percent >= 99.5 ? '読了しました' : `残り約${Math.max(1, remainingMinutes)}分`;
 
             fill.style.width = percent + '%';
+            ring.style.strokeDashoffset = String(94.248 * (1 - percent / 100));
             percentEl.textContent = progressText;
             readoutEl.textContent = progressText;
             timeEl.textContent = remainingText;
