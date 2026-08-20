@@ -87,7 +87,7 @@ if (/(?:src|href)=["']\/(?:assets|favicon)\//.test(indexHtml)) {
   failures.push('RawGitHackなどのサブパス配信で欠落するルート相対アセット参照が残っています。');
 }
 
-const disclosureLabelCount = (indexHtml.match(/<strong>AI生成イメージ<\/strong>/g) || []).length;
+const disclosureLabelCount = (indexHtml.match(/<strong>AIで制作したイメージ<\/strong>/g) || []).length;
 const nonPhotographNoticeCount = (indexHtml.match(/実在の場所・人物・出来事を撮影した写真ではありません。/g) || []).length;
 const disclosureFigureCount = (indexHtml.match(/<figure class="article-visual article-visual--overview article-visual--ai-generated">/g) || []).length;
 
@@ -101,8 +101,11 @@ if (nonPhotographNoticeCount !== expectedGeneratedImageCount * 2) {
 if (disclosureFigureCount !== expectedGeneratedImageCount) {
   failures.push(`AI生成画像用figureの件数が不正です: ${disclosureFigureCount}`);
 }
-if (!indexHtml.includes('ai-image-disclosure__badge') || !indexHtml.includes('ai-image-disclosure__copy')) {
-  failures.push('AI生成ラベルの表示部品がありません。');
+if (!indexHtml.includes('ai-image-disclosure__mark') || !indexHtml.includes('ai-image-disclosure__badge') || !indexHtml.includes('ai-image-disclosure__copy')) {
+  failures.push('AI生成画像の開示カード部品がありません。');
+}
+if (!indexHtml.includes('AIで制作したイメージ') || !indexHtml.includes('実在の場所・人物・出来事を撮影した写真ではありません。')) {
+  failures.push('AI生成画像の開示カードに必要な平易な説明がありません。');
 }
 
 if (failures.length > 0) {
