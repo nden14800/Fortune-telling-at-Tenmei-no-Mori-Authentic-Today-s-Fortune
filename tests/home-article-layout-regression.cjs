@@ -73,8 +73,11 @@ function requireHomeText(text, message) {
 ].forEach((text) => requireText(text, `ホームのVer.4.0意匠規則が失われています: ${text}`));
 
 [
-  '#view-news .news-bulletin-card,',
-  '#view-column .column-library-card { min-height: 0 !important; padding: 0 !important; }',
+  '.news-bulletin-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; align-items: stretch;',
+  '.column-library-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; align-items: stretch;',
+  '.news-bulletin-card {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    min-width: 0;\n    min-height: 0;',
+  '.column-library-card {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    min-width: 0;\n    min-height: 0;',
+  'margin-top: auto;',
   '#view-article-detail.news-chronicle-layout .news-chronicle-frame,',
   '#view-article-detail.column-reader-layout .column-reader-frame { width: 100%; }',
   '#view-article-detail.news-chronicle-layout .news-chronicle-document,',

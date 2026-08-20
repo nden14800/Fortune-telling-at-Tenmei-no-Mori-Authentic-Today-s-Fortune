@@ -3531,13 +3531,13 @@
 .column-library-search-field:focus-within { border-color: var(--column-violet); background: var(--column-paper); box-shadow: 0 0 0 3px rgba(113, 84, 196, 0.17); }
 .column-library-search-field input { width: 100%; min-width: 0; flex: 1 1 auto; border: 0; outline: 0; color: var(--column-ink); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.9rem; line-height: 1.5; }
 .column-library-search-field input::placeholder { color: var(--column-muted); opacity: 0.78; }
-.column-library-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; margin-top: 1.15rem; }
+.column-library-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; align-items: stretch; gap: 0.9rem; margin-top: 1.15rem; }
 .column-library-card {
     position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    display: flex;
+    flex-direction: column;
     min-width: 0;
-    min-height: 254px;
+    min-height: 0;
     overflow: hidden;
     border: 1px solid rgba(86, 74, 122, 0.18);
     border-radius: 18px;
@@ -3554,10 +3554,10 @@
 .column-library-category { display: inline-flex; min-height: 27px; align-items: center; gap: 0.34rem; padding: 0.3rem 0.54rem; border: 1px solid rgba(113, 84, 196, 0.18); border-radius: 999px; color: var(--column-indigo); background: rgba(255, 255, 255, 0.62); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.68rem; font-weight: 800; line-height: 1.35; }
 .column-library-category i { color: var(--column-gold); }
 .column-library-card time { flex: 0 0 auto; color: var(--column-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em; }
-.column-library-card-copy { min-width: 0; padding: 0.78rem 1rem 0.92rem; }
-.column-library-card-title { margin: 0; color: var(--column-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1.08rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.6; }
+.column-library-card-copy { min-width: 0; flex: 1 1 auto; padding: 0.78rem 1rem 0.92rem; }
+.column-library-card-title { display: -webkit-box; margin: 0; overflow: hidden; color: var(--column-ink); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1.08rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.6; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .column-library-card-excerpt { display: -webkit-box; margin: 0.58rem 0 0; overflow: hidden; color: var(--column-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.82rem; line-height: 1.75; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-.column-library-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding: 0.82rem 1rem; border-top: 1px solid rgba(86, 74, 122, 0.13); color: var(--column-muted); }
+.column-library-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; margin-top: auto; padding: 0.82rem 1rem; border-top: 1px solid rgba(86, 74, 122, 0.13); color: var(--column-muted); }
 .column-library-readinfo { display: flex; align-items: center; flex-wrap: wrap; gap: 0.28rem; min-width: 0; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; line-height: 1.5; }
 .column-library-readinfo i { color: var(--column-gold); }
 .column-library-readinfo-separator { opacity: 0.55; }
@@ -3842,13 +3842,13 @@
 .news-bulletin-search-field:focus-within { border-color: var(--news-gold); background: var(--news-paper); box-shadow: 0 0 0 3px rgba(184, 139, 57, 0.18); }
 .news-bulletin-search-field input { width: 100%; min-width: 0; flex: 1 1 auto; border: 0; outline: 0; color: var(--news-ink); background: transparent; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.9rem; line-height: 1.5; }
 .news-bulletin-search-field input::placeholder { color: var(--news-muted); opacity: 0.78; }
-.news-bulletin-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; margin-top: 1.15rem; }
+.news-bulletin-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; align-items: stretch; gap: 0.9rem; margin-top: 1.15rem; }
 .news-bulletin-card {
     position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+    display: flex;
+    flex-direction: column;
     min-width: 0;
-    min-height: 244px;
+    min-height: 0;
     overflow: hidden;
     border: 1px solid rgba(131, 92, 60, 0.18);
     border-radius: 18px;
@@ -3863,12 +3863,12 @@
 .news-bulletin-card > :not(.news-bulletin-card-surface) { position: relative; z-index: 1; pointer-events: none; }
 .news-bulletin-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.9rem 1rem 0; }
 .news-bulletin-card time { flex: 0 0 auto; color: var(--news-muted); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em; }
-.news-bulletin-card-copy { min-width: 0; padding: 0.8rem 1rem 0.92rem; }
-.news-bulletin-card-title { margin: 0; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1.08rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.6; }
+.news-bulletin-card-copy { min-width: 0; flex: 1 1 auto; padding: 0.8rem 1rem 0.92rem; }
+.news-bulletin-card-title { display: -webkit-box; margin: 0; overflow: hidden; font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1.08rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.6; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .news-bulletin-card-open { color: var(--news-ink); font: inherit; text-decoration: none; }
 .news-bulletin-card:hover .news-bulletin-card-open { color: var(--news-red-deep); }
 .news-bulletin-card-desc { display: -webkit-box; margin: 0.58rem 0 0; overflow: hidden; color: var(--news-muted); font-family: 'Shippori Mincho', 'Zen Old Mincho', serif; font-size: 0.82rem; line-height: 1.75; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-.news-bulletin-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding: 0.82rem 1rem; border-top: 1px solid rgba(131, 92, 60, 0.13); color: var(--news-muted); }
+.news-bulletin-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; margin-top: auto; padding: 0.82rem 1rem; border-top: 1px solid rgba(131, 92, 60, 0.13); color: var(--news-muted); }
 .news-bulletin-readinfo { display: flex; align-items: center; flex-wrap: wrap; gap: 0.28rem; min-width: 0; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.7rem; font-weight: 700; line-height: 1.5; }
 .news-bulletin-readinfo i { color: var(--news-gold); }
 .news-bulletin-readinfo-separator { opacity: 0.55; }
@@ -24291,7 +24291,7 @@ function escapeHtml(str) {
             icon: "bi-list-ol",
             colorClass: "green",
             desc: "おみくじの吉凶の順序と、当杜が採用する伝統に基づく12段階の意味を丁寧に解説します。各段階の位置づけや一般的な7段階との違いが明確になります。",
-            content: `<div class="article-content"><p>初詣や神社参拝の際に引く「おみくじ」。結果に一喜一憂するのも楽しみの一つですが、その「順位」について正しく理解している人は意外と少ないかもしれません。実は神社やお寺によって解釈が異なる場合があるのですが、一般的に広く知られている順位と、当サイト「運勢・天命乃杜」で採用している伝統的な12段階の順位について詳しく解説します。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="assets/article-images/omikuji-rank-order-12.webp" alt="「おみくじの順番（正しい吉凶の順）」のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。十二の無記名のおみくじが明暗の移ろいの中で並び、順位や名称には寺社ごとの違いがあることを静かに表しています。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：十二の無記名のおみくじと、明暗の移ろい。順位や名称には寺社ごとの違いがあります。</figcaption></figure><h3>一般的な7段階の順位</h3><p>多くの神社で採用されている最もポピュラーな順位は以下の通りです。<br><b>大吉 ＞ 吉 ＞ 中吉 ＞ 小吉 ＞ 末吉 ＞ 凶 ＞ 大凶</b><br>あるいは、「吉」の位置が変わり、<b>大吉 ＞ 中吉 ＞ 小吉 ＞ 吉 ＞ 末吉 ＞ 凶 ＞ 大凶</b> とする場合もあります。「吉」は「大吉」に次ぐ良い運勢とする説と、「小吉」と「末吉」の間の中庸な運勢とする説があるのです。</p><h3>当サイトの12段階詳細順位</h3><p>当サイトでは、より細かく運勢を占うため、古来からの伝統に基づいた以下の12段階を採用しています。</p><ol class="list-decimal list-inside space-y-2 ml-4 mb-6 font-bold"><li>大吉 (だいきち)：最高の運気。感謝を忘れずに。</li><li>中吉 (ちゅうきち)：大吉に次ぐ良運。</li><li>小吉 (しょうきち)：ささやかな幸せが続く。</li><li>吉 (きち)：安定した運気。</li><li>半吉 (はんきち)：吉と凶の中間。</li><li>末吉 (すえきち)：末広がりの未来がある。</li><li>末小吉 (すえしょうきち)：今は耐える時だが希望はある。</li><li>凶 (きょう)：運気が停滞気味。慎重に。</li><li>小凶 (しょうきょう)：小さなトラブルに注意。</li><li>半凶 (はんきょう)：半分は凶だが半分は吉に転じる可能性。</li><li>末凶 (すえきょう)：終わりの凶、つまり次は吉へ向かう。</li><li>大凶 (だいきょう)：最も警戒すべき運気。しかしこれ以上落ちない。</li></ol><p>しかし、最も重要なのは順位そのものではありません。おみくじの本質は、そこに書かれている「神様からの和歌や助言」にあります。大吉であっても戒めの言葉があれば気を引き締め、大凶であっても励ましの言葉があれば希望を持つことが大切です。結果に一喜一憂せず、日々の行動指針として活用してください。</p></div>`
+            content: `<div class="article-content"><p>初詣や神社参拝の際に引く「おみくじ」。結果に一喜一憂するのも楽しみの一つですが、その「順位」について正しく理解している人は意外と少ないかもしれません。実は神社やお寺によって解釈が異なる場合があるのですが、一般的に広く知られている順位と、当サイト「運勢・天命乃杜」で採用している伝統的な12段階の順位について詳しく解説します。</p><figure class="article-visual article-visual--overview article-visual--ai-generated"><div class="ai-image-disclosure" role="note"><span class="ai-image-disclosure__badge">AI生成</span><span class="ai-image-disclosure__copy"><strong>AI生成イメージ</strong><span>実在の場所・人物・出来事を撮影した写真ではありません。</span></span></div><img src="assets/article-images/omikuji-rank-order-12.webp" alt="「おみくじの順番（正しい吉凶の順）」のAI生成イメージ。実在の場所・人物・出来事を撮影した写真ではありません。大吉から大凶まで、天命乃杜が採用する十二段階の吉凶順を、番号と矢印で左から右へ確認できる教育用の図です。" loading="lazy"><figcaption><strong>画像の見どころ</strong>：大吉から大凶までの十二段階を、番号と矢印で左から右へたどれます。寺社によって順位・名称が異なる場合があります。</figcaption></figure><h3>一般的な7段階の順位</h3><p>多くの神社で採用されている最もポピュラーな順位は以下の通りです。<br><b>大吉 ＞ 吉 ＞ 中吉 ＞ 小吉 ＞ 末吉 ＞ 凶 ＞ 大凶</b><br>あるいは、「吉」の位置が変わり、<b>大吉 ＞ 中吉 ＞ 小吉 ＞ 吉 ＞ 末吉 ＞ 凶 ＞ 大凶</b> とする場合もあります。「吉」は「大吉」に次ぐ良い運勢とする説と、「小吉」と「末吉」の間の中庸な運勢とする説があるのです。</p><h3>当サイトの12段階詳細順位</h3><p>当サイトでは、より細かく運勢を占うため、古来からの伝統に基づいた以下の12段階を採用しています。</p><ol class="list-decimal list-inside space-y-2 ml-4 mb-6 font-bold"><li>大吉 (だいきち)：最高の運気。感謝を忘れずに。</li><li>中吉 (ちゅうきち)：大吉に次ぐ良運。</li><li>小吉 (しょうきち)：ささやかな幸せが続く。</li><li>吉 (きち)：安定した運気。</li><li>半吉 (はんきち)：吉と凶の中間。</li><li>末吉 (すえきち)：末広がりの未来がある。</li><li>末小吉 (すえしょうきち)：今は耐える時だが希望はある。</li><li>凶 (きょう)：運気が停滞気味。慎重に。</li><li>小凶 (しょうきょう)：小さなトラブルに注意。</li><li>半凶 (はんきょう)：半分は凶だが半分は吉に転じる可能性。</li><li>末凶 (すえきょう)：終わりの凶、つまり次は吉へ向かう。</li><li>大凶 (だいきょう)：最も警戒すべき運気。しかしこれ以上落ちない。</li></ol><p>しかし、最も重要なのは順位そのものではありません。おみくじの本質は、そこに書かれている「神様からの和歌や助言」にあります。大吉であっても戒めの言葉があれば気を引き締め、大凶であっても励ましの言葉があれば希望を持つことが大切です。結果に一喜一憂せず、日々の行動指針として活用してください。</p></div>`
         },
         {
             id: 2,
