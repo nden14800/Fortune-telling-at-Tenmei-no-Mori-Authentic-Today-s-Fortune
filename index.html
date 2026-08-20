@@ -13042,7 +13042,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     <!-- 記事 読書ナビゲーション（本文と重ならない予約領域へ常時表示） -->
     <div id="reading-progress-badge" aria-label="現在の読書進捗">
         <span class="rp-orbit" aria-hidden="true"><svg class="rp-ring" viewBox="0 0 36 36" focusable="false"><circle class="rp-ring-track" cx="18" cy="18" r="15"></circle><circle id="reading-progress-ring" class="rp-ring-progress" cx="18" cy="18" r="15"></circle></svg><span id="reading-progress-percent" class="rp-percent">0%</span></span>
-        <span class="rp-copy"><span class="rp-kicker"><i class="bi bi-compass" aria-hidden="true"></i> READING NAVIGATION <span id="reading-progress-mode-label" class="rp-mode-label">自分</span></span><span class="rp-readout"><span id="reading-progress-time" class="rp-time">自分：残り約0分</span><span id="reading-progress-speed" class="rp-speed" aria-label="現在の読書速度">500字／分</span></span></span>
+        <span class="rp-copy"><span class="rp-kicker"><i class="bi bi-compass" aria-hidden="true"></i> READING NAVIGATION <span id="reading-progress-mode-label" class="rp-mode-label">自分</span></span><span class="rp-readout"><span id="reading-progress-time" class="rp-time">自分：残り約0分</span><span id="reading-progress-speed" class="rp-speed" aria-label="現在の読書速度">500.0字／分</span></span></span>
         <button id="reading-progress-details-toggle" class="rp-details-toggle" type="button" aria-expanded="false" aria-controls="reading-progress-details"><i class="bi bi-sliders2-vertical" aria-hidden="true"></i><span>計測</span></button>
     </div>
     <section id="reading-progress-details" class="rp-details" aria-label="読書ペースと残り時間の設定" hidden>
@@ -26486,11 +26486,10 @@ function showLoading(show) {
         const PERSONAL_PACE_MAX_CPM = 2400;
         const PERSONAL_PACE_INITIAL_WEIGHT = 0.12;
         const PERSONAL_PACE_SMOOTHING = 0.18;
-        const PERSONAL_PACE_DWELL_SMOOTHING = 0.08;
-        const PERSONAL_PACE_DWELL_INITIAL_WEIGHT = 0.03;
-        const PERSONAL_PACE_DWELL_VISIBLE_READ_FRACTION = 0.25;
+        const PERSONAL_PACE_DWELL_VISIBLE_READ_FRACTION = 0.12;
         const PERSONAL_PACE_DWELL_MAX_CPM = 1200;
-        const PERSONAL_PACE_DWELL_INTERVAL_MS = 1000;
+        const PERSONAL_PACE_DWELL_RESPONSE_TIME_MS = 120;
+        const PERSONAL_PACE_DWELL_DECAY_TIME_MS = 450;
         const PERSONAL_PACE_PROGRESS_EPSILON = 0.005;
         const readingProgressState = {
             contentEl: null,
@@ -26509,8 +26508,9 @@ function showLoading(show) {
             lastSamplePercent: null,
             lastSampleAt: 0,
             lastScrollAt: 0,
-            dwellTimerId: null,
+            dwellFrameId: null,
             dwellStartedAt: 0,
+            dwellStartPace: STANDARD_ARTICLE_READING_SPEED,
             dwellLastUpdatedAt: 0
         };
 
@@ -26549,7 +26549,6 @@ function showLoading(show) {
             updateReadingProgress(); // 初期表示
             primePersonalReadingPace(getCurrentArticleProgressPercent());
             startPersonalDwellSession();
-            startPersonalDwellTimer();
         }
 
         function stopReadingProgress() {
@@ -26653,6 +26652,7 @@ function showLoading(show) {
 
         function resetPersonalDwellSession() {
             readingProgressState.dwellStartedAt = 0;
+            readingProgressState.dwellStartPace = STANDARD_ARTICLE_READING_SPEED;
             readingProgressState.dwellLastUpdatedAt = 0;
         }
 
@@ -26691,12 +26691,13 @@ function showLoading(show) {
             }
             const now = performance.now();
             readingProgressState.dwellStartedAt = now;
+            readingProgressState.dwellStartPace = readingProgressState.personalCharsPerMinute || STANDARD_ARTICLE_READING_SPEED;
             readingProgressState.dwellLastUpdatedAt = now;
+            startPersonalDwellTimer();
         }
 
-        function updatePersonalPaceFromDwell() {
+        function updatePersonalPaceFromDwell(now = performance.now()) {
             if (!readingProgressState.contentEl || document.hidden || !readingProgressState.dwellStartedAt) return false;
-            const now = performance.now();
             const elapsed = now - readingProgressState.dwellStartedAt;
             if (elapsed <= 0 || elapsed > PERSONAL_PACE_IDLE_LIMIT_MS) {
                 resetPersonalDwellSession();
@@ -26709,26 +26710,37 @@ function showLoading(show) {
             const instantaneous = estimatedReadChars / (elapsed / 60000);
             const boundedInstantaneous = Math.max(PERSONAL_PACE_MIN_CPM, Math.min(PERSONAL_PACE_DWELL_MAX_CPM, instantaneous));
             const previousPace = readingProgressState.personalCharsPerMinute || STANDARD_ARTICLE_READING_SPEED;
-            const weight = readingProgressState.hasPersonalPaceSample ? PERSONAL_PACE_DWELL_SMOOTHING : PERSONAL_PACE_DWELL_INITIAL_WEIGHT;
-            readingProgressState.personalCharsPerMinute = previousPace * (1 - weight) + boundedInstantaneous * weight;
+            const frameElapsed = Math.max(0, now - readingProgressState.dwellLastUpdatedAt);
+            if (frameElapsed <= 0) return false;
+
+            // 停止中の滞在は「速く読めた」根拠ではなく、直前の高い速度を実読時間に合わせて即応補正する根拠として扱う。
+            // 停止開始時の速度を基準速度へ連続的に減衰させ、本文量÷滞在時間の推定値がそれより低くなった時はそちらへ追従する。
+            const dwellStartPace = readingProgressState.dwellStartPace || previousPace;
+            const decayTarget = STANDARD_ARTICLE_READING_SPEED + Math.max(0, dwellStartPace - STANDARD_ARTICLE_READING_SPEED) * Math.exp(-elapsed / PERSONAL_PACE_DWELL_DECAY_TIME_MS);
+            const targetPace = Math.min(previousPace, boundedInstantaneous, decayTarget);
+            const response = 1 - Math.exp(-frameElapsed / PERSONAL_PACE_DWELL_RESPONSE_TIME_MS);
+            readingProgressState.personalCharsPerMinute = previousPace + (targetPace - previousPace) * response;
             readingProgressState.hasPersonalPaceSample = true;
-            readingProgressState.activeReadMs += Math.max(0, now - readingProgressState.dwellLastUpdatedAt);
+            readingProgressState.activeReadMs += frameElapsed;
             readingProgressState.sampledPercent = Math.max(readingProgressState.sampledPercent, Math.round(getVisibleArticleReadingRatio() * 100));
             readingProgressState.dwellLastUpdatedAt = now;
-            syncReadingPaceControls();
             return true;
         }
 
         function startPersonalDwellTimer() {
-            stopPersonalDwellTimer();
-            readingProgressState.dwellTimerId = window.setInterval(() => {
-                if (updatePersonalPaceFromDwell()) updateReadingProgress();
-            }, PERSONAL_PACE_DWELL_INTERVAL_MS);
+            if (readingProgressState.dwellFrameId !== null) return;
+            const updateFrame = (timestamp) => {
+                readingProgressState.dwellFrameId = null;
+                if (!readingProgressState.contentEl || document.hidden || !readingProgressState.dwellStartedAt) return;
+                if (updatePersonalPaceFromDwell(timestamp)) updateReadingProgress();
+                readingProgressState.dwellFrameId = window.requestAnimationFrame(updateFrame);
+            };
+            readingProgressState.dwellFrameId = window.requestAnimationFrame(updateFrame);
         }
 
         function stopPersonalDwellTimer() {
-            if (readingProgressState.dwellTimerId !== null) window.clearInterval(readingProgressState.dwellTimerId);
-            readingProgressState.dwellTimerId = null;
+            if (readingProgressState.dwellFrameId !== null) window.cancelAnimationFrame(readingProgressState.dwellFrameId);
+            readingProgressState.dwellFrameId = null;
             resetPersonalDwellSession();
         }
 
@@ -26802,6 +26814,13 @@ function showLoading(show) {
             return { text: `標準：残り${standardTime}`, aria: `標準速度で残り${standardTime}`, source: '標準速度' };
         }
 
+        function formatReadingSpeed(speed, precise = false) {
+            const safeSpeed = Math.max(0, Number(speed) || STANDARD_ARTICLE_READING_SPEED);
+            return precise
+                ? safeSpeed.toLocaleString('ja-JP', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+                : Math.round(safeSpeed).toLocaleString('ja-JP');
+        }
+
         function syncReadingPaceControls() {
             const standardButton = document.getElementById('reading-progress-mode-standard');
             const personalButton = document.getElementById('reading-progress-mode-personal');
@@ -26822,17 +26841,18 @@ function showLoading(show) {
             personalButton?.classList.toggle('is-selected', isPersonal);
             personalButton?.setAttribute('aria-pressed', String(isPersonal));
             const displayedSpeed = isPersonal ? (pace || STANDARD_ARTICLE_READING_SPEED) : STANDARD_ARTICLE_READING_SPEED;
+            const displayedSpeedText = formatReadingSpeed(displayedSpeed, isPersonal);
             const hasSample = readingProgressState.hasPersonalPaceSample;
             if (modeLabel) modeLabel.textContent = isPersonal ? '自分' : '標準';
             if (speedReadout) {
-                speedReadout.textContent = `${Math.round(displayedSpeed).toLocaleString()}字／分`;
-                speedReadout.setAttribute('aria-label', isPersonal ? `現在の自分の読書速度 ${Math.round(displayedSpeed).toLocaleString()}字／分${hasSample ? '。リアルタイム更新中' : '。基準速度から開始'}` : `標準の読書速度 ${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分`);
+                speedReadout.textContent = `${displayedSpeedText}字／分`;
+                speedReadout.setAttribute('aria-label', isPersonal ? `現在の自分の読書速度 ${displayedSpeedText}字／分${hasSample ? '。描画フレームごとに更新中' : '。基準速度から開始'}` : `標準の読書速度 ${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分`);
             }
             if (stateLabel) stateLabel.textContent = isPersonal ? (hasSample ? '自分のペース' : '基準速度') : '標準速度';
             if (standardSpeed) standardSpeed.textContent = `${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分`;
-            if (personalSpeed) personalSpeed.textContent = `${Math.round(pace || STANDARD_ARTICLE_READING_SPEED).toLocaleString()}字／分${hasSample ? '（リアルタイム）' : '（基準速度）'}`;
-            if (method) method.textContent = isPersonal ? (hasSample ? '進行量・表示本文量＋滞在時間を連続平滑化＋画像' : `基準${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分から即時更新＋画像`) : `本文${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分＋画像閲覧時間`;
-            if (sampleStatus) sampleStatus.textContent = hasSample ? `表示本文量・${sampledSeconds}秒をもとにリアルタイム更新中` : (isPersonal ? '本文の表示時間または最初の進行からリアルタイム更新' : '標準速度で表示中');
+            if (personalSpeed) personalSpeed.textContent = `${formatReadingSpeed(pace || STANDARD_ARTICLE_READING_SPEED, true)}字／分${hasSample ? '（描画フレーム更新）' : '（基準速度）'}`;
+            if (method) method.textContent = isPersonal ? (hasSample ? '進行量・表示本文量＋滞在時間を描画フレームで連続補正＋画像' : `基準${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分から即時更新＋画像`) : `本文${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分＋画像閲覧時間`;
+            if (sampleStatus) sampleStatus.textContent = hasSample ? `表示本文量・${sampledSeconds}秒をもとに描画フレームで連続更新中` : (isPersonal ? '本文の表示時間または最初の進行から描画フレームで即時更新' : '標準速度で表示中');
         }
 
         function onReadingProgressScroll() {
