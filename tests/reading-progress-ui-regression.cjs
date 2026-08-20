@@ -31,10 +31,10 @@ function requireText(text, message) {
   '<button id="reading-progress-mode-standard" type="button" aria-pressed="false">',
   '<button id="reading-progress-mode-personal" type="button" class="is-selected" aria-pressed="true">',
   '<dd id="reading-progress-standard-speed">500字／分</dd>',
-  '<dd id="reading-progress-personal-speed">スクロールでリアルタイム推定</dd>',
+  '<dd id="reading-progress-personal-speed">表示本文量・滞在時間でリアルタイム推定</dd>',
   '<dd id="reading-progress-method">標準速度で補助表示</dd>',
-  '最初の進行から待機なくリアルタイム更新',
-  '自分のペースは、この記事内のスクロール進行量と経過時間を連続的に平滑化して算出する参考値です。',
+  '本文の表示時間・進行に合わせてリアルタイム推定',
+  '自分のペースは、この記事内の進行量・表示中の本文量・滞在時間を連続的に平滑化して算出する参考値です。',
   '視線や理解度を測定するものではありません。',
   '<button id="reading-progress-reset-pace" type="button">',
   '<div id="reading-progress-bar" role="progressbar" aria-label="記事の読書進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="reading-progress-fill"></div></div>',
@@ -46,6 +46,11 @@ function requireText(text, message) {
   'const PERSONAL_PACE_MAX_CPM = 2400;',
   'const PERSONAL_PACE_INITIAL_WEIGHT = 0.12;',
   'const PERSONAL_PACE_SMOOTHING = 0.18;',
+  'const PERSONAL_PACE_DWELL_SMOOTHING = 0.08;',
+  'const PERSONAL_PACE_DWELL_INITIAL_WEIGHT = 0.03;',
+  'const PERSONAL_PACE_DWELL_VISIBLE_READ_FRACTION = 0.25;',
+  'const PERSONAL_PACE_DWELL_MAX_CPM = 1200;',
+  'const PERSONAL_PACE_DWELL_INTERVAL_MS = 1000;',
   'const PERSONAL_PACE_PROGRESS_EPSILON = 0.005;',
   "timeMode: 'personal',",
   "readingProgressState.timeMode = 'personal';",
@@ -56,7 +61,11 @@ function requireText(text, message) {
   'activeReadMs: 0,',
   'sampledPercent: 0,',
   'lastSamplePercent: null,',
-  'lastSampleAt: 0',
+  'lastSampleAt: 0,',
+  'lastScrollAt: 0,',
+  'dwellTimerId: null,',
+  'dwellStartedAt: 0,',
+  'dwellLastUpdatedAt: 0',
   'function setupReadingProgressControls()',
   'function setReadingProgressDetails(open)',
   'function setReadingProgressTimeMode(mode)',
@@ -72,10 +81,15 @@ function requireText(text, message) {
   'function resetPersonalReadingPace()',
   'function primePersonalReadingPace(percent)',
   'function recordPersonalReadingPace(percent)',
+  'function getVisibleArticleReadingRatio()',
+  'function startPersonalDwellSession()',
+  'function updatePersonalPaceFromDwell()',
+  'function startPersonalDwellTimer()',
+  'function stopPersonalDwellTimer()',
   'const boundedInstantaneous = Math.max(PERSONAL_PACE_MIN_CPM, Math.min(PERSONAL_PACE_MAX_CPM, instantaneous));',
   'const weight = readingProgressState.hasPersonalPaceSample ? PERSONAL_PACE_SMOOTHING : PERSONAL_PACE_INITIAL_WEIGHT;',
   'readingProgressState.hasPersonalPaceSample = true;',
-  '最初の進行から待機なくリアルタイム更新',
+  '本文の表示時間または最初の進行からリアルタイム更新',
   '現在の自分の読書速度 ${Math.round(displayedSpeed).toLocaleString()}字／分${hasSample ? \'。リアルタイム更新中\' : \'。基準速度から開始\'}',
   'function formatRemainingTime(seconds)',
   'function getStandardRemainingSeconds(percent)',
@@ -118,10 +132,13 @@ const updateEnd = html.indexOf('// --- ホームアニメーション', updateSt
 const updateBlock = html.slice(updateStart, updateEnd);
 assert(scrollStart >= 0 && scrollEnd > scrollStart, 'スクロール中の個人ペース更新処理を特定できません。');
 assert(updateStart >= 0 && updateEnd > updateStart, '読書進捗更新処理の範囲を特定できません。');
-assert(scrollBlock.includes('recordPersonalReadingPace(getCurrentArticleProgressPercent());'), '個人ペースはスクロール中にリアルタイム更新する必要があります。');
+assert(scrollBlock.includes('recordPersonalReadingPace(percent);'), '連続スクロール中の個人ペースは進行量からリアルタイム更新する必要があります。');
+assert(scrollBlock.includes('updatePersonalPaceFromDwell();') && scrollBlock.includes('startPersonalDwellSession();'), 'スクロールを止めた後の本文滞在も個人ペース計測へ引き継ぐ必要があります。');
 assert.equal(updateBlock.includes('recordPersonalReadingPace(percent);'), false, '表示更新だけで個人ペースを二重計算してはいけません。');
 assert(/function resetPersonalReadingPace\(\)\s*\{[\s\S]*?personalCharsPerMinute = STANDARD_ARTICLE_READING_SPEED[\s\S]*?hasPersonalPaceSample = false/.test(html), '記事を開いた直後から基準速度を常設表示する必要があります。');
 assert(/recordPersonalReadingPace\(percent\)[\s\S]*?elapsed < PERSONAL_PACE_MIN_ACTIVE_MS[\s\S]*?boundedInstantaneous[\s\S]*?PERSONAL_PACE_SMOOTHING[\s\S]*?hasPersonalPaceSample = true/.test(html), '最初の進行を待機なく採用し、範囲外の瞬間値も安全に収めて連続的に平滑化する必要があります。');
+assert(/function updatePersonalPaceFromDwell\(\)[\s\S]*?elapsed > PERSONAL_PACE_IDLE_LIMIT_MS[\s\S]*?getVisibleArticleReadingRatio\(\)[\s\S]*?PERSONAL_PACE_DWELL_VISIBLE_READ_FRACTION[\s\S]*?PERSONAL_PACE_DWELL_MAX_CPM[\s\S]*?PERSONAL_PACE_DWELL_SMOOTHING[\s\S]*?hasPersonalPaceSample = true/.test(html), 'スクロール停止中は、表示本文量と滞在時間を用い、離席時間を除外しつつ過大評価を抑えて個人ペースを更新する必要があります。');
+assert(/function startPersonalDwellTimer\(\)[\s\S]*?window\.setInterval\([\s\S]*?updatePersonalPaceFromDwell\(\)[\s\S]*?updateReadingProgress\(\)[\s\S]*?PERSONAL_PACE_DWELL_INTERVAL_MS/.test(html), 'スクロールイベントを待たず、滞在中の個人ペースと残り時間を連続更新するタイマーが必要です。');
 assert(/speedReadout\.textContent = `\$\{Math\.round\(displayedSpeed\)\.toLocaleString\(\)\}字／分`/.test(html), '詳細パネルを開かず常設ナビゲーションで速度を確認できる必要があります。');
 assert(/buildArticleTOC\(\);\s*startReadingProgress\(readingMeta\);/.test(html), '目次生成後に読書進捗を開始し、目次を進捗対象から除外する必要があります。');
 assert(/function startReadingProgress\(readingMeta\)[\s\S]*?article-toc-unified[\s\S]*?progressStartEl = readingChildren\[0\][\s\S]*?progressEndEl = readingChildren\[readingChildren\.length - 1\]/.test(html), '読書進捗は目次を除いた本文開始・本文末尾を基準にする必要があります。');
@@ -149,6 +166,7 @@ console.log(JSON.stringify({
   immediatePaceBaselinePreserved: true,
   tocExcludedFromProgressAndPaceMeasurement: true,
   firstProgressRealtimePaceMeasurementPreserved: true,
+  dwellTimeRealtimePaceMeasurementPreserved: true,
   persistentSpeedReadoutPreserved: true,
   smoothingAndOutlierGuardPreserved: true,
   minuteSecondRemainingTimePreserved: true,
