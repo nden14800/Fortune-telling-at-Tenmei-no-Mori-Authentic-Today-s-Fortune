@@ -19,8 +19,12 @@ function requireText(text, message) {
   '<div id="reading-progress-badge" aria-label="現在の読書進捗">',
   '<circle id="reading-progress-ring" class="rp-ring-progress"',
   'stroke-linecap: round;',
-  '<span id="reading-progress-mode-label" class="rp-mode-label">標準</span>',
-  '<span id="reading-progress-time" class="rp-time">標準：残り約0分</span>',
+  '<span id="reading-progress-mode-label" class="rp-mode-label">自分</span>',
+  '<span id="reading-progress-time" class="rp-time">自分：残り約0分</span>',
+  '<span id="reading-progress-speed" class="rp-speed" aria-label="現在の読書速度">500字／分</span>',
+  '#reading-progress-badge .rp-readout {',
+  '#reading-progress-badge .rp-speed {',
+  '.dark #reading-progress-badge .rp-speed { color: #f0d68e; }',
   '<button id="reading-progress-details-toggle" class="rp-details-toggle" type="button" aria-expanded="false" aria-controls="reading-progress-details">',
   '<section id="reading-progress-details" class="rp-details" aria-label="読書ペースと残り時間の設定" hidden>',
   '<span id="reading-progress-details-state" class="rp-details-state">計測中</span>',
@@ -29,22 +33,24 @@ function requireText(text, message) {
   '<dd id="reading-progress-standard-speed">500字／分</dd>',
   '<dd id="reading-progress-personal-speed">スクロールでリアルタイム推定</dd>',
   '<dd id="reading-progress-method">標準速度で補助表示</dd>',
-  'スクロール進行に合わせてリアルタイム推定',
+  '最初の進行から待機なくリアルタイム更新',
   '自分のペースは、この記事内のスクロール進行量と経過時間を連続的に平滑化して算出する参考値です。',
   '視線や理解度を測定するものではありません。',
   '<button id="reading-progress-reset-pace" type="button">',
   '<div id="reading-progress-bar" role="progressbar" aria-label="記事の読書進捗" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="reading-progress-fill"></div></div>',
   'const STANDARD_ARTICLE_READING_SPEED = 500;',
   'const PERSONAL_PACE_IDLE_LIMIT_MS = 120000;',
-  'const PERSONAL_PACE_MIN_ACTIVE_MS = 1200;',
-  'const PERSONAL_PACE_MIN_CHARS = 20;',
+  'const PERSONAL_PACE_MIN_ACTIVE_MS = 0;',
+  'const PERSONAL_PACE_MIN_CHARS = 1;',
   'const PERSONAL_PACE_MIN_CPM = 150;',
   'const PERSONAL_PACE_MAX_CPM = 2400;',
-  'const PERSONAL_PACE_INITIAL_WEIGHT = 0.25;',
+  'const PERSONAL_PACE_INITIAL_WEIGHT = 0.12;',
   'const PERSONAL_PACE_SMOOTHING = 0.18;',
-  'const PERSONAL_PACE_PROGRESS_EPSILON = 0.02;',
+  'const PERSONAL_PACE_PROGRESS_EPSILON = 0.005;',
   "timeMode: 'personal',",
   "readingProgressState.timeMode = 'personal';",
+  'personalCharsPerMinute: STANDARD_ARTICLE_READING_SPEED,',
+  'hasPersonalPaceSample: false,',
   'activeReadMs: 0,',
   'sampledPercent: 0,',
   'lastSamplePercent: null,',
@@ -57,21 +63,23 @@ function requireText(text, message) {
   'function resetPersonalReadingPace()',
   'function primePersonalReadingPace(percent)',
   'function recordPersonalReadingPace(percent)',
-  'STANDARD_ARTICLE_READING_SPEED * (1 - PERSONAL_PACE_INITIAL_WEIGHT) + instantaneous * PERSONAL_PACE_INITIAL_WEIGHT',
-  'previousPace * (1 - PERSONAL_PACE_SMOOTHING) + instantaneous * PERSONAL_PACE_SMOOTHING',
-  '自分：推定中（標準で${standardTime}）',
-  '進行量＋経過時間を連続平滑化＋画像',
+  'const boundedInstantaneous = Math.max(PERSONAL_PACE_MIN_CPM, Math.min(PERSONAL_PACE_MAX_CPM, instantaneous));',
+  'const weight = readingProgressState.hasPersonalPaceSample ? PERSONAL_PACE_SMOOTHING : PERSONAL_PACE_INITIAL_WEIGHT;',
+  'readingProgressState.hasPersonalPaceSample = true;',
+  '最初の進行から待機なくリアルタイム更新',
+  '現在の自分の読書速度 ${Math.round(displayedSpeed).toLocaleString()}字／分${hasSample ? \'。リアルタイム更新中\' : \'。基準速度から開始\'}',
   'function formatRemainingTime(seconds)',
   'function getStandardRemainingSeconds(percent)',
   'function getPersonalRemainingSeconds(percent)',
   "String(remainderSeconds).padStart(2, '0')",
   'function getRemainingPresentation(percent)',
+  '自分：残り${personalTime}',
   'ring.style.strokeDashoffset = String(94.248 * (1 - percent / 100));',
   'startReadingProgress(readingMeta);',
   "bar.setAttribute('aria-valuetext', `${progressText}、${remainingPresentation.aria}`);",
   '@media (max-width: 640px) {',
   '@media (prefers-reduced-motion: reduce) {',
-].forEach((text) => requireText(text, `読書ペース機能の構造・既定値・リアルタイム推定・秒表示契約が不足しています: ${text}`));
+].forEach((text) => requireText(text, `読書ペース機能の即時推定・常設速度表示・秒表示契約が不足しています: ${text}`));
 
 [
   'const PERSONAL_PACE_MIN_SAMPLE_MS = 6000;',
@@ -89,8 +97,9 @@ function requireText(text, message) {
   'function settlePersonalReadingPace()',
   'function onReadingProgressScrollEnd()',
   '自分：安定化中（標準で${standardTime}）',
+  '自分：推定中（標準で${standardTime}）',
   '複数区間の中央値＋画像',
-].forEach((text) => assert.equal(html.includes(text), false, `停止後のみの推定契約を残してはいけません: ${text}`));
+].forEach((text) => assert.equal(html.includes(text), false, `停止後または待機中の推定契約を残してはいけません: ${text}`));
 
 const scrollStart = html.indexOf('function onReadingProgressScroll()');
 const scrollEnd = html.indexOf('function updateReadingProgress()', scrollStart);
@@ -102,7 +111,9 @@ assert(scrollStart >= 0 && scrollEnd > scrollStart, 'スクロール中の個人
 assert(updateStart >= 0 && updateEnd > updateStart, '読書進捗更新処理の範囲を特定できません。');
 assert(scrollBlock.includes('recordPersonalReadingPace(getCurrentArticleProgressPercent());'), '個人ペースはスクロール中にリアルタイム更新する必要があります。');
 assert.equal(updateBlock.includes('recordPersonalReadingPace(percent);'), false, '表示更新だけで個人ペースを二重計算してはいけません。');
-assert(/recordPersonalReadingPace\(percent\)[\s\S]*?elapsed < PERSONAL_PACE_MIN_ACTIVE_MS[\s\S]*?PERSONAL_PACE_SMOOTHING/.test(html), '短い操作ノイズを除外しつつ連続的に平滑化する必要があります。');
+assert(/function resetPersonalReadingPace\(\)\s*\{[\s\S]*?personalCharsPerMinute = STANDARD_ARTICLE_READING_SPEED[\s\S]*?hasPersonalPaceSample = false/.test(html), '記事を開いた直後から基準速度を常設表示する必要があります。');
+assert(/recordPersonalReadingPace\(percent\)[\s\S]*?elapsed < PERSONAL_PACE_MIN_ACTIVE_MS[\s\S]*?boundedInstantaneous[\s\S]*?PERSONAL_PACE_SMOOTHING[\s\S]*?hasPersonalPaceSample = true/.test(html), '最初の進行を待機なく採用し、範囲外の瞬間値も安全に収めて連続的に平滑化する必要があります。');
+assert(/speedReadout\.textContent = `\$\{Math\.round\(displayedSpeed\)\.toLocaleString\(\)\}字／分`/.test(html), '詳細パネルを開かず常設ナビゲーションで速度を確認できる必要があります。');
 
 const badgeMatches = html.match(/id="reading-progress-badge"/g) || [];
 assert.equal(badgeMatches.length, 1, '読書進捗ナビゲーションは本文を覆う重複表示を避けるため、共通の常設面を一つだけ使用する必要があります。');
@@ -117,13 +128,15 @@ assert(/position\s*:\s*fixed/.test(badgeStyle), '進捗率と残り時間はス�
 assert(/width\s*:\s*min\(660px, calc\(100vw - 120px\)\)/.test(badgeStyle), '常設読書ナビゲーションはモバイルとPCの両方で本文幅を妨げない最大幅を持つ必要があります。');
 assert(/pointer-events\s*:\s*none/.test(badgeStyle), '常設読書ナビゲーション本体が本文の操作を妨げてはいけません。');
 
-console.log('記事詳細の個人ペースリアルタイム推定・秒表示読書ナビゲーション回帰テストに合格しました。');
+console.log('記事詳細の即時リアルタイム個人ペース・常設速度・秒表示読書ナビゲーション回帰テストに合格しました。');
 console.log(JSON.stringify({
   singlePersistentNavigation: true,
   contentReservationForDetailsPreserved: true,
   standardReadingSpeedDisclosed: '500字／分',
   personalPaceDefaultPreserved: true,
-  realtimePaceMeasurementPreserved: true,
+  immediatePaceBaselinePreserved: true,
+  firstProgressRealtimePaceMeasurementPreserved: true,
+  persistentSpeedReadoutPreserved: true,
   smoothingAndOutlierGuardPreserved: true,
   minuteSecondRemainingTimePreserved: true,
   remainingTimeModeSwitchPreserved: true,
