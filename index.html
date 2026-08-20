@@ -24920,8 +24920,8 @@ window.renderFullColumnView = function() {
 
             showView('article-detail');
             window.scrollTo(0, 0);
-            startReadingProgress(readingMeta);
             buildArticleTOC();
+            startReadingProgress(readingMeta);
         }
     };
 
@@ -26489,6 +26489,8 @@ function showLoading(show) {
         const PERSONAL_PACE_PROGRESS_EPSILON = 0.005;
         const readingProgressState = {
             contentEl: null,
+            progressStartEl: null,
+            progressEndEl: null,
             totalMinutes: 1,
             charCount: 0,
             imageSeconds: 0,
@@ -26510,7 +26512,11 @@ function showLoading(show) {
             if (!el) return;
 
             const meta = typeof readingMeta === 'object' && readingMeta ? readingMeta : { readMinutes: readingMeta };
+            // 目次は本文を読むための補助導線であり、読書進捗・個人ペースの計測対象には含めない。
+            const readingChildren = Array.from(el.children).filter(child => !child.classList.contains('article-toc-unified'));
             readingProgressState.contentEl = el;
+            readingProgressState.progressStartEl = readingChildren[0] || el;
+            readingProgressState.progressEndEl = readingChildren[readingChildren.length - 1] || el;
             readingProgressState.totalMinutes = Math.max(1, Number(meta.readMinutes) || 1);
             readingProgressState.charCount = Math.max(1, Number(meta.charCount) || Math.round(readingProgressState.totalMinutes * STANDARD_ARTICLE_READING_SPEED));
             readingProgressState.imageSeconds = Math.max(0, Number(meta.imageSeconds) || 0);
@@ -26538,6 +26544,8 @@ function showLoading(show) {
         function stopReadingProgress() {
             window.removeEventListener('scroll', onReadingProgressScroll);
             readingProgressState.contentEl = null;
+            readingProgressState.progressStartEl = null;
+            readingProgressState.progressEndEl = null;
             readingProgressState.ticking = false;
             readingProgressState.reachedComplete = false;
             resetPersonalReadingPace();
@@ -26607,11 +26615,14 @@ function showLoading(show) {
         }
 
         function getCurrentArticleProgressPercent() {
-            const el = readingProgressState.contentEl;
-            if (!el) return 0;
-            const rect = el.getBoundingClientRect();
+            const startEl = readingProgressState.progressStartEl || readingProgressState.contentEl;
+            const endEl = readingProgressState.progressEndEl || readingProgressState.contentEl;
+            if (!startEl || !endEl) return 0;
+            const startRect = startEl.getBoundingClientRect();
+            const endRect = endEl.getBoundingClientRect();
             const viewportH = window.innerHeight;
-            const percent = ((viewportH - rect.top) / rect.height) * 100;
+            const readingHeight = Math.max(1, endRect.bottom - startRect.top);
+            const percent = ((viewportH - startRect.top) / readingHeight) * 100;
             return Math.max(0, Math.min(100, percent));
         }
 

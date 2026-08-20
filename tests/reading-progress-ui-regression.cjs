@@ -49,6 +49,8 @@ function requireText(text, message) {
   'const PERSONAL_PACE_PROGRESS_EPSILON = 0.005;',
   "timeMode: 'personal',",
   "readingProgressState.timeMode = 'personal';",
+  'progressStartEl: null,',
+  'progressEndEl: null,',
   'personalCharsPerMinute: STANDARD_ARTICLE_READING_SPEED,',
   'hasPersonalPaceSample: false,',
   'activeReadMs: 0,',
@@ -59,6 +61,13 @@ function requireText(text, message) {
   'function setReadingProgressDetails(open)',
   'function setReadingProgressTimeMode(mode)',
   'function getCurrentArticleProgressPercent()',
+  "const readingChildren = Array.from(el.children).filter(child => !child.classList.contains('article-toc-unified'));",
+  'readingProgressState.progressStartEl = readingChildren[0] || el;',
+  'readingProgressState.progressEndEl = readingChildren[readingChildren.length - 1] || el;',
+  'const startEl = readingProgressState.progressStartEl || readingProgressState.contentEl;',
+  'const endEl = readingProgressState.progressEndEl || readingProgressState.contentEl;',
+  'const readingHeight = Math.max(1, endRect.bottom - startRect.top);',
+  'const percent = ((viewportH - startRect.top) / readingHeight) * 100;',
   'function resetPersonalReadingBaseline()',
   'function resetPersonalReadingPace()',
   'function primePersonalReadingPace(percent)',
@@ -114,6 +123,9 @@ assert.equal(updateBlock.includes('recordPersonalReadingPace(percent);'), false,
 assert(/function resetPersonalReadingPace\(\)\s*\{[\s\S]*?personalCharsPerMinute = STANDARD_ARTICLE_READING_SPEED[\s\S]*?hasPersonalPaceSample = false/.test(html), '記事を開いた直後から基準速度を常設表示する必要があります。');
 assert(/recordPersonalReadingPace\(percent\)[\s\S]*?elapsed < PERSONAL_PACE_MIN_ACTIVE_MS[\s\S]*?boundedInstantaneous[\s\S]*?PERSONAL_PACE_SMOOTHING[\s\S]*?hasPersonalPaceSample = true/.test(html), '最初の進行を待機なく採用し、範囲外の瞬間値も安全に収めて連続的に平滑化する必要があります。');
 assert(/speedReadout\.textContent = `\$\{Math\.round\(displayedSpeed\)\.toLocaleString\(\)\}字／分`/.test(html), '詳細パネルを開かず常設ナビゲーションで速度を確認できる必要があります。');
+assert(/buildArticleTOC\(\);\s*startReadingProgress\(readingMeta\);/.test(html), '目次生成後に読書進捗を開始し、目次を進捗対象から除外する必要があります。');
+assert(/function startReadingProgress\(readingMeta\)[\s\S]*?article-toc-unified[\s\S]*?progressStartEl = readingChildren\[0\][\s\S]*?progressEndEl = readingChildren\[readingChildren\.length - 1\]/.test(html), '読書進捗は目次を除いた本文開始・本文末尾を基準にする必要があります。');
+assert(/function getCurrentArticleProgressPercent\(\)[\s\S]*?startEl = readingProgressState\.progressStartEl[\s\S]*?endEl = readingProgressState\.progressEndEl[\s\S]*?endRect\.bottom - startRect\.top/.test(html), '進捗率は目次を含む親要素の高さではなく本文範囲から算出する必要があります。');
 
 const badgeMatches = html.match(/id="reading-progress-badge"/g) || [];
 assert.equal(badgeMatches.length, 1, '読書進捗ナビゲーションは本文を覆う重複表示を避けるため、共通の常設面を一つだけ使用する必要があります。');
@@ -135,6 +147,7 @@ console.log(JSON.stringify({
   standardReadingSpeedDisclosed: '500字／分',
   personalPaceDefaultPreserved: true,
   immediatePaceBaselinePreserved: true,
+  tocExcludedFromProgressAndPaceMeasurement: true,
   firstProgressRealtimePaceMeasurementPreserved: true,
   persistentSpeedReadoutPreserved: true,
   smoothingAndOutlierGuardPreserved: true,
