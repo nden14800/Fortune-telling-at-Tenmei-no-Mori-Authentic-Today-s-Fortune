@@ -26484,8 +26484,8 @@ function showLoading(show) {
         const PERSONAL_PACE_MIN_CHARS = 1;
         const PERSONAL_PACE_MIN_CPM = 150;
         const PERSONAL_PACE_MAX_CPM = 2400;
-        const PERSONAL_PACE_INITIAL_WEIGHT = 0.12;
-        const PERSONAL_PACE_SMOOTHING = 0.18;
+        const PERSONAL_PACE_SCROLL_SETTLE_MS = 350;
+        const PERSONAL_PACE_SCROLL_RESPONSE_TIME_MS = 300;
         const PERSONAL_PACE_DWELL_VISIBLE_READ_FRACTION = 0.12;
         const PERSONAL_PACE_DWELL_MAX_CPM = 1200;
         const PERSONAL_PACE_DWELL_RESPONSE_TIME_MS = 120;
@@ -26744,7 +26744,7 @@ function showLoading(show) {
             resetPersonalDwellSession();
         }
 
-        function recordPersonalReadingPace(percent) {
+        function recordPersonalReadingPace(percent, allowProgressMeasurement = false, now = performance.now()) {
             if (!readingProgressState.contentEl || percent >= 99.5) {
                 resetPersonalReadingBaseline();
                 return;
@@ -26754,29 +26754,32 @@ function showLoading(show) {
                 return;
             }
 
-            const now = performance.now();
             const elapsed = now - readingProgressState.lastSampleAt;
             const progressedPercent = percent - readingProgressState.lastSamplePercent;
             if (elapsed <= 0) return;
-            if (elapsed > PERSONAL_PACE_IDLE_LIMIT_MS || progressedPercent <= PERSONAL_PACE_PROGRESS_EPSILON) {
+            if (!allowProgressMeasurement || elapsed > PERSONAL_PACE_IDLE_LIMIT_MS || progressedPercent <= PERSONAL_PACE_PROGRESS_EPSILON) {
+                // スクロール中の連続イベントは位置だけ更新し、操作の速さを読書速度として採用しない。
                 primePersonalReadingPace(percent);
                 return;
             }
 
             const sampledChars = readingProgressState.charCount * (progressedPercent / 100);
-            if (elapsed < PERSONAL_PACE_MIN_ACTIVE_MS || sampledChars < PERSONAL_PACE_MIN_CHARS) return;
+            if (elapsed < PERSONAL_PACE_MIN_ACTIVE_MS || sampledChars < PERSONAL_PACE_MIN_CHARS) {
+                primePersonalReadingPace(percent);
+                return;
+            }
 
             const instantaneous = sampledChars / (elapsed / 60000);
             const boundedInstantaneous = Math.max(PERSONAL_PACE_MIN_CPM, Math.min(PERSONAL_PACE_MAX_CPM, instantaneous));
-            primePersonalReadingPace(percent);
-
             const previousPace = readingProgressState.personalCharsPerMinute || STANDARD_ARTICLE_READING_SPEED;
-            const weight = readingProgressState.hasPersonalPaceSample ? PERSONAL_PACE_SMOOTHING : PERSONAL_PACE_INITIAL_WEIGHT;
-            readingProgressState.personalCharsPerMinute = previousPace * (1 - weight) + boundedInstantaneous * weight;
+            // 読書後の進行は、停滞時間を含む速度を確認する補助指標に限る。瞬間的な操作で個人ペースを押し上げない。
+            const targetPace = Math.min(previousPace, boundedInstantaneous);
+            const response = 1 - Math.exp(-Math.min(elapsed, PERSONAL_PACE_SCROLL_RESPONSE_TIME_MS * 4) / PERSONAL_PACE_SCROLL_RESPONSE_TIME_MS);
+            readingProgressState.personalCharsPerMinute = previousPace + (targetPace - previousPace) * response;
             readingProgressState.hasPersonalPaceSample = true;
             readingProgressState.activeReadMs += elapsed;
             readingProgressState.sampledPercent = Math.min(100, readingProgressState.sampledPercent + progressedPercent);
-            syncReadingPaceControls();
+            primePersonalReadingPace(percent);
         }
 
         function formatRemainingTime(seconds) {
@@ -26851,8 +26854,8 @@ function showLoading(show) {
             if (stateLabel) stateLabel.textContent = isPersonal ? (hasSample ? '自分のペース' : '基準速度') : '標準速度';
             if (standardSpeed) standardSpeed.textContent = `${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分`;
             if (personalSpeed) personalSpeed.textContent = `${formatReadingSpeed(pace || STANDARD_ARTICLE_READING_SPEED, true)}字／分${hasSample ? '（描画フレーム更新）' : '（基準速度）'}`;
-            if (method) method.textContent = isPersonal ? (hasSample ? '進行量・表示本文量＋滞在時間を描画フレームで連続補正＋画像' : `基準${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分から即時更新＋画像`) : `本文${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分＋画像閲覧時間`;
-            if (sampleStatus) sampleStatus.textContent = hasSample ? `表示本文量・${sampledSeconds}秒をもとに描画フレームで連続更新中` : (isPersonal ? '本文の表示時間または最初の進行から描画フレームで即時更新' : '標準速度で表示中');
+            if (method) method.textContent = isPersonal ? (hasSample ? '表示本文量・滞在時間を基準に、進行量の急上昇を抑えて連続補正＋画像' : `基準${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分から即時更新＋画像`) : `本文${STANDARD_ARTICLE_READING_SPEED.toLocaleString()}字／分＋画像閲覧時間`;
+            if (sampleStatus) sampleStatus.textContent = hasSample ? `表示本文量・${sampledSeconds}秒と落ち着いた進行をもとに連続更新中` : (isPersonal ? '本文の表示時間または最初の進行から描画フレームで即時更新' : '標準速度で表示中');
         }
 
         function onReadingProgressScroll() {
@@ -26861,13 +26864,9 @@ function showLoading(show) {
             window.requestAnimationFrame(() => {
                 const percent = getCurrentArticleProgressPercent();
                 const now = performance.now();
-                const isContinuousScroll = now - readingProgressState.lastScrollAt <= 350;
-                if (isContinuousScroll) {
-                    recordPersonalReadingPace(percent);
-                } else {
-                    updatePersonalPaceFromDwell();
-                    primePersonalReadingPace(percent);
-                }
+                const isNewReadingMove = now - readingProgressState.lastScrollAt > PERSONAL_PACE_SCROLL_SETTLE_MS;
+                updatePersonalPaceFromDwell(now);
+                recordPersonalReadingPace(percent, isNewReadingMove, now);
                 readingProgressState.lastScrollAt = now;
                 startPersonalDwellSession();
                 updateReadingProgress();

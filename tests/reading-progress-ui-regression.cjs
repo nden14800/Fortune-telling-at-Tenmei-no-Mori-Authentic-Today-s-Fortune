@@ -44,8 +44,8 @@ function requireText(text, message) {
   'const PERSONAL_PACE_MIN_CHARS = 1;',
   'const PERSONAL_PACE_MIN_CPM = 150;',
   'const PERSONAL_PACE_MAX_CPM = 2400;',
-  'const PERSONAL_PACE_INITIAL_WEIGHT = 0.12;',
-  'const PERSONAL_PACE_SMOOTHING = 0.18;',
+  'const PERSONAL_PACE_SCROLL_SETTLE_MS = 350;',
+  'const PERSONAL_PACE_SCROLL_RESPONSE_TIME_MS = 300;',
   'const PERSONAL_PACE_DWELL_VISIBLE_READ_FRACTION = 0.12;',
   'const PERSONAL_PACE_DWELL_MAX_CPM = 1200;',
   'const PERSONAL_PACE_DWELL_RESPONSE_TIME_MS = 120;',
@@ -80,7 +80,7 @@ function requireText(text, message) {
   'function resetPersonalReadingBaseline()',
   'function resetPersonalReadingPace()',
   'function primePersonalReadingPace(percent)',
-  'function recordPersonalReadingPace(percent)',
+  'function recordPersonalReadingPace(percent, allowProgressMeasurement = false, now = performance.now())',
   'function getVisibleArticleReadingRatio()',
   'function startPersonalDwellSession()',
   'function updatePersonalPaceFromDwell(now = performance.now())',
@@ -88,7 +88,7 @@ function requireText(text, message) {
   'function stopPersonalDwellTimer()',
   'function formatReadingSpeed(speed, precise = false)',
   'const boundedInstantaneous = Math.max(PERSONAL_PACE_MIN_CPM, Math.min(PERSONAL_PACE_MAX_CPM, instantaneous));',
-  'const weight = readingProgressState.hasPersonalPaceSample ? PERSONAL_PACE_SMOOTHING : PERSONAL_PACE_INITIAL_WEIGHT;',
+  'const targetPace = Math.min(previousPace, boundedInstantaneous);',
   'readingProgressState.hasPersonalPaceSample = true;',
   '本文の表示時間または最初の進行から描画フレームで即時更新',
   '現在の自分の読書速度 ${displayedSpeedText}字／分${hasSample ? \'。描画フレームごとに更新中\' : \'。基準速度から開始\'}',
@@ -108,6 +108,8 @@ function requireText(text, message) {
 [
   'const PERSONAL_PACE_DWELL_SMOOTHING =',
   'const PERSONAL_PACE_DWELL_INITIAL_WEIGHT =',
+  'const PERSONAL_PACE_INITIAL_WEIGHT =',
+  'const PERSONAL_PACE_SMOOTHING =',
   'const PERSONAL_PACE_DWELL_INTERVAL_MS =',
   'dwellTimerId:',
   'window.setInterval(() => {\n                if (updatePersonalPaceFromDwell()) updateReadingProgress();',
@@ -124,11 +126,11 @@ const updateEnd = html.indexOf('// --- ホームアニメーション', updateSt
 const updateBlock = html.slice(updateStart, updateEnd);
 assert(scrollStart >= 0 && scrollEnd > scrollStart, 'スクロール中の個人ペース更新処理を特定できません。');
 assert(updateStart >= 0 && updateEnd > updateStart, '読書進捗更新処理の範囲を特定できません。');
-assert(scrollBlock.includes('recordPersonalReadingPace(percent);'), '連続スクロール中の個人ペースは進行量からリアルタイム更新する必要があります。');
-assert(scrollBlock.includes('updatePersonalPaceFromDwell();') && scrollBlock.includes('startPersonalDwellSession();'), 'スクロールを止めた後の本文滞在も個人ペース計測へ引き継ぐ必要があります。');
+assert(scrollBlock.includes('const isNewReadingMove = now - readingProgressState.lastScrollAt > PERSONAL_PACE_SCROLL_SETTLE_MS;') && scrollBlock.includes('updatePersonalPaceFromDwell(now);') && scrollBlock.includes('recordPersonalReadingPace(percent, isNewReadingMove, now);'), '再スクロール時は滞在時間を先に反映し、連続イベントの操作速度を個人ペースへ直結させてはいけません。');
+assert(scrollBlock.includes('startPersonalDwellSession();'), 'スクロールを止めた後の本文滞在も個人ペース計測へ引き継ぐ必要があります。');
 assert.equal(updateBlock.includes('recordPersonalReadingPace(percent);'), false, '表示更新だけで個人ペースを二重計算してはいけません。');
 assert(/function resetPersonalReadingPace\(\)\s*\{[\s\S]*?personalCharsPerMinute = STANDARD_ARTICLE_READING_SPEED[\s\S]*?hasPersonalPaceSample = false/.test(html), '記事を開いた直後から基準速度を常設表示する必要があります。');
-assert(/recordPersonalReadingPace\(percent\)[\s\S]*?elapsed < PERSONAL_PACE_MIN_ACTIVE_MS[\s\S]*?boundedInstantaneous[\s\S]*?PERSONAL_PACE_SMOOTHING[\s\S]*?hasPersonalPaceSample = true/.test(html), '最初の進行を待機なく採用し、範囲外の瞬間値も安全に収めて連続的に平滑化する必要があります。');
+assert(/function recordPersonalReadingPace\(percent, allowProgressMeasurement = false, now = performance\.now\(\)\)[\s\S]*?!allowProgressMeasurement[\s\S]*?primePersonalReadingPace\(percent\)[\s\S]*?boundedInstantaneous[\s\S]*?targetPace = Math\.min\(previousPace, boundedInstantaneous\)[\s\S]*?Math\.exp\(-Math\.min\(elapsed, PERSONAL_PACE_SCROLL_RESPONSE_TIME_MS \* 4\) \/ PERSONAL_PACE_SCROLL_RESPONSE_TIME_MS\)[\s\S]*?hasPersonalPaceSample = true/.test(html), '進行量は落ち着いた再開時だけを補助指標にし、瞬間的なスクロール操作で個人ペースを押し上げてはいけません。');
 assert(/function updatePersonalPaceFromDwell\(now = performance\.now\(\)\)[\s\S]*?elapsed > PERSONAL_PACE_IDLE_LIMIT_MS[\s\S]*?PERSONAL_PACE_DWELL_VISIBLE_READ_FRACTION[\s\S]*?PERSONAL_PACE_DWELL_MAX_CPM[\s\S]*?dwellStartPace[\s\S]*?Math\.exp\(-elapsed \/ PERSONAL_PACE_DWELL_DECAY_TIME_MS\)[\s\S]*?Math\.exp\(-frameElapsed \/ PERSONAL_PACE_DWELL_RESPONSE_TIME_MS\)[\s\S]*?hasPersonalPaceSample = true/.test(html), '停止中は本文滞在時間を用い、直前の高い速度を時間依存で即応補正する必要があります。');
 assert(/function startPersonalDwellTimer\(\)[\s\S]*?updatePersonalPaceFromDwell\(timestamp\)[\s\S]*?updateReadingProgress\(\)[\s\S]*?readingProgressState\.dwellFrameId = window\.requestAnimationFrame\(updateFrame\)[\s\S]*?readingProgressState\.dwellFrameId = window\.requestAnimationFrame\(updateFrame\)/.test(html), '滞在中の速度と残り時間はsetIntervalではなく描画フレームごとに連続更新する必要があります。');
 assert(/function stopPersonalDwellTimer\(\)[\s\S]*?window\.cancelAnimationFrame\(readingProgressState\.dwellFrameId\)/.test(html), '記事を閉じた時は描画フレームの更新予約を解除する必要があります。');
@@ -163,6 +165,7 @@ console.log(JSON.stringify({
   firstProgressRealtimePaceMeasurementPreserved: true,
   dwellTimeFrameContinuousMeasurementPreserved: true,
   fastDwellDecayPreserved: true,
+  scrollVelocitySpikeGuardPreserved: true,
   persistentDecimalSpeedReadoutPreserved: true,
   minuteSecondRemainingTimePreserved: true,
   remainingTimeModeSwitchPreserved: true,
