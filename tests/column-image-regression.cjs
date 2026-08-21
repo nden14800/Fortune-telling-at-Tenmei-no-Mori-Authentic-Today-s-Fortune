@@ -29,6 +29,10 @@ for (const { id, extension } of generatedImages) {
   const svgReference = `assets/article-images/column-${paddedId}-overview.svg`;
   const assetPath = path.join(assetDirectory, `column-${paddedId}-overview.${extension}`);
   const imageTagPattern = new RegExp(`<img src="${imageReference.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}" alt="([^"]+)" loading="lazy">`);
+  const isLatestColumnFallback = id === 62;
+  const fallbackReference = 'assets/article-images/column-062-overview.jpg';
+  const fallbackPath = path.join(assetDirectory, 'column-062-overview.jpg');
+  const latestFallbackPattern = new RegExp(`<picture class="article-visual-media"><source srcset="${imageReference.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\?v=[^"]+" type="image/webp"><img src="${fallbackReference.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\?v=[^"]+" alt="([^"]+)" width="2560" height="1440" loading="eager" decoding="async" onerror="[^"]+"></picture>`);
 
   if (!fs.existsSync(assetPath)) {
     failures.push(`生成画像が存在しません: ${assetPath}`);
@@ -39,7 +43,14 @@ for (const { id, extension } of generatedImages) {
   if (indexHtml.includes(svgReference)) {
     failures.push(`AI生成画像へ置換済みの記事にSVG参照が残っています: ${svgReference}`);
   }
-  if (!imageTagPattern.test(indexHtml)) {
+  if (isLatestColumnFallback) {
+    if (!fs.existsSync(fallbackPath)) {
+      failures.push(`最新記事のJPEGフォールバック画像が存在しません: ${fallbackPath}`);
+    }
+    if (!latestFallbackPattern.test(indexHtml)) {
+      failures.push('最新記事のWebP・JPEGフォールバック構造、固定寸法、または画像エラー時の代替処理がありません。');
+    }
+  } else if (!imageTagPattern.test(indexHtml)) {
     failures.push(`空でないalt属性またはlazy loadingを持つ画像タグがありません: ${imageReference}`);
   }
 }
