@@ -40,7 +40,20 @@ expect(/authFetch\(`\$\{API_BASE\}\/api\/auth\/google\/connect\/start`, \{\s*met
 expect(/redirectUrl\.origin !== 'https:\/\/accounts\.google\.com'/.test(googleConnect), 'Google認可URLのオリジンを検証していません。');
 expect(/redirectUrl\.pathname !== '\/o\/oauth2\/v2\/auth'/.test(googleConnect), 'Google認可URLのパスを検証していません。');
 
-const unsafeShareOpenCount = (index.match(/window\.open\(intent, '_blank'\);/g) || []).length;
+const columnSearchRenderer = between(index, 'window.renderFullColumnView = function() {', '};// 4. 記事詳細表示');
+expect(columnSearchRenderer.length > 0, 'renderFullColumnView() を検出できません。');
+expect(/\$\{escapeHtml\(listState\.column\.query\)\}/.test(columnSearchRenderer), 'コラム検索語がHTMLへ未エスケープで挿入されています。');
+expect(!/\$\{listState\.column\.query\}/.test(columnSearchRenderer), 'コラム検索語の未エスケープ挿入が残っています。');
+
+const profileRenderer = between(index, 'function renderProfilePage(data) {', '// --- プロフィール編集関連 ---');
+expect(profileRenderer.length > 0, 'renderProfilePage() を検出できません。');
+expect(!/onclick="openEditProfileModal\(/.test(profileRenderer), 'プロフィール編集ボタンが動的値をインラインonclickへ埋め込んでいます。');
+expect(/profileEditButton\.addEventListener\('click'/.test(profileRenderer), 'プロフィール編集ボタンが安全なaddEventListener方式で登録されていません。');
+expect(/const profileIconAllowlist = new Set\(/.test(profileRenderer), 'プロフィールアイコンの許可リストがありません。');
+expect(/const safeProfileIcon = profileIconAllowlist\.has\(data\.icon\)/.test(profileRenderer), 'プロフィールアイコンを許可リストで検証していません。');
+expect(/const safeProfileColor = Object\.prototype\.hasOwnProperty\.call\(iconColorMap, data\.color\)/.test(profileRenderer), 'プロフィール色を許可リストで検証していません。');
+
+const unsafeShareOpenCount = (index.match(/window.open(intent, '_blank');/g) || []).length;
 const safeShareOpenCount = (index.match(/window\.open\(intent, '_blank', 'noopener,noreferrer'\);/g) || []).length;
 expect(unsafeShareOpenCount === 0, 'SNS共有のwindow.open()にnoopener,noreferrerがありません。');
 expect(safeShareOpenCount === 4, `SNS共有の安全なwindow.open()が4件ではありません（検出件数: ${safeShareOpenCount}）。`);
@@ -66,4 +79,6 @@ console.log(JSON.stringify({
   safeShareOpenCount,
   cspConfigured: true,
   historyRendererUsesInlineHandler: false,
+  columnSearchQueryEscaped: true,
+  profileEditUsesEventListener: true,
 }, null, 2));
