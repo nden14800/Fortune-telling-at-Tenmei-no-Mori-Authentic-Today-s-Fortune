@@ -5,6 +5,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const htmlPath = path.join(root, 'index.html');
 const html = fs.readFileSync(htmlPath, 'utf8');
+const headersPath = path.join(root, '_headers');
+const headers = fs.existsSync(headersPath) ? fs.readFileSync(headersPath, 'utf8') : '';
 const failures = [];
 
 function expect(condition, message) {
@@ -33,6 +35,8 @@ expect(guideMarkup.length > 0, '案内センターのマークアップを検出
 expect(script.length > 0, '案内センターの初期化スクリプトを検出できません。');
 expect(html.includes('assets/vendor/pagefind/pagefind-component-ui.css'), 'PagefindのローカルCSSを読み込んでいません。');
 expect(html.includes('assets/vendor/pagefind/pagefind-component-ui.js'), 'PagefindのローカルWeb Componentを読み込んでいません。');
+expect(headers.includes("'wasm-unsafe-eval'"), 'PagefindのWebAssembly実行に必要な最小限のCSP許可がありません。');
+expect(!headers.includes("'unsafe-eval'"), 'CSPが不要に一般的なunsafe-evalを許可しています。');
 
 [
   'id="guide-center-trigger"',
