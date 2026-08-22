@@ -13159,8 +13159,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 }
             }
         </style>
-        <!-- Flowise Embed 3.1.6 / MIT: 完成済みの標準フローティングチャットウィジェット -->
-        <script src="assets/vendor/flowise-embed/flowise-embed-3.1.6.umd.js" defer></script>
+        <!-- Pagefind 1.5.0 / MIT: 公開記事の静的全文検索。外部SaaS・常設検索サーバーは利用しない。 -->
+        <link rel="stylesheet" href="assets/vendor/pagefind/pagefind-component-ui.css">
+        <script type="module" src="assets/vendor/pagefind/pagefind-component-ui.js"></script>
     </head>
 
     <!-- ▼▼▼ 修正: クラス "sidebar-collapsed" を追加 ▼▼▼ -->
@@ -18180,7 +18181,150 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </div>
     </dialog>
 
-    <!-- AI案内は、Flowise Embedが標準のフローティング起動ボタンと会話画面を自動挿入する。独自の起動ボタン・パネルは置かない。 -->
+    <!-- ================================================================
+         案内センター
+         公開記事の検索とWorkers AIによる案内を一つにまとめる。会話本文を
+         DB・localStorage・外部SaaSへ保存しない。Pagefindはローカル同梱する。
+         ================================================================ -->
+    <button type="button" id="guide-center-trigger" class="guide-center-trigger" aria-haspopup="dialog" aria-controls="guide-center" aria-expanded="false">
+        <span class="guide-center-trigger-icon" aria-hidden="true"><i class="bi bi-compass"></i></span>
+        <span class="guide-center-trigger-copy"><strong>案内センター</strong><small>記事検索・AI案内</small></span>
+    </button>
+
+    <div id="guide-center-overlay" class="guide-center-overlay" hidden></div>
+    <aside id="guide-center" class="guide-center" role="dialog" aria-modal="true" aria-labelledby="guide-center-title" aria-hidden="true" hidden>
+        <header class="guide-center-header">
+            <div class="guide-center-brand">
+                <span class="guide-center-brand-mark" aria-hidden="true"><i class="bi bi-compass-fill"></i></span>
+                <div>
+                    <p>GUIDE CENTER</p>
+                    <h2 id="guide-center-title">天命乃杜の案内</h2>
+                </div>
+            </div>
+            <button type="button" class="guide-center-icon-button" data-guide-close aria-label="案内センターを閉じる" title="閉じる"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+        </header>
+
+        <div class="guide-center-body">
+            <section id="guide-screen-home" class="guide-center-screen" data-guide-screen="home" aria-labelledby="guide-home-title">
+                <div class="guide-center-hero">
+                    <p class="guide-center-eyebrow"><i class="bi bi-stars" aria-hidden="true"></i> PUBLIC GUIDE</p>
+                    <h3 id="guide-home-title">知りたいことへ、
+                        <span>静かに案内します。</span>
+                    </h3>
+                    <p>公開中の記事を探すことも、天命乃杜の使い方をAIに尋ねることもできます。個人情報や認証情報は入力しないでください。</p>
+                    <button type="button" class="guide-center-primary-action" data-guide-tab="ai"><span>AIに質問する</span><i class="bi bi-arrow-up-right" aria-hidden="true"></i></button>
+                </div>
+
+                <div class="guide-center-section-heading">
+                    <p>よくある案内</p>
+                    <span>はじめての方へ</span>
+                </div>
+                <div class="guide-center-route-list">
+                    <button type="button" class="guide-center-route" data-guide-view="howto">
+                        <span class="guide-center-route-icon guide-center-route-icon--indigo"><i class="bi bi-signpost-split" aria-hidden="true"></i></span>
+                        <span><strong>天命乃杜の使い方</strong><small>基本の巡り方と各機能を確認する</small></span>
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="guide-center-route" data-guide-view="auth">
+                        <span class="guide-center-route-icon guide-center-route-icon--gold"><i class="bi bi-patch-check" aria-hidden="true"></i></span>
+                        <span><strong>参拝証について</strong><small>発行・会員機能の案内を確認する</small></span>
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="guide-center-route" data-guide-view="omamori">
+                        <span class="guide-center-route-icon guide-center-route-icon--green"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                        <span><strong>デジタル御守について</strong><small>御守の見方と授与所を確認する</small></span>
+                        <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="guide-center-section-heading guide-center-section-heading--compact">
+                    <p>公開資料</p>
+                    <button type="button" class="guide-center-text-action" data-guide-tab="help">すべて検索<i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+                </div>
+                <div class="guide-center-article-list" aria-label="新着の公開資料">
+                    <button type="button" class="guide-center-article" data-guide-article="news-87">
+                        <span class="guide-center-article-type">社務所だより</span>
+                        <strong>Ver.4.0「静謐な即応」について</strong>
+                        <span>全画面のUI/UX刷新と機能改善の記録</span>
+                    </button>
+                    <button type="button" class="guide-center-article" data-guide-article="column-62">
+                        <span class="guide-center-article-type">神籤草子</span>
+                        <strong>処暑と、秋の気配を待つ時間</strong>
+                        <span>二十四節気を読むための公開記事</span>
+                    </button>
+                </div>
+
+                <p class="guide-center-privacy-note"><i class="bi bi-shield-lock" aria-hidden="true"></i><span>この案内センターは公開情報のみを扱います。運営者への転送・個別返信はありません。</span></p>
+            </section>
+
+            <section id="guide-screen-help" class="guide-center-screen" data-guide-screen="help" hidden aria-labelledby="guide-help-title">
+                <div class="guide-center-screen-heading">
+                    <p class="guide-center-eyebrow"><i class="bi bi-search" aria-hidden="true"></i> KNOWLEDGE SEARCH</p>
+                    <h3 id="guide-help-title">公開資料を検索</h3>
+                    <p>社務所だよりと神籤草子を、本文まで含めて検索できます。検索結果を選ぶと、該当記事を開きます。</p>
+                </div>
+                <pagefind-config instance="guide-search" bundle-path="/assets/vendor/pagefind/" lang="ja"></pagefind-config>
+                <pagefind-searchbox instance="guide-search" placeholder="記事・使い方・おみくじを検索" max-results="8" show-sub-results hide-shortcut>
+                    <script type="text/pagefind-template">
+                        <a class="guide-search-result" id="{{ aria.result_id }}" href="{{ meta.guide_url | default(url) | safeUrl }}" role="option" aria-selected="false" aria-labelledby="{{ aria.title_id }}"{{#if excerpt}} aria-describedby="{{ aria.excerpt_id }}"{{/if}}>
+                            <span class="guide-search-result-meta">{{ meta.type }} · {{ meta.category }}</span>
+                            <strong id="{{ aria.title_id }}">{{ meta.title | default("公開資料") }}</strong>
+                            {{#if excerpt}}<span id="{{ aria.excerpt_id }}" class="guide-search-result-excerpt">{{+ excerpt +}}</span>{{/if}}
+                        </a>
+                    </script>
+                </pagefind-searchbox>
+                <div class="guide-center-search-status"><pagefind-summary instance="guide-search" default-message="キーワードを入力すると、149件の公開資料から探せます。"></pagefind-summary></div>
+                <pagefind-results instance="guide-search" max-results="12" hide-sub-results>
+                    <script type="text/pagefind-template">
+                        <li class="guide-search-card">
+                            <a class="guide-search-result" href="{{ meta.guide_url | default(url) | safeUrl }}">
+                                <span class="guide-search-result-meta">{{ meta.type }} · {{ meta.category }} · {{ meta.date }}</span>
+                                <strong>{{ meta.title | default("公開資料") }}</strong>
+                                {{#if excerpt}}<span class="guide-search-result-excerpt">{{+ excerpt +}}</span>{{/if}}
+                                <span class="guide-search-result-open">記事を開く<i class="bi bi-arrow-up-right" aria-hidden="true"></i></span>
+                            </a>
+                        </li>
+                    </script>
+                </pagefind-results>
+                <div class="guide-center-search-empty">
+                    <i class="bi bi-journal-text" aria-hidden="true"></i>
+                    <p><strong>公開情報を先に探せます。</strong><span>使い方、参拝証、御守、おみくじ、更新内容などの言葉で検索してください。</span></p>
+                </div>
+            </section>
+
+            <section id="guide-screen-ai" class="guide-center-screen" data-guide-screen="ai" hidden aria-labelledby="guide-ai-title">
+                <div class="guide-center-screen-heading guide-center-screen-heading--ai">
+                    <p class="guide-center-eyebrow"><i class="bi bi-chat-square-text" aria-hidden="true"></i> AI GUIDE</p>
+                    <h3 id="guide-ai-title">AIによる公開情報の案内</h3>
+                    <p>会話内容はこの画面を閉じると消去されます。個人情報、パスワード、認証コード、住所、電話番号、メールアドレスは入力しないでください。</p>
+                </div>
+                <div id="guide-ai-transcript" class="guide-ai-transcript" role="log" aria-live="polite" aria-label="AI案内の会話">
+                    <article class="guide-ai-message guide-ai-message--assistant">
+                        <span class="guide-ai-message-mark" aria-hidden="true"><i class="bi bi-compass-fill"></i></span>
+                        <p>天命乃杜の使い方、参拝証、御守、公開記事などについて案内します。公開情報の範囲で質問してください。</p>
+                    </article>
+                </div>
+                <form id="guide-ai-form" class="guide-ai-form">
+                    <label class="sr-only" for="guide-ai-input">AI案内への質問</label>
+                    <textarea id="guide-ai-input" name="question" rows="3" maxlength="800" placeholder="例：参拝証とは何ですか？" aria-describedby="guide-ai-helper"></textarea>
+                    <div class="guide-ai-form-footer">
+                        <p id="guide-ai-helper"><span id="guide-ai-char-count">0</span>/800字・公開情報のみ</p>
+                        <button type="submit" id="guide-ai-submit"><span>送信</span><i class="bi bi-arrow-up" aria-hidden="true"></i></button>
+                    </div>
+                </form>
+                <div class="guide-ai-actions">
+                    <button type="button" id="guide-ai-reset"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>会話を消去</button>
+                    <span>端末・DBには保存しません</span>
+                </div>
+            </section>
+        </div>
+
+        <nav class="guide-center-tabs" aria-label="案内センターの画面">
+            <button type="button" class="guide-center-tab" data-guide-tab="home" aria-controls="guide-screen-home" aria-selected="true"><i class="bi bi-house-door" aria-hidden="true"></i><span>ホーム</span></button>
+            <button type="button" class="guide-center-tab" data-guide-tab="help" aria-controls="guide-screen-help" aria-selected="false"><i class="bi bi-search" aria-hidden="true"></i><span>ヘルプ</span></button>
+            <button type="button" class="guide-center-tab" data-guide-tab="ai" aria-controls="guide-screen-ai" aria-selected="false"><i class="bi bi-chat-square-text" aria-hidden="true"></i><span>AI案内</span></button>
+        </nav>
+    </aside>
 
 
     <!-- プロフィール編集モーダル (修正版) -->
@@ -18367,46 +18511,230 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         const SITE_URL = "https://tenmei-mori.pages.dev";
 
         // ==========================================
-        //  AI案内（Flowise Embed 3.1.6 / MIT）
-        //  標準の起動ボタン・会話画面をそのまま使い、AI実行だけを既存Workerに限定する。
-        //  独自のホスト要素、起動ボタン、外枠、会話UIは作らない。
+        //  天命乃杜 案内センター
+        //  公開記事の静的検索（Pagefind）と既存WorkerのAI案内を統合する。
+        //  外部SaaS、認証、運営者転送、会話本文の永続保存は利用しない。
         // ==========================================
-        const FLOWISE_AI_GUIDE_ID = 'tenmei-ai-guide';
+        const AI_GUIDE_ENDPOINT = '/api/v1/prediction/tenmei-ai-guide';
+        const GUIDE_ALLOWED_TABS = new Set(['home', 'help', 'ai']);
+        const guideCenterState = { messages: [], lastFocus: null, activeTab: 'home' };
 
-        function initFlowiseAiGuide() {
-            if (!window.Chatbot || typeof window.Chatbot.init !== 'function') {
-                console.error('Flowise Embedを読み込めませんでした。');
-                return;
+        function guideCenterElements() {
+            return {
+                trigger: document.getElementById('guide-center-trigger'),
+                overlay: document.getElementById('guide-center-overlay'),
+                panel: document.getElementById('guide-center'),
+                transcript: document.getElementById('guide-ai-transcript'),
+                form: document.getElementById('guide-ai-form'),
+                input: document.getElementById('guide-ai-input'),
+                submit: document.getElementById('guide-ai-submit'),
+                count: document.getElementById('guide-ai-char-count'),
+                reset: document.getElementById('guide-ai-reset')
+            };
+        }
+
+        function setGuideCenterTab(tabName, shouldFocus) {
+            const tab = GUIDE_ALLOWED_TABS.has(tabName) ? tabName : 'home';
+            const { panel } = guideCenterElements();
+            if (!panel) return;
+            guideCenterState.activeTab = tab;
+            panel.querySelectorAll('[data-guide-screen]').forEach((screen) => {
+                const isActive = screen.dataset.guideScreen === tab;
+                screen.hidden = !isActive;
+            });
+            panel.querySelectorAll('[data-guide-tab]').forEach((button) => {
+                const isActive = button.dataset.guideTab === tab;
+                button.classList.toggle('is-active', isActive);
+                if (button.classList.contains('guide-center-tab')) button.setAttribute('aria-selected', String(isActive));
+            });
+            if (shouldFocus) {
+                const heading = panel.querySelector('[data-guide-screen="' + tab + '"] h3');
+                if (heading) heading.setAttribute('tabindex', '-1');
+                if (heading) heading.focus({ preventScroll: true });
             }
-            window.Chatbot.init({
-                chatflowid: FLOWISE_AI_GUIDE_ID,
-                apiHost: API_BASE,
-                chatflowConfig: { clearChatOnReload: true },
-                theme: {
-                    disclaimer: {
-                        title: 'AI利用について',
-                        message: 'これはAIによる公開情報の案内です。運営者への転送・個別返信はありません。パスワード、認証コード、住所、電話番号、メールアドレスなどの個人情報は入力しないでください。',
-                        buttonText: 'はじめる'
-                    },
-                    chatWindow: {
-                        title: '天命の案内役',
-                        welcomeMessage: '天命乃杜の使い方、参拝証、御守、記事、参拝の記録について案内します。個人情報や認証情報は入力しないでください。',
-                        renderHTML: false,
-                        textInput: {
-                            placeholder: '天命乃杜について質問してください',
-                            maxChars: 800
-                        },
-                        footer: {
-                            text: 'AIによる公開情報の案内',
-                            company: '',
-                            companyLink: ''
-                        }
-                    }
-                }
+        }
+
+        function openGuideCenter(tabName) {
+            const { trigger, overlay, panel } = guideCenterElements();
+            if (!trigger || !overlay || !panel) return;
+            guideCenterState.lastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : trigger;
+            overlay.hidden = false;
+            panel.hidden = false;
+            requestAnimationFrame(() => {
+                document.body.classList.add('guide-center-open');
+                panel.setAttribute('aria-hidden', 'false');
+                trigger.setAttribute('aria-expanded', 'true');
+                setGuideCenterTab(tabName || guideCenterState.activeTab, false);
+                const closeButton = panel.querySelector('[data-guide-close]');
+                if (closeButton instanceof HTMLElement) closeButton.focus({ preventScroll: true });
             });
         }
 
-        document.addEventListener('DOMContentLoaded', initFlowiseAiGuide, { once: true });
+        function closeGuideCenter(restoreFocus) {
+            const { trigger, overlay, panel } = guideCenterElements();
+            if (!trigger || !overlay || !panel) return;
+            document.body.classList.remove('guide-center-open');
+            panel.setAttribute('aria-hidden', 'true');
+            trigger.setAttribute('aria-expanded', 'false');
+            window.setTimeout(() => {
+                if (!document.body.classList.contains('guide-center-open')) {
+                    overlay.hidden = true;
+                    panel.hidden = true;
+                }
+            }, 220);
+            if (restoreFocus && guideCenterState.lastFocus instanceof HTMLElement) {
+                guideCenterState.lastFocus.focus({ preventScroll: true });
+            }
+        }
+
+        function guideCenterContainsSensitiveText(text) {
+            const value = String(text || '');
+            const patterns = [
+                /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i,
+                /(?:0\d{1,4}[-ー－ ]?\d{1,4}[-ー－ ]?\d{3,4})/,
+                /(?:〒\s*)?\d{3}[-ー－]?\d{4}/,
+                /(?:パスワード|認証コード|ワンタイム|暗証番号|クレジットカード|カード番号)\s*[:：]?/i
+            ];
+            return patterns.some((pattern) => pattern.test(value));
+        }
+
+        function createGuideMessage(role, text, isError) {
+            const article = document.createElement('article');
+            article.className = 'guide-ai-message guide-ai-message--' + role + (isError ? ' is-error' : '');
+            if (role === 'assistant') {
+                const mark = document.createElement('span');
+                mark.className = 'guide-ai-message-mark';
+                mark.setAttribute('aria-hidden', 'true');
+                const icon = document.createElement('i');
+                icon.className = isError ? 'bi bi-exclamation-triangle-fill' : 'bi bi-compass-fill';
+                mark.appendChild(icon);
+                article.appendChild(mark);
+            }
+            const content = document.createElement('p');
+            content.textContent = String(text || '');
+            article.appendChild(content);
+            return article;
+        }
+
+        function appendGuideMessage(role, text, isError) {
+            const { transcript } = guideCenterElements();
+            if (!transcript) return;
+            transcript.appendChild(createGuideMessage(role, text, isError));
+            transcript.scrollTop = transcript.scrollHeight;
+        }
+
+        function resetGuideConversation() {
+            const { transcript, input, count } = guideCenterElements();
+            guideCenterState.messages = [];
+            if (!transcript) return;
+            transcript.replaceChildren(createGuideMessage('assistant', '天命乃杜の使い方、参拝証、御守、公開記事などについて案内します。公開情報の範囲で質問してください。'));
+            if (input) input.value = '';
+            if (count) count.textContent = '0';
+        }
+
+        async function submitGuideQuestion(event) {
+            event.preventDefault();
+            const { input, submit } = guideCenterElements();
+            if (!input || !submit) return;
+            const question = input.value.trim();
+            if (!question) return;
+            if (question.length > 800) {
+                appendGuideMessage('assistant', '質問は800字以内にしてください。', true);
+                return;
+            }
+            if (guideCenterContainsSensitiveText(question)) {
+                appendGuideMessage('assistant', '個人情報や認証情報は送信できません。内容を削除して、公開情報に関する質問だけを入力してください。', true);
+                return;
+            }
+
+            appendGuideMessage('user', question, false);
+            guideCenterState.messages.push({ role: 'user', content: question });
+            input.value = '';
+            const { count } = guideCenterElements();
+            if (count) count.textContent = '0';
+            submit.disabled = true;
+            submit.setAttribute('aria-busy', 'true');
+
+            try {
+                const response = await fetch(API_BASE + AI_GUIDE_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        question,
+                        history: guideCenterState.messages.slice(-12)
+                    })
+                });
+                const payload = await response.json().catch(() => ({}));
+                if (!response.ok || typeof payload.text !== 'string' || !payload.text.trim()) {
+                    throw new Error(payload.message || 'AI案内を表示できませんでした。');
+                }
+                const answer = payload.text.trim();
+                appendGuideMessage('assistant', answer, false);
+                guideCenterState.messages.push({ role: 'assistant', content: answer });
+                guideCenterState.messages = guideCenterState.messages.slice(-12);
+            } catch (error) {
+                const message = error instanceof Error && error.message ? error.message : '通信に失敗しました。時間をおいて、もう一度お試しください。';
+                appendGuideMessage('assistant', message, true);
+            } finally {
+                submit.disabled = false;
+                submit.removeAttribute('aria-busy');
+                input.focus({ preventScroll: true });
+            }
+        }
+
+        function openGuideArticle(articleKey) {
+            const match = /^(news|column)-(\d+)$/.exec(String(articleKey || ''));
+            if (!match || typeof window.openArticle !== 'function') return;
+            closeGuideCenter(false);
+            window.openArticle(match[1], Number(match[2]));
+        }
+
+        function openGuideArticleFromLocation() {
+            const url = new URL(window.location.href);
+            const articleKey = url.searchParams.get('guide_article');
+            if (!articleKey) return;
+            url.searchParams.delete('guide_article');
+            window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+            openGuideArticle(articleKey);
+        }
+
+        function initGuideCenter() {
+            const { trigger, overlay, panel, form, input, count, reset } = guideCenterElements();
+            if (!trigger || !overlay || !panel || !form || !input || !count || !reset) return;
+            trigger.addEventListener('click', () => openGuideCenter('home'));
+            overlay.addEventListener('click', () => closeGuideCenter(true));
+            panel.addEventListener('click', (event) => {
+                const closeButton = event.target.closest('[data-guide-close]');
+                if (closeButton) {
+                    closeGuideCenter(true);
+                    return;
+                }
+                const tabButton = event.target.closest('[data-guide-tab]');
+                if (tabButton) {
+                    setGuideCenterTab(tabButton.dataset.guideTab, true);
+                    return;
+                }
+                const viewButton = event.target.closest('[data-guide-view]');
+                if (viewButton && typeof window.showView === 'function') {
+                    closeGuideCenter(false);
+                    window.showView(viewButton.dataset.guideView);
+                    return;
+                }
+                const articleButton = event.target.closest('[data-guide-article]');
+                if (articleButton) openGuideArticle(articleButton.dataset.guideArticle);
+            });
+            input.addEventListener('input', () => { count.textContent = String(input.value.length); });
+            form.addEventListener('submit', submitGuideQuestion);
+            reset.addEventListener('click', resetGuideConversation);
+            document.addEventListener('keydown', (event) => {
+                if (event.key !== 'Escape' || panel.hidden) return;
+                if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target.closest('pagefind-searchbox')) return;
+                closeGuideCenter(true);
+            });
+            openGuideArticleFromLocation();
+        }
+
+        document.addEventListener('DOMContentLoaded', initGuideCenter, { once: true });
 
         // --- XSS対策用エスケープ関数 ---
 function escapeHtml(str) {
@@ -35065,7 +35393,177 @@ try {
     html.dark .ver-source-link-date { color: var(--vh-muted) !important; }
     html.dark .ver-source-link-title { color: var(--vh-ink) !important; }
     html.dark .ver-source-link-item:hover { border-color: rgba(213, 179, 106, 0.28); background: var(--vh-paper-soft); }
-    /* AI案内はFlowise Embedの標準Shadow DOM UIを利用する。独自の起動ボタン・外枠・配色上書きは置かない。 */
+    /* ================================================================
+       案内センター: Pagefindの既製検索Web Componentと、公開情報専用の
+       Workers AI会話を同じ導線へまとめる。既存画面のデザイン規則と同じ
+       余白・角丸・紙面コントラストを使いつつ、独立した案内体験を構成する。
+       ================================================================ */
+    :root {
+        --guide-surface: #fffdf8;
+        --guide-surface-muted: #f7f3ea;
+        --guide-ink: #25211c;
+        --guide-muted: #726b60;
+        --guide-line: rgba(83, 70, 48, 0.15);
+        --guide-accent: #9f4438;
+        --guide-accent-deep: #7f3028;
+        --guide-indigo: #596580;
+        --guide-gold: #a97828;
+        --guide-green: #47766a;
+        --guide-focus: #b75241;
+        --pf-text: var(--guide-ink);
+        --pf-text-secondary: #554f45;
+        --pf-text-muted: var(--guide-muted);
+        --pf-background: var(--guide-surface);
+        --pf-border: var(--guide-line);
+        --pf-border-focus: var(--guide-focus);
+        --pf-hover: #f1ece2;
+        --pf-mark: var(--guide-accent);
+        --pf-shadow-sm: 0 8px 24px rgba(38, 29, 18, 0.08);
+        --pf-shadow-md: 0 18px 40px rgba(38, 29, 18, 0.13);
+        --pf-outline-focus: var(--guide-focus);
+        --pf-border-radius: 14px;
+        --pf-font: inherit;
+        --pf-searchbox-max-width: none;
+    }
+    html.dark {
+        --guide-surface: #1e1c1a;
+        --guide-surface-muted: #272420;
+        --guide-ink: #f0eadf;
+        --guide-muted: #c3b8aa;
+        --guide-line: rgba(239, 227, 207, 0.15);
+        --guide-accent: #df786a;
+        --guide-accent-deep: #ef9384;
+        --guide-indigo: #aab8df;
+        --guide-gold: #e3bc72;
+        --guide-green: #86beac;
+        --guide-focus: #ff9a89;
+        --pf-text-secondary: #ddd3c6;
+        --pf-hover: #302c27;
+        --pf-mark: #ff9a89;
+        --pf-shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.28);
+        --pf-shadow-md: 0 18px 42px rgba(0, 0, 0, 0.4);
+    }
+    body.guide-center-open { overflow: hidden; }
+    .guide-center-trigger {
+        position: fixed; z-index: 840; right: 24px; bottom: 24px; display: inline-flex; align-items: center; gap: 10px;
+        min-height: 58px; padding: 8px 18px 8px 8px; border: 1px solid rgba(255,255,255,0.44); border-radius: 999px;
+        color: #fffdf9; background: linear-gradient(135deg, #913f35 0%, #6f2b26 100%); box-shadow: 0 14px 34px rgba(62, 25, 21, 0.3);
+        font: inherit; text-align: left; transition: transform 160ms var(--ease-out, cubic-bezier(.23,1,.32,1)), box-shadow 160ms var(--ease-out, cubic-bezier(.23,1,.32,1));
+    }
+    .guide-center-trigger:hover { transform: translateY(-2px); box-shadow: 0 18px 42px rgba(62,25,21,.38); }
+    .guide-center-trigger:active, .guide-center-primary-action:active, .guide-center-route:active, .guide-center-tab:active { transform: scale(.97); }
+    .guide-center-trigger-icon, .guide-center-brand-mark { display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; }
+    .guide-center-trigger-icon { width: 42px; height: 42px; background: rgba(255,255,255,.16); font-size: 1.1rem; }
+    .guide-center-trigger-copy { display: grid; gap: 1px; line-height: 1.1; }
+    .guide-center-trigger-copy strong { font-size: .88rem; letter-spacing: .02em; }
+    .guide-center-trigger-copy small { color: rgba(255,255,255,.74); font-size: .67rem; }
+    .guide-center-overlay { position: fixed; z-index: 860; inset: 0; background: rgba(29, 23, 17, .3); backdrop-filter: blur(2px); opacity: 0; transition: opacity 220ms cubic-bezier(.23,1,.32,1); }
+    body.guide-center-open .guide-center-overlay { opacity: 1; }
+    .guide-center { position: fixed; z-index: 870; top: 0; right: 0; display: grid; grid-template-rows: auto minmax(0,1fr) auto; width: min(470px,100vw); height: 100dvh; overflow: hidden; color: var(--guide-ink); background: var(--guide-surface); border-left: 1px solid var(--guide-line); box-shadow: -22px 0 60px rgba(25,18,11,.16); transform: translateX(100%); transition: transform 220ms cubic-bezier(.23,1,.32,1); }
+    body.guide-center-open .guide-center { transform: translateX(0); }
+    .guide-center[hidden], .guide-center-overlay[hidden] { display: none; }
+    .guide-center-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 76px; padding: 14px 18px; border-bottom: 1px solid var(--guide-line); background: color-mix(in srgb, var(--guide-surface) 92%, transparent); }
+    .guide-center-brand { display: flex; align-items: center; min-width: 0; gap: 11px; }
+    .guide-center-brand-mark { width: 38px; height: 38px; color: #fffaf0; background: linear-gradient(135deg, var(--guide-accent), var(--guide-accent-deep)); box-shadow: 0 7px 16px color-mix(in srgb, var(--guide-accent) 24%, transparent); }
+    .guide-center-brand p, .guide-center-brand h2 { margin: 0; }
+    .guide-center-brand p { color: var(--guide-accent); font-size: .61rem; font-weight: 800; letter-spacing: .16em; }
+    .guide-center-brand h2 { overflow: hidden; font-size: .98rem; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+    .guide-center-icon-button { display: grid; place-items: center; flex: 0 0 auto; width: 38px; height: 38px; border: 1px solid transparent; border-radius: 12px; color: var(--guide-muted); background: transparent; transition: background 160ms ease, color 160ms ease, transform 160ms ease; }
+    .guide-center-icon-button:hover { color: var(--guide-ink); background: var(--guide-surface-muted); }
+    .guide-center-icon-button:focus-visible, .guide-center button:focus-visible, .guide-center a:focus-visible { outline: 3px solid color-mix(in srgb, var(--guide-focus) 42%, transparent); outline-offset: 3px; }
+    .guide-center-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+    .guide-center-screen { min-height: 100%; padding: 20px 18px 28px; }
+    .guide-center-hero { position: relative; overflow: hidden; padding: 22px; border: 1px solid color-mix(in srgb, var(--guide-accent) 30%, var(--guide-line)); border-radius: 22px; background: linear-gradient(145deg, color-mix(in srgb, var(--guide-accent) 12%, var(--guide-surface)) 0%, var(--guide-surface-muted) 100%); }
+    .guide-center-hero::after { position: absolute; inset: auto -34px -44px auto; width: 132px; height: 132px; border: 1px solid color-mix(in srgb, var(--guide-accent) 30%, transparent); border-radius: 50%; content: ''; }
+    .guide-center-eyebrow { display: flex; align-items: center; gap: 7px; margin: 0 0 10px; color: var(--guide-accent); font-size: .64rem; font-weight: 800; letter-spacing: .12em; }
+    .guide-center-hero h3, .guide-center-screen-heading h3 { margin: 0; letter-spacing: -.035em; }
+    .guide-center-hero h3 { max-width: 320px; font-size: clamp(1.5rem, 5vw, 2rem); line-height: 1.19; }
+    .guide-center-hero h3 span { display: block; color: var(--guide-accent); }
+    .guide-center-hero > p:not(.guide-center-eyebrow), .guide-center-screen-heading > p:not(.guide-center-eyebrow) { max-width: 390px; margin: 14px 0 0; color: var(--guide-muted); font-size: .82rem; line-height: 1.75; }
+    .guide-center-primary-action { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: space-between; gap: 18px; width: 100%; min-height: 48px; margin-top: 19px; padding: 0 15px 0 17px; border: 0; border-radius: 14px; color: #fffdf9; background: var(--guide-accent); box-shadow: 0 9px 18px color-mix(in srgb, var(--guide-accent) 25%, transparent); font: inherit; font-size: .84rem; font-weight: 800; transition: transform 160ms ease, background 160ms ease; }
+    .guide-center-primary-action:hover { background: var(--guide-accent-deep); }
+    .guide-center-section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 25px 2px 10px; }
+    .guide-center-section-heading p { margin: 0; font-size: .76rem; font-weight: 800; letter-spacing: .04em; }
+    .guide-center-section-heading > span { color: var(--guide-muted); font-size: .69rem; }
+    .guide-center-section-heading--compact { margin-top: 22px; }
+    .guide-center-text-action { display: inline-flex; align-items: center; gap: 5px; border: 0; color: var(--guide-accent); background: transparent; font: inherit; font-size: .72rem; font-weight: 800; }
+    .guide-center-route-list, .guide-center-article-list { display: grid; gap: 8px; }
+    .guide-center-route { display: grid; grid-template-columns: 36px minmax(0,1fr) auto; align-items: center; gap: 11px; width: 100%; padding: 11px; border: 1px solid var(--guide-line); border-radius: 16px; color: var(--guide-ink); background: var(--guide-surface); font: inherit; text-align: left; transition: border-color 160ms ease, background 160ms ease, transform 160ms ease; }
+    .guide-center-route:hover { border-color: color-mix(in srgb, var(--guide-accent) 42%, var(--guide-line)); background: var(--guide-surface-muted); }
+    .guide-center-route-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; font-size: .94rem; }
+    .guide-center-route-icon--indigo { color: var(--guide-indigo); background: color-mix(in srgb, var(--guide-indigo) 13%, transparent); }
+    .guide-center-route-icon--gold { color: var(--guide-gold); background: color-mix(in srgb, var(--guide-gold) 15%, transparent); }
+    .guide-center-route-icon--green { color: var(--guide-green); background: color-mix(in srgb, var(--guide-green) 15%, transparent); }
+    .guide-center-route strong, .guide-center-route small { display: block; }
+    .guide-center-route strong { font-size: .81rem; line-height: 1.3; }
+    .guide-center-route small { margin-top: 3px; color: var(--guide-muted); font-size: .68rem; line-height: 1.35; }
+    .guide-center-route > i { color: var(--guide-muted); font-size: .78rem; }
+    .guide-center-article { display: grid; gap: 4px; width: 100%; padding: 13px 14px; border: 1px solid var(--guide-line); border-radius: 15px; color: var(--guide-ink); background: var(--guide-surface-muted); font: inherit; text-align: left; transition: border-color 160ms ease, transform 160ms ease; }
+    .guide-center-article:hover { border-color: color-mix(in srgb, var(--guide-accent) 40%, var(--guide-line)); transform: translateY(-1px); }
+    .guide-center-article-type { color: var(--guide-accent); font-size: .64rem; font-weight: 800; letter-spacing: .05em; }
+    .guide-center-article strong { font-size: .79rem; line-height: 1.45; }
+    .guide-center-article > span:last-child { color: var(--guide-muted); font-size: .67rem; line-height: 1.42; }
+    .guide-center-privacy-note { display: flex; align-items: flex-start; gap: 8px; margin: 22px 4px 0; color: var(--guide-muted); font-size: .67rem; line-height: 1.55; }
+    .guide-center-privacy-note i { margin-top: 2px; color: var(--guide-green); }
+    .guide-center-screen-heading { padding: 2px 2px 18px; }
+    .guide-center-screen-heading h3 { font-size: 1.45rem; }
+    .guide-center-screen-heading--ai { padding-bottom: 14px; }
+    .guide-center-search-status { min-height: 23px; margin: 12px 2px 3px; color: var(--guide-muted); font-size: .71rem; }
+    .guide-center-search-empty { display: flex; gap: 12px; margin: 20px 0 0; padding: 16px; border: 1px dashed var(--guide-line); border-radius: 16px; color: var(--guide-muted); }
+    .guide-center-search-empty > i { color: var(--guide-accent); font-size: 1.08rem; }
+    .guide-center-search-empty p { display: grid; gap: 3px; margin: 0; font-size: .72rem; line-height: 1.55; }
+    .guide-center-search-empty strong { color: var(--guide-ink); font-size: .76rem; }
+    .guide-search-card { margin: 10px 0; list-style: none; }
+    .guide-search-result { display: grid; gap: 6px; width: 100%; padding: 13px; border: 1px solid var(--guide-line); border-radius: 14px; color: var(--guide-ink); background: var(--guide-surface); text-decoration: none; }
+    .guide-search-result:hover { border-color: color-mix(in srgb, var(--guide-accent) 45%, var(--guide-line)); background: var(--guide-surface-muted); }
+    .guide-search-result-meta { color: var(--guide-accent); font-size: .64rem; font-weight: 800; letter-spacing: .03em; }
+    .guide-search-result strong { font-size: .81rem; line-height: 1.45; }
+    .guide-search-result-excerpt { color: var(--guide-muted); font-size: .71rem; line-height: 1.55; }
+    .guide-search-result mark { padding: 0 2px; border-radius: 3px; color: inherit; background: color-mix(in srgb, var(--guide-gold) 35%, transparent); }
+    .guide-search-result-open { display: inline-flex; align-items: center; gap: 6px; margin-top: 2px; color: var(--guide-accent); font-size: .68rem; font-weight: 800; }
+    .guide-ai-transcript { display: grid; align-content: start; gap: 11px; min-height: 220px; max-height: 43dvh; overflow-y: auto; padding: 4px 2px 8px; scrollbar-gutter: stable; }
+    .guide-ai-message { display: flex; align-items: flex-start; gap: 9px; max-width: 94%; margin: 0; }
+    .guide-ai-message p { margin: 0; padding: 11px 13px; border-radius: 16px; font-size: .78rem; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .guide-ai-message--assistant p { border: 1px solid var(--guide-line); border-top-left-radius: 5px; background: var(--guide-surface-muted); }
+    .guide-ai-message--user { justify-self: end; margin-left: auto; }
+    .guide-ai-message--user p { border-top-right-radius: 5px; color: #fffdf9; background: var(--guide-accent); }
+    .guide-ai-message-mark { display: grid; place-items: center; flex: 0 0 auto; width: 28px; height: 28px; margin-top: 2px; border-radius: 50%; color: #fffaf0; background: var(--guide-accent); font-size: .72rem; }
+    .guide-ai-message.is-error p { border-color: color-mix(in srgb, #c4483d 48%, var(--guide-line)); color: #9a332b; background: color-mix(in srgb, #c4483d 9%, var(--guide-surface)); }
+    html.dark .guide-ai-message.is-error p { color: #ffb4aa; }
+    .guide-ai-form { margin-top: 12px; padding: 10px; border: 1px solid var(--guide-line); border-radius: 17px; background: var(--guide-surface); box-shadow: 0 8px 18px rgba(35,27,19,.04); }
+    .guide-ai-form textarea { display: block; width: 100%; min-height: 70px; resize: vertical; border: 0; outline: 0; color: var(--guide-ink); background: transparent; font: inherit; font-size: .8rem; line-height: 1.6; }
+    .guide-ai-form textarea::placeholder { color: var(--guide-muted); opacity: .82; }
+    .guide-ai-form-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 8px; border-top: 1px solid var(--guide-line); }
+    .guide-ai-form-footer p { margin: 0; color: var(--guide-muted); font-size: .64rem; }
+    .guide-ai-form-footer button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 74px; height: 33px; border: 0; border-radius: 10px; color: #fffdf9; background: var(--guide-accent); font: inherit; font-size: .72rem; font-weight: 800; transition: background 160ms ease, transform 160ms ease; }
+    .guide-ai-form-footer button:hover { background: var(--guide-accent-deep); }
+    .guide-ai-form-footer button:disabled { cursor: wait; opacity: .55; }
+    .guide-ai-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 9px; color: var(--guide-muted); font-size: .64rem; }
+    .guide-ai-actions button { display: inline-flex; align-items: center; gap: 5px; border: 0; color: var(--guide-muted); background: transparent; font: inherit; font-size: .67rem; }
+    .guide-ai-actions button:hover { color: var(--guide-accent); }
+    .guide-center-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 8px 10px max(10px, env(safe-area-inset-bottom)); border-top: 1px solid var(--guide-line); background: color-mix(in srgb, var(--guide-surface) 95%, transparent); }
+    .guide-center-tab { display: grid; place-items: center; gap: 4px; min-height: 47px; border: 0; border-radius: 12px; color: var(--guide-muted); background: transparent; font: inherit; font-size: .64rem; font-weight: 700; transition: color 160ms ease, background 160ms ease, transform 160ms ease; }
+    .guide-center-tab i { font-size: .95rem; }
+    .guide-center-tab:hover { color: var(--guide-ink); background: var(--guide-surface-muted); }
+    .guide-center-tab.is-active { color: var(--guide-accent); background: color-mix(in srgb, var(--guide-accent) 10%, transparent); }
+    @media (max-width: 640px) {
+        .guide-center-trigger { right: 14px; bottom: max(14px, env(safe-area-inset-bottom)); min-height: 52px; padding-right: 14px; }
+        .guide-center-trigger-icon { width: 36px; height: 36px; }
+        .guide-center { width: 100vw; border-left: 0; }
+        .guide-center-screen { padding: 17px 14px 24px; }
+        .guide-center-header { min-height: 68px; padding: 12px 14px; }
+        .guide-center-hero { padding: 19px; border-radius: 19px; }
+        .guide-center-hero h3 { font-size: 1.55rem; }
+        .guide-ai-transcript { max-height: 38dvh; }
+    }
+    @media (max-width: 400px) {
+        .guide-center-trigger-copy small { display: none; }
+        .guide-center-trigger { padding-right: 12px; }
+        .guide-center-trigger-copy strong { font-size: .78rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .guide-center, .guide-center-overlay, .guide-center-trigger, .guide-center-route, .guide-center-article, .guide-center-primary-action, .guide-center-tab, .guide-center-icon-button { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
     @media (prefers-reduced-motion: reduce) {
         #sidebar.sidebar-v4, #sidebar.sidebar-v4 .nav-btn, .sidebar-v4-skip-link, #back-to-top-btn {
             transition-duration: 0.01ms !important;
