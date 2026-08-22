@@ -1,4 +1,3 @@
-const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -20,22 +19,32 @@ function between(source, startMarker, endMarker) {
   return source.slice(start, end);
 }
 
-const guideMarkup = between(
+const intercomScript = between(
   html,
-  '<!-- ================================================================\n         案内センター',
-  '<!-- プロフィール編集モーダル'
-);
-const script = between(
-  html,
-  '//  天命乃杜 案内センター',
+  '//  Intercom Messenger / Fin AI Agent',
   '// --- XSS対策用エスケープ関数 ---'
 );
 
-expect(guideMarkup.length > 0, '案内センターのマークアップを検出できません。');
-expect(script.length > 0, '案内センターの初期化スクリプトを検出できません。');
-expect(html.includes('assets/vendor/pagefind/pagefind-component-ui.css'), 'PagefindのローカルCSSを読み込んでいません。');
-expect(html.includes('assets/vendor/pagefind/pagefind-component-ui.js'), 'PagefindのローカルWeb Componentを読み込んでいません。');
-expect(headers.includes("'wasm-unsafe-eval'"), 'PagefindのWebAssembly実行に必要な最小限のCSP許可がありません。');
+expect(intercomScript.length > 0, 'Intercom Messenger / Fin AI Agentの初期化スクリプトを検出できません。');
+
+[
+  "const INTERCOM_APP_ID = window.TENMEI_INTERCOM_APP_ID || 'TENMEI_INTERCOM_APP_ID';",
+  'window.intercomSettings = getIntercomMemberSettings();',
+  "s.id = 'intercom-messenger-loader';",
+  "s.src = 'https://widget.intercom.io/widget/' + INTERCOM_APP_ID;",
+  "window.Intercom = i;",
+  "document.addEventListener('DOMContentLoaded', bootIntercomMessenger, { once: true });",
+  'intercom_user_jwt',
+].forEach((text) => expect(intercomScript.includes(text), `Intercom Messengerの標準起動実装が不足しています: ${text}`));
+
+[
+  'https://widget.intercom.io',
+  'https://js.intercomcdn.com',
+  'https://api-iam.intercom.io',
+  'wss://nexus-websocket-a.intercom.io',
+].forEach((text) => expect(headers.includes(text), `Intercom Messengerに必要なCSP許可が不足しています: ${text}`));
+
+expect(!headers.includes("'wasm-unsafe-eval'"), 'Pagefind撤去後もCSPにwasm-unsafe-evalが残っています。');
 expect(!headers.includes("'unsafe-eval'"), 'CSPが不要に一般的なunsafe-evalを許可しています。');
 
 [
@@ -44,105 +53,50 @@ expect(!headers.includes("'unsafe-eval'"), 'CSPが不要に一般的なunsafe-ev
   'id="guide-screen-home"',
   'id="guide-screen-help"',
   'id="guide-screen-ai"',
+  '<pagefind-config',
   '<pagefind-searchbox',
   '<pagefind-results',
   'bundle-path="/assets/vendor/pagefind/"',
-  'data-guide-view="howto"',
-  'data-guide-view="auth"',
-  'data-guide-view="omamori"',
-  'id="guide-ai-form"',
-  'id="guide-ai-input"',
-  'id="guide-ai-reset"',
-  '個人情報、パスワード、認証コード、住所、電話番号、メールアドレス',
-  '運営者への転送・個別返信はありません。',
-].forEach((text) => expect(guideMarkup.includes(text), `案内センターの必須UIまたは注意文が不足しています: ${text}`));
-
-[
-  '@media (max-width: 640px)',
-  '@media (prefers-reduced-motion: reduce)',
-  '.guide-center { width: 100vw; border-left: 0; }',
-].forEach((text) => expect(html.includes(text), `案内センターのレスポンシブまたは軽減モーション規則が不足しています: ${text}`));
-
-[
+  'assets/vendor/pagefind/pagefind-component-ui.css',
+  'assets/vendor/pagefind/pagefind-component-ui.js',
   "const AI_GUIDE_ENDPOINT = '/api/v1/prediction/tenmei-ai-guide';",
   'fetch(API_BASE + AI_GUIDE_ENDPOINT',
-  'history: guideCenterState.messages.slice(-12)',
-  'question.length > 800',
-  'guideCenterContainsSensitiveText(question)',
-  'guideCenterState.messages = []',
-  'window.openArticle(match[1], Number(match[2]))',
-  "url.searchParams.get('guide_article')",
-  'document.createElement(\'p\')',
-  'content.textContent = String(text || \'\')',
-].forEach((text) => expect(script.includes(text), `案内センターの安全なAI案内または記事遷移実装が不足しています: ${text}`));
-
-[
-  'window.Chatbot',
-  'initFlowiseAiGuide',
-  'FLOWISE_AI_GUIDE_ID',
-  'flowise-embed',
-  'assets/vendor/quikchat',
+  'guideCenterState',
+  'guideCenterContainsSensitiveText',
   'new window.quikchat',
   'chatbase.co',
   'chatbase.com',
-  'intercom',
-  'mailto:',
-  'discord.gg',
-  'zendesk',
-  'authFetch(',
-  'innerHTML =',
-  'localStorage',
-  'sessionStorage',
-].forEach((text) => expect(!script.includes(text), `案内センターのAIスクリプトに禁止された依存または永続保存が残っています: ${text}`));
-
-const vendorFiles = [
-  'pagefind.js',
-  'pagefind-ui.js',
-  'pagefind-component-ui.js',
-  'pagefind-component-ui.css',
-  'wasm.unknown.pagefind',
-  'pagefind-entry.json',
-  'NOTICE.txt',
-].map((file) => path.join(root, 'assets', 'vendor', 'pagefind', file));
-vendorFiles.forEach((file) => expect(fs.existsSync(file), `Pagefindのローカル同梱資産が不足しています: ${path.relative(root, file)}`));
-
-const noticePath = path.join(root, 'assets', 'vendor', 'pagefind', 'NOTICE.txt');
-const notice = fs.existsSync(noticePath) ? fs.readFileSync(noticePath, 'utf8') : '';
-expect(/Pagefind 1\.5\.0/.test(notice) && /MIT License/.test(notice), 'PagefindのバージョンまたはMITライセンス表示が不足しています。');
+  'flowise-embed',
+  'FLOWISE_AI_GUIDE_ID',
+].forEach((text) => expect(!html.includes(text), `旧案内センターまたは置換前の検索・AI依存が残っています: ${text}`));
 
 const buildScriptPath = path.join(root, 'scripts', 'build-guide-search-index.cjs');
-const buildScript = fs.existsSync(buildScriptPath) ? fs.readFileSync(buildScriptPath, 'utf8') : '';
-[
-  'pagefind@1.5.0',
-  'assets',
-  'vendor',
-  'pagefind',
-  'newsData',
-  'columnData',
-  'guide_article',
-  'data-pagefind-meta="guide_url:${guideUrl}"',
-  'data-pagefind-meta="type:${label}"',
-  'data-pagefind-meta="category:${category}"',
-  'data-pagefind-meta="date:${item.date}"',
-].forEach((text) => expect(buildScript.includes(text), `静的検索索引の再生成スクリプトが不足しています: ${text}`));
+expect(!fs.existsSync(buildScriptPath), '社務所だより・神籤草子をヘルプ検索へ混ぜるPagefind索引生成スクリプトが残っています。');
 
-expect(!html.includes('flowise-embed-3.1.6.umd.js'), '置換済みのFlowise Embed資産をHTMLがまだ読み込んでいます。');
-expect(!html.includes('id="ai-guide-launcher"'), '旧AI案内の起動ボタンが残っています。');
-expect(!html.includes('id="ai-guide-panel"'), '旧AI案内パネルが残っています。');
+const vendorPath = path.join(root, 'assets', 'vendor', 'pagefind');
+expect(!fs.existsSync(vendorPath), '案内センター用Pagefind同梱資産が残っています。');
+
+const helpDraftPath = path.join(root, 'docs', 'intercom-fin-help-articles.md');
+const helpDraft = fs.existsSync(helpDraftPath) ? fs.readFileSync(helpDraftPath, 'utf8') : '';
+[
+  'Intercom Fin AI Agent向けヘルプ記事ドラフト',
+  '社務所だよりは更新告知のため、通常のサポート回答ソースには含めない。',
+  '神籤草子は読み物コラムのため、通常のサポート回答ソースには含めない。',
+  '天命乃杜ヘルプ',
+].forEach((text) => expect(helpDraft.includes(text), `Fin用ヘルプ記事運用ドキュメントが不足しています: ${text}`));
 
 if (failures.length > 0) {
-  console.error('AI案内センターの回帰テストに失敗しました。');
+  console.error('Intercom Fin AI Agent型サポートメッセンジャーの回帰テストに失敗しました。');
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
 
-console.log('AI案内センターの回帰テストに合格しました。');
+console.log('Intercom Fin AI Agent型サポートメッセンジャーの回帰テストに合格しました。');
 console.log(JSON.stringify({
-  guideCenter: true,
-  homeHelpAiTabs: true,
-  pagefindLocalStaticSearch: true,
-  noExternalChatSaaS: true,
-  noConversationPersistence: true,
-  aiOnlyNoOperatorHandoff: true,
-  safeWorkerBackedAiGuide: true,
+  intercomMessenger: true,
+  finAiAgentReady: true,
+  defaultLauncher: true,
+  customGuideCenterRemoved: true,
+  pagefindGuideSearchRemoved: true,
+  helpArticlesSeparatedFromNewsAndColumns: true,
 }, null, 2));
