@@ -1,0 +1,1 @@
+Flowise Embed 3.1.6 — MIT License — https://github.com/FlowiseAI/FlowiseChatEmbed

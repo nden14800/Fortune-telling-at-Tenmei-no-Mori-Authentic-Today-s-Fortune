@@ -13159,9 +13159,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 }
             }
         </style>
-        <!-- QuikChat 1.2.8 (BSD-2-Clause): 外部CDN・外部アカウントに依存しない既製会話UI -->
-        <link rel="stylesheet" href="assets/vendor/quikchat/quikchat.min.css">
-        <script src="assets/vendor/quikchat/quikchat.umd.min.js" defer></script>
+        <!-- Flowise Embed 3.1.6 / MIT: 完成済みの標準フローティングチャットウィジェット -->
+        <script src="assets/vendor/flowise-embed/flowise-embed-3.1.6.umd.js" defer></script>
     </head>
 
     <!-- ▼▼▼ 修正: クラス "sidebar-collapsed" を追加 ▼▼▼ -->
@@ -18181,32 +18180,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         </div>
     </dialog>
 
-    <!-- AI案内（QuikChat 1.2.8 / BSD-2-Clause）: 既製会話UIをローカル同梱して利用 -->
-    <button id="ai-guide-launcher" type="button" aria-expanded="false" aria-controls="ai-guide-panel" aria-label="天命の案内役を開く">
-        <span class="ai-guide-launcher-icon" aria-hidden="true"><i class="bi bi-chat-dots-fill"></i></span>
-        <span class="ai-guide-launcher-label">天命の案内役</span>
-    </button>
-
-    <aside id="ai-guide-panel" aria-labelledby="ai-guide-title" aria-hidden="true" inert>
-        <div class="ai-guide-frame">
-            <header class="ai-guide-header">
-                <div class="ai-guide-heading">
-                    <span class="ai-guide-seal" aria-hidden="true"><i class="bi bi-torii-fill"></i></span>
-                    <div>
-                        <p>AI GUIDE</p>
-                        <h2 id="ai-guide-title">天命の案内役</h2>
-                    </div>
-                </div>
-                <button id="ai-guide-close" type="button" aria-label="天命の案内役を閉じる"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
-            </header>
-            <p id="ai-guide-notice" class="ai-guide-notice">AIによる公開情報の案内です。運営者への転送・個別返信はありません。パスワード、認証コード、住所、電話番号、メールアドレスは入力しないでください。</p>
-            <div id="ai-guide-turnstile-wrap" class="ai-guide-turnstile-wrap" hidden>
-                <p>続けて案内を利用する前に、セキュリティ確認を完了してください。</p>
-                <div id="ai-guide-turnstile"></div>
-            </div>
-            <div id="ai-guide-chat" aria-label="天命の案内役との会話" role="log" aria-live="polite"></div>
-        </div>
-    </aside>
+    <!-- AI案内は、Flowise Embedが標準のフローティング起動ボタンと会話画面を自動挿入する。独自の起動ボタン・パネルは置かない。 -->
 
 
     <!-- プロフィール編集モーダル (修正版) -->
@@ -18393,205 +18367,46 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         const SITE_URL = "https://tenmei-mori.pages.dev";
 
         // ==========================================
-        //  AI案内（QuikChat 1.2.8）
-        //  会話表示には同梱済みの既製UIを用い、AI実行は既存Workerだけに限定する。
-        //  会話履歴はブラウザの永続ストレージへ保存せず、直近6往復だけをリクエスト時に送る。
+        //  AI案内（Flowise Embed 3.1.6 / MIT）
+        //  標準の起動ボタン・会話画面をそのまま使い、AI実行だけを既存Workerに限定する。
+        //  独自のホスト要素、起動ボタン、外枠、会話UIは作らない。
         // ==========================================
-        const AI_GUIDE_LIMITS = Object.freeze({ question: 800, contextMessages: 12, timeoutMs: 30000 });
-        const aiGuideState = { chat: null, launcher: null, panel: null, closeButton: null, lastFocus: null, busy: false, turnstileWidgetId: null, turnstileToken: null };
-        const aiGuidePiiPatterns = Object.freeze([
-            /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i,
-            /(?:\+81|0)\d{1,4}[-\s]?\d{1,4}[-\s]?\d{3,4}/,
-            /(?:パスワード|認証コード|ワンタイム|OTP|暗証番号|カード番号|クレジットカード|マイナンバー)\s*(?:は|:|：)?\s*[A-Za-z0-9-]{4,}/i
-        ]);
+        const FLOWISE_AI_GUIDE_ID = 'tenmei-ai-guide';
 
-        function getAiGuideElements() {
-            return {
-                launcher: document.getElementById('ai-guide-launcher'),
-                panel: document.getElementById('ai-guide-panel'),
-                closeButton: document.getElementById('ai-guide-close'),
-                chatHost: document.getElementById('ai-guide-chat'),
-                turnstileWrap: document.getElementById('ai-guide-turnstile-wrap'),
-                turnstileHost: document.getElementById('ai-guide-turnstile')
-            };
-        }
-
-        function isAiGuideOpen() {
-            return aiGuideState.panel instanceof HTMLElement && aiGuideState.panel.classList.contains('is-open');
-        }
-
-        function openAiGuide() {
-            const elements = getAiGuideElements();
-            if (!elements.launcher || !elements.panel) return;
-            aiGuideState.launcher = elements.launcher;
-            aiGuideState.panel = elements.panel;
-            aiGuideState.closeButton = elements.closeButton;
-            aiGuideState.lastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : elements.launcher;
-            document.body.classList.add('ai-guide-open');
-            elements.panel.classList.add('is-open');
-            elements.panel.removeAttribute('inert');
-            elements.panel.setAttribute('aria-hidden', 'false');
-            elements.launcher.setAttribute('aria-expanded', 'true');
-            requestAnimationFrame(() => {
-                const input = elements.panel.querySelector('.quikchat-input-textbox');
-                (input instanceof HTMLElement ? input : elements.closeButton)?.focus({ preventScroll: true });
+        function initFlowiseAiGuide() {
+            if (!window.Chatbot || typeof window.Chatbot.init !== 'function') {
+                console.error('Flowise Embedを読み込めませんでした。');
+                return;
+            }
+            window.Chatbot.init({
+                chatflowid: FLOWISE_AI_GUIDE_ID,
+                apiHost: API_BASE,
+                chatflowConfig: { clearChatOnReload: true },
+                theme: {
+                    disclaimer: {
+                        title: 'AI利用について',
+                        message: 'これはAIによる公開情報の案内です。運営者への転送・個別返信はありません。パスワード、認証コード、住所、電話番号、メールアドレスなどの個人情報は入力しないでください。',
+                        buttonText: 'はじめる'
+                    },
+                    chatWindow: {
+                        title: '天命の案内役',
+                        welcomeMessage: '天命乃杜の使い方、参拝証、御守、記事、参拝の記録について案内します。個人情報や認証情報は入力しないでください。',
+                        renderHTML: false,
+                        textInput: {
+                            placeholder: '天命乃杜について質問してください',
+                            maxChars: 800
+                        },
+                        footer: {
+                            text: 'AIによる公開情報の案内',
+                            company: '',
+                            companyLink: ''
+                        }
+                    }
+                }
             });
         }
 
-        function closeAiGuide(restoreFocus = true) {
-            const elements = getAiGuideElements();
-            if (!elements.launcher || !elements.panel || !isAiGuideOpen()) return;
-            const focusTarget = aiGuideState.lastFocus instanceof HTMLElement && document.contains(aiGuideState.lastFocus)
-                ? aiGuideState.lastFocus
-                : elements.launcher;
-            document.body.classList.remove('ai-guide-open');
-            elements.panel.classList.remove('is-open');
-            elements.panel.setAttribute('inert', '');
-            elements.panel.setAttribute('aria-hidden', 'true');
-            elements.launcher.setAttribute('aria-expanded', 'false');
-            if (restoreFocus) requestAnimationFrame(() => focusTarget.focus({ preventScroll: true }));
-        }
-
-        function hasAiGuideSensitiveInput(value) {
-            return aiGuidePiiPatterns.some((pattern) => pattern.test(value));
-        }
-
-        function resetAiGuideTurnstile() {
-            aiGuideState.turnstileToken = null;
-            if (aiGuideState.turnstileWidgetId !== null && typeof window.turnstile !== 'undefined') {
-                window.turnstile.reset(aiGuideState.turnstileWidgetId);
-            }
-        }
-
-        function requestAiGuideTurnstile() {
-            const elements = getAiGuideElements();
-            if (!elements.turnstileWrap || !elements.turnstileHost || typeof window.turnstile === 'undefined' || typeof window.turnstile.render !== 'function' || typeof SITE_KEY !== 'string') {
-                throw new Error('セキュリティ確認を準備できませんでした。ページを再読み込みしてから、もう一度お試しください。');
-            }
-            elements.turnstileWrap.hidden = false;
-            if (aiGuideState.turnstileWidgetId === null) {
-                aiGuideState.turnstileWidgetId = window.turnstile.render(elements.turnstileHost, {
-                    sitekey: SITE_KEY,
-                    theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
-                    callback: (token) => { aiGuideState.turnstileToken = token; },
-                    'expired-callback': () => { aiGuideState.turnstileToken = null; },
-                    'error-callback': () => { aiGuideState.turnstileToken = null; }
-                });
-            } else {
-                resetAiGuideTurnstile();
-            }
-            elements.turnstileHost.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        }
-
-        function getAiGuideContext(chat) {
-            return chat.historyGet()
-                .filter((entry) => entry && (entry.role === 'user' || entry.role === 'assistant') && typeof entry.content === 'string')
-                .slice(-AI_GUIDE_LIMITS.contextMessages)
-                .map((entry) => ({ role: entry.role, content: entry.content.slice(0, AI_GUIDE_LIMITS.question) }));
-        }
-
-        function setAiGuideBusy(chat, isBusy) {
-            aiGuideState.busy = isBusy;
-            chat.inputAreaSetEnabled(!isBusy);
-            chat.inputAreaSetButtonText(isBusy ? '案内中…' : '送信');
-        }
-
-        async function sendAiGuideMessage(chat, message) {
-            const question = String(message || '').trim();
-            if (!question || aiGuideState.busy) return;
-            const priorQuestions = getAiGuideContext(chat).filter((entry) => entry.role === 'user').length;
-            if (priorQuestions >= 3 && !aiGuideState.turnstileToken) {
-                try {
-                    requestAiGuideTurnstile();
-                } catch (error) {
-                    chat.messageAddNew(error instanceof Error ? error.message : 'セキュリティ確認を準備できませんでした。', '天命の案内役', 'left', 'assistant');
-                }
-                return;
-            }
-            if (question.length > AI_GUIDE_LIMITS.question) {
-                chat.messageAddNew(`質問は${AI_GUIDE_LIMITS.question}文字以内で入力してください。`, '天命の案内役', 'left', 'assistant');
-                return;
-            }
-            if (hasAiGuideSensitiveInput(question)) {
-                chat.messageAddNew('安全のため、この内容は送信しませんでした。パスワード、認証コード、住所、電話番号、メールアドレス、決済情報などを除いて、天命乃杜の使い方を質問してください。', '天命の案内役', 'left', 'assistant');
-                return;
-            }
-
-            chat.messageAddNew(question, 'あなた', 'right', 'user');
-            const typingId = chat.messageAddTypingIndicator('天命の案内役');
-            const controller = new AbortController();
-            const timeoutId = window.setTimeout(() => controller.abort(), AI_GUIDE_LIMITS.timeoutMs);
-            setAiGuideBusy(chat, true);
-            try {
-                const response = await fetch(`${API_BASE}/api/ai-help`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ question, context: getAiGuideContext(chat), cf_turnstile_token: aiGuideState.turnstileToken || undefined }),
-                    signal: controller.signal
-                });
-                const data = await response.json().catch(() => ({}));
-                if (response.status === 429) throw new Error(data.message || '案内の利用回数が上限に達しました。しばらく時間をおいてからお試しください。');
-                if (response.status === 403 && data.code === 'turnstile_required') {
-                    requestAiGuideTurnstile();
-                    throw new Error(data.message || '続けて案内を利用する前に、セキュリティ確認を完了してください。');
-                }
-                if (!response.ok || typeof data.answer !== 'string' || !data.answer.trim()) throw new Error(data.message || data.error || '案内を取得できませんでした。');
-                chat.messageReplaceContent(typingId, data.answer.slice(0, 700));
-            } catch (error) {
-                const messageText = error && error.name === 'AbortError'
-                    ? 'AIの応答に時間がかかったため中断しました。しばらくしてから、もう一度お試しください。'
-                    : (error instanceof Error ? error.message : '案内中に問題が発生しました。しばらくしてから、もう一度お試しください。');
-                chat.messageReplaceContent(typingId, messageText);
-            } finally {
-                window.clearTimeout(timeoutId);
-                if (aiGuideState.turnstileToken) resetAiGuideTurnstile();
-                setAiGuideBusy(chat, false);
-            }
-        }
-
-        function setupAiGuide() {
-            const elements = getAiGuideElements();
-            if (!elements.launcher || !elements.panel || !elements.closeButton || !elements.chatHost || elements.panel.dataset.aiGuideReady === 'true') return;
-            elements.panel.dataset.aiGuideReady = 'true';
-            elements.launcher.addEventListener('click', openAiGuide);
-            elements.closeButton.addEventListener('click', () => closeAiGuide());
-            document.addEventListener('keydown', (event) => {
-                if (event.key !== 'Escape' || !isAiGuideOpen()) return;
-                event.preventDefault();
-                event.stopImmediatePropagation();
-                closeAiGuide();
-            }, true);
-
-            if (typeof window.quikchat !== 'function') {
-                const notice = document.getElementById('ai-guide-notice');
-                if (notice) notice.textContent = 'AI案内の会話UIを読み込めませんでした。ページを再読み込みしてから、もう一度お試しください。';
-                elements.launcher.disabled = true;
-                return;
-            }
-
-            const chat = new window.quikchat(elements.chatHost, sendAiGuideMessage, {
-                theme: 'quikchat-theme-minimal',
-                sanitize: true,
-                titleArea: { title: '', align: 'left', show: false },
-                showTimestamps: false
-            });
-            aiGuideState.chat = chat;
-            const chatInput = elements.chatHost.querySelector('.quikchat-input-textbox');
-            const chatSendButton = elements.chatHost.querySelector('.quikchat-input-send-btn');
-            if (chatInput instanceof HTMLTextAreaElement) {
-                chatInput.placeholder = '天命乃杜について質問してください';
-                chatInput.setAttribute('aria-label', '天命の案内役への質問');
-            }
-            if (chatSendButton instanceof HTMLButtonElement) {
-                chatSendButton.textContent = '送信';
-                chatSendButton.setAttribute('aria-label', '質問を送信');
-            }
-            chat.messageAddNew('天命乃杜の使い方、参拝証、御守、記事、参拝の記録について案内します。個人情報や認証情報は入力しないでください。', '天命の案内役', 'left', 'assistant');
-        }
-
-        window.openAiGuide = openAiGuide;
-        window.closeAiGuide = closeAiGuide;
-        document.addEventListener('DOMContentLoaded', setupAiGuide, { once: true });
+        document.addEventListener('DOMContentLoaded', initFlowiseAiGuide, { once: true });
 
         // --- XSS対策用エスケープ関数 ---
 function escapeHtml(str) {
@@ -35250,91 +35065,13 @@ try {
     html.dark .ver-source-link-date { color: var(--vh-muted) !important; }
     html.dark .ver-source-link-title { color: var(--vh-ink) !important; }
     html.dark .ver-source-link-item:hover { border-color: rgba(213, 179, 106, 0.28); background: var(--vh-paper-soft); }
-    /* =========================================================
-       AI案内（QuikChat 1.2.8）
-       既製会話UIをローカル同梱し、朱・金・紙面感をホスト側で統合する。
-       ========================================================= */
-    #ai-guide-launcher {
-        position: fixed;
-        right: 20px;
-        bottom: 78px;
-        z-index: 950;
-        display: inline-flex;
-        min-height: 52px;
-        align-items: center;
-        gap: 9px;
-        padding: 6px 14px 6px 7px;
-        border: 1px solid rgba(169,43,48,0.68);
-        border-radius: 999px;
-        background: linear-gradient(135deg, rgba(255,253,248,0.985), rgba(250,241,225,0.985));
-        box-shadow: 0 10px 24px rgba(76,42,30,0.16), inset 0 0 0 3px rgba(255,255,255,0.72), inset 0 0 0 4px rgba(187,139,55,0.20);
-        color: #6f2027;
-        font-family: 'Zen Kaku Gothic New', sans-serif;
-        font-size: 0.73rem;
-        font-weight: 800;
-        letter-spacing: 0.045em;
-        cursor: pointer;
-        transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease-out, border-color 200ms ease-out;
-    }
-    #ai-guide-launcher:hover { border-color: rgba(143,29,37,0.84); box-shadow: 0 14px 28px rgba(76,42,30,0.23), inset 0 0 0 3px rgba(255,255,255,0.75), inset 0 0 0 4px rgba(187,139,55,0.28); transform: translateY(-2px); }
-    #ai-guide-launcher:active { transform: scale(0.97); }
-    .ai-guide-launcher-icon { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgba(169,43,48,0.40); border-radius: 50%; background: radial-gradient(circle at 36% 28%, #d7656b, #8c222a 72%); box-shadow: inset 0 0 0 3px rgba(255,245,235,0.20), 0 4px 10px rgba(119,27,35,0.20); color: #fff9f1; font-size: 1rem; }
-    .ai-guide-launcher-label { white-space: nowrap; }
-
-    #ai-guide-panel { position: fixed; top: 14px; right: 14px; bottom: 14px; z-index: 950; width: min(430px, calc(100vw - 96px)); margin: 0; padding: 0; border: 0; background: transparent; color: var(--text-main); opacity: 0; visibility: hidden; pointer-events: none; transform: translateX(calc(100% + 26px)); transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), opacity 180ms ease-out, visibility 0s linear 220ms; }
-    #ai-guide-panel.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(0); transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), opacity 180ms ease-out, visibility 0s linear 0s; }
-    .ai-guide-frame { display: grid; grid-template-rows: auto auto minmax(0, 1fr); width: 100%; height: 100%; overflow: hidden; border: 1px solid rgba(154,63,49,0.38); border-radius: 25px; background: radial-gradient(circle at 100% 0%, rgba(190,146,65,0.14), transparent 34%), linear-gradient(145deg, rgba(255,254,249,0.99), rgba(249,242,231,0.985)); box-shadow: 0 24px 58px rgba(47,27,22,0.22), inset 0 0 0 7px rgba(255,255,255,0.48), inset 0 0 0 8px rgba(184,139,57,0.17); }
-    .ai-guide-header { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 19px 12px; border-bottom: 1px solid rgba(127,83,59,0.15); }
-    .ai-guide-heading { display: flex; min-width: 0; align-items: center; gap: 10px; }
-    .ai-guide-seal { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; border: 1px solid rgba(169,43,48,0.36); border-radius: 50%; background: rgba(255,252,245,0.78); box-shadow: inset 0 0 0 4px rgba(184,139,57,0.06); color: var(--accent-red); }
-    .ai-guide-heading p { margin: 0; color: var(--accent-red); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.54rem; font-weight: 900; letter-spacing: 0.15em; }
-    .ai-guide-heading h2 { margin: 2px 0 0; color: var(--text-main); font-family: 'Zen Old Mincho', 'Shippori Mincho', serif; font-size: 1.04rem; font-weight: 700; letter-spacing: 0.08em; }
-    #ai-guide-close { display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; padding: 0; border: 1px solid rgba(127,83,59,0.22); border-radius: 10px; background: rgba(255,255,255,0.58); color: var(--text-sub); cursor: pointer; transition: color 160ms ease-out, background 160ms ease-out, border-color 160ms ease-out, transform 160ms ease-out; }
-    #ai-guide-close:hover { border-color: rgba(169,43,48,0.38); background: rgba(169,43,48,0.08); color: var(--accent-red); }
-    #ai-guide-close:active { transform: scale(0.97); }
-    .ai-guide-notice { margin: 0; padding: 10px 18px; border-bottom: 1px solid rgba(127,83,59,0.12); background: rgba(184,139,57,0.075); color: var(--text-sub); font-size: 0.62rem; font-weight: 700; line-height: 1.7; }
-    .ai-guide-turnstile-wrap { padding: 10px 18px; border-bottom: 1px solid rgba(127,83,59,0.12); background: rgba(169,43,48,0.055); }
-    .ai-guide-turnstile-wrap p { margin: 0 0 7px; color: var(--text-sub); font-size: 0.62rem; font-weight: 700; line-height: 1.6; }
-    .ai-guide-turnstile-wrap[hidden] { display: none; }
-    #ai-guide-chat { min-height: 0; overflow: hidden; }
-    #ai-guide-chat .quikchat-base { height: 100%; border: 0; border-radius: 0; background: transparent; color: var(--text-main); font-family: 'Zen Kaku Gothic New', sans-serif; }
-    #ai-guide-chat .quikchat-messages-area { padding: 14px 15px; background: transparent; }
-    #ai-guide-chat .quikchat-message { margin-bottom: 10px; }
-    #ai-guide-chat .quikchat-message-content { max-width: min(88%, 330px); border: 1px solid rgba(127,83,59,0.17); border-radius: 16px; background: rgba(255,255,255,0.62); box-shadow: 0 3px 9px rgba(76,42,30,0.04); color: var(--text-main); font-size: 0.69rem; font-weight: 600; line-height: 1.75; }
-    #ai-guide-chat .quikchat-align-right .quikchat-message-content { border-color: rgba(169,43,48,0.32); background: linear-gradient(135deg, rgba(169,43,48,0.12), rgba(184,139,57,0.10)); color: var(--text-main); }
-    #ai-guide-chat .quikchat-user-label { color: var(--accent-red); font-size: 0.57rem; font-weight: 900; letter-spacing: 0.06em; }
-    #ai-guide-chat .quikchat-input-area { gap: 8px; padding: 11px 12px; border-top: 1px solid rgba(127,83,59,0.15); background: rgba(255,253,248,0.76); }
-    #ai-guide-chat .quikchat-input-textbox { min-height: 42px; border: 1px solid rgba(127,83,59,0.23); border-radius: 12px; background: rgba(255,255,255,0.78); color: var(--text-main); font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.69rem; font-weight: 600; }
-    #ai-guide-chat .quikchat-input-textbox:focus { border-color: rgba(169,43,48,0.58); box-shadow: 0 0 0 3px rgba(169,43,48,0.10); outline: none; }
-    #ai-guide-chat .quikchat-input-send-btn { min-width: 54px; min-height: 42px; border: 1px solid #8d252c; border-radius: 12px; background: linear-gradient(135deg, #a62d34, #7e1f27); box-shadow: 0 5px 12px rgba(123,31,39,0.18); color: #fffaf2; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.62rem; font-weight: 800; }
-    #ai-guide-chat .quikchat-input-send-btn:hover { filter: brightness(1.04); }
-    #ai-guide-launcher:focus-visible, #ai-guide-panel button:focus-visible, #ai-guide-panel textarea:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent-gold) 82%, #fff); outline-offset: 3px; }
-    body.ai-guide-open #back-to-top-btn { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
-    body.omikuji-result-printing #ai-guide-launcher, body.omikuji-result-printing #ai-guide-panel { display: none !important; }
-
-    html.dark #ai-guide-launcher { border-color: rgba(232,138,144,0.54); background: linear-gradient(135deg, rgba(43,29,29,0.98), rgba(56,39,29,0.98)); box-shadow: 0 12px 26px rgba(0,0,0,0.42), inset 0 0 0 3px rgba(255,255,255,0.035), inset 0 0 0 4px rgba(229,199,128,0.13); color: #f4e7dc; }
-    html.dark .ai-guide-frame { border-color: rgba(229,199,128,0.29); background: radial-gradient(circle at 100% 0%, rgba(229,199,128,0.10), transparent 34%), linear-gradient(145deg, rgba(31,24,25,0.995), rgba(42,30,27,0.995)); box-shadow: 0 25px 62px rgba(0,0,0,0.54), inset 0 0 0 7px rgba(255,255,255,0.018), inset 0 0 0 8px rgba(229,199,128,0.10); }
-    html.dark .ai-guide-header, html.dark .ai-guide-notice, html.dark .ai-guide-turnstile-wrap { border-color: rgba(255,255,255,0.10); }
-    html.dark .ai-guide-heading h2, html.dark #ai-guide-chat .quikchat-base, html.dark #ai-guide-chat .quikchat-message-content, html.dark #ai-guide-chat .quikchat-input-textbox { color: #f5e9df; }
-    html.dark .ai-guide-notice { background: rgba(229,199,128,0.075); color: #cbb9af; }
-    html.dark .ai-guide-turnstile-wrap { background: rgba(232,138,144,0.08); }
-    html.dark .ai-guide-turnstile-wrap p { color: #cbb9af; }
-    html.dark #ai-guide-close, html.dark #ai-guide-chat .quikchat-message-content { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.045); }
-    html.dark #ai-guide-chat .quikchat-align-right .quikchat-message-content { border-color: rgba(232,138,144,0.30); background: linear-gradient(135deg, rgba(232,138,144,0.16), rgba(229,199,128,0.10)); }
-    html.dark #ai-guide-chat .quikchat-input-area { border-color: rgba(255,255,255,0.10); background: rgba(0,0,0,0.12); }
-    html.dark #ai-guide-chat .quikchat-input-textbox { border-color: rgba(255,255,255,0.18); background: rgba(16,13,13,0.64); }
-
-    @media (max-width: 720px) {
-        #ai-guide-launcher { right: 12px; bottom: 14px; z-index: 10002; min-width: 0; padding: 6px; }
-        .ai-guide-launcher-label { display: none; }
-        #ai-guide-panel { top: auto; right: 8px; bottom: 8px; left: 8px; z-index: 10002; width: auto; height: min(78dvh, 690px); transform: translateY(calc(100% + 26px)); }
-        #ai-guide-panel.is-open { transform: translateY(0); }
-        .ai-guide-frame { border-radius: 22px; }
-        .ai-guide-header { padding: 16px 16px 11px; }
-        .ai-guide-notice { padding: 9px 15px; }
-    }
+    /* AI案内はFlowise Embedの標準Shadow DOM UIを利用する。独自の起動ボタン・外枠・配色上書きは置かない。 */
     @media (prefers-reduced-motion: reduce) {
-        #sidebar.sidebar-v4, #sidebar.sidebar-v4 .nav-btn, .sidebar-v4-skip-link, #ai-guide-launcher, #ai-guide-panel, #ai-guide-panel *, #back-to-top-btn { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+        #sidebar.sidebar-v4, #sidebar.sidebar-v4 .nav-btn, .sidebar-v4-skip-link, #back-to-top-btn {
+            transition-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+        }
     }
 </style>
 </body>
