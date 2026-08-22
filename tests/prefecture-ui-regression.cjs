@@ -101,6 +101,15 @@ includes('.prefecture-ranking-panel,', 'ランキング面のCSSが存在する'
 includes('.prefecture-map-panel {', '地図面のCSSが存在する');
 includes('.pref-tab-btn:focus-visible,', 'タブの可視フォーカス規則が存在する');
 includes('html.dark .prefecture-observatory-hero,', 'ダークテーマのヒーロー規則が存在する');
+includes('html.dark #pref-map .leaflet-tile-pane {', 'ダークテーマで地図タイル面を切り替える規則が存在する');
+includes('filter: invert(100%) hue-rotate(172deg) brightness(76%) saturate(62%) contrast(88%);', 'ダークテーマ用の地図タイルフィルターが存在する');
+includes('html.dark #pref-map .leaflet-bar a,', 'ダークテーマでLeaflet操作部品の色を切り替える規則が存在する');
+includes('html.dark #pref-map .leaflet-control-attribution {', 'ダークテーマで地図帰属表示の色を切り替える規則が存在する');
+includes('html.dark .pref-leaflet-popup .leaflet-popup-content-wrapper,', 'ダークテーマで地図ポップアップの色を切り替える規則が存在する');
+includes('html.dark .pref-popup-inner .pp-score.rank-S { color: #f1cc69; }', 'ダークテーマでSランクのポップアップ色を明るく保つ規則が存在する');
+includes('html.dark .pref-popup-inner .pp-score small {', 'ダークテーマでランク補助ラベルの可読性を保つ規則が存在する');
+includes('html.dark #pref-map .leaflet-tooltip {', 'ダークテーマで地図ホバーツールチップの可読性を保つ規則が存在する');
+includes('#pref-map .leaflet-tile-pane {\n    transition: filter 180ms', '地図タイルがテーマ変更時に落ち着いて切り替わる規則が存在する');
 includes('@media (min-width: 720px)', '広い画面向けのランキング配置規則が存在する');
 includes('@media (max-width: 719px)', '狭い画面向けの一列配置規則が存在する');
 includes('@media (prefers-reduced-motion: reduce)', '低モーション規則が存在する');

@@ -5019,6 +5019,96 @@ html.dark .pref-bar-bg { background: rgba(162, 220, 202, 0.17); }
 html.dark .prefecture-map-panel { background: linear-gradient(155deg, rgba(18, 42, 38, 0.96), rgba(13, 33, 30, 0.94)); }
 html.dark .pref-map-attribution a { color: #7bd5bb; }
 
+/* 地図タイルもテーマに追従させる。標準のOpenStreetMapタイルを維持し、
+   タイル面だけへフィルターを適用するため、順位マーカーやポップアップの色は変えない。 */
+#pref-map .leaflet-tile-pane {
+    transition: filter 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+html.dark #pref-map {
+    background: #102724;
+}
+html.dark #pref-map .leaflet-tile-pane {
+    filter: invert(100%) hue-rotate(172deg) brightness(76%) saturate(62%) contrast(88%);
+}
+html.dark #pref-map-container {
+    border-color: rgba(125, 207, 184, 0.32);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.34);
+}
+html.dark .pref-map-loading {
+    color: #c8e2da;
+    background: linear-gradient(145deg, #173833, #102824);
+}
+html.dark .pref-map-loading i {
+    color: #8bdcc5;
+}
+
+/* Leafletの標準操作部品・帰属表示・ポップアップも、地図面と同じ深い緑黒へ揃える。 */
+html.dark #pref-map .leaflet-bar,
+html.dark #pref-map .leaflet-control-locate {
+    border: 1px solid rgba(129, 209, 187, 0.34);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32);
+}
+html.dark #pref-map .leaflet-bar a,
+html.dark #pref-map .leaflet-control-locate a {
+    border-bottom-color: rgba(129, 209, 187, 0.22) !important;
+    color: #e2f4ed !important;
+    background-color: rgba(20, 53, 47, 0.96) !important;
+}
+html.dark #pref-map .leaflet-bar a:hover,
+html.dark #pref-map .leaflet-control-locate a:hover {
+    color: #ffffff !important;
+    background-color: #287564 !important;
+}
+html.dark #pref-map .leaflet-control-attribution {
+    color: #b8d8ce;
+    background: rgba(14, 37, 33, 0.88) !important;
+}
+html.dark #pref-map .leaflet-control-attribution a {
+    color: #8ce1c7;
+}
+html.dark #pref-map .leaflet-control-scale-line {
+    border-color: #d4eee5;
+    border-top: 0;
+    color: #e6f6f0;
+    background: rgba(14, 37, 33, 0.82);
+}
+html.dark .pref-leaflet-popup .leaflet-popup-content-wrapper,
+html.dark .pref-leaflet-popup .leaflet-popup-tip {
+    color: #eaf7f1;
+    background: #183b34;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.38);
+}
+html.dark .pref-leaflet-popup .leaflet-popup-close-button {
+    color: #b7d9ce !important;
+}
+html.dark .pref-leaflet-popup .leaflet-popup-close-button:hover {
+    color: #ffffff !important;
+}
+html.dark .pref-popup-inner .pp-rank {
+    color: #b9d7cd;
+}
+html.dark .pref-popup-inner .pp-text {
+    border-top-color: rgba(157, 218, 199, 0.22);
+}
+html.dark .pref-popup-inner .pp-score.rank-S { color: #f1cc69; }
+html.dark .pref-popup-inner .pp-score.rank-A { color: #ff9b9f; }
+html.dark .pref-popup-inner .pp-score.rank-B { color: #91c9ee; }
+html.dark .pref-popup-inner .pp-score.rank-C { color: #c4d5cf; }
+html.dark .pref-popup-inner .pp-score small {
+    color: #c4ddd4 !important;
+}
+html.dark #pref-map .leaflet-tooltip {
+    border: 1px solid rgba(139, 220, 197, 0.36);
+    color: #effaf5;
+    background: rgba(18, 56, 49, 0.96);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+html.dark #pref-map .leaflet-tooltip::before {
+    border-top-color: rgba(18, 56, 49, 0.96);
+}
+
 @media (min-width: 720px) {
     .pref-top3-container {
         grid-template-columns: repeat(3, minmax(0, 1fr));
