@@ -189,6 +189,8 @@
     }
 
     function toggleSidebar() {
+        const supportsHoverSidebar = window.innerWidth >= 1025 && window.matchMedia('(hover: hover)').matches;
+        if (supportsHoverSidebar && document.body.classList.contains('sidebar-hover-mode')) return;
         const isTabletOrMobile = window.innerWidth <= 1366 || (('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 1400);
         if (isTabletOrMobile || document.body.classList.contains('sidebar-button-mode')) {
             document.body.classList.toggle('sidebar-pinned');
@@ -13334,8 +13336,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
         <!-- Pagefind 1.5.0 / MIT: 公開記事の静的全文検索。外部SaaS・常設検索サーバーは利用しない。 -->
 </head>
 
-    <!-- ▼▼▼ 修正: クラス "sidebar-collapsed" を追加 ▼▼▼ -->
-    <body class="sidebar-collapsed">
+    <!-- ▼▼▼ 修正: 既定のサイドバー方式をPCホバーモードに設定 ▼▼▼ -->
+    <body class="sidebar-hover-mode">
 
     <a class="sidebar-v4-skip-link" href="#main-content">本文へ移動</a>
 
@@ -18136,7 +18138,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <div class="privacy-ledger-article-heading">
                         <p class="privacy-ledger-section-kicker"><i class="bi bi-journal-text" aria-hidden="true"></i> POLICY TEXT</p>
                         <h2 id="privacy-articles-heading">規程本文</h2>
-                        <p>第26版の内容を、そのまま掲載しています。</p>
+                        <p>第28版の内容を、そのまま掲載しています。</p>
                     </div>
                     <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
                             <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
@@ -18365,7 +18367,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 4. <strong>第28版の主な変更：Chatlingの標準ウィジェットによる匿名のAI案内へ移行しました。</strong> Cookie設定で改めて許可した場合のみChatlingを読み込み、当サイトからログインID、参拝者名、参拝履歴、御守、環境設定、AI夢占い・AI悩み相談の内容を渡しません。有人対応・運営者への転送・個別データ操作・個人情報入力フォームを使わず、ChatlingのAI Agentが公開ナレッジに基づく一般的なサイト案内だけを行います。<br>
                                 5. <strong>第27版の主な変更：</strong>旧「天命乃杜 AI案内」を廃止し、利用者がCookie設定で許可した場合のみ、Chatlingの標準ウィジェットとAI Agentによる匿名のAI案内を表示する運用へ変更しました。有人転送・個別データ操作を行わず、当サイトのログインID、参拝者名、参拝履歴、御守、環境設定、AI夢占い・AI悩み相談の内容を送信しないこと、Chatlingで処理される情報と停止方法を明記しました。<br>
                                 6. <strong>第26版の主な変更：</strong>解析Cookieの許可・拒否を初回表示と環境・表示設定から選べるようにし、許可するまでGoogle AnalyticsおよびMicrosoft Clarityを読み込まない運用を明記しました。あわせて、端末既定または手動選択のタイムゾーンを日付・時刻・曜日・日次コンテンツの表示基準に使うこと、およびサービス状況ページの確認範囲を追記しました。<br>
-                                5. <strong>第25版の主な変更：</strong>AI機能の実装を再点検し、AI案内・AI悩み相談・AI夢占い・記事要約・要約評価について、Tursoへ保存する情報と保存しない情報を具体化しました。あわせて、AI機能のレート制限に用いるIPアドレスを含む制限用キー、利用回数および期限の保存と、AI案内のプライベートモードが端末内のセッションストレージ履歴を自動削除する機能ではないことを明記しました。
+                                7. <strong>第25版の主な変更：</strong>AI機能の実装を再点検し、AI案内・AI悩み相談・AI夢占い・記事要約・要約評価について、Tursoへ保存する情報と保存しない情報を具体化しました。あわせて、AI機能のレート制限に用いるIPアドレスを含む制限用キー、利用回数および期限の保存と、AI案内のプライベートモードが端末内のセッションストレージ履歴を自動削除する機能ではないことを明記しました。
                             </p>
                         </div>
 
@@ -18655,6 +18657,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     }
 
     function closeSidebarFromKeyboard() {
+        const supportsHoverSidebar = window.innerWidth >= 1025 && window.matchMedia('(hover: hover)').matches;
+        if (supportsHoverSidebar && document.body.classList.contains('sidebar-hover-mode')) return false;
         const wasExpanded = document.body.classList.contains('sidebar-pinned') || !document.body.classList.contains('sidebar-collapsed');
         if (!wasExpanded) return false;
         document.body.classList.remove('sidebar-pinned');
@@ -18665,6 +18669,11 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
     }
 
     function toggleSidebar() {
+        const supportsHoverSidebar = window.innerWidth >= 1025 && window.matchMedia('(hover: hover)').matches;
+        if (supportsHoverSidebar && document.body.classList.contains('sidebar-hover-mode')) {
+            updateSidebarA11y();
+            return;
+        }
         const isTabletOrMobile = window.innerWidth <= 1366 || (('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 1400);
         if (isTabletOrMobile || document.body.classList.contains('sidebar-button-mode')) {
             document.body.classList.toggle('sidebar-pinned');
@@ -32711,9 +32720,10 @@ const AppConfig = {
             // 方式を変更したときは、前の開閉状態を持ち越さず新しい方式へ委譲する。
             if(isActive) {
                 document.body.classList.add('sidebar-button-mode');
-                document.body.classList.remove('sidebar-pinned', 'sidebar-collapsed');
+                document.body.classList.remove('sidebar-hover-mode', 'sidebar-pinned', 'sidebar-collapsed');
             } else {
                 document.body.classList.remove('sidebar-button-mode', 'sidebar-pinned', 'sidebar-collapsed');
+                document.body.classList.add('sidebar-hover-mode');
             }
             document.querySelectorAll('input[onchange*="AppConfig.toggle(\'sidebarButton\'"]').forEach(el => {
                 el.checked = isActive;
@@ -32856,9 +32866,11 @@ async function loadLabSettings() {
 
     // 4. サイドバー挙動。方式の変更時は旧方式の開閉状態を持ち越さない。
     // false = PCのホバーモード、true = トグルボタンで開閉するボタンモード。
-    document.body.classList.remove('sidebar-pinned', 'sidebar-collapsed', 'sidebar-button-mode');
+    document.body.classList.remove('sidebar-pinned', 'sidebar-collapsed', 'sidebar-button-mode', 'sidebar-hover-mode');
     if (settings.sidebarButton === true) {
         document.body.classList.add('sidebar-button-mode');
+    } else {
+        document.body.classList.add('sidebar-hover-mode');
     }
     updateSidebarA11y();
 
@@ -35364,18 +35376,18 @@ try {
     @media (min-width: 1025px) and (hover: hover) {
         /* ホバーモードでは、明示的に閉じていない限りカーソルでサイドバー全体を展開する。
            1025〜1366pxでは後段のwidth!importantに負けないよう、同じく!importantで上書きする。 */
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4,
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover { width: 264px !important; box-shadow: 0 20px 44px rgba(58, 34, 24, 0.15), inset 0 1px 0 rgba(255,255,255,0.52); }
-        html.dark body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4,
-        html.dark body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover { box-shadow: 0 22px 50px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.035); }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-text,
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-text { opacity: 1 !important; display: block !important; transition: opacity 0.22s 0.07s ease !important; }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-group-title,
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-group-title { height: 18px !important; max-height: 18px !important; margin: 8px 4px 4px !important; opacity: 0.75 !important; overflow: visible !important; }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-icon-box,
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-icon-box { width: 48px !important; }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-btn,
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-btn { justify-content: flex-start !important; padding: 0 8px !important; }
+        body.sidebar-hover-mode #sidebar.sidebar-v4,
+        body.sidebar-hover-mode #sidebar.sidebar-v4:hover { width: 264px !important; box-shadow: 0 20px 44px rgba(58, 34, 24, 0.15), inset 0 1px 0 rgba(255,255,255,0.52); }
+        html.dark body.sidebar-hover-mode #sidebar.sidebar-v4,
+        html.dark body.sidebar-hover-mode #sidebar.sidebar-v4:hover { box-shadow: 0 22px 50px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.035); }
+        body.sidebar-hover-mode #sidebar.sidebar-v4 .nav-text,
+        body.sidebar-hover-mode #sidebar.sidebar-v4:hover .nav-text { opacity: 1 !important; display: block !important; transition: opacity 0.22s 0.07s ease !important; }
+        body.sidebar-hover-mode #sidebar.sidebar-v4 .nav-group-title,
+        body.sidebar-hover-mode #sidebar.sidebar-v4:hover .nav-group-title { height: 18px !important; max-height: 18px !important; margin: 8px 4px 4px !important; opacity: 0.75 !important; overflow: visible !important; }
+        body.sidebar-hover-mode #sidebar.sidebar-v4 .nav-icon-box,
+        body.sidebar-hover-mode #sidebar.sidebar-v4:hover .nav-icon-box { width: 48px !important; }
+        body.sidebar-hover-mode #sidebar.sidebar-v4 .nav-btn,
+        body.sidebar-hover-mode #sidebar.sidebar-v4:hover .nav-btn { justify-content: flex-start !important; padding: 0 8px !important; }
     }
     @media (max-width: 1366px) {
         #sidebar.sidebar-v4 { width: 68px !important; top: 8px !important; bottom: 8px !important; left: 8px !important; }

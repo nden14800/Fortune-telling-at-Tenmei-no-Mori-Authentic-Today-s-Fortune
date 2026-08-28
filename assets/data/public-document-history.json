@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-27T02:57:13.127Z",
+  "generatedAt": "2026-08-28T11:40:00+09:00",
   "source": {
     "type": "local-git-history",
     "file": "index.html",
@@ -10,6 +10,20 @@
     "about": {
       "title": "当サイトについて",
       "versions": [
+        {
+          "id": "about-missing-24-20260828",
+          "signature": "missing-document-history-about-24",
+          "edition": 24,
+          "revisedLabel": "本文スナップショット未記録",
+          "availability": "metadata-only",
+          "commit": {
+            "sha": "",
+            "shortSha": "記録なし",
+            "date": "",
+            "subject": "第24版の元コミットと本文スナップショットは現行履歴に未保存"
+          },
+          "html": "<section class=\"view-section document-history-missing-record\" aria-labelledby=\"document-history-missing-title\">\n        <div class=\"document-history-panel__hint\">\n            <h2 id=\"document-history-missing-title\">第24版の本文スナップショットは未記録です</h2>\n            <p>現行のGit履歴と保存済みアーカイブを確認しましたが、当サイトについての第24版に対応する本文スナップショットまたは元コミットを復元できませんでした。この表示は履歴の欠落を明示するための記録であり、第24版の本文を推測して掲載するものではありません。</p>\n        </div>\n    </section>"
+        },
         {
           "id": "about-manual-23-20260827",
           "signature": "manual-static-archive-about-23",
@@ -1265,5 +1279,8 @@
         }
       ]
     }
+  },
+  "notes": {
+    "aboutEdition24": "第24版は版番号の欠落を隠さないためメタデータのみ表示。本文は復元・推測していない。"
   }
 }
