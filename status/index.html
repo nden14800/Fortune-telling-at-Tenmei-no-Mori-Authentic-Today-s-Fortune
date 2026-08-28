@@ -171,14 +171,14 @@
         let apiOk = false;
         try { await fetchCheck(SITE_URL, 'site'); siteOk = true; } catch (error) {}
         try { const counter = await fetchCheck(counterEndpoint, 'counter endpoint'); const payload = await counter.json(); apiOk = Number.isFinite(Number(payload.count)) && Number.isFinite(Number(payload.userCount)); } catch (error) {}
-        checkedStates['公開サイト'] = siteOk ? state('operational','正常稼働中','公開トップページの到達確認に成功しました。') : state('degraded','応答異常','公開トップページの到達確認に失敗しました。');
-        checkedStates['基礎API'] = apiOk ? state('operational','正常稼働中','カウンターAPIの応答とJSON形式を確認しました。') : state('degraded','応答異常','基礎APIの応答またはJSON形式を確認できません。');
+        checkedStates['公開サイト'] = siteOk ? state('operational','到達確認','公開トップページのHTTP到達確認に成功しました。画面内の操作までは実行していません。') : state('degraded','応答異常','公開トップページのHTTP到達確認に失敗しました。');
+        checkedStates['基礎API'] = apiOk ? state('operational','応答確認','カウンターAPIの応答とJSON形式を確認しました。') : state('degraded','応答異常','基礎APIの応答またはJSON形式を確認できません。');
         checkedStates['おみくじ・参拝の記録'] = apiOk ? state('operational','基礎API連動','カウンターAPIの正常応答を確認しました。個別操作までは実行していません。') : state('degraded','利用影響の可能性','基礎APIの異常により利用できない可能性があります。');
         checkedStates['AI案内'] = state('external','外部サービス','Chatlingの外部ウィジェット応答はこのページから検証できません。');
         renderComponents(checkedStates);
         if (siteOk && apiOk) {
-          setPill('operational','主要経路は正常','公開サイトと基礎APIの到達・形式確認に成功しました。外部AI案内は別サービスのため未検証です。');
-          setNotice('operational','現在、主要経路に掲載中の障害はありません','公開サイトと基礎APIの実応答を確認しました。外部サービスは各提供元の状態をご確認ください。');
+          setPill('operational','主要経路を確認','公開サイトのHTTP到達と基礎APIの応答・形式を確認しました。画面操作と外部AI案内は未検証です。');
+          setNotice('operational','確認した範囲では到達障害はありません','公開サイトのHTTP応答と基礎APIの実応答を確認しました。画面操作と外部サービスはこのページでは検証していません。');
         } else {
           setPill('degraded','一部サービスに問題','公開サイトまたは基礎APIの実応答を確認できませんでした。');
           setNotice('degraded','一部のサービスを確認できません','公開サイトと基礎APIの実際の応答結果を反映しています。時間を置いて更新してください。');
