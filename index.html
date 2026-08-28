@@ -26471,7 +26471,10 @@ window.onload = async function() {
         }
     }
     updateAuthUI();
-    loadLabSettings(); // ここで applyTheme が呼ばれます
+    // currentStateはこの初期化ブロックの後半で宣言されるため、ここで即時実行すると
+    // loadLabSettings内のcurrentState参照がTemporal Dead Zoneに入り、設定適用が失敗する。
+    // 1マイクロタスク遅延させ、宣言完了後に必ず適用する。
+    Promise.resolve().then(() => loadLabSettings()).catch((error) => console.warn('Initial lab settings load failed:', error)); // ここで applyTheme が呼ばれます
 
     // ★パフォーマンス改善: 以前はここで checkSession() の完了を待ってから
     //   下の startLiveCounter / fetchHistoryStats / loadFavorites / renderHomeLists を
@@ -35358,18 +35361,21 @@ try {
     #sidebar.sidebar-v4 .nav-text { color: inherit; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.025em; }
     #sidebar.sidebar-v4 .nav-toggle-label { font-family: 'Zen Old Mincho', serif; font-size: 0.94rem; letter-spacing: 0.06em; }
 
-    @media (min-width: 1367px) and (hover: hover) {
-        /* ホバーモードでは、明示的に閉じていない限りカーソルで展開する。
-           sidebar-collapsed はトグルで明示的に閉じた場合だけ保持する。 */
+    @media (min-width: 1025px) and (hover: hover) {
+        /* ホバーモードでは、明示的に閉じていない限りカーソルでサイドバー全体を展開する。
+           1025〜1366pxでは後段のwidth!importantに負けないよう、同じく!importantで上書きする。 */
         body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4,
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover { width: 264px; box-shadow: 0 20px 44px rgba(58, 34, 24, 0.15), inset 0 1px 0 rgba(255,255,255,0.52); }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-text { opacity: 1 !important; transition: opacity 0.22s 0.07s ease !important; }
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover { width: 264px !important; box-shadow: 0 20px 44px rgba(58, 34, 24, 0.15), inset 0 1px 0 rgba(255,255,255,0.52); }
+        html.dark body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4,
+        html.dark body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover { box-shadow: 0 22px 50px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.035); }
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-text,
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-text { opacity: 1 !important; display: block !important; transition: opacity 0.22s 0.07s ease !important; }
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-group-title,
         body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-group-title { height: 18px !important; max-height: 18px !important; margin: 8px 4px 4px !important; opacity: 0.75 !important; overflow: visible !important; }
-        html.dark body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 { box-shadow: 0 22px 50px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.035); }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-text { opacity: 1 !important; }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-group-title { height: 17px !important; max-height: 17px !important; margin: 9px 5px 5px !important; opacity: 0.75 !important; overflow: visible !important; }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-icon-box { width: 48px !important; }
-        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-btn { padding: 0 8px !important; }
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-icon-box,
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-icon-box { width: 48px !important; }
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4 .nav-btn,
+        body:not(.sidebar-button-mode):not(.sidebar-collapsed) #sidebar.sidebar-v4:hover .nav-btn { justify-content: flex-start !important; padding: 0 8px !important; }
     }
     @media (max-width: 1366px) {
         #sidebar.sidebar-v4 { width: 68px !important; top: 8px !important; bottom: 8px !important; left: 8px !important; }
