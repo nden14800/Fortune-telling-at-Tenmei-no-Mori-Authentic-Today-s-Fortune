@@ -18080,7 +18080,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                 <div class="privacy-ledger-hero-copy">
                     <p class="privacy-ledger-eyebrow"><i class="bi bi-shield-check" aria-hidden="true"></i> PRIVACY REGISTER</p>
                     <h1 id="privacy-page-title">プライバシーポリシー</h1>
-                    <p class="privacy-ledger-meta">制定: 2026/01/02 ・ 改定: 2026/08/28 (第28版) ・ 運営: nden148</p>
+                    <p class="privacy-ledger-meta">制定: 2026/01/02 ・ 改定: 2026/08/29 (第29版) ・ 運営: nden148</p>
                     <p class="privacy-ledger-lead">情報の取扱い、外部サービス、保存と削除の考え方を、一つの規程として記しています。</p>
                     <div class="privacy-ledger-actions">
                         <button type="button" onclick="downloadAsPDF('privacy')" id="privacy-pdf-btn">
@@ -18138,7 +18138,7 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                     <div class="privacy-ledger-article-heading">
                         <p class="privacy-ledger-section-kicker"><i class="bi bi-journal-text" aria-hidden="true"></i> POLICY TEXT</p>
                         <h2 id="privacy-articles-heading">規程本文</h2>
-                        <p>第28版の内容を、そのまま掲載しています。</p>
+                        <p>第29版の内容を、そのまま掲載しています。</p>
                     </div>
                     <div class="pl-4 border-l-4 border-gray-200 dark:border-gray-700">
                             <h3 class="font-bold text-lg mb-4 text-gray-900 dark:text-white flex items-center gap-2">
@@ -18171,8 +18171,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 <strong class="block mb-2 text-gray-800 dark:text-gray-200">2. サービス利用時に自動的に収集される情報</strong>
                                 ユーザーが本サービスを利用する際、当サイトは、インターネット技術を用いて以下の情報を自動的に収集する場合があります。
                                 <ul class="list-disc pl-5 mt-2 text-gray-600 dark:text-gray-400">
-                                    <li>IPアドレスおよびアクセス元の国・地域情報</li>
-                                    <li>アクセス日時および滞在時間</li>
+                                    <li>IPアドレス（Cloudflare、外部CDN、解析サービス等の各サービスが処理する場合を含みます）</li>
+                                    <li>アクセス日時および滞在時間（Google AnalyticsまたはMicrosoft Clarityを許可した場合に、各解析サービスが収集する情報を含みます）</li>
                                     <li>利用端末の種類、OSのバージョン、ブラウザの種類（User Agent）</li>
                                     <li>おみくじの抽選結果、12星座占いの設定情報（星座・血液型）、お気に入り登録状況</li>
                                     <li>「全国・土地の運気ランキング」の閲覧履歴（※地図版の「現在地ボタン」をご利用の際、ブラウザから位置情報の取得許可を求めますが、取得した位置情報は地図の表示位置の移動のみに使用され、当サイトのサーバーには一切送信・保存いたしません）</li>
@@ -18223,8 +18223,8 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                                 <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
                                     <p class="font-bold text-sm">1. Maileroo (Maileroo Group Pty Ltd)</p>
                                     <p class="text-gray-500">利用目的：アカウント認証用メール（ワンタイムパスワード・ワンクリックログインリンク）の自動送信処理</p>
-                                    <p class="text-gray-500">送信される情報：メールアドレス、認証コード、ユーザー名</p>
-                                    <p class="mt-1">特記事項：当サイトのシステムは、メール送信リクエストをMailerooのAPIに送信します。Mailerooはオーストラリアに拠点を置く企業で、送信されたメールの内容はトラブルシューティング・サポート対応の目的で最大90日間保持される場合があります。Mailerooのデータ利用方針については <a href="https://maileroo.com/privacy-policy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Maileroo プライバシーポリシー</a> をご参照ください。</p>
+                                    <p class="text-gray-500">送信される情報：送信先メールアドレス、認証コード、ユーザー名、およびログイン時にメール本文へ含めるワンクリックログインリンク（一回限りのトークンとメールアドレスを含みます）</p>
+                                    <p class="mt-1">特記事項：当サイトのシステムは、メール送信リクエストをMailerooのAPIに送信します。Mailerooはオーストラリアに拠点を置く企業です。Mailerooの現行プライバシーポリシーによれば、送信されたメールの内容はトラブルシューティング・サポート対応の目的で最大90日間保持される場合があり、メールのメタデータおよび分析情報はそれより長く保持される場合があります。Mailerooのデータ利用方針については <a href="https://maileroo.com/privacy-policy" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">Maileroo プライバシーポリシー</a> をご参照ください。</p>
                                 </div>
                                 <div class="bg-white dark:bg-black/20 p-3 rounded border border-gray-200 dark:border-gray-700 text-xs">
                                     <p class="font-bold text-sm">2. Cloudflare (Cloudflare, Inc.)</p>
@@ -18363,9 +18363,9 @@ body.sidebar-collapsed.sidebar-pinned #sidebar .nav-group-title {
                             <p class="mb-4">
                                 1. 本ポリシーの内容は、法令、サービス内容または情報の取扱いの変更に応じて改定する場合があります。重要な変更を行う場合は、本ページへの掲載その他適切な方法でお知らせします。<br>
                                 2. 当サイトが別途定める場合を除いて、変更後のプライバシーポリシーは、本ウェブサイトに掲載したときから効力を生じるものとします。<br>
-                                3. <strong>現行版：第28版（最終改定日：2026年8月28日）</strong><br>
-                                4. <strong>第28版の主な変更：Chatlingの標準ウィジェットによる匿名のAI案内へ移行しました。</strong> Cookie設定で改めて許可した場合のみChatlingを読み込み、当サイトからログインID、参拝者名、参拝履歴、御守、環境設定、AI夢占い・AI悩み相談の内容を渡しません。有人対応・運営者への転送・個別データ操作・個人情報入力フォームを使わず、ChatlingのAI Agentが公開ナレッジに基づく一般的なサイト案内だけを行います。<br>
-                                5. <strong>第27版の主な変更：</strong>旧「天命乃杜 AI案内」を廃止し、利用者がCookie設定で許可した場合のみ、Chatlingの標準ウィジェットとAI Agentによる匿名のAI案内を表示する運用へ変更しました。有人転送・個別データ操作を行わず、当サイトのログインID、参拝者名、参拝履歴、御守、環境設定、AI夢占い・AI悩み相談の内容を送信しないこと、Chatlingで処理される情報と停止方法を明記しました。<br>
+                                3. <strong>現行版：第29版（最終改定日：2026年8月29日）</strong><br>
+                                4. <strong>第29版の主な変更：外部サービスへ送信される情報と収集主体の記載を、現行Worker実装および各公式ポリシーに合わせて明確化しました。Mailerooの認証メールに含まれるワンクリックログインリンク、解析サービスが収集するアクセス日時・滞在時間、Cloudflare・外部CDN・解析サービスによるIPアドレス処理を明記しています。</strong> Cookie設定で改めて許可した場合のみChatlingを読み込み、当サイトからログインID、参拝者名、参拝履歴、御守、環境設定、AI夢占い・AI悩み相談の内容を渡しません。有人対応・運営者への転送・個別データ操作・個人情報入力フォームを使わず、ChatlingのAI Agentが公開ナレッジに基づく一般的なサイト案内だけを行います。<br>
+                                5. <strong>第28版の主な変更：</strong>旧「天命乃杜 AI案内」を廃止し、利用者がCookie設定で許可した場合のみ、Chatlingの標準ウィジェットとAI Agentによる匿名のAI案内を表示する運用へ変更しました。有人転送・個別データ操作を行わず、当サイトのログインID、参拝者名、参拝履歴、御守、環境設定、AI夢占い・AI悩み相談の内容を送信しないこと、Chatlingで処理される情報と停止方法を明記しました。<br><br>
                                 6. <strong>第26版の主な変更：</strong>解析Cookieの許可・拒否を初回表示と環境・表示設定から選べるようにし、許可するまでGoogle AnalyticsおよびMicrosoft Clarityを読み込まない運用を明記しました。あわせて、端末既定または手動選択のタイムゾーンを日付・時刻・曜日・日次コンテンツの表示基準に使うこと、およびサービス状況ページの確認範囲を追記しました。<br>
                                 7. <strong>第25版の主な変更：</strong>AI機能の実装を再点検し、AI案内・AI悩み相談・AI夢占い・記事要約・要約評価について、Tursoへ保存する情報と保存しない情報を具体化しました。あわせて、AI機能のレート制限に用いるIPアドレスを含む制限用キー、利用回数および期限の保存と、AI案内のプライベートモードが端末内のセッションストレージ履歴を自動削除する機能ではないことを明記しました。
                             </p>
